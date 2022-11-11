@@ -1,0 +1,8 @@
+{
+	"doubleQuote": true,
+	"semi": true,
+	"useTabs": true,
+	"tabWidth": 2,
+	"printWidth": 120,
+	"arrowParens": "always"
+}
