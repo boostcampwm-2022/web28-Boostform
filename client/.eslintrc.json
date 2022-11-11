@@ -19,14 +19,11 @@
 	},
 	"plugins": ["react", "react-hooks", "@typescript-eslint"],
 	"rules": {
-		"prettier/prettier": "error",
+		"prettier/prettier": ["error", { "endOfLine": "auto" }],
 		"react-hooks/rules-of-hooks": "error",
 		"react-hooks/exhaustive-deps": "warn",
 		"@typescript-eslint/explicit-function-return-type": "off",
-		"react/jsx-filename-extension": [
-			2,
-			{ "extensions": [".js", ".jsx", ".ts", ".tsx"] }
-		],
+		"react/jsx-filename-extension": [2, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
 		"import/extensions": [
 			2,
 			"ignorePackages",
