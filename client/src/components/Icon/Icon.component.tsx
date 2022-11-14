@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import { ReactComponent as Plus } from "../../assets/Icon/plus.svg";
-import { ReactComponent as Kebab } from "../../assets/Icon/kebab.svg";
+import { ReactComponent as Plus } from "assets/Icon/plus.svg";
+import { ReactComponent as Kebab } from "assets/Icon/kebab.svg";
 
 interface ButtonProps {
 	size: string;
