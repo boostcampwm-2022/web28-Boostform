@@ -1,4 +1,5 @@
 import express, { Request, Response } from "express";
+import formRouter from "../Form/Form.Routes.Mock";
 
 const router = express.Router();
 
@@ -6,5 +7,7 @@ const router = express.Router();
 router.get("/", (req: Request, res: Response) => {
   res.send("hello");
 });
+
+router.use("/api/Form", formRouter);
 
 export default router;

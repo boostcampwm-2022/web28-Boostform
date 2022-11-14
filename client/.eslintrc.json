@@ -21,6 +21,7 @@
 	"rules": {
 		"prettier/prettier": ["error", { "endOfLine": "auto" }],
 		"react-hooks/rules-of-hooks": "error",
+		"import/no-unresolved": "off",
 		"react-hooks/exhaustive-deps": "warn",
 		"@typescript-eslint/explicit-function-return-type": "off",
 		"react/jsx-filename-extension": [2, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],

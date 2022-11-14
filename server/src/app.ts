@@ -6,12 +6,21 @@ import cookieParser from "cookie-parser";
 import logger from "morgan";
 import * as dotenv from "dotenv";
 import mysql from "mysql";
+import mongoose from "mongoose";
+import cors from "cors";
 
 import indexRouter from "./routes/index";
 import userRouter from "./User/User.Router";
 
 dotenv.config();
 const app = express();
+
+app.use(
+  cors({
+    origin: `http://localhost:3000`,
+    credentials: true,
+  })
+);
 
 // MySQL 연결
 export const RDB = mysql.createConnection({
@@ -21,6 +30,23 @@ export const RDB = mysql.createConnection({
   database: process.env.DATABASE,
 });
 RDB.connect();
+
+// MongoDB 연결
+function connectDB() {
+  mongoose.connect(
+    `mongodb+srv://${process.env.MONGODB_ID}:${process.env.MONGODB_PASSWORD}@cluster0.a7vmgdw.mongodb.net/database0?`,
+    (err) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log("mongoDB is connected...");
+      }
+    }
+  );
+}
+
+connectDB();
+
 // view engine setup
 
 app.use(logger("dev"));
