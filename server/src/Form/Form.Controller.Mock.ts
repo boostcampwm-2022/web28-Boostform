@@ -9,8 +9,8 @@ interface CallFormListRequest {
 
 function toDateString(date: Date): string {
   const yearString = date.getFullYear();
-  const monthString = date.getMonth() + 1 < 10 ? `${date.getMonth() + 1}` : `0${date.getMonth() + 1}`;
-  const dateString = date.getDate() < 10 ? `${date.getDate()}` : `0${date.getDate()}`;
+  const monthString = date.getMonth() + 1 > 10 ? `${date.getMonth() + 1}` : `0${date.getMonth() + 1}`;
+  const dateString = date.getDate() > 10 ? `${date.getDate()}` : `0${date.getDate()}`;
   return `${yearString}-${monthString}-${dateString}`;
 }
 
@@ -24,6 +24,7 @@ function sendFormListMockData(req: CallFormListRequest, res: Response) {
     return {
       id: `id${str(index)}`,
       title: `제목${str(index)}`,
+      acceptResponse: true,
       response: num(index),
       createdAt: dateString,
       updatedAt: dateString,
