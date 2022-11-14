@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser";
 import logger from "morgan";
 import * as dotenv from "dotenv";
 import mysql from "mysql";
+import mongoose from "mongoose";
 
 import indexRouter from "./routes/index";
 
@@ -20,6 +21,9 @@ export const RDB = mysql.createConnection({
   database: process.env.DATABASE,
 });
 RDB.connect();
+
+// MongoDB 연결
+// export const mongoDB = mongoose.connect()
 // view engine setup
 
 app.use(logger("dev"));
