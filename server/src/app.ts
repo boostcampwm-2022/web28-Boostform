@@ -5,12 +5,21 @@ import path from "path";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
 import * as dotenv from "dotenv";
+import mysql from "mysql";
 
 import indexRouter from "./routes/index";
 
 dotenv.config();
 const app = express();
 
+// MySQL 연결
+export const RDB = mysql.createConnection({
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PW,
+  database: process.env.DATABASE,
+});
+RDB.connect();
 // view engine setup
 
 app.use(logger("dev"));
