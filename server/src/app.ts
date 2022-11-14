@@ -6,20 +6,32 @@ import cookieParser from "cookie-parser";
 import logger from "morgan";
 import * as dotenv from "dotenv";
 import mysql from "mysql";
+import mongoose from "mongoose";
+import cors from "cors";
 
 import indexRouter from "./routes/index";
 
 dotenv.config();
 const app = express();
 
+app.use(
+  cors({
+    origin: `http://localhost:3000`,
+    credentials: true,
+  })
+);
+
 // MySQL 연결
-export const RDB = mysql.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PW,
-  database: process.env.DATABASE,
-});
-RDB.connect();
+// export const RDB = mysql.createConnection({
+//   host: process.env.DB_HOST,
+//   user: process.env.DB_USER,
+//   password: process.env.DB_PW,
+//   database: process.env.DATABASE,
+// });
+// RDB.connect();
+
+// MongoDB 연결
+// export const mongoDB = mongoose.connect()
 // view engine setup
 
 app.use(logger("dev"));
