@@ -22,16 +22,30 @@ app.use(
 );
 
 // MySQL 연결
-// export const RDB = mysql.createConnection({
-//   host: process.env.DB_HOST,
-//   user: process.env.DB_USER,
-//   password: process.env.DB_PW,
-//   database: process.env.DATABASE,
-// });
-// RDB.connect();
+export const RDB = mysql.createConnection({
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PW,
+  database: process.env.DATABASE,
+});
+RDB.connect();
 
 // MongoDB 연결
-// export const mongoDB = mongoose.connect()
+function connectDB() {
+  mongoose.connect(
+    `mongodb+srv://${process.env.MONGODB_ID}:${process.env.MONGODB_PASSWORD}@cluster0.a7vmgdw.mongodb.net/database0?`,
+    (err) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log("mongoDB is connected...");
+      }
+    }
+  );
+}
+
+connectDB();
+
 // view engine setup
 
 app.use(logger("dev"));
