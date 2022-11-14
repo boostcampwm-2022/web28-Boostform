@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import Icon from "../../components/Icon/Icon.component";
+import axios from "axios";
+import Icon from "components/Icon/Icon.component";
 
 const Container = styled.section`
 	padding: 20px;
@@ -91,7 +92,40 @@ const Button = styled.button`
 	}
 `;
 
+interface ListProps {
+	id: string;
+	title: string;
+	acceptResponse: boolean;
+	response: number;
+	createdAt: string;
+	updatedAt: string;
+	onBoard: boolean;
+	category: string;
+}
+
+type ListArrayProps = ListProps[];
+
 function Manage() {
+	const [page, setPage] = useState(1);
+	const [list, setList] = useState<ListArrayProps>([]);
+
+	useEffect(() => {
+		const source = axios.CancelToken.source();
+
+		axios(`http://localhost:8080/api/form/test/${page}`, { withCredentials: true, cancelToken: source.token })
+			.then((response) => setList((prev) => [...prev, ...response.data.form]))
+			.catch((e) => {
+				// eslint-disable-next-line no-console
+				if (e.message !== "cleanup") console.log(e);
+			});
+
+		return () => source.cancel("cleanup");
+	}, [page]);
+
+	const onClickAddList: React.MouseEventHandler<HTMLButtonElement> = () => {
+		setPage((prev) => prev + 1);
+	};
+
 	return (
 		<Container>
 			<HeaderContainer>
@@ -106,34 +140,25 @@ function Manage() {
 				</Header>
 			</HeaderContainer>
 			<ListContainer>
-				<List>
-					<Title>short title</Title>
-					<Status>Close</Status>
-					<ResponseCount>10</ResponseCount>
-					<Date>2022/11/08 16:34</Date>
-					<Share>on</Share>
-					<Category>예시1</Category>
-					<More>
-						<Button>
-							<Icon type="kebab" size="16px" />
-						</Button>
-					</More>
-				</List>
-				<List>
-					<Title>short title</Title>
-					<Status>Close</Status>
-					<ResponseCount>10</ResponseCount>
-					<Date>2022/11/08 16:34</Date>
-					<Share>on</Share>
-					<Category>예시1</Category>
-					<More>
-						<Button>
-							<Icon type="kebab" size="16px" />
-						</Button>
-					</More>
-				</List>
+				<>
+					{list.map(({ category, id, onBoard, response, title, updatedAt, acceptResponse }) => (
+						<List key={id}>
+							<Title key={`${id}Title`}>{title}</Title>
+							<Status key={`${id}AcceptResponse`}>{acceptResponse ? "Open" : "Close"}</Status>
+							<ResponseCount key={`${id}Response`}>{response}</ResponseCount>
+							<Date key={`${id}UpdatedAt`}>{updatedAt}</Date>
+							<Share key={`${id}onBoard`}>{onBoard ? "On" : "Off"}</Share>
+							<Category key={`${id}Category`}>{category}</Category>
+							<More key={`${id}More`}>
+								<Button>
+									<Icon type="kebab" size="16px" />
+								</Button>
+							</More>
+						</List>
+					))}
+				</>
 				<ButtonContainer>
-					<Button type="button">
+					<Button type="button" onClick={onClickAddList}>
 						<Icon type="plus" size="24px" />
 					</Button>
 				</ButtonContainer>
