@@ -10,10 +10,11 @@ class FormService {
   }
 
   static async getFormList(userID: number, page: number) {
-    const allFormList = await Form.find({ user_id: userID })
+    const formList = await Form.find({ user_id: userID })
       .sort({ created_at: -1 })
-      .skip((page - 1) * 5);
-    return allFormList.slice(0, 5);
+      .skip((page - 1) * 5)
+      .limit(5);
+    return formList;
   }
 
   static async updateFormList(formID: string, body: UpdateFormRequestBody) {
