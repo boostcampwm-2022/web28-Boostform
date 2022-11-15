@@ -25,11 +25,11 @@ class FormService {
       accept_response: body.acceptResponse,
       on_board: body.onBoard,
     };
-    await Form.findOneAndUpdate({ id: formID }, updated);
+    await Form.findOneAndUpdate({ _id: formID }, updated);
   }
 
   static async deleteForm(formID: string) {
-    await Form.deleteOne({ id: formID });
+    await Form.deleteOne({ _id: formID });
   }
 }
 
