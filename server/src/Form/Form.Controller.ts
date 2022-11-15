@@ -1,5 +1,5 @@
 import { Response, NextFunction } from "express";
-import { CallFormListRequest, CreateNewFormRequest } from "./Form.Interface";
+import { CallFormListRequest, CreateNewFormRequest, UpdateFormRequest, DeleteFormRequest } from "./Form.Interface";
 import FormService from "./Form.Service";
 
 function toDateString(date: Date): string {
@@ -10,29 +10,6 @@ function toDateString(date: Date): string {
 }
 
 class FormController {
-  static sendFormListMockData(req: CallFormListRequest, res: Response, next: NextFunction) {
-    const { page } = req.params;
-    const num = (index: number) => (page - 1) * 5 + index;
-    const str = (index: number) => `${num(index)}`;
-    const date = new Date();
-    const dateString = toDateString(date);
-    const makeFormOnList = (index: number) => {
-      return {
-        id: `id${str(index)}`,
-        title: `제목${str(index)}`,
-        acceptResponse: true,
-        response: num(index),
-        createdAt: dateString,
-        updatedAt: dateString,
-        onBoard: true,
-        category: "개발",
-      };
-    };
-    res.status(200).json({
-      form: [makeFormOnList(1), makeFormOnList(2), makeFormOnList(3), makeFormOnList(4), makeFormOnList(5)],
-    });
-  }
-
   static createNewForm(req: CreateNewFormRequest, res: Response, next: NextFunction) {
     const formID = FormService.createNewForm(req.body.userID);
     res.status(201).json({
@@ -46,6 +23,19 @@ class FormController {
     res.json({
       form: formList,
     });
+  }
+
+  static async updateForm(req: UpdateFormRequest, res: Response, next: NextFunction) {
+    const { params, body } = req;
+    const formID = params.id;
+    await FormService.updateFormList(formID, body);
+    res.json(200);
+  }
+
+  static async deleteForm(req: DeleteFormRequest, res: Response, next: NextFunction) {
+    const formID = req.params.id;
+    await FormService.deleteForm(formID);
+    res.json(204);
   }
 }
 

@@ -11,4 +11,25 @@ interface CreateNewFormRequest {
   };
 }
 
-export { CallFormListRequest, CreateNewFormRequest };
+interface UpdateFormRequestBody {
+  title: string;
+  category: string;
+  question: Array<string>;
+  acceptResponse: boolean;
+  onBoard: boolean;
+}
+
+interface UpdateFormRequest {
+  params: {
+    id: string;
+  };
+  body: UpdateFormRequestBody;
+}
+
+interface DeleteFormRequest {
+  params: {
+    id: string;
+  };
+}
+
+export { CallFormListRequest, CreateNewFormRequest, UpdateFormRequest, UpdateFormRequestBody, DeleteFormRequest };
