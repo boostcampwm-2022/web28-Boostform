@@ -16,9 +16,19 @@ const Container = styled.div`
 	background-color: white;
 `;
 
-function DeleteSurveyModal({ closeModal, formID }: { closeModal: () => void; formID: string }) {
+function DeleteSurveyModal({
+	closeModal,
+	modifyListBySurveyDelete,
+	selectedSurvey,
+}: {
+	closeModal: () => void;
+	selectedSurvey: { id: string; index: number };
+	modifyListBySurveyDelete: (index: number) => void;
+}) {
+	console.log(selectedSurvey);
 	const onClickDeleteSurvey = async () => {
-		await axios.delete(`http://localhost:8080/api/forms/${formID}`);
+		await axios.delete(`http://localhost:8080/api/forms/${selectedSurvey.id}`);
+		modifyListBySurveyDelete(selectedSurvey.index);
 		closeModal();
 	};
 

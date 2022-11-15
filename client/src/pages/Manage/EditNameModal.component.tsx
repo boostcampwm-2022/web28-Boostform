@@ -16,19 +16,30 @@ const Container = styled.div`
 	background-color: white;
 `;
 
-function EditNameModal({ closeModal, formID }: { closeModal: () => void; formID: string }) {
-	const [name, setName] = useState("");
+function EditNameModal({
+	closeModal,
+	selectedSurvey,
+	modifyListByNameChange,
+}: {
+	closeModal: () => void;
+	selectedSurvey: { id: string; index: number };
+	modifyListByNameChange: (index: number, title: string) => void;
+}) {
+	const [title, setTitle] = useState("");
+	console.log(selectedSurvey);
 
 	const onClickChangeName = async () => {
-		await axios.patch(`http://localhost:8080/api/forms/${formID}`, {
-			title: name,
+		console.log(selectedSurvey.id, title);
+		await axios.patch(`http://localhost:8080/api/forms/${selectedSurvey.id}`, {
+			title,
 		});
+		modifyListByNameChange(selectedSurvey.index, title);
 		closeModal();
 	};
 	const onClickCancelChangeName = () => closeModal();
 
 	const onInputChangeName: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-		setName(e.target.value);
+		setTitle(e.target.value);
 	};
 
 	return (

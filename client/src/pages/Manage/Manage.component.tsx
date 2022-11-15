@@ -179,7 +179,7 @@ function Manage() {
 	const [list, setList] = useState<ListArrayProps>([mockData]);
 	const [dropdownList, setDropdownList] = useState<boolean[]>([]);
 	const [modalType, setModalType] = useState("delete");
-	const [selectedSurveyID, setSelectedSurveyID] = useState("");
+	const [selectedSurvey, setSelectedSurvey] = useState<{ id: string; index: number }>({ id: "", index: 0 });
 
 	const navigate = useNavigate();
 	const { openModal, closeModal, ModalPortal } = useModal();
@@ -225,16 +225,38 @@ function Manage() {
 		});
 	};
 
-	const onClickOpenNameChangeModal = (formID: string) => {
+	const onClickOpenNameChangeModal = (formID: string, index: number) => {
 		setModalType("change");
-		setSelectedSurveyID(formID);
+		setSelectedSurvey({ id: formID, index });
 		openModal();
 	};
 
-	const onClickOpenDeleteModal = (formID: string) => {
+	const onClickOpenDeleteModal = (formID: string, index: number) => {
 		setModalType("delete");
-		setSelectedSurveyID(formID);
+		setSelectedSurvey({ id: formID, index });
 		openModal();
+	};
+
+	const modifyListBySurveyDelete = (index: number) => {
+		setList((prev) => {
+			const left = prev.slice(0, index);
+			const right = prev.slice(index + 1);
+			return [...left, ...right];
+		});
+		setDropdownList((prev) => {
+			const left = prev.slice(0, index);
+			const right = prev.slice(index + 1);
+			return [...left, ...right];
+		});
+	};
+
+	const modifyListByNameChange = (index: number, title: string) => {
+		setList((prev) => {
+			const targetSurvey = prev[index];
+			targetSurvey.title = title;
+
+			return [...prev];
+		});
 	};
 
 	return (
@@ -271,12 +293,12 @@ function Manage() {
 								{dropdownList[index] && (
 									<Dropdown>
 										<li key={`${_id}EditName`}>
-											<button type="button" onClick={() => onClickOpenNameChangeModal(_id)}>
+											<button type="button" onClick={() => onClickOpenNameChangeModal(_id, index)}>
 												이름 바꾸기
 											</button>
 										</li>
 										<li key={`${_id}DeleteSurvey`}>
-											<button type="button" onClick={() => onClickOpenDeleteModal(_id)}>
+											<button type="button" onClick={() => onClickOpenDeleteModal(_id, index)}>
 												삭제
 											</button>
 										</li>
@@ -294,12 +316,20 @@ function Manage() {
 			</ListContainer>
 			{modalType === "change" && (
 				<ModalPortal>
-					<EditNameModal closeModal={closeModal} formID={selectedSurveyID} />
+					<EditNameModal
+						closeModal={closeModal}
+						selectedSurvey={selectedSurvey}
+						modifyListByNameChange={modifyListByNameChange}
+					/>
 				</ModalPortal>
 			)}
 			{modalType === "delete" && (
 				<ModalPortal>
-					<DeleteSurveyModal closeModal={closeModal} formID={selectedSurveyID} />
+					<DeleteSurveyModal
+						closeModal={closeModal}
+						selectedSurvey={selectedSurvey}
+						modifyListBySurveyDelete={modifyListBySurveyDelete}
+					/>
 				</ModalPortal>
 			)}
 		</Container>
