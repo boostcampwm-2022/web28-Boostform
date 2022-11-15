@@ -18,20 +18,20 @@ class UserController {
     }
   }
 
-  async login(req: Request, res: Response, next: NextFunction) {
-    const { code } = req.query;
-    if (!code || typeof code !== "string") {
-      throw new Error("invalid authorization code");
-    }
-    this.#userService
-      .login(code)
-      .then((tokens) => {
-        res.status(200).cookie("accessToken", tokens.accessToken).cookie("refreshToken", tokens.refreshToken);
-      })
-      .catch((err) => {
-        next(err);
-      });
-  }
+  // async login(req: Request, res: Response, next: NextFunction) {
+  //   const { code } = req.query;
+  //   if (!code || typeof code !== "string") {
+  //     throw new Error("invalid authorization code");
+  //   }
+  //   this.#userService
+  //     .login(code)
+  //     .then((tokens) => {
+  //       res.status(200).cookie("accessToken", tokens.accessToken).cookie("refreshToken", tokens.refreshToken);
+  //     })
+  //     .catch((err) => {
+  //       next(err);
+  //     });
+  // }
 }
 
 export default new UserController(userService);

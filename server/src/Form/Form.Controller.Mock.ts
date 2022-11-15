@@ -13,28 +13,53 @@ function toDateString(date: Date): string {
   return `${yearString}-${monthString}-${dateString}`;
 }
 
-function sendFormListMockData(req: CallFormListRequest, res: Response) {
-  const { page } = req.params;
-  const num = (index: number) => (page - 1) * 5 + index;
-  const str = (index: number) => `${num(index)}`;
-  const date = new Date();
-  const dateString = toDateString(date);
-  const makeFormOnList = (index: number) => {
-    return {
-      id: `id${str(index)}`,
-      title: `제목${str(index)}`,
-      acceptResponse: true,
-      response: num(index),
-      createdAt: dateString,
-      updatedAt: dateString,
-      onBoard: true,
-      category: "개발",
+class FormController {
+  static sendFormListMockData(req: CallFormListRequest, res: Response) {
+    const { page } = req.params;
+    const num = (index: number) => (page - 1) * 5 + index;
+    const str = (index: number) => `${num(index)}`;
+    const date = new Date();
+    const dateString = toDateString(date);
+    const makeFormOnList = (index: number) => {
+      return {
+        id: `id${str(index)}`,
+        title: `제목${str(index)}`,
+        acceptResponse: true,
+        response: num(index),
+        createdAt: dateString,
+        updatedAt: dateString,
+        onBoard: true,
+        category: "개발",
+      };
     };
-  };
-
-  res.json({
-    form: [makeFormOnList(1), makeFormOnList(2), makeFormOnList(3), makeFormOnList(4), makeFormOnList(5)],
-  });
+    res.json({
+      form: [makeFormOnList(1), makeFormOnList(2), makeFormOnList(3), makeFormOnList(4), makeFormOnList(5)],
+    });
+  }
 }
 
-export default sendFormListMockData;
+// function sendFormListMockData(req: CallFormListRequest, res: Response) {
+//   const { page } = req.params;
+//   const num = (index: number) => (page - 1) * 5 + index;
+//   const str = (index: number) => `${num(index)}`;
+//   const date = new Date();
+//   const dateString = toDateString(date);
+//   const makeFormOnList = (index: number) => {
+//     return {
+//       id: `id${str(index)}`,
+//       title: `제목${str(index)}`,
+//       acceptResponse: true,
+//       response: num(index),
+//       createdAt: dateString,
+//       updatedAt: dateString,
+//       onBoard: true,
+//       category: "개발",
+//     };
+//   };
+
+//   res.json({
+//     form: [makeFormOnList(1), makeFormOnList(2), makeFormOnList(3), makeFormOnList(4), makeFormOnList(5)],
+//   });
+// }
+
+export default FormController;

@@ -5,6 +5,6 @@ const router = express.Router();
 
 router.get("/redirect", userController.redirect);
 
-router.get("/login", userController.login);
+// router.get("/login", userController.login);
 
 export default router;

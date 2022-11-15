@@ -47,13 +47,13 @@ class UserService {
     return userName;
   }
 
-  async login(code: string): Promise<tokens> {
-    this.issueGithubAccessToken(code);
-    const uesrName = this.getGithubUserName();
-    // TODO: userName으로 DB에서 user 조회
-    // TODO: 조회한 user값이 없으면 가입 처리 signUp(userName)
-    // TODO: userID값으로 토큰 생성
-  }
+  // async login(code: string): Promise<tokens> {
+  //   this.issueGithubAccessToken(code);
+  //   const uesrName = this.getGithubUserName();
+  //   // TODO: userName으로 DB에서 user 조회
+  //   // TODO: 조회한 user값이 없으면 가입 처리 signUp(userName)
+  //   // TODO: userID값으로 토큰 생성
+  // }
 }
 
 export default new UserService();

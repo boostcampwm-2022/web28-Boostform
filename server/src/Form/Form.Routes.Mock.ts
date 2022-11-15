@@ -1,8 +1,8 @@
 import express from "express";
-import sendFormListMockData from "./Form.Controller.Mock";
+import FormController from "./Form.Controller.Mock";
 
 const formRouter = express.Router();
 
-formRouter.get("/:page", sendFormListMockData);
+formRouter.get("/:page", FormController.sendFormListMockData);
 
 export default formRouter;
