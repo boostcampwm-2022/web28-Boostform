@@ -1,32 +1,37 @@
+/* eslint-disable class-methods-use-this */
 import { Request, Response, NextFunction } from "express";
+import * as dotenv from "dotenv";
+import BadRequestException from "../Common/Exceptions/BadRequest.Exception";
 import userService from "./User.Service";
 
-type UserService = typeof userService;
-
+dotenv.config();
 class UserController {
-  #userService: UserService;
-
-  constructor(service: UserService) {
-    this.#userService = service;
-  }
-
   redirect(req: Request, res: Response, next: NextFunction) {
     try {
-      res.status(301).redirect(this.#userService.redirectURL);
-    } catch (error) {
-      next(error);
+      res.status(301).redirect(userService.redirectURL);
+      next();
+    } catch (err) {
+      next(err);
     }
   }
 
   async login(req: Request, res: Response, next: NextFunction) {
     const { code } = req.query;
     if (!code || typeof code !== "string") {
-      throw new Error("invalid authorization code");
+      next(new BadRequestException());
+      return;
     }
-    this.#userService
+
+    userService
       .login(code)
       .then((tokens) => {
-        res.status(200).cookie("accessToken", tokens.accessToken).cookie("refreshToken", tokens.refreshToken);
+        res
+          .status(200)
+          .cookie("accessToken", tokens.accessToken)
+          .cookie("refreshToken", tokens.refreshToken)
+          // TODO: 메인페이지로 리다이렉트하도록 주소 변경
+          .redirect(process.env.ORIGIN_URL as string);
+        next();
       })
       .catch((err) => {
         next(err);
@@ -34,4 +39,4 @@ class UserController {
   }
 }
 
-export default new UserController(userService);
+export default new UserController();
