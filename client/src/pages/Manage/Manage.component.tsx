@@ -4,6 +4,8 @@ import styled from "styled-components";
 import axios from "axios";
 import Icon from "components/Icon/Icon.component";
 import useModal from "hooks/useModal";
+import EditNameModal from "./EditNameModal.component";
+import DeleteSurveyModal from "./DeleteSurveyModal.component";
 
 const Container = styled.section`
 	padding: 20px;
@@ -145,7 +147,7 @@ const Dropdown = styled.ul`
 `;
 
 interface ListProps {
-	id: string;
+	_id: string;
 	title: string;
 	acceptResponse: boolean;
 	response: number;
@@ -162,7 +164,7 @@ type CreateFormResponse = {
 };
 
 const mockData = {
-	id: "sds",
+	_id: "sds",
 	title: "title",
 	acceptResponse: true,
 	response: 1,
@@ -177,6 +179,7 @@ function Manage() {
 	const [list, setList] = useState<ListArrayProps>([mockData]);
 	const [dropdownList, setDropdownList] = useState<boolean[]>([]);
 	const [modalType, setModalType] = useState("delete");
+	const [selectedSurveyID, setSelectedSurveyID] = useState("");
 
 	const navigate = useNavigate();
 	const { openModal, closeModal, ModalPortal } = useModal();
@@ -222,13 +225,15 @@ function Manage() {
 		});
 	};
 
-	const onClickOpenNameChangeModal = () => {
+	const onClickOpenNameChangeModal = (formID: string) => {
 		setModalType("change");
+		setSelectedSurveyID(formID);
 		openModal();
 	};
 
-	const onClickOpenDeleteModal = () => {
+	const onClickOpenDeleteModal = (formID: string) => {
 		setModalType("delete");
+		setSelectedSurveyID(formID);
 		openModal();
 	};
 
@@ -251,27 +256,27 @@ function Manage() {
 			</HeaderContainer>
 			<ListContainer>
 				<>
-					{list.map(({ category, id, onBoard, response, title, updatedAt, acceptResponse }, index) => (
-						<List key={id}>
-							<Title key={`${id}Title`}>{title}</Title>
-							<Status key={`${id}AcceptResponse`}>{acceptResponse ? "Open" : "Close"}</Status>
-							<ResponseCount key={`${id}Response`}>{response}</ResponseCount>
-							<Date key={`${id}UpdatedAt`}>{updatedAt}</Date>
-							<Share key={`${id}onBoard`}>{onBoard ? "On" : "Off"}</Share>
-							<Category key={`${id}Category`}>{category}</Category>
-							<More key={`${id}More`}>
+					{list.map(({ category, _id, onBoard, response, title, updatedAt, acceptResponse }, index) => (
+						<List key={_id}>
+							<Title key={`${_id}Title`}>{title}</Title>
+							<Status key={`${_id}AcceptResponse`}>{acceptResponse ? "Open" : "Close"}</Status>
+							<ResponseCount key={`${_id}Response`}>{response}</ResponseCount>
+							<Date key={`${_id}UpdatedAt`}>{updatedAt}</Date>
+							<Share key={`${_id}onBoard`}>{onBoard ? "On" : "Off"}</Share>
+							<Category key={`${_id}Category`}>{category}</Category>
+							<More key={`${_id}More`}>
 								<Button type="button" onClick={() => onClickOpenDropdown(index)}>
 									<Icon type="kebab" size="16px" />
 								</Button>
 								{dropdownList[index] && (
 									<Dropdown>
-										<li>
-											<button type="button" onClick={onClickOpenNameChangeModal}>
+										<li key={`${_id}EditName`}>
+											<button type="button" onClick={() => onClickOpenNameChangeModal(_id)}>
 												이름 바꾸기
 											</button>
 										</li>
-										<li>
-											<button type="button" onClick={onClickOpenDeleteModal}>
+										<li key={`${_id}DeleteSurvey`}>
+											<button type="button" onClick={() => onClickOpenDeleteModal(_id)}>
 												삭제
 											</button>
 										</li>
@@ -287,8 +292,16 @@ function Manage() {
 					</Button>
 				</ButtonContainer>
 			</ListContainer>
-			{modalType === "change" && <ModalPortal>이름바꾸기</ModalPortal>}
-			{modalType === "delete" && <ModalPortal>삭제하기</ModalPortal>}
+			{modalType === "change" && (
+				<ModalPortal>
+					<EditNameModal />
+				</ModalPortal>
+			)}
+			{modalType === "delete" && (
+				<ModalPortal>
+					<DeleteSurveyModal closeModal={closeModal} formID={selectedSurveyID} />
+				</ModalPortal>
+			)}
 		</Container>
 	);
 }
