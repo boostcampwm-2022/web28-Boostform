@@ -27,6 +27,7 @@ const FormSchema = new mongoose.Schema({
   },
   title: {
     type: String,
+    default: "제목 없음",
   },
   category: {
     type: String,
@@ -36,9 +37,11 @@ const FormSchema = new mongoose.Schema({
   },
   accept_response: {
     type: Boolean,
+    default: true,
   },
   on_board: {
     type: Boolean,
+    default: false,
   },
   created_at: {
     type: Date,
