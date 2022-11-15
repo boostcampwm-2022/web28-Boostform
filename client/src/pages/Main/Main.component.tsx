@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import axios from "axios";
+
+import AuthContext from "index";
 
 import logo from "../../assets/Icon/plus.svg";
 
@@ -50,8 +52,12 @@ const ServiceImage = styled.img`
 `;
 
 function Main() {
+  const userInfo = useContext(AuthContext);
+  const navigate = useNavigate();
+
   const handleClick: React.MouseEventHandler<HTMLButtonElement> = () => {
-    alert("redirect");
+    const path = userInfo.userID === "" ? "/login" : "/manage";
+    navigate(path);
   };
 
   return (

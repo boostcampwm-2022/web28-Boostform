@@ -1,5 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+
+import AuthContext from "index";
 
 import logo from "../../assets/Icon/plus.svg";
 
@@ -54,12 +57,16 @@ const HomeButton = styled.button`
 `;
 
 function Login() {
+  const userInfo = useContext(AuthContext);
+  const navigate = useNavigate();
+
   const handleClickOAuth: React.MouseEventHandler<HTMLButtonElement> = () => {
-    alert("OAuth");
+    userInfo.userID = "testID-01";
+    // window.location.href = "github oauth";
   };
 
   const handleClickHome: React.MouseEventHandler<HTMLButtonElement> = () => {
-    alert("Home");
+    navigate("/");
   };
 
   return (
