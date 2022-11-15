@@ -2,7 +2,6 @@ import { Response } from "express";
 
 interface CallFormListRequest {
   params: {
-    userName: string;
     page: number;
   };
 }
