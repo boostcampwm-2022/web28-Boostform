@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
 import Icon from "components/Icon/Icon.component";
+import useModal from "hooks/useModal";
 
 const Container = styled.section`
 	padding: 20px;
@@ -160,17 +161,30 @@ type CreateFormResponse = {
 	formID: string;
 };
 
+const mockData = {
+	id: "sds",
+	title: "title",
+	acceptResponse: true,
+	response: 1,
+	createdAt: "2013",
+	updatedAt: "2014",
+	onBoard: true,
+	category: "categofy",
+};
+
 function Manage() {
 	const [page, setPage] = useState(1);
-	const [list, setList] = useState<ListArrayProps>([]);
+	const [list, setList] = useState<ListArrayProps>([mockData]);
 	const [dropdownList, setDropdownList] = useState<boolean[]>([]);
+	const [modalType, setModalType] = useState("delete");
 
 	const navigate = useNavigate();
+	const { openModal, closeModal, ModalPortal } = useModal();
 
 	useEffect(() => {
 		const source = axios.CancelToken.source();
 
-		axios(`http://localhost:8080/api/forms/${page}`, { withCredentials: true, cancelToken: source.token })
+		axios(`http://localhost:8080/api/forms/10243/${page}`, { withCredentials: true, cancelToken: source.token })
 			.then((response) => {
 				setList((prev) => [...prev, ...response.data.form]);
 
@@ -208,6 +222,16 @@ function Manage() {
 		});
 	};
 
+	const onClickOpenNameChangeModal = () => {
+		setModalType("change");
+		openModal();
+	};
+
+	const onClickOpenDeleteModal = () => {
+		setModalType("delete");
+		openModal();
+	};
+
 	return (
 		<Container>
 			<HeaderContainer>
@@ -239,13 +263,19 @@ function Manage() {
 								<Button type="button" onClick={() => onClickOpenDropdown(index)}>
 									<Icon type="kebab" size="16px" />
 								</Button>
-								{dropdownList[index] ? (
+								{dropdownList[index] && (
 									<Dropdown>
-										<li>이름 바꾸기</li>
-										<li>삭제</li>
+										<li>
+											<button type="button" onClick={onClickOpenNameChangeModal}>
+												이름 바꾸기
+											</button>
+										</li>
+										<li>
+											<button type="button" onClick={onClickOpenDeleteModal}>
+												삭제
+											</button>
+										</li>
 									</Dropdown>
-								) : (
-									""
 								)}
 							</More>
 						</List>
@@ -257,6 +287,8 @@ function Manage() {
 					</Button>
 				</ButtonContainer>
 			</ListContainer>
+			{modalType === "change" && <ModalPortal>이름바꾸기</ModalPortal>}
+			{modalType === "delete" && <ModalPortal>삭제하기</ModalPortal>}
 		</Container>
 	);
 }
