@@ -26,6 +26,7 @@ class UserController {
           .status(200)
           .cookie("accessToken", tokens.accessToken)
           .cookie("refreshToken", tokens.refreshToken)
+          // TODO: 메인페이지로 리다이렉트하도록 주소 변경
           .redirect(process.env.ORIGIN_URL as string);
       })
       .catch((err) => {
