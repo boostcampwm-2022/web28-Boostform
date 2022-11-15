@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
 import Icon from "components/Icon/Icon.component";
@@ -160,10 +161,12 @@ function Manage() {
 	const [list, setList] = useState<ListArrayProps>([]);
 	const [dropdownList, setDropdownList] = useState<boolean[]>([]);
 
+	const navigate = useNavigate();
+
 	useEffect(() => {
 		const source = axios.CancelToken.source();
 
-		axios(`http://localhost:8080/api/forms/test/${page}`, { withCredentials: true, cancelToken: source.token })
+		axios(`http://localhost:8080/api/forms/${page}`, { withCredentials: true, cancelToken: source.token })
 			.then((response) => {
 				setList((prev) => [...prev, ...response.data.form]);
 
@@ -177,6 +180,11 @@ function Manage() {
 
 		return () => source.cancel("cleanup");
 	}, [page]);
+
+	const onClickCreateForm: React.MouseEventHandler<HTMLButtonElement> = async () => {
+		await axios.post("http://localhost:8080/api/forms/", { userID: 3 });
+		// navigate("/forms/test");
+	};
 
 	const onClickAddList: React.MouseEventHandler<HTMLButtonElement> = () => {
 		setPage((prev) => prev + 1);
@@ -197,7 +205,7 @@ function Manage() {
 	return (
 		<Container>
 			<HeaderContainer>
-				<NewFormButton>
+				<NewFormButton type="button" onClick={onClickCreateForm}>
 					<Icon type="plus" size="24px" />
 					<NewFormText>새 설문지</NewFormText>
 				</NewFormButton>

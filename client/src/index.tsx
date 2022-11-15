@@ -1,14 +1,28 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import GlobalStyle from "styles/GlobalStyle";
-import App from "App";
+import Manage from "pages/Manage/Manage.component";
+import Create from "pages/Create/Create.component";
 import reportWebVitals from "./reportWebVitals";
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
+
+const router = createBrowserRouter([
+	{
+		path: "/",
+		element: <Manage />,
+	},
+	{
+		path: "/forms/:id",
+		element: <Create />,
+	},
+]);
+
 root.render(
 	<React.StrictMode>
 		<GlobalStyle />
-		<App />
+		<RouterProvider router={router} />
 	</React.StrictMode>
 );
 
