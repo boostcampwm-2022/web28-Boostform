@@ -97,6 +97,29 @@ const Button = styled.button`
 	}
 `;
 
+const NewFormButton = styled.button`
+	display: flex;
+	align-items: center;
+	border: 1px solid #afafaf;
+	border-radius: 9px;
+	margin-bottom: 10px;
+	padding: 5px 15px;
+
+	background-color: transparent;
+	cursor: pointer;
+
+	font-size: 16px;
+	font-weight: 400;
+
+	&:active {
+		transform: translateY(1px);
+	}
+`;
+
+const NewFormText = styled.span`
+	margin-left: 4px;
+`;
+
 const Dropdown = styled.ul`
 	position: absolute;
 	top: 40px;
@@ -174,6 +197,10 @@ function Manage() {
 	return (
 		<Container>
 			<HeaderContainer>
+				<NewFormButton>
+					<Icon type="plus" size="24px" />
+					<NewFormText>새 설문지</NewFormText>
+				</NewFormButton>
 				<Header>
 					<Title>제목</Title>
 					<Status>상태</Status>
