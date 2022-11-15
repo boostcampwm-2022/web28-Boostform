@@ -8,6 +8,6 @@ router.get("/", (req: Request, res: Response) => {
   res.send("hello");
 });
 
-router.use("/api/Form", formRouter);
+router.use("/api/Forms", formRouter);
 
 export default router;
