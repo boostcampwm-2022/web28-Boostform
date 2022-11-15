@@ -1,5 +1,5 @@
 import express, { Request, Response } from "express";
-import formRouter from "../Form/Form.Routes.Mock";
+import formRouter from "../Form/Form.Routes";
 
 const router = express.Router();
 
@@ -8,6 +8,6 @@ router.get("/", (req: Request, res: Response) => {
   res.send("hello");
 });
 
-router.use("/api/Form", formRouter);
+router.use("/api/forms", formRouter);
 
 export default router;

@@ -26,17 +26,6 @@ app.use(
   })
 );
 
-/*
-MySQL 연결
-export const RDB = mysql.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PW,
-  database: process.env.DATABASE,
-});
-RDB.connect();
-*/
-
 const myDataSource = new DataSource({
   type: "mysql",
   host: process.env.TYPEORM_HOST || "",
