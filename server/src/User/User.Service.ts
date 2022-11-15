@@ -1,42 +1,42 @@
+/* eslint-disable class-methods-use-this */
 import axios from "axios";
-import tokens from "./types/tokens.inteface";
 import jwt from "jsonwebtoken";
+import * as dotenv from "dotenv";
+import tokens from "./types/tokens.inteface";
+import UserModel from "./User.Model";
+import InternalServerException from "../Common/Exceptions/InternalServer.Exception";
+import UnauthorizedException from "../Common/Exceptions/unauthorized.Exception";
 
+dotenv.config();
 class UserService {
-  #redirectURL;
-
-  #githubAccessToken;
+  redirectURL: string;
 
   constructor() {
-    this.#redirectURL = `https://github.com/login/oauth/authorize?client_id=${process.env.CLIENT_ID}`;
-    this.#githubAccessToken = "";
+    this.redirectURL = process.env.GITHUB_AUTHORIZE_URL || "";
   }
 
-  get redirectURL() {
-    return this.#redirectURL;
-  }
-
-  async issueGithubAccessToken(code: string): Promise<void> {
+  async issueGithubAccessToken(code: string): Promise<string> {
     const opts = { headers: { accept: "application/json" } };
     const body = {
       client_id: process.env.CLIENT_ID,
       client_secret: process.env.CLIENT_SECRET,
       code,
     };
-    this.#githubAccessToken = await axios
+    const githubAccessToken = await axios
       .post(`https://github.com/login/oauth/access_token`, body, opts)
       .then(async (res) => {
         return res.data.access_token;
       })
       .catch((err) => {
-        throw err;
+        throw UnauthorizedException;
       });
+    return githubAccessToken;
   }
 
-  async getGithubUserName(): Promise<string> {
+  async getGithubUserName(githubAccessToken: string): Promise<string> {
     const userName = await axios
       .get(`https://api.github.com/user`, {
-        headers: { Authorization: `Bearer ${this.#githubAccessToken}` },
+        headers: { Authorization: `Bearer ${githubAccessToken}` },
       })
       .then(async (res) => {
         return res.data.login;
@@ -47,13 +47,37 @@ class UserService {
     return userName;
   }
 
-  // async login(code: string): Promise<tokens> {
-  //   this.issueGithubAccessToken(code);
-  //   const uesrName = this.getGithubUserName();
-  //   // TODO: userName으로 DB에서 user 조회
-  //   // TODO: 조회한 user값이 없으면 가입 처리 signUp(userName)
-  //   // TODO: userID값으로 토큰 생성
-  // }
+  // 유저 로그인 및 최초 로그인시 회원 가입 처리
+  // DB상의 유저id(primary_key)을 payload로 jwt생성하여 반환
+  async login(code: string): Promise<tokens> {
+    const githubAccessToken = await this.issueGithubAccessToken(code);
+    const userName = await this.getGithubUserName(githubAccessToken);
+    let user = await UserModel.findOneByName(userName);
+    if (!user) {
+      await this.signUp(userName);
+      user = await UserModel.findOneByName(userName);
+    }
+    if (!user || typeof user.id !== "number") {
+      throw new InternalServerException();
+    }
+    const accessToken = this.generateToken(user.id, "1m");
+    const refreshToken = this.generateToken(user.id, "7d");
+    user.refresh_token = refreshToken;
+    user.save();
+    return { accessToken, refreshToken };
+  }
+
+  async signUp(userName: string): Promise<void> {
+    const newUser = new UserModel();
+    newUser.name = userName;
+    newUser.save();
+  }
+
+  generateToken(userID: number, expiresIn: string) {
+    return jwt.sign({ id: userID }, process.env.JWTKEY || "", {
+      expiresIn,
+    });
+  }
 }
 
 export default new UserService();

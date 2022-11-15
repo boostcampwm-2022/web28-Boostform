@@ -1,16 +1,20 @@
+/* eslint-disable no-console */
 /* eslint-disable import/no-import-module-exports */
-import createError, { HttpError } from "http-errors";
 import express, { Request, Response, NextFunction } from "express";
 import path from "path";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
 import * as dotenv from "dotenv";
-import mysql from "mysql";
 import mongoose from "mongoose";
 import cors from "cors";
+import "reflect-metadata";
+import { DataSource } from "typeorm";
 
 import indexRouter from "./routes/index";
 import userRouter from "./User/User.Router";
+import errorMiddleware from "./Middlewares/Error.Middleware";
+import NotFoundException from "./Common/Exceptions/NotFound.Exception";
+import HttpException from "./Common/Exceptions/Http.Exception";
 
 dotenv.config();
 const app = express();
@@ -22,14 +26,19 @@ app.use(
   })
 );
 
-// // MySQL 연결
-// export const RDB = mysql.createConnection({
-//   host: process.env.DB_HOST,
-//   user: process.env.DB_USER,
-//   password: process.env.DB_PW,
-//   database: process.env.DATABASE,
-// });
-// RDB.connect();
+const myDataSource = new DataSource({
+  type: "mysql",
+  host: process.env.TYPEORM_HOST || "",
+  port: Number(process.env.TYPEORM_PORT),
+  username: process.env.TYPEORM_USERNAME || "",
+  password: process.env.TYPEORM_PASSWORD || "",
+  database: process.env.TYPEORM_DATABASE || "",
+  entities: [`${__dirname}/**/*.Model{.ts,.js}`],
+});
+
+myDataSource.initialize().then(() => {
+  console.log("Data Source has been initialized!");
+});
 
 // MongoDB 연결
 function connectDB() {
@@ -60,18 +69,10 @@ app.use("/api/users", userRouter);
 
 // catch 404 and forward to error handler
 app.use((req: Request, res: Response, next: NextFunction) => {
-  next(createError(404));
+  next(new NotFoundException());
 });
 // error handler
-app.use((err: HttpError, req: Request, res: Response) => {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get("env") === "development" ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.render("error");
-});
+app.use(errorMiddleware);
 
 app.listen(process.env.PORT);
 
