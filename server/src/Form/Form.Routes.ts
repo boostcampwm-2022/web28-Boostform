@@ -3,7 +3,7 @@ import FormController from "./Form.Controller";
 
 const formRouter = express.Router();
 
-formRouter.get("/:page", FormController.sendFormListMockData);
+formRouter.get("/:userID/:page", FormController.sendFormList);
 
 formRouter.post("/", FormController.createNewForm);
 

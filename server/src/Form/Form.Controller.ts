@@ -39,6 +39,14 @@ class FormController {
       formID,
     });
   }
+
+  static async sendFormList(req: CallFormListRequest, res: Response, next: NextFunction) {
+    const { userID, page } = req.params;
+    const formList = await FormService.getFormList(userID, page);
+    res.json({
+      form: formList,
+    });
+  }
 }
 
 export default FormController;
