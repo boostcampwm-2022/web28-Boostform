@@ -1,10 +1,10 @@
+/* eslint-disable no-console */
 /* eslint-disable import/no-import-module-exports */
 import express, { Request, Response, NextFunction } from "express";
 import path from "path";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
 import * as dotenv from "dotenv";
-import mysql from "mysql";
 import mongoose from "mongoose";
 import cors from "cors";
 import "reflect-metadata";
@@ -43,6 +43,7 @@ const myDataSource = new DataSource({
   username: process.env.TYPEORM_USERNAME || "",
   password: process.env.TYPEORM_PASSWORD || "",
   database: process.env.TYPEORM_DATABASE || "",
+  entities: [`${__dirname}/**/*.Model{.ts,.js}`],
 });
 
 myDataSource.initialize().then(() => {
