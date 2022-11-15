@@ -29,6 +29,9 @@ const FormSchema = new mongoose.Schema({
     type: String,
     default: "제목 없음",
   },
+  description: {
+    type: String,
+  },
   category: {
     type: String,
   },
