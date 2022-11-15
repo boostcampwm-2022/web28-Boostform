@@ -14,6 +14,7 @@ import indexRouter from "./routes/index";
 import userRouter from "./User/User.Router";
 import errorMiddleware from "./Middlewares/Error.Middleware";
 import NotFoundException from "./Common/Exceptions/NotFound.Exception";
+import HttpException from "./Common/Exceptions/Http.Exception";
 
 dotenv.config();
 const app = express();

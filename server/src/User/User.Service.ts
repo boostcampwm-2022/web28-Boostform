@@ -5,6 +5,7 @@ import * as dotenv from "dotenv";
 import tokens from "./types/tokens.inteface";
 import UserModel from "./User.Model";
 import InternalServerException from "../Common/Exceptions/InternalServer.Exception";
+import UnauthorizedException from "../Common/Exceptions/unauthorized.Exception";
 
 dotenv.config();
 class UserService {
@@ -27,7 +28,7 @@ class UserService {
         return res.data.access_token;
       })
       .catch((err) => {
-        throw err;
+        throw UnauthorizedException;
       });
     return githubAccessToken;
   }
