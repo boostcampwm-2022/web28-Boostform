@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import useModal from "hooks/useModal";
 import axios from "axios";
 
 const Container = styled.div`

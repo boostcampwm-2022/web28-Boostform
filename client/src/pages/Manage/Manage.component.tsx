@@ -294,7 +294,7 @@ function Manage() {
 			</ListContainer>
 			{modalType === "change" && (
 				<ModalPortal>
-					<EditNameModal />
+					<EditNameModal closeModal={closeModal} formID={selectedSurveyID} />
 				</ModalPortal>
 			)}
 			{modalType === "delete" && (
