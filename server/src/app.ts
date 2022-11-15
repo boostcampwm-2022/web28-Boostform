@@ -7,6 +7,8 @@ import * as dotenv from "dotenv";
 import mysql from "mysql";
 import mongoose from "mongoose";
 import cors from "cors";
+import "reflect-metadata";
+import { DataSource } from "typeorm";
 
 import indexRouter from "./routes/index";
 import userRouter from "./User/User.Router";
@@ -23,7 +25,8 @@ app.use(
   })
 );
 
-// MySQL 연결
+/*
+MySQL 연결
 export const RDB = mysql.createConnection({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
@@ -31,6 +34,20 @@ export const RDB = mysql.createConnection({
   database: process.env.DATABASE,
 });
 RDB.connect();
+*/
+
+const myDataSource = new DataSource({
+  type: "mysql",
+  host: process.env.TYPEORM_HOST || "",
+  port: Number(process.env.TYPEORM_PORT),
+  username: process.env.TYPEORM_USERNAME || "",
+  password: process.env.TYPEORM_PASSWORD || "",
+  database: process.env.TYPEORM_DATABASE || "",
+});
+
+myDataSource.initialize().then(() => {
+  console.log("Data Source has been initialized!");
+});
 
 // MongoDB 연결
 function connectDB() {
