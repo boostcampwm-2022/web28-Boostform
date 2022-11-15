@@ -60,8 +60,10 @@ class UserService {
     if (!user || typeof user.id !== "number") {
       throw new InternalServerException();
     }
-    const accessToken = this.generateToken(user.id, "10m");
+    const accessToken = this.generateToken(user.id, "1m");
     const refreshToken = this.generateToken(user.id, "7d");
+    user.refresh_token = refreshToken;
+    user.save();
     return { accessToken, refreshToken };
   }
 
