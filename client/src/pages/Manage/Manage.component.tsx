@@ -156,6 +156,10 @@ interface ListProps {
 
 type ListArrayProps = ListProps[];
 
+type CreateFormResponse = {
+	formID: string;
+};
+
 function Manage() {
 	const [page, setPage] = useState(1);
 	const [list, setList] = useState<ListArrayProps>([]);
@@ -182,8 +186,10 @@ function Manage() {
 	}, [page]);
 
 	const onClickCreateForm: React.MouseEventHandler<HTMLButtonElement> = async () => {
-		await axios.post("http://localhost:8080/api/forms/", { userID: 3 });
-		// navigate("/forms/test");
+		const { data } = await axios.post<CreateFormResponse>("http://localhost:8080/api/forms/", {
+			userID: 10243,
+		});
+		navigate(`/forms/${data.formID}`);
 	};
 
 	const onClickAddList: React.MouseEventHandler<HTMLButtonElement> = () => {

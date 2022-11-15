@@ -22,7 +22,7 @@ const QuestionSchema = new mongoose.Schema({
 });
 
 const FormSchema = new mongoose.Schema({
-  user_name: {
+  user_id: {
     type: Number,
   },
   title: {
