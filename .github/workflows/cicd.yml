@@ -1,0 +1,27 @@
+name: CI/CD
+run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+on: [push]
+jobs:
+  Running-Web-Server:
+    runs-on: ubuntu-latest
+    steps:
+      - name: executing remote ssh commands using password
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.PORT }}
+          script: |
+            export NVM_DIR=~/.nvm
+            source ~/.nvm/nvm.sh
+            npm --help
+            cd /home/web28-Boostform
+            git pull
+            cd /home/web28-Boostform/client
+            npm i
+            cd /home/web28-Boostform/server
+            npm i
+            pm2 reload all
+          # pm2 start npm --name "client" -- start
+          # pm2 start npm --name "server" -- start
