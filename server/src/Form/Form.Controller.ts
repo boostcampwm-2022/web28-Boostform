@@ -10,7 +10,7 @@ class FormController {
         formID,
       });
     } catch (err) {
-      res.status(500);
+      next(err);
     }
   }
 
@@ -22,7 +22,7 @@ class FormController {
         form: formList,
       });
     } catch (err) {
-      res.status(500);
+      next(err);
     }
   }
 
@@ -33,7 +33,7 @@ class FormController {
       await FormService.updateFormList(formID, body);
       res.json(200);
     } catch (err) {
-      res.status(500);
+      next(err);
     }
   }
 
@@ -43,7 +43,7 @@ class FormController {
       await FormService.deleteForm(formID);
       res.json(204);
     } catch (err) {
-      res.status(500);
+      next(err);
     }
   }
 }
