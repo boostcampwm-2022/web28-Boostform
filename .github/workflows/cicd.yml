@@ -1,6 +1,9 @@
 name: CI/CD
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
-on: [push]
+on:
+  push:
+    branches:
+      - main
 jobs:
   Running-Web-Server:
     runs-on: ubuntu-latest
