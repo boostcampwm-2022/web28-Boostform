@@ -1,18 +1,10 @@
 import React from "react";
-import styled from "styled-components";
 import { ReactComponent as Plus } from "assets/Icon/plus.svg";
 import { ReactComponent as Kebab } from "assets/Icon/kebab.svg";
 import { ReactComponent as TrashCan } from "assets/Icon/trashcan.svg";
 import { ReactComponent as Text } from "assets/Icon/text.svg";
-
-interface IconProps {
-  type: "plus" | "kebab" | "trashcan" | "text";
-  size: string;
-}
-
-const Container = styled.span`
-  display: inline-block;
-`;
+import Container from "./Icon.style";
+import IconProps from "./Icon.type";
 
 function Icon({ type, size }: IconProps) {
   return (
