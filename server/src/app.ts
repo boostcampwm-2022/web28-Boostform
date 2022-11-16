@@ -11,7 +11,6 @@ import "reflect-metadata";
 import { DataSource } from "typeorm";
 
 import indexRouter from "./routes/index";
-import userRouter from "./User/User.Router";
 import errorMiddleware from "./Middlewares/Error.Middleware";
 import NotFoundException from "./Common/Exceptions/NotFound.Exception";
 import HttpException from "./Common/Exceptions/Http.Exception";
@@ -65,7 +64,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "../../client/build")));
 
 app.use("/", indexRouter);
-app.use("/api/users", userRouter);
 
 // catch 404 and forward to error handler
 app.use((req: Request, res: Response, next: NextFunction) => {
