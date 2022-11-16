@@ -129,14 +129,26 @@ const Dropdown = styled.ul`
 
   li {
     width: 180px;
-    padding: 10px;
     text-align: left;
-    cursor: pointer;
 
     &:hover {
       background-color: #eaeaea;
     }
   }
+`;
+
+const DropdownButton = styled.button`
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  width: 100%;
+  border: 0;
+  background-color: transparent;
+  cursor: pointer;
+`;
+
+const DropdownText = styled.span`
+  margin-left: 8px;
 `;
 
 export {
@@ -157,4 +169,6 @@ export {
   NewFormButton,
   NewFormText,
   Dropdown,
+  DropdownButton,
+  DropdownText,
 };

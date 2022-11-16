@@ -25,6 +25,8 @@ import {
   NewFormButton,
   NewFormText,
   Dropdown,
+  DropdownButton,
+  DropdownText,
 } from "./Manage.style";
 import { FormItems, SelectedForm } from "./Manage.type";
 
@@ -155,14 +157,16 @@ function Manage() {
                     <OutsideDetecter callback={closeAllDropDown}>
                       <Dropdown>
                         <li key={`${_id}EditName`}>
-                          <button type="button" onClick={() => onClickOpenNameChangeModal(_id, index)}>
-                            이름 바꾸기
-                          </button>
+                          <DropdownButton type="button" onClick={() => onClickOpenNameChangeModal(_id, index)}>
+                            <Icon type="text" size="16px" />
+                            <DropdownText>이름 바꾸기</DropdownText>
+                          </DropdownButton>
                         </li>
                         <li key={`${_id}DeleteSurvey`}>
-                          <button type="button" onClick={() => onClickOpenDeleteFormModal(_id, index)}>
-                            삭제
-                          </button>
+                          <DropdownButton type="button" onClick={() => onClickOpenDeleteFormModal(_id, index)}>
+                            <Icon type="trashcan" size="16px" />
+                            <DropdownText>삭제</DropdownText>
+                          </DropdownButton>
                         </li>
                       </Dropdown>
                     </OutsideDetecter>
