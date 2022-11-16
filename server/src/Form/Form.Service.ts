@@ -5,6 +5,7 @@ import getDateString from "../Common/Utils/GetDateString";
 class FormService {
   static createNewForm(userID: number) {
     const newForm = new Form({ user_id: userID });
+    console.log(newForm);
     newForm.save();
 
     return newForm.id;
@@ -12,16 +13,15 @@ class FormService {
 
   static async getFormList(userID: number, page: number) {
     const rawFormList = await Form.find({ user_id: userID })
-      .sort({ created_at: 1 })
+      .sort({ createdAt: -1 })
       .skip((page - 1) * 5)
       .limit(5);
-    const formList = rawFormList.map((form) => {
+    const formList = rawFormList.map((form: any) => {
       return {
         _id: form.id,
         title: form.title,
         acceptResponse: form.accept_response,
-        createdAt: form.created_at.toString(),
-        updatedAt: getDateString(form.updated_at),
+        updatedAt: getDateString(form.updatedAt),
         onBoard: form.on_board,
         category: form.category,
       };
