@@ -64,6 +64,10 @@ function Manage() {
     navigate(`/forms/${formID}`);
   };
 
+  const onClickNavigateForm = (formID: string) => {
+    navigate(`/forms/${formID}`);
+  };
+
   const onClickFetchForms: React.MouseEventHandler<HTMLButtonElement> = () => {
     setPage((prev) => prev + 1);
   };
@@ -141,7 +145,7 @@ function Manage() {
       <FormListContainer>
         <>
           {fetchedForms.map(({ category, _id, onBoard, response, title, updatedAt, acceptResponse }, index) => (
-            <FormList key={_id}>
+            <FormList key={_id} onClick={() => onClickNavigateForm(_id)}>
               <Title key={`${_id}Title`}>{title}</Title>
               <Status key={`${_id}AcceptResponse`}>{acceptResponse ? "Open" : "Close"}</Status>
               <ResponseCount key={`${_id}Response`}>{response}</ResponseCount>
@@ -150,20 +154,38 @@ function Manage() {
               <Category key={`${_id}Category`}>{category}</Category>
               <More key={`${_id}More`}>
                 <span>
-                  <Button type="button" onClick={() => onClickOpenDropdown(index)}>
+                  <Button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onClickOpenDropdown(index);
+                    }}
+                  >
                     <Icon type="kebab" size="16px" />
                   </Button>
                   {dropdowns[index] && (
                     <OutsideDetecter callback={closeAllDropDown}>
                       <Dropdown>
                         <li key={`${_id}EditName`}>
-                          <DropdownButton type="button" onClick={() => onClickOpenNameChangeModal(_id, index)}>
+                          <DropdownButton
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onClickOpenNameChangeModal(_id, index);
+                            }}
+                          >
                             <Icon type="text" size="16px" />
-                            <DropdownText>이름 바꾸기</DropdownText>
+                            <DropdownText>제목 바꾸기</DropdownText>
                           </DropdownButton>
                         </li>
                         <li key={`${_id}DeleteSurvey`}>
-                          <DropdownButton type="button" onClick={() => onClickOpenDeleteFormModal(_id, index)}>
+                          <DropdownButton
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onClickOpenDeleteFormModal(_id, index);
+                            }}
+                          >
                             <Icon type="trashcan" size="16px" />
                             <DropdownText>삭제</DropdownText>
                           </DropdownButton>

@@ -7,8 +7,9 @@ function EditNameModal({ closeModal, selectedForm, renderByNameChange }: EditNam
   const [title, setTitle] = useState("");
 
   const onClickChangeName = async () => {
-    await formApi.editName(selectedForm.id, title);
-    renderByNameChange(selectedForm.index, title);
+    const chageTitle = !title ? "제목 없음" : title;
+    await formApi.editName(selectedForm.id, chageTitle);
+    renderByNameChange(selectedForm.index, chageTitle);
     closeModal();
   };
   const onClickCancelChangeName = () => closeModal();
