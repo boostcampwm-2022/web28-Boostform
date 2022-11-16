@@ -3,6 +3,7 @@ import { Request, Response, NextFunction } from "express";
 import * as dotenv from "dotenv";
 import BadRequestException from "../Common/Exceptions/BadRequest.Exception";
 import userService from "./User.Service";
+import InteranServerException from "../Common/Exceptions/InternalServer.Exception";
 
 dotenv.config();
 class UserController {
@@ -29,9 +30,44 @@ class UserController {
           .status(200)
           .cookie("accessToken", tokens.accessToken)
           .cookie("refreshToken", tokens.refreshToken)
-          // TODO: 메인페이지로 리다이렉트하도록 주소 변경
           .redirect(process.env.ORIGIN_URL as string);
         next();
+      })
+      .catch((err) => {
+        next(err);
+      });
+  }
+
+  async userInfo(req: Request, res: Response, next: NextFunction) {
+    const { userID } = req;
+    if (!userID) {
+      next(new InteranServerException("인증 미들웨어 오류"));
+      return;
+    }
+    userService
+      .userInfo(userID)
+      .then((userInfo) => {
+        res.status(200).json(userInfo);
+      })
+      .catch((err) => {
+        next(err);
+      });
+  }
+
+  async logout(req: Request, res: Response, next: NextFunction) {
+    const { userID } = req;
+    if (!userID) {
+      next(new InteranServerException("인증 미들웨어 오류"));
+      return;
+    }
+    userService
+      .logout(userID)
+      .then(() => {
+        res
+          .status(204)
+          .clearCookie("accessToken")
+          .clearCookie("refreshToken")
+          .redirect(process.env.ORIGIN_URL as string);
       })
       .catch((err) => {
         next(err);

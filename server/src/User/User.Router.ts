@@ -6,8 +6,10 @@ const router = express.Router();
 
 router.get("/redirect", userController.redirect);
 
-// router.get("/login", userController.login);
+router.get("/login", userController.login);
 
-router.get("/", authMiddleware);
+router.get("/", authMiddleware, userController.userInfo);
+
+router.delete("/logout", authMiddleware, userController.logout);
 
 export default router;
