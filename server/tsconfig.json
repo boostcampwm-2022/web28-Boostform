@@ -6,7 +6,8 @@
     "module": "CommonJS",
     "outDir": "dist",
     "strict": true,
-    "esModuleInterop": true /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables 'allowSyntheticDefaultImports' for type compatibility. */
+    "esModuleInterop": true /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables 'allowSyntheticDefaultImports' for type compatibility. */,
+    "typeRoots": ["./node_modules/@types", "./src/CustomTypes"]
   },
   "include": ["src/"],
   "exclude": ["node_modules"]

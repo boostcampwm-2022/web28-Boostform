@@ -1,3 +1,4 @@
+import { text } from "stream/consumers";
 import { BaseEntity, Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 
 @Entity()
@@ -8,10 +9,17 @@ export default class User extends BaseEntity {
   @Column({ nullable: false })
   name?: string;
 
-  @Column()
-  refresh_token?: string;
+  @Column({
+    type: "text",
+    nullable: true,
+  })
+  refresh_token?: string | null;
 
   static findOneByName(userName: string) {
     return this.createQueryBuilder("user").where("user.Name = :userName", { userName }).getOne();
+  }
+
+  static findOneByID(userID: number) {
+    return this.createQueryBuilder("user").where("user.id = :userID", { userID }).getOne();
   }
 }

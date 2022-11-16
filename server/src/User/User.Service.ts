@@ -5,7 +5,7 @@ import * as dotenv from "dotenv";
 import tokens from "./types/tokens.inteface";
 import UserModel from "./User.Model";
 import InternalServerException from "../Common/Exceptions/InternalServer.Exception";
-import UnauthorizedException from "../Common/Exceptions/unauthorized.Exception";
+import UnauthorizedException from "../Common/Exceptions/Unauthorized.Exception";
 
 dotenv.config();
 class UserService {
@@ -77,6 +77,23 @@ class UserService {
     return jwt.sign({ id: userID }, process.env.JWTKEY || "", {
       expiresIn,
     });
+  }
+
+  async userInfo(userID: number) {
+    const targetUser = await UserModel.findOneByID(userID);
+    if (!targetUser) {
+      throw new InternalServerException();
+    }
+    return { userID: targetUser.id, userName: targetUser.name };
+  }
+
+  async logout(userID: number) {
+    const targetUser = await UserModel.findOneByID(userID);
+    if (!targetUser) {
+      throw new InternalServerException();
+    }
+    targetUser.refresh_token = null;
+    targetUser.save();
   }
 }
 
