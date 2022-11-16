@@ -55,6 +55,10 @@ const FormSchema = new mongoose.Schema({
     type: Date,
     default: Date.now(),
   },
+  updated_at: {
+    type: Date,
+    default: Date.now(),
+  },
 });
 
 export { QuestionSchema, FormSchema };
