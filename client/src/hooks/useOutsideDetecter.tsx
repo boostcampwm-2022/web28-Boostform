@@ -1,14 +1,10 @@
 import React, { useRef, useEffect } from "react";
+import OutsideDetecterProps from "./useOutsideDetecter.type";
 
 function assertIsNode(e: EventTarget | null): asserts e is Node {
   if (!e || !("nodeType" in e)) {
     throw new Error(`Node expected`);
   }
-}
-
-interface OutsideDetecterProps {
-  children: React.ReactNode;
-  callback: () => void;
 }
 
 function OutsideDetecter({ children, callback }: OutsideDetecterProps) {

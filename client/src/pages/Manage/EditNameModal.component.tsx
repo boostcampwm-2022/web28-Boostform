@@ -1,39 +1,16 @@
 import React, { useState } from "react";
-import styled from "styled-components";
 import axios from "axios";
+import { Container } from "./EditNameModal.style";
+import EditNameModalProps from "./EditNameModal.type";
 
-const Container = styled.div`
-  position: absolute;
-  top: 35%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-
-  width: 400px;
-  border-radius: 9px;
-  padding: 20px;
-
-  z-index: 2;
-  background-color: white;
-`;
-
-function EditNameModal({
-  closeModal,
-  selectedSurvey,
-  modifyListByNameChange,
-}: {
-  closeModal: () => void;
-  selectedSurvey: { id: string; index: number };
-  modifyListByNameChange: (index: number, title: string) => void;
-}) {
+function EditNameModal({ closeModal, selectedSurvey, renderByNameChange }: EditNameModalProps) {
   const [title, setTitle] = useState("");
-  console.log(selectedSurvey);
 
   const onClickChangeName = async () => {
-    console.log(selectedSurvey.id, title);
     await axios.patch(`http://localhost:8080/api/forms/${selectedSurvey.id}`, {
       title,
     });
-    modifyListByNameChange(selectedSurvey.index, title);
+    renderByNameChange(selectedSurvey.index, title);
     closeModal();
   };
   const onClickCancelChangeName = () => closeModal();
