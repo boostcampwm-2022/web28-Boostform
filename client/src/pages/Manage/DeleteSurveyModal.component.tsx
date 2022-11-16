@@ -1,6 +1,6 @@
 import React from "react";
 import formApi from "api/formApi";
-import { Container } from "./DeleteSurveyModal.style";
+import { Container, Text, ButtonContainer, Button } from "./DeleteSurveyModal.style";
 import DeleteSurveyModalProps from "./DeleteSurveyModal.type";
 
 function DeleteSurveyModal({ closeModal, renderByDeleteForm, selectedForm }: DeleteSurveyModalProps) {
@@ -14,15 +14,15 @@ function DeleteSurveyModal({ closeModal, renderByDeleteForm, selectedForm }: Del
 
   return (
     <Container>
-      <div>삭제하시겠습니까?</div>
-      <div>
-        <button type="button" onClick={onClickDeleteSurvey}>
+      <Text>삭제하시겠습니까?</Text>
+      <ButtonContainer>
+        <Button type="button" onClick={onClickDeleteSurvey}>
           확인
-        </button>
-        <button type="button" onClick={onClickCancelDelete}>
+        </Button>
+        <Button type="button" onClick={onClickCancelDelete}>
           취소
-        </button>
-      </div>
+        </Button>
+      </ButtonContainer>
     </Container>
   );
 }
