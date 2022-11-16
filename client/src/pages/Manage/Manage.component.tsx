@@ -4,6 +4,7 @@ import styled from "styled-components";
 import axios from "axios";
 import Icon from "components/Icon/Icon.component";
 import useModal from "hooks/useModal";
+import OutsideDetecter from "hooks/useOutsideDetecter";
 import EditNameModal from "./EditNameModal.component";
 import DeleteSurveyModal from "./DeleteSurveyModal.component";
 
@@ -225,13 +226,20 @@ function Manage() {
     });
   };
 
+  const closeAllDropDown = () => {
+    const { length } = dropdownList;
+    setDropdownList(Array(length).fill(false));
+  };
+
   const onClickOpenNameChangeModal = (formID: string, index: number) => {
+    closeAllDropDown();
     setModalType("change");
     setSelectedSurvey({ id: formID, index });
     openModal();
   };
 
   const onClickOpenDeleteModal = (formID: string, index: number) => {
+    closeAllDropDown();
     setModalType("delete");
     setSelectedSurvey({ id: formID, index });
     openModal();
@@ -287,23 +295,27 @@ function Manage() {
               <Share key={`${_id}onBoard`}>{onBoard ? "On" : "Off"}</Share>
               <Category key={`${_id}Category`}>{category}</Category>
               <More key={`${_id}More`}>
-                <Button type="button" onClick={() => onClickOpenDropdown(index)}>
-                  <Icon type="kebab" size="16px" />
-                </Button>
-                {dropdownList[index] && (
-                  <Dropdown>
-                    <li key={`${_id}EditName`}>
-                      <button type="button" onClick={() => onClickOpenNameChangeModal(_id, index)}>
-                        이름 바꾸기
-                      </button>
-                    </li>
-                    <li key={`${_id}DeleteSurvey`}>
-                      <button type="button" onClick={() => onClickOpenDeleteModal(_id, index)}>
-                        삭제
-                      </button>
-                    </li>
-                  </Dropdown>
-                )}
+                <span>
+                  <Button type="button" onClick={() => onClickOpenDropdown(index)}>
+                    <Icon type="kebab" size="16px" />
+                  </Button>
+                  {dropdownList[index] && (
+                    <OutsideDetecter callback={closeAllDropDown}>
+                      <Dropdown>
+                        <li key={`${_id}EditName`}>
+                          <button type="button" onClick={() => onClickOpenNameChangeModal(_id, index)}>
+                            이름 바꾸기
+                          </button>
+                        </li>
+                        <li key={`${_id}DeleteSurvey`}>
+                          <button type="button" onClick={() => onClickOpenDeleteModal(_id, index)}>
+                            삭제
+                          </button>
+                        </li>
+                      </Dropdown>
+                    </OutsideDetecter>
+                  )}
+                </span>
               </More>
             </List>
           ))}
