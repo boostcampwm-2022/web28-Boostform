@@ -64,8 +64,6 @@ const reissueTokens = async (refreshToken: string): Promise<tokens | undefined> 
 
 const authMiddleware = async (req: Request, res: Response, next: NextFunction) => {
   const { accessToken, refreshToken } = req.cookies;
-  console.log(accessToken);
-  console.log(refreshToken);
   // accessToken없으면 로그인으로 리다이렉트
   if (!accessToken) {
     // 임시 에러처리
@@ -75,7 +73,7 @@ const authMiddleware = async (req: Request, res: Response, next: NextFunction) =
       .status(401)
       .clearCookie("accessToken")
       .clearCookie("refreshToken")
-      .redirect(process.env.ORIGIN_URL as string);
+      .redirect(`${process.env.ORIGIN_URL as string}/login`);
     return;
   }
 
@@ -93,7 +91,7 @@ const authMiddleware = async (req: Request, res: Response, next: NextFunction) =
               .status(401)
               .clearCookie("accessToken")
               .clearCookie("refreshToken")
-              .redirect(process.env.ORIGIN_URL as string);
+              .redirect(`${process.env.ORIGIN_URL as string}/login`);
             return;
           }
           res.cookie("accessToken", reissuedTokens.accessToken).cookie("refreshToken", reissuedTokens.refreshToken);

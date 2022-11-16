@@ -30,7 +30,7 @@ class UserController {
           .status(200)
           .cookie("accessToken", tokens.accessToken)
           .cookie("refreshToken", tokens.refreshToken)
-          .redirect(process.env.ORIGIN_URL as string);
+          .redirect(`${process.env.ORIGIN_URL as string}/manage`);
         next();
       })
       .catch((err) => {
@@ -67,7 +67,7 @@ class UserController {
           .status(204)
           .clearCookie("accessToken")
           .clearCookie("refreshToken")
-          .redirect(process.env.ORIGIN_URL as string);
+          .redirect(`${process.env.ORIGIN_URL as string}/login`);
       })
       .catch((err) => {
         next(err);

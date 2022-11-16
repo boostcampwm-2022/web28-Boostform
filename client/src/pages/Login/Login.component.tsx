@@ -4,6 +4,7 @@ import styled from "styled-components";
 
 import AuthContext from "index";
 
+import axios from "axios";
 import logo from "../../assets/Icon/plus.svg";
 
 const Container = styled.section`
@@ -62,7 +63,7 @@ function Login() {
 
   const handleClickOAuth: React.MouseEventHandler<HTMLButtonElement> = () => {
     userInfo.userID = "testID-01";
-    // window.location.href = "github oauth";
+    window.location.href = "http://localhost:8080/api/users/redirect";
   };
 
   const handleClickHome: React.MouseEventHandler<HTMLButtonElement> = () => {
