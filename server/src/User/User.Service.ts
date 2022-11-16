@@ -92,9 +92,7 @@ class UserService {
     if (!targetUser) {
       throw new InternalServerException();
     }
-    console.log(targetUser);
     targetUser.refresh_token = null;
-    console.log(targetUser);
     targetUser.save();
   }
 }
