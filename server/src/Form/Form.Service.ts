@@ -5,7 +5,6 @@ import getDateString from "../Common/Utils/GetDateString";
 class FormService {
   static createNewForm(userID: number) {
     const newForm = new Form({ user_id: userID });
-    console.log(newForm);
     newForm.save();
 
     return newForm.id;
