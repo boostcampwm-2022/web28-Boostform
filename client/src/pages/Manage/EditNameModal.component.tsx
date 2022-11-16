@@ -1,16 +1,14 @@
 import React, { useState } from "react";
-import axios from "axios";
+import formApi from "api/formApi";
 import { Container } from "./EditNameModal.style";
 import EditNameModalProps from "./EditNameModal.type";
 
-function EditNameModal({ closeModal, selectedSurvey, renderByNameChange }: EditNameModalProps) {
+function EditNameModal({ closeModal, selectedForm, renderByNameChange }: EditNameModalProps) {
   const [title, setTitle] = useState("");
 
   const onClickChangeName = async () => {
-    await axios.patch(`http://localhost:8080/api/forms/${selectedSurvey.id}`, {
-      title,
-    });
-    renderByNameChange(selectedSurvey.index, title);
+    await formApi.editName(selectedForm.id, title);
+    renderByNameChange(selectedForm.index, title);
     closeModal();
   };
   const onClickCancelChangeName = () => closeModal();

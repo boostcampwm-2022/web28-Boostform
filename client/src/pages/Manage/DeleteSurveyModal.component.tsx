@@ -1,12 +1,12 @@
 import React from "react";
-import axios from "axios";
+import formApi from "api/formApi";
 import { Container } from "./DeleteSurveyModal.style";
 import DeleteSurveyModalProps from "./DeleteSurveyModal.type";
 
-function DeleteSurveyModal({ closeModal, renderByDeleteForm, selectedSurvey }: DeleteSurveyModalProps) {
+function DeleteSurveyModal({ closeModal, renderByDeleteForm, selectedForm }: DeleteSurveyModalProps) {
   const onClickDeleteSurvey = async () => {
-    await axios.delete(`http://localhost:8080/api/forms/${selectedSurvey.id}`);
-    renderByDeleteForm(selectedSurvey.index);
+    await formApi.deleteForm(selectedForm.id);
+    renderByDeleteForm(selectedForm.index);
     closeModal();
   };
 

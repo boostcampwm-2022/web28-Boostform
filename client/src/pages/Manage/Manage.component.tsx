@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import formApi from "api/formApi";
 import Icon from "components/Icon/Icon.component";
 import useModal from "hooks/useModal";
 import OutsideDetecter from "hooks/useOutsideDetecter";
@@ -25,7 +26,7 @@ import {
   NewFormText,
   Dropdown,
 } from "./Manage.style";
-import { FormItems, CreateFormResponse, SelectedForm } from "./Manage.type";
+import { FormItems, SelectedForm } from "./Manage.type";
 
 function Manage() {
   const [page, setPage] = useState(1);
@@ -40,7 +41,8 @@ function Manage() {
   useEffect(() => {
     const source = axios.CancelToken.source();
 
-    axios(`http://localhost:8080/api/forms/10243/${page}`, { withCredentials: true, cancelToken: source.token })
+    formApi
+      .getFormLists(10243, page, source)
       .then((response) => {
         setFetchedForms((prev) => [...prev, ...response.data.form]);
 
@@ -56,10 +58,8 @@ function Manage() {
   }, [page]);
 
   const onClickCreateForm: React.MouseEventHandler<HTMLButtonElement> = async () => {
-    const { data } = await axios.post<CreateFormResponse>("http://localhost:8080/api/forms/", {
-      userID: 10243,
-    });
-    navigate(`/forms/${data.formID}`);
+    const { formID } = await formApi.createForm(10243);
+    navigate(`/forms/${formID}`);
   };
 
   const onClickFetchForms: React.MouseEventHandler<HTMLButtonElement> = () => {
@@ -181,18 +181,14 @@ function Manage() {
 
       {modalType === "change" && (
         <ModalPortal>
-          <EditNameModal
-            closeModal={closeModal}
-            selectedSurvey={selectedForm}
-            renderByNameChange={renderByNameChange}
-          />
+          <EditNameModal closeModal={closeModal} selectedForm={selectedForm} renderByNameChange={renderByNameChange} />
         </ModalPortal>
       )}
       {modalType === "delete" && (
         <ModalPortal>
           <DeleteSurveyModal
             closeModal={closeModal}
-            selectedSurvey={selectedForm}
+            selectedForm={selectedForm}
             renderByDeleteForm={renderByDeleteForm}
           />
         </ModalPortal>

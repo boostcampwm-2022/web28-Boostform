@@ -1,6 +1,6 @@
 interface EditNameModalProps {
   closeModal: () => void;
-  selectedSurvey: { id: string; index: number };
+  selectedForm: { id: string; index: number };
   renderByNameChange: (index: number, title: string) => void;
 }
 
