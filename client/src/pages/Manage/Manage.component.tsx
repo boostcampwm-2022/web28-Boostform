@@ -1,185 +1,41 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
 import axios from "axios";
+import formApi from "api/formApi";
 import Icon from "components/Icon/Icon.component";
 import useModal from "hooks/useModal";
+import OutsideDetecter from "hooks/useOutsideDetecter";
 import EditNameModal from "./EditNameModal.component";
 import DeleteSurveyModal from "./DeleteSurveyModal.component";
-
-const Container = styled.section`
-  padding: 20px;
-  min-width: 1024px;
-`;
-
-const HeaderContainer = styled.div``;
-
-const Header = styled.ul`
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-
-  padding: 20px;
-  margin-bottom: 20px;
-
-  border-radius: 9px;
-  background-color: #ffffff;
-  border: 1px solid #afafaf;
-
-  font-size: 14px;
-`;
-
-const ListContainer = styled.div`
-  background-color: #ffffff;
-  border: 1px solid #afafaf;
-  border-radius: 9px;
-`;
-
-const List = styled.ul`
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-
-  background-color: #ffffff;
-  padding: 20px 20px;
-  font-size: 14px;
-
-  &:first-child {
-    border-top-left-radius: 9px;
-    border-top-right-radius: 9px;
-  }
-
-  &:hover {
-    background-color: #eaeaea;
-    cursor: pointer;
-  }
-`;
-
-const Title = styled.li`
-  text-align: center;
-  width: 30%;
-`;
-const Status = styled.li`
-  text-align: center;
-  width: 10%;
-`;
-const ResponseCount = styled.li`
-  text-align: center;
-  width: 10%;
-`;
-const Date = styled.li`
-  text-align: center;
-  width: 20%;
-`;
-const Share = styled.li`
-  text-align: center;
-  width: 10%;
-`;
-const Category = styled.li`
-  text-align: center;
-  width: 15%;
-`;
-const More = styled.li`
-  position: relative;
-  text-align: center;
-  width: 10%;
-`;
-
-const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  padding: 10px;
-`;
-
-const Button = styled.button`
-  border: 0;
-  background-color: transparent;
-  cursor: pointer;
-
-  &:active {
-    transform: translateY(1px);
-  }
-`;
-
-const NewFormButton = styled.button`
-  display: flex;
-  align-items: center;
-  border: 1px solid #afafaf;
-  border-radius: 9px;
-  margin-bottom: 10px;
-  padding: 5px 15px;
-
-  background-color: transparent;
-  cursor: pointer;
-
-  font-size: 16px;
-  font-weight: 400;
-
-  &:active {
-    transform: translateY(1px);
-  }
-`;
-
-const NewFormText = styled.span`
-  margin-left: 4px;
-`;
-
-const Dropdown = styled.ul`
-  position: absolute;
-  top: 40px;
-  right: -10px;
-  z-index: 1;
-  background-color: white;
-  padding: 10px 0;
-  border-radius: 9px;
-  border: 1px solid #afafaf;
-
-  li {
-    width: 180px;
-    padding: 10px;
-    text-align: left;
-    cursor: pointer;
-
-    &:hover {
-      background-color: #eaeaea;
-    }
-  }
-`;
-
-interface ListProps {
-  _id: string;
-  title: string;
-  acceptResponse: boolean;
-  response: number;
-  createdAt: string;
-  updatedAt: string;
-  onBoard: boolean;
-  category: string;
-}
-
-type ListArrayProps = ListProps[];
-
-type CreateFormResponse = {
-  formID: string;
-};
-
-const mockData = {
-  _id: "sds",
-  title: "title",
-  acceptResponse: true,
-  response: 1,
-  createdAt: "2013",
-  updatedAt: "2014",
-  onBoard: true,
-  category: "categofy",
-};
+import {
+  Container,
+  HeaderContainer,
+  Header,
+  FormListContainer,
+  FormList,
+  Title,
+  Status,
+  ResponseCount,
+  Date,
+  Share,
+  Category,
+  More,
+  ButtonContainer,
+  Button,
+  NewFormButton,
+  NewFormText,
+  Dropdown,
+  DropdownButton,
+  DropdownText,
+} from "./Manage.style";
+import { FormItems, SelectedForm } from "./Manage.type";
 
 function Manage() {
   const [page, setPage] = useState(1);
-  const [list, setList] = useState<ListArrayProps>([mockData]);
-  const [dropdownList, setDropdownList] = useState<boolean[]>([]);
+  const [fetchedForms, setFetchedForms] = useState<FormItems[]>([]);
+  const [dropdowns, setDropdowns] = useState<boolean[]>([]);
   const [modalType, setModalType] = useState("delete");
-  const [selectedSurvey, setSelectedSurvey] = useState<{ id: string; index: number }>({ id: "", index: 0 });
+  const [selectedForm, setSelectedForm] = useState<SelectedForm>({ id: "", index: 0 });
 
   const navigate = useNavigate();
   const { openModal, closeModal, ModalPortal } = useModal();
@@ -187,12 +43,13 @@ function Manage() {
   useEffect(() => {
     const source = axios.CancelToken.source();
 
-    axios(`http://localhost:8080/api/forms/10243/${page}`, { withCredentials: true, cancelToken: source.token })
+    formApi
+      .getFormLists(10243, page, source)
       .then((response) => {
-        setList((prev) => [...prev, ...response.data.form]);
+        setFetchedForms((prev) => [...prev, ...response.data.form]);
 
         const falseArray = new Array(response.data.form.length).fill(false);
-        setDropdownList((prev) => [...prev, ...falseArray]);
+        setDropdowns((prev) => [...prev, ...falseArray]);
       })
       .catch((e) => {
         // eslint-disable-next-line no-console
@@ -203,18 +60,20 @@ function Manage() {
   }, [page]);
 
   const onClickCreateForm: React.MouseEventHandler<HTMLButtonElement> = async () => {
-    const { data } = await axios.post<CreateFormResponse>("http://localhost:8080/api/forms/", {
-      userID: 10243,
-    });
-    navigate(`/forms/${data.formID}`);
+    const { formID } = await formApi.createForm(10243);
+    navigate(`/forms/${formID}`);
   };
 
-  const onClickAddList: React.MouseEventHandler<HTMLButtonElement> = () => {
+  const onClickNavigateForm = (formID: string) => {
+    navigate(`/forms/${formID}`);
+  };
+
+  const onClickFetchForms: React.MouseEventHandler<HTMLButtonElement> = () => {
     setPage((prev) => prev + 1);
   };
 
   const onClickOpenDropdown = (index: number) => {
-    setDropdownList((prev) => {
+    setDropdowns((prev) => {
       const value = prev[index];
       const { length } = prev;
 
@@ -225,33 +84,40 @@ function Manage() {
     });
   };
 
+  const closeAllDropDown = () => {
+    const { length } = dropdowns;
+    setDropdowns(Array(length).fill(false));
+  };
+
   const onClickOpenNameChangeModal = (formID: string, index: number) => {
+    closeAllDropDown();
     setModalType("change");
-    setSelectedSurvey({ id: formID, index });
+    setSelectedForm({ id: formID, index });
     openModal();
   };
 
-  const onClickOpenDeleteModal = (formID: string, index: number) => {
+  const onClickOpenDeleteFormModal = (formID: string, index: number) => {
+    closeAllDropDown();
     setModalType("delete");
-    setSelectedSurvey({ id: formID, index });
+    setSelectedForm({ id: formID, index });
     openModal();
   };
 
-  const modifyListBySurveyDelete = (index: number) => {
-    setList((prev) => {
+  const renderByDeleteForm = (index: number) => {
+    setFetchedForms((prev) => {
       const left = prev.slice(0, index);
       const right = prev.slice(index + 1);
       return [...left, ...right];
     });
-    setDropdownList((prev) => {
+    setDropdowns((prev) => {
       const left = prev.slice(0, index);
       const right = prev.slice(index + 1);
       return [...left, ...right];
     });
   };
 
-  const modifyListByNameChange = (index: number, title: string) => {
-    setList((prev) => {
+  const renderByNameChange = (index: number, title: string) => {
+    setFetchedForms((prev) => {
       const targetSurvey = prev[index];
       targetSurvey.title = title;
 
@@ -276,10 +142,10 @@ function Manage() {
           <More>더보기</More>
         </Header>
       </HeaderContainer>
-      <ListContainer>
+      <FormListContainer>
         <>
-          {list.map(({ category, _id, onBoard, response, title, updatedAt, acceptResponse }, index) => (
-            <List key={_id}>
+          {fetchedForms.map(({ category, _id, onBoard, response, title, updatedAt, acceptResponse }, index) => (
+            <FormList key={_id} onClick={() => onClickNavigateForm(_id)}>
               <Title key={`${_id}Title`}>{title}</Title>
               <Status key={`${_id}AcceptResponse`}>{acceptResponse ? "Open" : "Close"}</Status>
               <ResponseCount key={`${_id}Response`}>{response}</ResponseCount>
@@ -287,48 +153,69 @@ function Manage() {
               <Share key={`${_id}onBoard`}>{onBoard ? "On" : "Off"}</Share>
               <Category key={`${_id}Category`}>{category}</Category>
               <More key={`${_id}More`}>
-                <Button type="button" onClick={() => onClickOpenDropdown(index)}>
-                  <Icon type="kebab" size="16px" />
-                </Button>
-                {dropdownList[index] && (
-                  <Dropdown>
-                    <li key={`${_id}EditName`}>
-                      <button type="button" onClick={() => onClickOpenNameChangeModal(_id, index)}>
-                        이름 바꾸기
-                      </button>
-                    </li>
-                    <li key={`${_id}DeleteSurvey`}>
-                      <button type="button" onClick={() => onClickOpenDeleteModal(_id, index)}>
-                        삭제
-                      </button>
-                    </li>
-                  </Dropdown>
-                )}
+                <span>
+                  <Button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onClickOpenDropdown(index);
+                    }}
+                  >
+                    <Icon type="kebab" size="16px" />
+                  </Button>
+                  {dropdowns[index] && (
+                    <OutsideDetecter callback={closeAllDropDown}>
+                      <Dropdown>
+                        <li key={`${_id}EditName`}>
+                          <DropdownButton
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onClickOpenNameChangeModal(_id, index);
+                            }}
+                          >
+                            <Icon type="text" size="16px" />
+                            <DropdownText>제목 바꾸기</DropdownText>
+                          </DropdownButton>
+                        </li>
+                        <li key={`${_id}DeleteSurvey`}>
+                          <DropdownButton
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onClickOpenDeleteFormModal(_id, index);
+                            }}
+                          >
+                            <Icon type="trashcan" size="16px" />
+                            <DropdownText>삭제</DropdownText>
+                          </DropdownButton>
+                        </li>
+                      </Dropdown>
+                    </OutsideDetecter>
+                  )}
+                </span>
               </More>
-            </List>
+            </FormList>
           ))}
         </>
         <ButtonContainer>
-          <Button type="button" onClick={onClickAddList}>
+          <Button type="button" onClick={onClickFetchForms}>
             <Icon type="plus" size="24px" />
           </Button>
         </ButtonContainer>
-      </ListContainer>
+      </FormListContainer>
+
       {modalType === "change" && (
         <ModalPortal>
-          <EditNameModal
-            closeModal={closeModal}
-            selectedSurvey={selectedSurvey}
-            modifyListByNameChange={modifyListByNameChange}
-          />
+          <EditNameModal closeModal={closeModal} selectedForm={selectedForm} renderByNameChange={renderByNameChange} />
         </ModalPortal>
       )}
       {modalType === "delete" && (
         <ModalPortal>
           <DeleteSurveyModal
             closeModal={closeModal}
-            selectedSurvey={selectedSurvey}
-            modifyListBySurveyDelete={modifyListBySurveyDelete}
+            selectedForm={selectedForm}
+            renderByDeleteForm={renderByDeleteForm}
           />
         </ModalPortal>
       )}

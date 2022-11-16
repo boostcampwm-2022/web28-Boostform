@@ -1,39 +1,15 @@
 import React, { useState } from "react";
-import styled from "styled-components";
-import axios from "axios";
+import formApi from "api/formApi";
+import { Container, ButtonContainer, Button, Input, Title, Text } from "./EditNameModal.style";
+import EditNameModalProps from "./EditNameModal.type";
 
-const Container = styled.div`
-  position: absolute;
-  top: 35%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-
-  width: 400px;
-  border-radius: 9px;
-  padding: 20px;
-
-  z-index: 2;
-  background-color: white;
-`;
-
-function EditNameModal({
-  closeModal,
-  selectedSurvey,
-  modifyListByNameChange,
-}: {
-  closeModal: () => void;
-  selectedSurvey: { id: string; index: number };
-  modifyListByNameChange: (index: number, title: string) => void;
-}) {
+function EditNameModal({ closeModal, selectedForm, renderByNameChange }: EditNameModalProps) {
   const [title, setTitle] = useState("");
-  console.log(selectedSurvey);
 
   const onClickChangeName = async () => {
-    console.log(selectedSurvey.id, title);
-    await axios.patch(`http://localhost:8080/api/forms/${selectedSurvey.id}`, {
-      title,
-    });
-    modifyListByNameChange(selectedSurvey.index, title);
+    const chageTitle = !title ? "제목 없음" : title;
+    await formApi.editName(selectedForm.id, chageTitle);
+    renderByNameChange(selectedForm.index, chageTitle);
     closeModal();
   };
   const onClickCancelChangeName = () => closeModal();
@@ -44,17 +20,17 @@ function EditNameModal({
 
   return (
     <Container>
-      <div>이름 바꾸기</div>
-      <div>항목의 새 이름을 입력하세요</div>
-      <input onInput={onInputChangeName} />
-      <div>
-        <button type="button" onClick={onClickChangeName}>
+      <Title>제목 바꾸기</Title>
+      <Text>항목의 새 제목을 입력하세요</Text>
+      <Input onInput={onInputChangeName} placeholder="제목 없음" />
+      <ButtonContainer>
+        <Button type="button" onClick={onClickChangeName}>
           확인
-        </button>
-        <button type="button" onClick={onClickCancelChangeName}>
+        </Button>
+        <Button type="button" onClick={onClickCancelChangeName}>
           취소
-        </button>
-      </div>
+        </Button>
+      </ButtonContainer>
     </Container>
   );
 }
