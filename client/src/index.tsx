@@ -6,9 +6,8 @@ import Manage from "pages/Manage/Manage.component";
 import Create from "pages/Create/Create.component";
 import Main from "pages/Main/Main.component";
 import Login from "pages/Login/Login.component";
+import { AuthProvider } from "contexts/authProvider";
 import reportWebVitals from "./reportWebVitals";
-
-const AuthContext = createContext({ userID: "" });
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 
@@ -34,9 +33,9 @@ const router = createBrowserRouter([
 root.render(
   <React.StrictMode>
     <GlobalStyle />
-    <AuthContext.Provider value={{ userID: "" }}>
+    <AuthProvider>
       <RouterProvider router={router} />
-    </AuthContext.Provider>
+    </AuthProvider>
   </React.StrictMode>
 );
 
@@ -44,5 +43,3 @@ root.render(
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
-
-export default AuthContext;
