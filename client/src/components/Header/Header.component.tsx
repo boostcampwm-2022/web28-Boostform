@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { AuthContext } from "contexts/authProvider";
 import { useNavigate, Link } from "react-router-dom";
 import authApi from "api/authApi";
-import Logo from "assets/Logo/Logo.png";
+import Logo from "assets/Images/Logo.png";
 import { HeaderContainer, LoginButton, LogoutButton } from "./Header.style";
 
 function Header() {

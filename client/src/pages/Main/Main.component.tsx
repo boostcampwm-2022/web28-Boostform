@@ -1,54 +1,63 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Header from "components/Header/Header.component";
 import { AuthContext } from "contexts/authProvider";
-
-import logo from "../../assets/Icon/plus.svg";
+import Example from "assets/Images/Example.png";
 
 const Container = styled.section`
-  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  margin: 0 32px;
+  margin-top: 64px;
   min-width: 1024px;
 `;
 
-const BodyContainer = styled.div`
-  display: flex;
-  padding: 20px;
-  min-width: 1024px;
-`;
-
-const ContentsContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
+const TextContainer = styled.div`
   width: 50%;
+  margin-left: auto;
 `;
 
-const ServiceContents = styled.div`
-  min-height: 256px;
-  width: 90%;
-  border: 1px solid #afafaf;
+const H1 = styled.h1`
+  font-size: 60px;
+  margin-right: auto;
+  user-select: none;
+  max-width: 600px;
+  line-height: 72px;
 `;
 
-const StartButton = styled.button`
-  width: 256px;
+const Text = styled.p`
+  margin-top: 36px;
+  font-size: 20px;
+  color: #5f6368;
+  line-height: 28px;
+  user-select: none;
+`;
 
-  background-color: #ddd;
+const ImageContainer = styled.div`
+  width: 50%;
+  margin-left: 36px;
+  user-select: none;
+`;
+
+const Button = styled.button`
+  background-color: #0066cc;
+  font-weight: 400;
+  color: #ffffff;
+  font-size: 15px;
+  padding: 8px 16px;
   border: none;
-  color: black;
-  margin-top: 10px;
-  padding: 10px;
-  font-size: 16px;
-  border-radius: 10px;
+  font-size: 18px;
+  border-radius: 2px;
+  margin-top: 24px;
+  cursor: pointer;
+  user-select: none;
 `;
 
-const ServiceImage = styled.img`
-  width: 512px;
-  height: 800px;
-
-  border: 1px solid #afafaf;
+const Image = styled.img`
+  width: 100%;
+  min-width: 400px;
+  max-width: 600px;
 `;
 
 function Main() {
@@ -64,22 +73,16 @@ function Main() {
     <>
       <Header />
       <Container>
-        <BodyContainer>
-          <ContentsContainer>
-            <ServiceContents>
-              서비스 설명 <br />
-              서비스 설명 ... <br />
-              서비스 설명 ... ... <br />
-              서비스 설명 ... ... ... <br />
-              서비스 설명 ... ... ... ... <br />
-            </ServiceContents>
-            <StartButton onClick={handleClick}>시작하기</StartButton>
-          </ContentsContainer>
-
-          <ContentsContainer>
-            <ServiceImage src={logo} />
-          </ContentsContainer>
-        </BodyContainer>
+        <TextContainer>
+          <H1>Boost Forms로 설문조사를 빠르게 작성하세요!</H1>
+          <Text>온라인 양식과 설문조사를 손쉽게 만들고 공유할 수 있습니다.</Text>
+          <Button type="button" onClick={handleClick}>
+            시작하기
+          </Button>
+        </TextContainer>
+        <ImageContainer>
+          <Image src={Example} alt="example" draggable={false} />
+        </ImageContainer>
       </Container>
     </>
   );
