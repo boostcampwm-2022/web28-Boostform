@@ -1,55 +1,9 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
 import Header from "components/Header/Header.component";
 import { AuthContext } from "contexts/authProvider";
-
-import logo from "../../assets/Icon/plus.svg";
-
-const Container = styled.section`
-  padding: 20px;
-  min-width: 1024px;
-`;
-
-const BodyContainer = styled.div`
-  display: flex;
-  padding: 20px;
-  min-width: 1024px;
-`;
-
-const ContentsContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  width: 50%;
-`;
-
-const ServiceContents = styled.div`
-  min-height: 256px;
-  width: 90%;
-  border: 1px solid #afafaf;
-`;
-
-const StartButton = styled.button`
-  width: 256px;
-
-  background-color: #ddd;
-  border: none;
-  color: black;
-  margin-top: 10px;
-  padding: 10px;
-  font-size: 16px;
-  border-radius: 10px;
-`;
-
-const ServiceImage = styled.img`
-  width: 512px;
-  height: 800px;
-
-  border: 1px solid #afafaf;
-`;
+import Example from "assets/Images/Example.png";
+import { Container, TextContainer, ImageContainer, H1, Image, Button, Text } from "./Main.style";
 
 function Main() {
   const { auth } = useContext(AuthContext);
@@ -64,22 +18,16 @@ function Main() {
     <>
       <Header />
       <Container>
-        <BodyContainer>
-          <ContentsContainer>
-            <ServiceContents>
-              서비스 설명 <br />
-              서비스 설명 ... <br />
-              서비스 설명 ... ... <br />
-              서비스 설명 ... ... ... <br />
-              서비스 설명 ... ... ... ... <br />
-            </ServiceContents>
-            <StartButton onClick={handleClick}>시작하기</StartButton>
-          </ContentsContainer>
-
-          <ContentsContainer>
-            <ServiceImage src={logo} />
-          </ContentsContainer>
-        </BodyContainer>
+        <TextContainer>
+          <H1>Boost Forms로 설문조사를 빠르게 작성하세요!</H1>
+          <Text>온라인 양식과 설문조사를 손쉽게 만들고 공유할 수 있습니다.</Text>
+          <Button type="button" onClick={handleClick}>
+            시작하기
+          </Button>
+        </TextContainer>
+        <ImageContainer>
+          <Image src={Example} alt="example" draggable={false} />
+        </ImageContainer>
       </Container>
     </>
   );
