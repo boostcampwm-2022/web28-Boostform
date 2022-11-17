@@ -1,5 +1,5 @@
 import Form from "./Form.Model";
-import { UpdateFormRequestBody } from "./Form.Interface";
+import UpdateFormRequestBody from "./Form.Interface";
 import getDateString from "../Common/Utils/GetDateString";
 
 class FormService {
