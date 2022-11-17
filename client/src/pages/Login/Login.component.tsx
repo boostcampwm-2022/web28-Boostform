@@ -63,7 +63,7 @@ function Login() {
 
   const handleClickOAuth: React.MouseEventHandler<HTMLButtonElement> = () => {
     userInfo.userID = "testID-01";
-    window.location.href = "http://localhost:8080/api/users/redirect";
+    window.location.href = `${process.env.REACT_APP_SERVER_ORIGIN_URL}/api/users/redirect`;
   };
 
   const handleClickHome: React.MouseEventHandler<HTMLButtonElement> = () => {
