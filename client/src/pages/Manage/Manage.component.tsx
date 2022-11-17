@@ -31,7 +31,7 @@ import {
 import { FormItems, SelectedForm } from "./Manage.type";
 
 function Manage() {
-  const [page, setPage] = useState(1);
+  const [size, setSize] = useState(0);
   const [fetchedForms, setFetchedForms] = useState<FormItems[]>([]);
   const [dropdowns, setDropdowns] = useState<boolean[]>([]);
   const [modalType, setModalType] = useState("delete");
@@ -43,7 +43,7 @@ function Manage() {
     const source = axios.CancelToken.source();
 
     formApi
-      .getFormLists(page, source)
+      .getFormLists(size, source)
       .then((response) => {
         setFetchedForms((prev) => [...prev, ...response.data.form]);
 
@@ -56,7 +56,7 @@ function Manage() {
       });
 
     return () => source.cancel("cleanup");
-  }, [page]);
+  }, [size]);
 
   const onClickCreateForm: React.MouseEventHandler<HTMLButtonElement> = async () => {
     const { formID } = await formApi.createForm();
@@ -68,7 +68,7 @@ function Manage() {
   };
 
   const onClickFetchForms: React.MouseEventHandler<HTMLButtonElement> = () => {
-    setPage((prev) => prev + 1);
+    setSize(fetchedForms.length);
   };
 
   const onClickOpenDropdown = (index: number) => {

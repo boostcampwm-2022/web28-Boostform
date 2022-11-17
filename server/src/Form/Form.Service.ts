@@ -10,11 +10,8 @@ class FormService {
     return newForm.id;
   }
 
-  static async getFormList(userID: number, page: number) {
-    const rawFormList = await Form.find({ user_id: userID })
-      .sort({ createdAt: -1 })
-      .skip((page - 1) * 5)
-      .limit(5);
+  static async getFormList(userID: number, size: number) {
+    const rawFormList = await Form.find({ user_id: userID }).sort({ createdAt: -1 }).skip(size).limit(5);
     const formList = rawFormList.map((form: any) => {
       return {
         _id: form.id,
