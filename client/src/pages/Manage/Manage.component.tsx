@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import formApi from "api/formApi";
@@ -39,7 +39,6 @@ function Manage() {
 
   const navigate = useNavigate();
   const { openModal, closeModal, ModalPortal } = useModal();
-
   useEffect(() => {
     const source = axios.CancelToken.source();
 
@@ -60,7 +59,7 @@ function Manage() {
   }, [page]);
 
   const onClickCreateForm: React.MouseEventHandler<HTMLButtonElement> = async () => {
-    const { formID } = await formApi.createForm(10243);
+    const { formID } = await formApi.createForm();
     navigate(`/forms/${formID}`);
   };
 
