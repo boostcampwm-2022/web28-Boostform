@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
 const Container = styled.section`
-  padding: 20px;
   min-width: 1024px;
+  margin: 0 32px;
 `;
 
 const HeaderContainer = styled.div``;
