@@ -1,10 +1,14 @@
 import { Request, Response, NextFunction } from "express";
+import InteranServerException from "../Common/Exceptions/InternalServer.Exception";
 import FormService from "./Form.Service";
 
 class FormController {
   static createNewForm(req: Request, res: Response, next: NextFunction) {
     try {
-      const formID = FormService.createNewForm(req.body.userID);
+      if (!req.userID) {
+        throw new InteranServerException();
+      }
+      const formID = FormService.createNewForm(req.userID);
       res.status(201).json({
         formID,
       });

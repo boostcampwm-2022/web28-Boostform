@@ -6,12 +6,10 @@ const authApi = {
     await axios.get(API.LOGIN, { withCredentials: true });
   },
   logout: async () => {
-    await axios.delete(API.LOGOUT);
+    await axios.delete(API.LOGOUT, { withCredentials: true });
   },
   getUserInfo: async () => {
-    console.log("getUserInfo");
     const data = await axios.get(API.USER_INFO, { withCredentials: true });
-    console.log(data);
     return data;
   },
 };
