@@ -1,20 +1,17 @@
-import React, { useEffect, useState, useContext } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import authApi from "api/authApi";
-
-// import AuthContext from "index";
-
-import axios from "axios";
-import logo from "../../assets/Icon/plus.svg";
+import Logo from "assets/Logo/Logo.png";
+import Icon from "components/Icon/Icon.component";
 
 const Container = styled.section`
   width: 100%;
   height: 100vh;
-
   display: flex;
   align-items: center;
   justify-content: center;
+
+  background-color: #3c64b1;
 `;
 
 const LoginContainer = styled.div`
@@ -23,49 +20,52 @@ const LoginContainer = styled.div`
   align-items: center;
   justify-content: center;
 
-  min-width: 512px;
-  min-height: 256px;
+  width: 600px;
+  padding-top: 80px;
+  padding-bottom: 60px;
   border: 1px solid #afafaf;
-  border-radius: 10px;
-`;
-
-const ProjectLogo = styled.img`
-  width: 256px;
-  height: 256px;
+  border-radius: 9px;
+  background-color: #ffffff;
 `;
 
 const OAuthButton = styled.button`
-  width: 256px;
+  width: 460px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   background-color: black;
   border: none;
   color: white;
-  margin: 8px;
-  padding: 10px;
+  margin-top: 36px;
+  padding: 8px 16px;
   font-size: 16px;
   border-radius: 10px;
+  cursor: pointer;
 `;
 
 const HomeButton = styled.button`
-  width: 256px;
+  width: 460px;
 
   background-color: #ddd;
   border: none;
   color: black;
-  margin: 8px;
-  padding: 10px;
+  margin-top: 16px;
+  padding: 8px 16px;
   font-size: 16px;
   border-radius: 10px;
+  cursor: pointer;
+`;
+
+const ButtonText = styled.span`
+  margin-left: 8px;
 `;
 
 function Login() {
-  // const userInfo = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleClickOAuth: React.MouseEventHandler<HTMLButtonElement> = async () => {
-    // userInfo.userID = "testID-01";
     window.location.href = `${process.env.REACT_APP_SERVER_ORIGIN_URL}/api/users/redirect`;
-    // await authApi.login();
   };
 
   const handleClickHome: React.MouseEventHandler<HTMLButtonElement> = () => {
@@ -75,8 +75,12 @@ function Login() {
   return (
     <Container>
       <LoginContainer>
-        <ProjectLogo src={logo} />
-        <OAuthButton onClick={handleClickOAuth}>Sign in with GitHub</OAuthButton>
+        <Icon type="github" size="16px" />
+        <img src={Logo} alt="logo" />
+        <OAuthButton onClick={handleClickOAuth}>
+          <Icon type="github" size="16px" />
+          <ButtonText>깃허브 로그인</ButtonText>
+        </OAuthButton>
         <HomeButton onClick={handleClickHome}>메인 화면으로 돌아가기</HomeButton>
       </LoginContainer>
     </Container>
