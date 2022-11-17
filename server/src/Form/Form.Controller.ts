@@ -1,9 +1,8 @@
-import { Response, NextFunction } from "express";
-import { CallFormListRequest, CreateNewFormRequest, UpdateFormRequest, DeleteFormRequest } from "./Form.Interface";
+import { Request, Response, NextFunction } from "express";
 import FormService from "./Form.Service";
 
 class FormController {
-  static createNewForm(req: CreateNewFormRequest, res: Response, next: NextFunction) {
+  static createNewForm(req: Request, res: Response, next: NextFunction) {
     try {
       const formID = FormService.createNewForm(req.body.userID);
       res.status(201).json({
@@ -14,9 +13,10 @@ class FormController {
     }
   }
 
-  static async sendFormList(req: CallFormListRequest, res: Response, next: NextFunction) {
+  static async sendFormList(req: Request, res: Response, next: NextFunction) {
     try {
-      const { userID, page } = req.params;
+      const page = Number(req.params.page);
+      const userID = Number(req.userID);
       const formList = await FormService.getFormList(userID, page);
       res.json({
         form: formList,
@@ -26,7 +26,7 @@ class FormController {
     }
   }
 
-  static async updateForm(req: UpdateFormRequest, res: Response, next: NextFunction) {
+  static async updateForm(req: Request, res: Response, next: NextFunction) {
     try {
       const { params, body } = req;
       const formID = params.id;
@@ -37,7 +37,7 @@ class FormController {
     }
   }
 
-  static async deleteForm(req: DeleteFormRequest, res: Response, next: NextFunction) {
+  static async deleteForm(req: Request, res: Response, next: NextFunction) {
     try {
       const formID = req.params.id;
       await FormService.deleteForm(formID);

@@ -1,9 +1,12 @@
 import express from "express";
 import FormController from "./Form.Controller";
+import authMiddleware from "../Middlewares/Auth.Middleware";
 
 const formRouter = express.Router();
 
-formRouter.get("/:userID/:page", FormController.sendFormList);
+formRouter.use("/", authMiddleware);
+
+formRouter.get("/:page", FormController.sendFormList);
 
 formRouter.post("/", FormController.createNewForm);
 
