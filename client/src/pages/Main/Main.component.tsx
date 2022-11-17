@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import Header from "components/Header/Header.component";
 import { AuthContext } from "contexts/authProvider";
 
 import logo from "../../assets/Icon/plus.svg";
@@ -60,24 +61,27 @@ function Main() {
   };
 
   return (
-    <Container>
-      <BodyContainer>
-        <ContentsContainer>
-          <ServiceContents>
-            서비스 설명 <br />
-            서비스 설명 ... <br />
-            서비스 설명 ... ... <br />
-            서비스 설명 ... ... ... <br />
-            서비스 설명 ... ... ... ... <br />
-          </ServiceContents>
-          <StartButton onClick={handleClick}>시작하기</StartButton>
-        </ContentsContainer>
+    <>
+      <Header />
+      <Container>
+        <BodyContainer>
+          <ContentsContainer>
+            <ServiceContents>
+              서비스 설명 <br />
+              서비스 설명 ... <br />
+              서비스 설명 ... ... <br />
+              서비스 설명 ... ... ... <br />
+              서비스 설명 ... ... ... ... <br />
+            </ServiceContents>
+            <StartButton onClick={handleClick}>시작하기</StartButton>
+          </ContentsContainer>
 
-        <ContentsContainer>
-          <ServiceImage src={logo} />
-        </ContentsContainer>
-      </BodyContainer>
-    </Container>
+          <ContentsContainer>
+            <ServiceImage src={logo} />
+          </ContentsContainer>
+        </BodyContainer>
+      </Container>
+    </>
   );
 }
 
