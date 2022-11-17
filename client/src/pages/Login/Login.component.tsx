@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import authApi from "api/authApi";
 
-import AuthContext from "index";
+// import AuthContext from "index";
 
 import axios from "axios";
 import logo from "../../assets/Icon/plus.svg";
@@ -58,12 +59,13 @@ const HomeButton = styled.button`
 `;
 
 function Login() {
-  const userInfo = useContext(AuthContext);
+  // const userInfo = useContext(AuthContext);
   const navigate = useNavigate();
 
-  const handleClickOAuth: React.MouseEventHandler<HTMLButtonElement> = () => {
-    userInfo.userID = "testID-01";
+  const handleClickOAuth: React.MouseEventHandler<HTMLButtonElement> = async () => {
+    // userInfo.userID = "testID-01";
     window.location.href = `${process.env.REACT_APP_SERVER_ORIGIN_URL}/api/users/redirect`;
+    // await authApi.login();
   };
 
   const handleClickHome: React.MouseEventHandler<HTMLButtonElement> = () => {

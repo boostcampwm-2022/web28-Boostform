@@ -17,8 +17,8 @@ const formApi = {
 
     return data;
   },
-  getFormLists: async (userID: number, page: number, source: CancelTokenSource) => {
-    return axios(`${API.FORM}/${userID}/${page}`, { withCredentials: true, cancelToken: source.token });
+  getFormLists: async (page: number, source: CancelTokenSource) => {
+    return axios(`${API.FORM}/${page}`, { withCredentials: true, cancelToken: source.token });
   },
 };
 

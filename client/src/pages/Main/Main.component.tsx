@@ -1,8 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-
-import AuthContext from "index";
+import { AuthContext } from "contexts/authProvider";
 
 import logo from "../../assets/Icon/plus.svg";
 
@@ -52,11 +51,11 @@ const ServiceImage = styled.img`
 `;
 
 function Main() {
-  const userInfo = useContext(AuthContext);
+  const { auth } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleClick: React.MouseEventHandler<HTMLButtonElement> = () => {
-    const path = userInfo.userID === "" ? "/login" : "/manage";
+    const path = auth?.userID ? "/manage" : "/login";
     navigate(path);
   };
 

@@ -44,7 +44,7 @@ function Manage() {
     const source = axios.CancelToken.source();
 
     formApi
-      .getFormLists(10243, page, source)
+      .getFormLists(page, source)
       .then((response) => {
         setFetchedForms((prev) => [...prev, ...response.data.form]);
 
