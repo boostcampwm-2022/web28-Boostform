@@ -1,4 +1,3 @@
-import { text } from "stream/consumers";
 import { BaseEntity, Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 
 @Entity()
