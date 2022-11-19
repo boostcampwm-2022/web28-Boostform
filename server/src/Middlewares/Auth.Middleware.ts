@@ -65,7 +65,9 @@ const accessJWTErrorHandler = async (err: JsonWebTokenError, req: Request, res: 
   if (err.message === "jwt expired") {
     try {
       const reissuedTokens = await reissueTokens(refreshToken);
-      res.cookie("accessToken", reissuedTokens.accessToken).cookie("refreshToken", reissuedTokens.refreshToken);
+      res
+        .cookie("accessToken", reissuedTokens.accessToken, { maxAge: 60000 })
+        .cookie("refreshToken", reissuedTokens.refreshToken, { httpOnly: true, maxAge: 60000 * 2 });
       req.userID = decodeToken(reissuedTokens.accessToken);
       next();
     } catch (reissueError) {
