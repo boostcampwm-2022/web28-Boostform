@@ -8,6 +8,11 @@ const QuestionSchema = new mongoose.Schema({
   page: {
     type: Number,
   },
+  type: {
+    type: String,
+    required: true,
+    enum: ["single", "multiple", "narrative"],
+  },
   title: {
     type: String,
     default: "제목 없음",
@@ -49,6 +54,10 @@ const FormSchema = new mongoose.Schema(
       default: true,
     },
     on_board: {
+      type: Boolean,
+      default: false,
+    },
+    login_required: {
       type: Boolean,
       default: false,
     },
