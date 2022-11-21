@@ -1,5 +1,5 @@
 interface IconProps {
-  type: "plus" | "kebab" | "trashcan" | "text" | "github";
+  type: "plus" | "kebab" | "trashcan" | "text" | "github" | "paragraph" | "checkbox" | "multiple";
   size: string;
 }
 
