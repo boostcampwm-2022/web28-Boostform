@@ -19,6 +19,11 @@ class ResponseService {
 
     return newResponse.id;
   }
+
+  static async getResponse(responseID: string) {
+    const response = await SurveyResponse.findOne({ _id: responseID });
+    return response;
+  }
 }
 
 export default ResponseService;

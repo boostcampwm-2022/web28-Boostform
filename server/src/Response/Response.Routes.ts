@@ -8,4 +8,6 @@ responseRouter.get("/:formID", authMiddleware, ResponseController.checkResponseE
 
 responseRouter.post("/:formID", checkAccessTokenExistence, ResponseController.saveResponse);
 
+responseRouter.get("/:formID/:responseID", checkAccessTokenExistence, ResponseController.revisitResponse);
+
 export default responseRouter;
