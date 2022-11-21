@@ -10,4 +10,6 @@ responseRouter.post("/:formID", checkAccessTokenExistence, ResponseController.sa
 
 responseRouter.get("/:formID/:responseID", checkAccessTokenExistence, ResponseController.revisitResponse);
 
+responseRouter.patch("/:formID/:responseID", ResponseController.updateResponse);
+
 export default responseRouter;

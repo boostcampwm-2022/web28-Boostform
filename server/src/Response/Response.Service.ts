@@ -8,14 +8,14 @@ class ResponseService {
     return !(isExist === null);
   }
 
-  static saveResponse(formID: string, userID: number | undefined, response: Array<AnswerInterface>) {
+  static async saveResponse(formID: string, userID: number | undefined, response: Array<AnswerInterface>) {
     const newResponse = new SurveyResponse({
       user_id: userID,
       form_id: formID,
       response,
     });
 
-    newResponse.save();
+    await newResponse.save();
 
     return newResponse.id;
   }
@@ -23,6 +23,10 @@ class ResponseService {
   static async getResponse(responseID: string) {
     const response = await SurveyResponse.findOne({ _id: responseID });
     return response;
+  }
+
+  static async updateResponse(responseID: string, response: Array<AnswerInterface>) {
+    await SurveyResponse.findOneAndUpdate({ _id: responseID }, { response });
   }
 }
 

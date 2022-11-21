@@ -15,13 +15,13 @@ class ResponseController {
     }
   }
 
-  static saveResponse(req: Request, res: Response, next: NextFunction) {
+  static async saveResponse(req: Request, res: Response, next: NextFunction) {
     try {
       const { formID } = req.params;
       const { userID } = req;
       const { response } = req.body;
 
-      const responseID = ResponseService.saveResponse(formID, userID, response);
+      const responseID = await ResponseService.saveResponse(formID, userID, response);
 
       res.status(201).json({ responseID });
     } catch (err) {
@@ -39,6 +39,19 @@ class ResponseController {
       } else {
         res.status(200).json({ formID, response });
       }
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  static async updateResponse(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { responseID } = req.params;
+      const { response } = req.body;
+
+      await ResponseService.updateResponse(responseID, response);
+
+      res.status(200);
     } catch (err) {
       next(err);
     }
