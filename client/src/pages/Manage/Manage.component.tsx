@@ -52,6 +52,9 @@ function Manage() {
         setDropdowns((prev) => [...prev, ...falseArray]);
       })
       .catch((e) => {
+        if (e.response?.status === 401) {
+          window.location.href = `/login`;
+        }
         // eslint-disable-next-line no-console
         if (e.message !== "cleanup") console.log(e);
       });

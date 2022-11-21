@@ -4,7 +4,7 @@ import * as dotenv from "dotenv";
 import UnauthorizedException from "../Common/Exceptions/Unauthorized.Exception";
 import tokens from "../User/types/tokens.inteface";
 import UserModel from "../User/User.Model";
-import InteranServerException from "../Common/Exceptions/InternalServer.Exception";
+import InteranlServerException from "../Common/Exceptions/InternalServer.Exception";
 import userService from "../User/User.Service";
 
 dotenv.config();
@@ -19,96 +19,84 @@ const decodeExpiredToken = (token: string): number => {
   return Number((decodedJWT as JwtPayload).id);
 };
 
-const reissueTokens = async (refreshToken: string): Promise<tokens | undefined> => {
+// refresh 토큰 사용 중 발생하는 JWT 에러에 대한 핸들러
+const refreshJWTErrorHandler = (err: JsonWebTokenError, refreshToken: string) => {
+  if (err.message === "jwt expired") {
+    const userID = decodeExpiredToken(refreshToken);
+    userService.logout(userID);
+    throw new UnauthorizedException("refreshToken Expired");
+  }
+  if (err.message === "invalid token") {
+    throw new UnauthorizedException("refreshToken Invalid");
+  }
+};
+
+// accessToken 과 refreshToken을 재발급
+const reissueTokens = async (refreshToken: string): Promise<tokens> => {
   const reissuedTokens = { accessToken: "", refreshToken: "" };
   if (!refreshToken) {
-    throw new UnauthorizedException();
+    throw new UnauthorizedException("Empty refreshToken");
   }
   try {
     const userID = decodeToken(refreshToken);
     const targetUser = await UserModel.findOneByID(userID);
     if (!targetUser) {
-      throw new InteranServerException();
+      throw new InteranlServerException();
     }
-    // db의 리프레시토큰과 일치하지 않으면 로그아웃 처리(서버만)
     if (refreshToken !== targetUser.refresh_token) {
-      targetUser.refresh_token = undefined;
-      targetUser.save();
-      return undefined;
+      userService.logout(userID);
+      throw new UnauthorizedException("refreshToken Rotated");
     }
     reissuedTokens.accessToken = userService.generateToken(userID, "1m");
-    reissuedTokens.refreshToken = userService.generateToken(userID, "7d");
+    reissuedTokens.refreshToken = userService.generateToken(userID, "2m");
     targetUser.refresh_token = reissuedTokens.refreshToken;
     targetUser.save();
-  } catch (error) {
-    if (error instanceof JsonWebTokenError) {
-      // refresh 토큰 만료시 로그아웃 처리 (서버만)
-      if (error.message === "jwt expired") {
-        const userID = decodeExpiredToken(refreshToken);
-        const targetUser = await UserModel.findOneByID(userID);
-        if (!targetUser) {
-          throw new InteranServerException();
-        }
-        targetUser.refresh_token = undefined;
-        targetUser.save();
-        return undefined;
-      }
-      // refresh 토큰 유효하지 않을 시 에러 던짐
-      if (error.message === "invalid token") {
-        throw new UnauthorizedException();
-      }
-    }
+  } catch (err) {
+    if (err instanceof JsonWebTokenError) {
+      refreshJWTErrorHandler(err, refreshToken);
+    } else throw err;
   }
   return reissuedTokens;
 };
 
+// accessToken 사용 중 발생하는 JWT 에러 핸들러
+const accessJWTErrorHandler = async (err: JsonWebTokenError, req: Request, res: Response, next: NextFunction) => {
+  const { refreshToken } = req.cookies;
+  if (err.message === "jwt expired") {
+    try {
+      const reissuedTokens = await reissueTokens(refreshToken);
+      res
+        .cookie("accessToken", reissuedTokens.accessToken, { maxAge: 60000 })
+        .cookie("refreshToken", reissuedTokens.refreshToken, { httpOnly: true, maxAge: 60000 * 2 });
+      req.userID = decodeToken(reissuedTokens.accessToken);
+      next();
+    } catch (reissueError) {
+      res.clearCookie("accessToken").clearCookie("refreshToken");
+      next(reissueError);
+    }
+  }
+  if (err.message === "invalid token") {
+    res.clearCookie("accessToken").clearCookie("refreshToken");
+    next(new UnauthorizedException("invalid token"));
+  }
+};
+
+// accessToken 으로 사용자 식별 실패하면 refreshToken으로 재발행
 const authMiddleware = async (req: Request, res: Response, next: NextFunction) => {
-  const { accessToken, refreshToken } = req.cookies;
-  console.log(accessToken);
-  // accessToken없으면 로그인으로 리다이렉트
+  const { accessToken } = req.cookies;
   if (!accessToken) {
-    // 임시 에러처리
-    // next(new UnauthorizedException("로그인이 필요합니다."));
-    // 리다이렉트 처리
-    res
-      .status(401)
-      .clearCookie("accessToken")
-      .clearCookie("refreshToken")
-      .redirect(`${process.env.ORIGIN_URL as string}/login`);
+    res.clearCookie("accessToken").clearCookie("refreshToken");
+    next(new UnauthorizedException("Empty AccessToken"));
     return;
   }
-
   try {
     req.userID = decodeToken(accessToken);
     next();
-  } catch (authError) {
-    if (authError instanceof JsonWebTokenError) {
-      // access 토큰 만료시 reissue 수행
-      if (authError.message === "jwt expired") {
-        try {
-          const reissuedTokens = await reissueTokens(refreshToken);
-          if (!reissuedTokens) {
-            res
-              .status(401)
-              .clearCookie("accessToken")
-              .clearCookie("refreshToken")
-              .redirect(`${process.env.ORIGIN_URL as string}/login`);
-            return;
-          }
-          res.cookie("accessToken", reissuedTokens.accessToken).cookie("refreshToken", reissuedTokens.refreshToken);
-          req.userID = decodeToken(reissuedTokens.accessToken);
-          next();
-        } catch (reissueError) {
-          next(reissueError);
-        }
-      }
-      // access 토큰 유효하지 않을 시 에러 던짐
-      if (authError.message === "invalid token") {
-        res.clearCookie("accessToken").clearCookie("refreshToken");
-        next(new UnauthorizedException("invalid token"));
-      }
+  } catch (accessError) {
+    if (accessError instanceof JsonWebTokenError) {
+      accessJWTErrorHandler(accessError, req, res, next);
     } else {
-      next(authError);
+      next(accessError);
     }
   }
 };
