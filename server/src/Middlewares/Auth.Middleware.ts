@@ -100,4 +100,14 @@ const authMiddleware = async (req: Request, res: Response, next: NextFunction) =
     }
   }
 };
-export default authMiddleware;
+
+const checkAccessTokenExistence = (req: Request, res: Response, next: NextFunction) => {
+  const { accessToken } = req.cookies;
+  if (!accessToken) {
+    next(); // 로그인 하지 않은 경우
+  } else {
+    authMiddleware(req, res, next); // 로그인 한 경우
+  }
+};
+
+export { authMiddleware, checkAccessTokenExistence };
