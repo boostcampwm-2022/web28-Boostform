@@ -3,12 +3,12 @@ import InteranServerException from "../Common/Exceptions/InternalServer.Exceptio
 import FormService from "./Form.Service";
 
 class FormController {
-  static createNewForm(req: Request, res: Response, next: NextFunction) {
+  static async createNewForm(req: Request, res: Response, next: NextFunction) {
     try {
       if (!req.userID) {
         throw new InteranServerException();
       }
-      const formID = FormService.createNewForm(req.userID);
+      const formID = await FormService.createNewForm(req.userID);
       res.status(201).json({
         formID,
       });

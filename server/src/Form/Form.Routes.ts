@@ -1,6 +1,6 @@
 import express from "express";
 import FormController from "./Form.Controller";
-import authMiddleware from "../Middlewares/Auth.Middleware";
+import { authMiddleware } from "../Middlewares/Auth.Middleware";
 
 const formRouter = express.Router();
 
