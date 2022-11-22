@@ -66,8 +66,8 @@ const accessJWTErrorHandler = async (err: JsonWebTokenError, req: Request, res: 
     try {
       const reissuedTokens = await reissueTokens(refreshToken);
       res
-        .cookie("accessToken", reissuedTokens.accessToken, { maxAge: 60000 })
-        .cookie("refreshToken", reissuedTokens.refreshToken, { httpOnly: true, maxAge: 60000 * 2 });
+        .cookie("accessToken", reissuedTokens.accessToken)
+        .cookie("refreshToken", reissuedTokens.refreshToken, { httpOnly: true });
       req.userID = decodeToken(reissuedTokens.accessToken);
       next();
     } catch (reissueError) {
