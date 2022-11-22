@@ -26,7 +26,7 @@ const QuestionSchema = new mongoose.Schema({
   },
   etc_added: {
     type: Boolean,
-    default: true,
+    default: false,
   },
 });
 
