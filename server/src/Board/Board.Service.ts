@@ -38,8 +38,10 @@ class BoardService {
     return { ...query, title: titleRegex };
   }
 
-  static pipe(...fns: SetQueryOptionFn[]) {
-    return (initialQuery: FormSearchQuery) => fns.reduce((accQuery, currentFn) => currentFn(accQuery), initialQuery);
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  static pipe<F extends Function, V>(...fns: F[]) {
+    // pipe<H, F extends Function, V>(...fns: F[]): H - ReturnType 지정방법 찾아보기
+    return (initial: V) => fns.reduce((acc, currentFn) => currentFn(acc), initial);
   }
 
   static setSortingOption(query: FormSortQuery) {
@@ -50,7 +52,7 @@ class BoardService {
   }
 
   static async searchByQuery(searchQueryObject: FormSearchQuery, sortQueryObject: FormSortQuery) {
-    const searchQuery = this.pipe(
+    const searchQuery = this.pipe<SetQueryOptionFn, FormSearchQuery>(
       this.setOnBoardOption,
       this.setAcceptabilityOption,
       this.setTitleRegEx
