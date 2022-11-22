@@ -3,4 +3,10 @@ interface AnswerInterface {
   answer: Array<string>;
 }
 
-export default AnswerInterface;
+interface ResponseInterface {
+  user_id: number;
+  form_id: string;
+  answer_list: Array<AnswerInterface>;
+}
+
+export { AnswerInterface, ResponseInterface };
