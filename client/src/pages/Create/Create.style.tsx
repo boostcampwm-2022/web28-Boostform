@@ -99,6 +99,10 @@ const QuestionTitleInput = styled.input`
 
 const QuestionTitleRead = styled.div``;
 
+const QuestionBody = styled.div`
+  padding: 10px 0;
+`;
+
 export {
   Container,
   TitleContainer,
@@ -109,4 +113,5 @@ export {
   DescriptionRead,
   QuestionHead,
   QuestionTitleInput,
+  QuestionBody,
 };

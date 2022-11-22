@@ -2,7 +2,7 @@ import React, { useReducer, useState } from "react";
 import { useParams } from "react-router-dom";
 import FormLayout from "components/Layout/FormLayout.component";
 import Dropdown from "components/Dropdown";
-import Question from "components/\bQuestion";
+import Question from "components/Question";
 import {
   Container,
   TitleContainer,
@@ -19,8 +19,10 @@ import {
 type FormAction =
   | { type: "CHANGE_TITLE"; value: string }
   | { type: "CHANGE_DESCRIPTION"; value: string }
-  | { type: "CHANGE_QUESTION_TITLE"; value: string; index: number }
-  | { type: "CHANGE_QUESTION_TYPE"; value: "checkbox" | "multiple" | "paragraph"; index: number };
+  | { type: "CHANGE_QUESTION_TITLE"; value: string; questionIndex: number }
+  | { type: "CHANGE_QUESTION_TYPE"; value: "checkbox" | "multiple" | "paragraph"; questionIndex: number }
+  | { type: "ADD_QUESTION_CHOICE"; questionIndex: number }
+  | { type: "MODIFY_QUESTION_CHOICE"; questionIndex: number; choiceIndex: number; value: string };
 
 interface FormState {
   form: { title: string; description: string; category: string; acceptResponse: boolean; onBoard: boolean };
@@ -51,7 +53,7 @@ const initialState: FormState = {
       essential: false,
       etcAdded: false,
       title: "질문",
-      option: ["옵션 1"],
+      option: ["옵션1"],
     },
     {
       questionId: 2,
@@ -60,7 +62,7 @@ const initialState: FormState = {
       essential: false,
       etcAdded: false,
       title: "질문",
-      option: ["옵션 1"],
+      option: ["옵션1"],
     },
     {
       questionId: 3,
@@ -69,7 +71,7 @@ const initialState: FormState = {
       essential: false,
       etcAdded: false,
       title: "질문",
-      option: ["옵션 1"],
+      option: ["옵션1"],
     },
     {
       questionId: 4,
@@ -78,7 +80,7 @@ const initialState: FormState = {
       essential: false,
       etcAdded: false,
       title: "질문",
-      option: ["옵션 1"],
+      option: ["옵션1"],
     },
   ],
 };
@@ -87,27 +89,33 @@ function reducer(state: FormState, action: FormAction) {
   const { type } = action;
 
   if (type === "CHANGE_TITLE") {
+    const { value } = action;
+
     return {
       ...state,
       form: {
         ...state.form,
-        title: action.value,
+        title: value,
       },
     };
   }
   if (type === "CHANGE_DESCRIPTION") {
+    const { value } = action;
+
     return {
       ...state,
       form: {
         ...state.form,
-        description: action.value,
+        description: value,
       },
     };
   }
   if (type === "CHANGE_QUESTION_TITLE") {
-    const left = state.question.slice(0, action.index);
-    const curr = { ...state.question[action.index], title: action.value };
-    const right = state.question.slice(action.index + 1);
+    const { questionIndex, value } = action;
+
+    const left = state.question.slice(0, questionIndex);
+    const curr = { ...state.question[questionIndex], title: value };
+    const right = state.question.slice(questionIndex + 1);
 
     return {
       ...state,
@@ -115,13 +123,49 @@ function reducer(state: FormState, action: FormAction) {
     };
   }
   if (type === "CHANGE_QUESTION_TYPE") {
-    const left = state.question.slice(0, action.index);
-    const curr = { ...state.question[action.index], type: action.value };
-    const right = state.question.slice(action.index + 1);
+    const { questionIndex, value } = action;
+
+    const left = state.question.slice(0, questionIndex);
+    const curr = { ...state.question[questionIndex], type: value };
+    const right = state.question.slice(questionIndex + 1);
 
     return {
       ...state,
       question: [...left, curr, ...right],
+    };
+  }
+  if (type === "ADD_QUESTION_CHOICE") {
+    const { questionIndex } = action;
+
+    const optionLength = state.question[questionIndex].option.length;
+
+    const left = state.question.slice(0, questionIndex);
+    const curr = {
+      ...state.question[questionIndex],
+      option: [...state.question[questionIndex].option, `옵션${optionLength + 1}`],
+    };
+    const right = state.question.slice(questionIndex + 1);
+
+    return {
+      ...state,
+      question: [...left, curr, ...right],
+    };
+  }
+  if (type === "MODIFY_QUESTION_CHOICE") {
+    const { value, questionIndex, choiceIndex } = action;
+
+    const leftQuestion = state.question.slice(0, questionIndex);
+    const rightQuestion = state.question.slice(questionIndex + 1);
+    const leftChoice = state.question[questionIndex].option.slice(0, choiceIndex);
+    const rightChoice = state.question[questionIndex].option.slice(choiceIndex + 1);
+    const currQuestion = {
+      ...state.question[questionIndex],
+      option: [...leftChoice, value, ...rightChoice],
+    };
+
+    return {
+      ...state,
+      question: [...leftQuestion, currQuestion, ...rightQuestion],
     };
   }
 
@@ -132,16 +176,7 @@ function Create() {
   const { id } = useParams();
 
   const [state, dispatch] = useReducer(reducer, initialState);
-
   const { form, question } = state;
-
-  // const [questions, setQuestions] = useState<
-  //   { qId: string; qTitle: string; qType: "checkbox" | "multiple" | "paragraph" }[]
-  // >([
-  //   { qId: "a", qTitle: "질문", qType: "checkbox" },
-  //   { qId: "b", qTitle: "질문", qType: "checkbox" },
-  //   { qId: "c", qTitle: "질문", qType: "checkbox" },
-  // ]);
   const [focus, setFocus] = useState(-1);
 
   const onClickTitle = () => {
@@ -160,12 +195,20 @@ function Create() {
     dispatch({ type: "CHANGE_DESCRIPTION", value: e.target.value });
   };
 
-  const onInputQuestionTitle = (value: string, index: number) => {
-    dispatch({ type: "CHANGE_QUESTION_TITLE", index, value });
+  const onInputQuestionTitle = (value: string, questionIndex: number) => {
+    dispatch({ type: "CHANGE_QUESTION_TITLE", questionIndex, value });
   };
 
-  const onClickSetQuestionType = (value: "checkbox" | "multiple" | "paragraph", index: number) => {
-    dispatch({ type: "CHANGE_QUESTION_TYPE", index, value });
+  const onClickSetQuestionType = (value: "checkbox" | "multiple" | "paragraph", questionIndex: number) => {
+    dispatch({ type: "CHANGE_QUESTION_TYPE", questionIndex, value });
+  };
+
+  const onClickAddQuestionChoice = (questionIndex: number) => {
+    dispatch({ type: "ADD_QUESTION_CHOICE", questionIndex });
+  };
+
+  const onInputModifyQuestionChoice = (questionIndex: number, choiceIndex: number, value: string) => {
+    dispatch({ type: "MODIFY_QUESTION_CHOICE", questionIndex, choiceIndex, value });
   };
 
   return (
@@ -185,30 +228,35 @@ function Create() {
             </>
           )}
         </TitleContainer>
-        {question.map(({ questionId, title, type }, index) => (
-          <QuestionContainer key={questionId} onClick={() => onClickQuestion(index)}>
-            {focus === index && (
+        {question.map(({ questionId, title, type }, questionIndex) => (
+          <QuestionContainer key={questionId} onClick={() => onClickQuestion(questionIndex)}>
+            {focus === questionIndex && (
               <>
                 <QuestionHead>
                   <QuestionTitleInput
-                    onInput={(e) => onInputQuestionTitle(e.currentTarget.value, index)}
-                    value={question[index].title}
+                    onInput={(e) => onInputQuestionTitle(e.currentTarget.value, questionIndex)}
+                    value={question[questionIndex].title}
                     placeholder="질문"
                   />
                   <Dropdown
                     state={type}
                     setState={(questionType) => {
-                      onClickSetQuestionType(questionType, index);
+                      onClickSetQuestionType(questionType, questionIndex);
                     }}
                   />
                 </QuestionHead>
                 <QuestionBody>
-                  <Question type={type} />
+                  <Question
+                    index={questionIndex}
+                    questionState={question[questionIndex]}
+                    addQuestionChoice={onClickAddQuestionChoice}
+                    modifyChoice={onInputModifyQuestionChoice}
+                  />
                 </QuestionBody>
                 <div>tail</div>
               </>
             )}
-            {focus !== index && (
+            {focus !== questionIndex && (
               <>
                 <div>{title}</div>
                 <div>body</div>

@@ -7,6 +7,8 @@ import { ReactComponent as Github } from "assets/Icon/github.svg";
 import { ReactComponent as Paragraph } from "assets/Icon/paragraph.svg";
 import { ReactComponent as Multiple } from "assets/Icon/multiple.svg";
 import { ReactComponent as Checkbox } from "assets/Icon/checkbox.svg";
+import { ReactComponent as CheckboxEmpty } from "assets/Icon/checkboxEmpty.svg";
+import { ReactComponent as CheckboxFull } from "assets/Icon/checkboxFull.svg";
 import { ReactComponent as Dropdown } from "assets/Icon/dropdown.svg";
 import Container from "./Icon.style";
 import IconProps from "./Icon.type";
@@ -22,6 +24,8 @@ function Icon({ type, size }: IconProps) {
       {type === "paragraph" && <Paragraph height={size} width={size} />}
       {type === "multiple" && <Multiple height={size} width={size} />}
       {type === "checkbox" && <Checkbox height={size} width={size} />}
+      {type === "checkboxEmpty" && <CheckboxEmpty height={size} width={size} />}
+      {type === "checkboxFull" && <CheckboxFull height={size} width={size} />}
       {type === "dropdown" && <Dropdown height={size} width={size} />}
     </Container>
   );
