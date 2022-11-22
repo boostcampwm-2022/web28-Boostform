@@ -28,8 +28,8 @@ class UserController {
       .then((tokens) => {
         res
           .status(200)
-          .cookie("accessToken", tokens.accessToken, { maxAge: 60000 })
-          .cookie("refreshToken", tokens.refreshToken, { httpOnly: true, maxAge: 60000 * 2 })
+          .cookie("accessToken", tokens.accessToken)
+          .cookie("refreshToken", tokens.refreshToken, { httpOnly: true })
           .redirect(`${process.env.ORIGIN_URL as string}/manage`);
         next();
       })
