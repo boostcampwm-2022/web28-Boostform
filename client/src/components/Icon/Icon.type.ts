@@ -11,7 +11,8 @@ interface IconProps {
     | "dropdown"
     | "checkboxEmpty"
     | "checkboxFull"
-    | "close";
+    | "close"
+    | "copy";
   size: string;
   fill?: string;
 }

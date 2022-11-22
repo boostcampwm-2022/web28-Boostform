@@ -103,6 +103,35 @@ const QuestionBody = styled.div`
   padding: 10px 0;
 `;
 
+const HorizontalRule = styled.hr`
+  height: 1px;
+  border: 0;
+  background-color: #dfdfdf;
+`;
+
+const QuestionTail = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  margin-top: 18px;
+`;
+
+const QuestionTailButton = styled.button`
+  border: 0;
+  background-color: transparent;
+  cursor: pointer;
+  margin-right: 5px;
+
+  &:active {
+    transform: translateY(1px);
+  }
+`;
+
+const EssentialWrapper = styled.div`
+  border-left: 1px solid #aeaeae;
+  padding: 8px 12px;
+`;
+
 export {
   Container,
   TitleContainer,
@@ -114,4 +143,8 @@ export {
   QuestionHead,
   QuestionTitleInput,
   QuestionBody,
+  HorizontalRule,
+  QuestionTail,
+  QuestionTailButton,
+  EssentialWrapper,
 };

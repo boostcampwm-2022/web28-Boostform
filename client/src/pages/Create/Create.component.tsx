@@ -1,8 +1,10 @@
 import React, { useReducer, useState } from "react";
 import { useParams } from "react-router-dom";
+import lodash from "lodash";
 import FormLayout from "components/Layout/FormLayout.component";
 import Dropdown from "components/Dropdown";
 import Question from "components/Question";
+import Icon from "components/Icon/Icon.component";
 import {
   Container,
   TitleContainer,
@@ -14,6 +16,10 @@ import {
   QuestionHead,
   QuestionTitleInput,
   QuestionBody,
+  HorizontalRule,
+  QuestionTail,
+  QuestionTailButton,
+  EssentialWrapper,
 } from "./Create.style";
 
 type FormAction =
@@ -23,10 +29,19 @@ type FormAction =
   | { type: "CHANGE_QUESTION_TYPE"; value: "checkbox" | "multiple" | "paragraph"; questionIndex: number }
   | { type: "ADD_QUESTION_CHOICE"; questionIndex: number }
   | { type: "MODIFY_QUESTION_CHOICE"; questionIndex: number; choiceIndex: number; value: string }
-  | { type: "DELETE_QUESTION_CHOICE"; questionIndex: number; choiceIndex: number };
+  | { type: "DELETE_QUESTION_CHOICE"; questionIndex: number; choiceIndex: number }
+  | { type: "DELETE_QUESTION"; questionIndex: number }
+  | { type: "COPY_QUESTION"; questionIndex: number };
 
 interface FormState {
-  form: { title: string; description: string; category: string; acceptResponse: boolean; onBoard: boolean };
+  form: {
+    title: string;
+    description: string;
+    category: string;
+    acceptResponse: boolean;
+    onBoard: boolean;
+    currentQuestionId: number;
+  };
   question: {
     questionId: number;
     currentChoiceId: number;
@@ -49,40 +64,11 @@ const initialState: FormState = {
     category: "-",
     acceptResponse: false,
     onBoard: false,
+    currentQuestionId: 1,
   },
   question: [
     {
       questionId: 1,
-      currentChoiceId: 1,
-      page: 1,
-      type: "checkbox",
-      essential: false,
-      etcAdded: false,
-      title: "질문",
-      option: [{ choiceId: 1, value: "옵션1" }],
-    },
-    {
-      questionId: 2,
-      currentChoiceId: 1,
-      page: 1,
-      type: "checkbox",
-      essential: false,
-      etcAdded: false,
-      title: "질문",
-      option: [{ choiceId: 1, value: "옵션1" }],
-    },
-    {
-      questionId: 3,
-      currentChoiceId: 1,
-      page: 1,
-      type: "checkbox",
-      essential: false,
-      etcAdded: false,
-      title: "질문",
-      option: [{ choiceId: 1, value: "옵션1" }],
-    },
-    {
-      questionId: 4,
       currentChoiceId: 1,
       page: 1,
       type: "checkbox",
@@ -199,6 +185,31 @@ function reducer(state: FormState, action: FormAction) {
       question: [...leftQuestion, currQuestion, ...rightQuestion],
     };
   }
+  if (type === "COPY_QUESTION") {
+    const { questionIndex } = action;
+
+    const { currentQuestionId } = state.form;
+    const leftQuestion = state.question.slice(0, questionIndex);
+    const rightQuestion = state.question.slice(questionIndex + 1);
+    const currentQuestion = state.question[questionIndex];
+    const copyQuestion = { ...lodash.cloneDeep(currentQuestion), questionId: currentQuestionId + 1 };
+
+    return {
+      form: { ...state.form, currentQuestionId: currentQuestionId + 1 },
+      question: [...leftQuestion, currentQuestion, copyQuestion, ...rightQuestion],
+    };
+  }
+  if (type === "DELETE_QUESTION") {
+    const { questionIndex } = action;
+
+    const leftQuestion = state.question.slice(0, questionIndex);
+    const rightQuestion = state.question.slice(questionIndex + 1);
+
+    return {
+      ...state,
+      question: [...leftQuestion, ...rightQuestion],
+    };
+  }
 
   return state;
 }
@@ -246,6 +257,14 @@ function Create() {
     dispatch({ type: "DELETE_QUESTION_CHOICE", questionIndex, choiceIndex });
   };
 
+  const onClickCopyQuestion = (questionIndex: number) => {
+    dispatch({ type: "COPY_QUESTION", questionIndex });
+  };
+
+  const onClickDeleteQuestion = (questionIndex: number) => {
+    dispatch({ type: "DELETE_QUESTION", questionIndex });
+  };
+
   return (
     <FormLayout>
       <Container>
@@ -289,7 +308,19 @@ function Create() {
                     deleteChoice={onClickDeleteQuestionChoice}
                   />
                 </QuestionBody>
-                <div>tail</div>
+                <HorizontalRule />
+                <QuestionTail>
+                  <QuestionTailButton type="button" onClick={() => onClickCopyQuestion(questionIndex)}>
+                    <Icon type="copy" size="18px" />
+                  </QuestionTailButton>
+                  <QuestionTailButton type="button" onClick={() => onClickDeleteQuestion(questionIndex)}>
+                    <Icon type="trashcan" size="18px" />
+                  </QuestionTailButton>
+                  <EssentialWrapper>
+                    <span>필수</span>
+                    toggleButton
+                  </EssentialWrapper>
+                </QuestionTail>
               </>
             )}
             {focus !== questionIndex && (
