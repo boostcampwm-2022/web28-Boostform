@@ -40,6 +40,12 @@ class FormService {
   static async deleteForm(formID: string) {
     await Form.deleteOne({ _id: formID });
   }
+
+  static async getForm(formID: string): Promise<any> {
+    const form = await Form.findOne({ form_id: formID });
+
+    return form;
+  }
 }
 
 export default FormService;

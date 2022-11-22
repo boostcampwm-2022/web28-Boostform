@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import ResponseService from "./Response.Service";
+import FormService from "../Form/Form.Service";
 import BadRequestException from "../Common/Exceptions/BadRequest.Exception";
 
 class ResponseController {
@@ -11,6 +12,25 @@ class ResponseController {
       const responsed = await ResponseService.checkAnswerExistence(formID, userID);
 
       res.status(200).json({ responsed });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  static async getFormForResponsePage(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { formID } = req.params;
+
+      const form = await FormService.getForm(formID);
+
+      res.status(200).json({
+        title: form.title,
+        description: form.description,
+        category: form.category,
+        question: form.question,
+        acceptResponse: form.accept_response,
+        loginRequired: form.login_required,
+      });
     } catch (err) {
       next(err);
     }
