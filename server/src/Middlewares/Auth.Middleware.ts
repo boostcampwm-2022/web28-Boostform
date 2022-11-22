@@ -66,8 +66,8 @@ const accessJWTErrorHandler = async (err: JsonWebTokenError, req: Request, res: 
     try {
       const reissuedTokens = await reissueTokens(refreshToken);
       res
-        .cookie("accessToken", reissuedTokens.accessToken, { maxAge: 60000 })
-        .cookie("refreshToken", reissuedTokens.refreshToken, { httpOnly: true, maxAge: 60000 * 2 });
+        .cookie("accessToken", reissuedTokens.accessToken)
+        .cookie("refreshToken", reissuedTokens.refreshToken, { httpOnly: true });
       req.userID = decodeToken(reissuedTokens.accessToken);
       next();
     } catch (reissueError) {
@@ -100,4 +100,14 @@ const authMiddleware = async (req: Request, res: Response, next: NextFunction) =
     }
   }
 };
-export default authMiddleware;
+
+const checkAccessTokenExistence = (req: Request, res: Response, next: NextFunction) => {
+  const { accessToken } = req.cookies;
+  if (!accessToken) {
+    next(); // 로그인 하지 않은 경우
+  } else {
+    authMiddleware(req, res, next); // 로그인 한 경우
+  }
+};
+
+export { authMiddleware, checkAccessTokenExistence };
