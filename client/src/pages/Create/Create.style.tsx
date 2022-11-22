@@ -128,8 +128,15 @@ const QuestionTailButton = styled.button`
 `;
 
 const EssentialWrapper = styled.div`
+  display: flex;
+  align-items: center;
   border-left: 1px solid #aeaeae;
   padding: 8px 12px;
+`;
+
+const EssentialText = styled.span`
+  font-size: 15px;
+  margin-right: 8px;
 `;
 
 export {
@@ -147,4 +154,5 @@ export {
   QuestionTail,
   QuestionTailButton,
   EssentialWrapper,
+  EssentialText,
 };

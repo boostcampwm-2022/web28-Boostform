@@ -5,6 +5,7 @@ import FormLayout from "components/Layout/FormLayout.component";
 import Dropdown from "components/Dropdown";
 import Question from "components/Question";
 import Icon from "components/Icon/Icon.component";
+import ToggleButton from "components/ToggleButton";
 import {
   Container,
   TitleContainer,
@@ -20,6 +21,7 @@ import {
   QuestionTail,
   QuestionTailButton,
   EssentialWrapper,
+  EssentialText,
 } from "./Create.style";
 
 type FormAction =
@@ -31,7 +33,8 @@ type FormAction =
   | { type: "MODIFY_QUESTION_CHOICE"; questionIndex: number; choiceIndex: number; value: string }
   | { type: "DELETE_QUESTION_CHOICE"; questionIndex: number; choiceIndex: number }
   | { type: "DELETE_QUESTION"; questionIndex: number }
-  | { type: "COPY_QUESTION"; questionIndex: number };
+  | { type: "COPY_QUESTION"; questionIndex: number }
+  | { type: "CHANGE_QUESTION_ESSENTIAL"; questionIndex: number };
 
 interface FormState {
   form: {
@@ -227,6 +230,22 @@ function reducer(state: FormState, action: FormAction) {
       question: [...leftQuestion, ...rightQuestion],
     };
   }
+  if (type === "CHANGE_QUESTION_ESSENTIAL") {
+    const { questionIndex } = action;
+    const prevState = state.question[questionIndex].essential;
+
+    const leftQuestion = state.question.slice(0, questionIndex);
+    const rightQuestion = state.question.slice(questionIndex + 1);
+    const currQuestion = {
+      ...state.question[questionIndex],
+      essential: !prevState,
+    };
+
+    return {
+      ...state,
+      question: [...leftQuestion, currQuestion, ...rightQuestion],
+    };
+  }
 
   return state;
 }
@@ -282,6 +301,10 @@ function Create() {
     dispatch({ type: "DELETE_QUESTION", questionIndex });
   };
 
+  const onClickChangeQuestionEssential = (questionIndex: number) => {
+    dispatch({ type: "CHANGE_QUESTION_ESSENTIAL", questionIndex });
+  };
+
   return (
     <FormLayout>
       <Container>
@@ -299,7 +322,7 @@ function Create() {
             </>
           )}
         </TitleContainer>
-        {question.map(({ questionId, title, type }, questionIndex) => (
+        {question.map(({ questionId, title, type, essential }, questionIndex) => (
           <QuestionContainer key={questionId} onClick={() => onClickQuestion(questionIndex)}>
             {focus === questionIndex && (
               <>
@@ -334,8 +357,8 @@ function Create() {
                     <Icon type="trashcan" size="18px" />
                   </QuestionTailButton>
                   <EssentialWrapper>
-                    <span>필수</span>
-                    toggleButton
+                    <EssentialText>필수</EssentialText>
+                    <ToggleButton state={essential} onClick={() => onClickChangeQuestionEssential(questionIndex)} />
                   </EssentialWrapper>
                 </QuestionTail>
               </>
