@@ -10,11 +10,10 @@ class ResultController {
       next(new BadRequestException());
       return;
     }
-    // TODO: 정수형 변환 validation
+
     try {
       await resultService.init(formID);
       const result = resultService.formResult();
-      console.log(JSON.stringify(result));
       res.status(200).json(result);
     } catch (error) {
       next(error);
