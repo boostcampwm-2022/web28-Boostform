@@ -1,15 +1,31 @@
 import Form from "./Board.Model";
 
-interface FormSearchQueryObject {
-  title?: string;
+interface RegExOption {
+  $regex: string;
+  $options: string;
+}
+
+interface FormSearchQuery {
+  title?: string | RegExOption;
   category?: string;
 }
+
+type SetQueryOptionFn = (obj: FormSearchQuery) => FormSearchQuery;
 
 class BoardService {
   // .find() : {title: 정규표현식}, {category: 카테고리}
   // .sort() : {컬럼: 정렬방식}, 컬럼:[제목, 응답자 수, 카테고리 순], 정렬방식:[1(ASC), -1(DESC)]
 
-  static setTitleRegEx(query: FormSearchQueryObject) {
+  static setOnBoardOption(query: FormSearchQuery) {
+    // return { ...query, on_board: true };
+    return { ...query, on_board: false };
+  }
+
+  static setAcceptabilityOption(query: FormSearchQuery) {
+    return { ...query, accept_response: true };
+  }
+
+  static setTitleRegEx(query: FormSearchQuery) {
     if (!("title" in query)) return query;
 
     const { title } = query;
@@ -17,10 +33,14 @@ class BoardService {
     return { ...query, title: titleRegex };
   }
 
-  static async searchByQuery(searchQueryObject: FormSearchQueryObject) {
-    const titleQuery = this.setTitleRegEx(searchQueryObject);
+  static pipe(...fns: SetQueryOptionFn[]) {
+    return (initialQuery: FormSearchQuery) => fns.reduce((accQuery, currentFn) => currentFn(accQuery), initialQuery);
+  }
 
-    const searchResult = await Form.find(titleQuery);
+  static async searchByQuery(searchQueryObject: FormSearchQuery) {
+    const query = this.pipe(this.setOnBoardOption, this.setAcceptabilityOption, this.setTitleRegEx)(searchQueryObject);
+
+    const searchResult = await Form.find(query);
     return searchResult;
   }
 }

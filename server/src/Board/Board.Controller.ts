@@ -1,11 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import BoardService from "./Board.Service";
 
-interface FormSearchQueryObject {
-  title?: string;
-  category?: string;
-}
-
 class BoardController {
   static async getFormList(req: Request, res: Response, next: NextFunction) {
     const searchQueries = ["title", "category", "order", "order_by"];
