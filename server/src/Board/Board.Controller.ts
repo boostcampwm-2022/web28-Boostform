@@ -1,16 +1,20 @@
 import { Request, Response, NextFunction } from "express";
 import BoardService from "./Board.Service";
 
+interface FormSearchQueryObject {
+  title?: string;
+  category?: string;
+}
+
 class BoardController {
-  static getFormList(req: Request, res: Response, next: NextFunction) {
-    res.send({ message: "Board API" });
+  static async getFormList(req: Request, res: Response, next: NextFunction) {
+    const searchQueries = ["title", "category", "order", "order_by"];
+    const formSearchQueryList = Object.entries(req.query).filter(([k, v]) => searchQueries.includes(k));
+    const formSearchQueryObject = Object.fromEntries(formSearchQueryList);
+
+    const searchResult = await BoardService.searchByQuery(formSearchQueryObject);
+    res.send(searchResult);
   }
-
-  // search : 제목에 검색어가 포함된 설문조사만 찾기 - 정규표현식
-
-  // filter : 카테고리 필터링
-
-  // sort : 제목, 응답자 수, 카테고리 순 정렬 기능
 }
 
 export default BoardController;
