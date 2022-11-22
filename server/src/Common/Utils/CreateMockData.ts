@@ -98,11 +98,11 @@ async function createResponseMockData(
 // })();
 
 // 응답 생성
-(async () => {
-  try {
-    await createResponseMockData(2, "637c51f6c87be404f5121f0a", 3, [2, 3, 4], "의견3");
-    console.log("created successfully");
-  } catch (err) {
-    console.log(err);
-  }
-})();
+// (async () => {
+//   try {
+//     await createResponseMockData(2, "637c51f6c87be404f5121f0a", 3, [2, 3, 4], "의견3");
+//     console.log("created successfully");
+//   } catch (err) {
+//     console.log(err);
+//   }
+// })();
