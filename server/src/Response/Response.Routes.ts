@@ -6,6 +6,8 @@ const responseRouter = express.Router();
 
 responseRouter.get("/:formID", authMiddleware, ResponseController.checkResponseExistence);
 
+responseRouter.get("/:formID/response-page", ResponseController.getFormForResponsePage);
+
 responseRouter.post("/:formID", checkAccessTokenExistence, ResponseController.saveResponse);
 
 responseRouter.get("/:formID/:responseID", checkAccessTokenExistence, ResponseController.revisitResponse);
