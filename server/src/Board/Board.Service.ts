@@ -1,5 +1,10 @@
 import Form from "./Board.Model";
 
+interface FormSortQuery {
+  order?: "asc" | "desc";
+  order_by?: "title" | "category" | "response_count";
+}
+
 interface RegExOption {
   $regex: string;
   $options: string;
@@ -37,10 +42,23 @@ class BoardService {
     return (initialQuery: FormSearchQuery) => fns.reduce((accQuery, currentFn) => currentFn(accQuery), initialQuery);
   }
 
-  static async searchByQuery(searchQueryObject: FormSearchQuery) {
-    const query = this.pipe(this.setOnBoardOption, this.setAcceptabilityOption, this.setTitleRegEx)(searchQueryObject);
+  static setSortingOption(query: FormSortQuery) {
+    if (!("order_by" in query) || !("order" in query)) return ``;
+    const order = query.order === "asc" ? "" : "-";
+    const orderBy = query.order_by;
+    return `${order}${orderBy}`;
+  }
 
-    const searchResult = await Form.find(query);
+  static async searchByQuery(searchQueryObject: FormSearchQuery, sortQueryObject: FormSortQuery) {
+    const searchQuery = this.pipe(
+      this.setOnBoardOption,
+      this.setAcceptabilityOption,
+      this.setTitleRegEx
+    )(searchQueryObject);
+
+    const sortQuery = this.setSortingOption(sortQueryObject);
+
+    const searchResult = await Form.find(searchQuery).sort(sortQuery); // .skip(<number>).limit(<number>)
     return searchResult;
   }
 }
