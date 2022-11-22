@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import InteranServerException from "../Common/Exceptions/InternalServer.Exception";
+import BadRequestException from "../Common/Exceptions/BadRequest.Exception";
 import FormService from "./Form.Service";
 
 class FormController {
@@ -12,8 +13,12 @@ class FormController {
       res.status(201).json({
         formID,
       });
-    } catch (err) {
-      next(err);
+    } catch (err: any) {
+      if (err.message.includes("Form validation failed")) {
+        next(new BadRequestException("설문지 제출 형식이 잘못되었습니다."));
+      } else {
+        next(err);
+      }
     }
   }
 

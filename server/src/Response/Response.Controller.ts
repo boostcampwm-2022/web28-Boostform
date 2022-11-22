@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import ResponseService from "./Response.Service";
+import BadRequestException from "../Common/Exceptions/BadRequest.Exception";
 
 class ResponseController {
   static async checkResponseExistence(req: Request, res: Response, next: NextFunction) {
@@ -24,8 +25,12 @@ class ResponseController {
       const responseID = await ResponseService.saveResponse(formID, userID, response);
 
       res.status(201).json({ responseID });
-    } catch (err) {
-      next(err);
+    } catch (err: any) {
+      if (err.message.includes("Response validation failed")) {
+        next(new BadRequestException("응답 제출 형식이 잘못되었습니다."));
+      } else {
+        next(err);
+      }
     }
   }
 
