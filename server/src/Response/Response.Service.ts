@@ -1,5 +1,7 @@
 import SurveyResponse from "./Response.Model";
-import AnswerInterface from "./Response.Interface";
+import Form from "../Form/Form.Model";
+import FormService from "../Form/Form.Service";
+import { AnswerInterface, ResponseInterface } from "./Response.Interface";
 
 class ResponseService {
   static async checkAnswerExistence(formID: string, userID: number) {
@@ -8,25 +10,26 @@ class ResponseService {
     return !(isExist === null);
   }
 
-  static async saveResponse(formID: string, userID: number | undefined, response: Array<AnswerInterface>) {
+  static async saveResponse(formID: string, userID: number | undefined, answerList: Array<AnswerInterface>) {
     const newResponse = new SurveyResponse({
       user_id: userID,
       form_id: formID,
-      response,
+      answer_list: answerList,
     });
 
     await newResponse.save();
+    await Form.findOneAndUpdate({ _id: formID }, { $inc: { response_count: 1 } });
 
     return newResponse.id;
   }
 
-  static async getResponse(responseID: string) {
+  static async getResponse(responseID: string): Promise<any> {
     const response = await SurveyResponse.findOne({ _id: responseID });
     return response;
   }
 
-  static async updateResponse(responseID: string, response: Array<AnswerInterface>) {
-    await SurveyResponse.findOneAndUpdate({ _id: responseID }, { response });
+  static async updateResponse(responseID: string, answerList: Array<AnswerInterface>) {
+    await SurveyResponse.findOneAndUpdate({ _id: responseID }, { answer_list: answerList });
   }
 }
 

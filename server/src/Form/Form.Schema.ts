@@ -26,7 +26,7 @@ const QuestionSchema = new mongoose.Schema({
   },
   etc_added: {
     type: Boolean,
-    default: true,
+    default: false,
   },
 });
 
@@ -60,6 +60,10 @@ const FormSchema = new mongoose.Schema(
     login_required: {
       type: Boolean,
       default: false,
+    },
+    response_count: {
+      type: Number,
+      default: 0,
     },
   },
   { timestamps: true }

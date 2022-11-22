@@ -20,6 +20,7 @@ class FormService {
         updatedAt: getDateString(form.updatedAt),
         onBoard: form.on_board,
         category: form.category,
+        response: form.response_count,
       };
     });
     return formList;
@@ -38,6 +39,12 @@ class FormService {
 
   static async deleteForm(formID: string) {
     await Form.deleteOne({ _id: formID });
+  }
+
+  static async getForm(formID: string): Promise<any> {
+    const form = await Form.findOne({ form_id: formID });
+
+    return form;
   }
 }
 
