@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const Container = styled.div`
-  width: 900px;
+  width: 760px;
 `;
 
 const TitleContainer = styled.div`
@@ -74,4 +74,39 @@ const QuestionContainer = styled.div`
   padding: 20px;
 `;
 
-export { Container, TitleContainer, QuestionContainer, TitleInput, DescriptionInput, TitleRead, DescriptionRead };
+const QuestionHead = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const QuestionTitleInput = styled.input`
+  width: 60%;
+  display: block;
+  font-size: 16px;
+  padding: 8px 10px;
+  border: none;
+  border-bottom: 1px solid #afafaf;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #ececec;
+  border-radius: 3px;
+  line-height: 29px;
+
+  &:focus {
+    outline: none;
+    border-bottom: 1px solid #000000;
+  }
+`;
+
+const QuestionTitleRead = styled.div``;
+
+export {
+  Container,
+  TitleContainer,
+  QuestionContainer,
+  TitleInput,
+  DescriptionInput,
+  TitleRead,
+  DescriptionRead,
+  QuestionHead,
+  QuestionTitleInput,
+};
