@@ -28,13 +28,14 @@ function Checkbox({
   modifyChoice: (questionIndex: number, choiceIndex: number, value: string) => void;
   deleteChoice: (questionIndex: number, choiceIndex: number) => void;
 }) {
-  const { option } = questionState;
+  const { option, type } = questionState;
 
   return (
     <div>
       {option.map(({ choiceId, value }, choiceIndex) => (
         <ChoiceWrapper key={choiceId}>
-          <Icon type="checkboxEmpty" size="20px" fill="#aeaeae" />
+          {type === "checkbox" && <Icon type="checkboxEmpty" size="20px" fill="#aeaeae" />}
+          {type === "multiple" && <Icon type="multipleEmpty" size="20px" fill="#aeaeae" />}
           <Input value={value} onInput={(e) => modifyChoice(index, choiceIndex, e.currentTarget.value)} />
           {questionState.option.length > 1 && (
             <DeleteButton type="button" onClick={() => deleteChoice(index, choiceIndex)}>
@@ -44,7 +45,8 @@ function Checkbox({
         </ChoiceWrapper>
       ))}
       <ChoiceWrapper>
-        <Icon type="checkboxEmpty" size="20px" fill="#aeaeae" />
+        {type === "checkbox" && <Icon type="checkboxEmpty" size="20px" fill="#aeaeae" />}
+        {type === "multiple" && <Icon type="multipleEmpty" size="20px" fill="#aeaeae" />}
         <AddOptionWrapper>
           <AddOptionButton type="button" onClick={() => addQuestionChoice(index)}>
             옵션 추가

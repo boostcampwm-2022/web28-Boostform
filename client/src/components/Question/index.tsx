@@ -1,5 +1,6 @@
 import React from "react";
 import Checkbox from "./Checkbox";
+import Paragraph from "./Paragraph";
 
 interface QuestionState {
   questionId: number;
@@ -30,7 +31,7 @@ function Question({
   const { type } = questionState;
   return (
     <>
-      {type === "checkbox" && (
+      {(type === "checkbox" || type === "multiple") && (
         <Checkbox
           questionState={questionState}
           addQuestionChoice={addQuestionChoice}
@@ -39,8 +40,8 @@ function Question({
           index={index}
         />
       )}
-      {type === "multiple" && <div>multiple</div>}
-      {type === "paragraph" && <div>paragraph</div>}
+
+      {type === "paragraph" && <Paragraph />}
     </>
   );
 }
