@@ -20,6 +20,7 @@ class FormService {
         updatedAt: getDateString(form.updatedAt),
         onBoard: form.on_board,
         category: form.category,
+        response: form.response_count,
       };
     });
     return formList;

@@ -90,7 +90,7 @@ async function createResponseMockData(
 // 설문지 생성
 // (async () => {
 //   try {
-//     await createFormMockData(2);
+//     await createFormMockData(4);
 //     console.log("created successfully");
 //   } catch (err) {
 //     console.log(err);
