@@ -16,7 +16,7 @@ router.use("/api/users", userRouter);
 
 router.use("/api/forms", formRouter);
 
-router.use("/api/result", resultRouter);
+router.use("/api/results", resultRouter);
 
 router.use("/api/responses", responseRouter);
 export default router;

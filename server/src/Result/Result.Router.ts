@@ -1,8 +1,11 @@
 import express from "express";
-import ResultController from "./Result.Controller";
+import resultController from "./Result.Controller";
 
 const router = express.Router();
 
-router.get("/:formID", ResultController.formResult);
+router.get("/test", () => {
+  console.log(resultController);
+});
 
+router.get("/:formID", resultController.formResult);
 export default router;

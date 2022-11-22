@@ -1,6 +1,6 @@
-import { TotalResult } from "./types/result.Interface";
+import { FormResult, QuestionResult } from "./types/Result.Interface";
 import Form from "../Form/Form.Model";
-import SurveyResponse from "../Response/SurveyResponse.Model";
+import FormResponse from "../Response/Response.Model";
 
 class ResultService {
   form: any;
@@ -12,37 +12,46 @@ class ResultService {
     this.responses = [];
   }
 
-  async loadData(formID: number) {
+  public async init(formID: string) {
+    this.form = undefined;
+    this.responses = [];
     this.form = await Form.findOne({ id: formID }).exec();
-    this.responses = await SurveyResponse.find({ form_id: formID }).exec();
+    this.responses = await FormResponse.find({ form_id: formID });
   }
 
-  initQuestionResultList() {
-    const results: any = {};
+  initQuestionResultDict() {
+    const resultDict: any = {};
     this.form.question.forEach((element: any) => {
-      results[element.id] = {
-        questionID: element.id,
+      resultDict[element.question_id] = {
         type: element.type,
         title: element.title,
         responseCount: 0,
-        answers: {},
+        answerTotal: {},
       };
     });
-    return results;
+    return resultDict;
   }
 
-  result(): TotalResult {
-    const result: TotalResult = {
-      totalResponseCount: 0,
+  formResult(): FormResult {
+    const result: FormResult = {
+      totalResponseCount: this.form.response_count,
       acceptResponse: this.form.accept_response,
-      results: this.initQuestionResultList(),
+      questionResultDict: this.initQuestionResultDict(),
     };
     this.responses.forEach((response) => {
-      response.answers.forEach((answer: any) => {
-        result.results[answer.question_id].responseCount += 1;
+      response.answer_list.forEach((answer: any) => {
+        result.questionResultDict[answer.question_id].responseCount += 1;
+        answer.answer.forEach((e: string) => {
+          if (e in result.questionResultDict[answer.question_id].answerTotal) {
+            result.questionResultDict[answer.question_id].answerTotal[e] += 1;
+          } else {
+            result.questionResultDict[answer.question_id].answerTotal[e] = 1;
+          }
+        });
       });
     });
+    return result;
   }
 }
 
-export default ResultService;
+export default new ResultService();

@@ -2,13 +2,13 @@ interface QuestionResult {
   type: "single" | "multiple" | "narrative";
   title: string;
   responseCount: number;
-  answers: object;
+  answerTotal: any;
 }
 
-interface TotalResult {
+interface FormResult {
   totalResponseCount: number;
   acceptResponse: boolean;
-  results: any;
+  questionResultDict: any;
 }
 
 interface Question {
@@ -37,7 +37,7 @@ interface Answer {
 interface FormResponse {
   userID: number | null;
   formID: number;
-  answers: Array<Answer>;
+  answerList: Array<Answer>;
 }
 
-export { QuestionResult, TotalResult, TargetForm, FormResponse };
+export { QuestionResult, FormResult, TargetForm, FormResponse };

@@ -1,23 +1,25 @@
 import { Request, Response, NextFunction } from "express";
 import BadRequestException from "../Common/Exceptions/BadRequest.Exception";
-import ResultService from "./Result.Service";
+import resultService from "./Result.Service";
 
 class ResultController {
-  form: 
-  static async formResult(req: Request, res: Response, next: NextFunction) {
+  // eslint-disable-next-line class-methods-use-this
+  async formResult(req: Request, res: Response, next: NextFunction) {
     const { formID } = req.params;
     if (!formID || typeof formID !== "string") {
       next(new BadRequestException());
       return;
     }
-    ResultService.result(formID)
-      .then((result) => {
-        res.status(200).json(result);
-      })
-      .catch((err) => {
-        next(err);
-      });
+    // TODO: 정수형 변환 validation
+    try {
+      await resultService.init(formID);
+      const result = resultService.formResult();
+      console.log(JSON.stringify(result));
+      res.status(200).json(result);
+    } catch (error) {
+      next(error);
+    }
   }
 }
 
-export default ResultController;
+export default new ResultController();
