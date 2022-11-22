@@ -15,22 +15,18 @@ interface FormSearchQuery {
   category?: string;
 }
 
-type SetQueryOptionFn = (obj: FormSearchQuery) => FormSearchQuery;
+type SetToQueryFn = (query: FormSearchQuery) => FormSearchQuery;
 
 class BoardService {
-  // .find() : {title: 정규표현식}, {category: 카테고리}
-  // .sort() : {컬럼: 정렬방식}, 컬럼:[제목, 응답자 수, 카테고리 순], 정렬방식:[1(ASC), -1(DESC)]
-
-  static setOnBoardOption(query: FormSearchQuery) {
-    // return { ...query, on_board: true };
+  static setOnBoardToQuery(query: FormSearchQuery) {
     return { ...query, on_board: false };
   }
 
-  static setAcceptabilityOption(query: FormSearchQuery) {
+  static setAcceptabilityToQuery(query: FormSearchQuery) {
     return { ...query, accept_response: true };
   }
 
-  static setTitleRegEx(query: FormSearchQuery) {
+  static setTitleRegExToQuery(query: FormSearchQuery) {
     if (!("title" in query)) return query;
 
     const { title } = query;
@@ -44,24 +40,24 @@ class BoardService {
     return (initial: V) => fns.reduce((acc, currentFn) => currentFn(acc), initial);
   }
 
-  static setSortingOption(query: FormSortQuery) {
+  static setSortingToQuery(query: FormSortQuery) {
     if (!("order_by" in query) || !("order" in query)) return ``;
     const order = query.order === "asc" ? "" : "-";
     const orderBy = query.order_by;
     return `${order}${orderBy}`;
   }
 
-  static async searchByQuery(searchQueryObject: FormSearchQuery, sortQueryObject: FormSortQuery) {
-    const searchQuery = this.pipe<SetQueryOptionFn, FormSearchQuery>(
-      this.setOnBoardOption,
-      this.setAcceptabilityOption,
-      this.setTitleRegEx
-    )(searchQueryObject);
+  static async searchByQuery(searchQuery: FormSearchQuery, sortQuery: FormSortQuery) {
+    const updatedSearchQuery = this.pipe<SetToQueryFn, FormSearchQuery>(
+      this.setOnBoardToQuery,
+      this.setAcceptabilityToQuery,
+      this.setTitleRegExToQuery
+    )(searchQuery);
 
-    const sortQuery = this.setSortingOption(sortQueryObject);
+    const updatedSortQuery = this.setSortingToQuery(sortQuery);
 
-    const searchResult = await Form.find(searchQuery).sort(sortQuery); // .skip(<number>).limit(<number>)
-    return searchResult;
+    const searchResults = await Form.find(updatedSearchQuery).sort(updatedSortQuery); // .skip(<number>).limit(<number>)
+    return searchResults;
   }
 }
 

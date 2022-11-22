@@ -2,10 +2,10 @@ import { Request, Response, NextFunction } from "express";
 import BoardService from "./Board.Service";
 
 class BoardController {
-  static filterByKeys(query: any, keys: string[]) {
-    const queryList = Object.entries(query).filter(([k, v]) => keys.includes(k));
-    const queryObject = Object.fromEntries(queryList);
-    return queryObject;
+  static filterByKeys(reqQuery: any, keys: string[]) {
+    const queryList = Object.entries(reqQuery).filter(([k, v]) => keys.includes(k));
+    const query = Object.fromEntries(queryList);
+    return query;
   }
 
   static async getFormList(req: Request, res: Response, next: NextFunction) {
