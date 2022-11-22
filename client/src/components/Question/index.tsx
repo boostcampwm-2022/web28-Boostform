@@ -8,7 +8,10 @@ interface QuestionState {
   essential: boolean;
   etcAdded: boolean;
   title: string;
-  option: string[];
+  option: {
+    choiceId: number;
+    value: string;
+  }[];
 }
 
 function Question({
@@ -16,11 +19,13 @@ function Question({
   questionState,
   addQuestionChoice,
   modifyChoice,
+  deleteChoice,
 }: {
   index: number;
   questionState: QuestionState;
   addQuestionChoice: (idx: number) => void;
   modifyChoice: (questionIndex: number, choiceIndex: number, value: string) => void;
+  deleteChoice: (questionIndex: number, choiceIndex: number) => void;
 }) {
   const { type } = questionState;
   return (
@@ -30,6 +35,7 @@ function Question({
           questionState={questionState}
           addQuestionChoice={addQuestionChoice}
           modifyChoice={modifyChoice}
+          deleteChoice={deleteChoice}
           index={index}
         />
       )}

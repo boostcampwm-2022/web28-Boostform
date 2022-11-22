@@ -10,6 +10,7 @@ import { ReactComponent as Checkbox } from "assets/Icon/checkbox.svg";
 import { ReactComponent as CheckboxEmpty } from "assets/Icon/checkboxEmpty.svg";
 import { ReactComponent as CheckboxFull } from "assets/Icon/checkboxFull.svg";
 import { ReactComponent as Dropdown } from "assets/Icon/dropdown.svg";
+import { ReactComponent as Close } from "assets/Icon/close.svg";
 import Container from "./Icon.style";
 import IconProps from "./Icon.type";
 
@@ -27,6 +28,7 @@ function Icon({ type, size }: IconProps) {
       {type === "checkboxEmpty" && <CheckboxEmpty height={size} width={size} />}
       {type === "checkboxFull" && <CheckboxFull height={size} width={size} />}
       {type === "dropdown" && <Dropdown height={size} width={size} />}
+      {type === "close" && <Close height={size} width={size} />}
     </Container>
   );
 }

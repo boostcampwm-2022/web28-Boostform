@@ -10,7 +10,8 @@ interface IconProps {
     | "multiple"
     | "dropdown"
     | "checkboxEmpty"
-    | "checkboxFull";
+    | "checkboxFull"
+    | "close";
   size: string;
 }
 

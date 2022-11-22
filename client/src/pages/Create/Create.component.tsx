@@ -22,18 +22,23 @@ type FormAction =
   | { type: "CHANGE_QUESTION_TITLE"; value: string; questionIndex: number }
   | { type: "CHANGE_QUESTION_TYPE"; value: "checkbox" | "multiple" | "paragraph"; questionIndex: number }
   | { type: "ADD_QUESTION_CHOICE"; questionIndex: number }
-  | { type: "MODIFY_QUESTION_CHOICE"; questionIndex: number; choiceIndex: number; value: string };
+  | { type: "MODIFY_QUESTION_CHOICE"; questionIndex: number; choiceIndex: number; value: string }
+  | { type: "DELETE_QUESTION_CHOICE"; questionIndex: number; choiceIndex: number };
 
 interface FormState {
   form: { title: string; description: string; category: string; acceptResponse: boolean; onBoard: boolean };
   question: {
     questionId: number;
+    currentChoiceId: number;
     page: number;
     type: "checkbox" | "multiple" | "paragraph";
     essential: boolean;
     etcAdded: boolean;
     title: string;
-    option: string[];
+    option: {
+      choiceId: number;
+      value: string;
+    }[];
   }[];
 }
 
@@ -48,39 +53,43 @@ const initialState: FormState = {
   question: [
     {
       questionId: 1,
+      currentChoiceId: 1,
       page: 1,
       type: "checkbox",
       essential: false,
       etcAdded: false,
       title: "질문",
-      option: ["옵션1"],
+      option: [{ choiceId: 1, value: "옵션1" }],
     },
     {
       questionId: 2,
+      currentChoiceId: 1,
       page: 1,
       type: "checkbox",
       essential: false,
       etcAdded: false,
       title: "질문",
-      option: ["옵션1"],
+      option: [{ choiceId: 1, value: "옵션1" }],
     },
     {
       questionId: 3,
+      currentChoiceId: 1,
       page: 1,
       type: "checkbox",
       essential: false,
       etcAdded: false,
       title: "질문",
-      option: ["옵션1"],
+      option: [{ choiceId: 1, value: "옵션1" }],
     },
     {
       questionId: 4,
+      currentChoiceId: 1,
       page: 1,
       type: "checkbox",
       essential: false,
       etcAdded: false,
       title: "질문",
-      option: ["옵션1"],
+      option: [{ choiceId: 1, value: "옵션1" }],
     },
   ],
 };
@@ -138,11 +147,16 @@ function reducer(state: FormState, action: FormAction) {
     const { questionIndex } = action;
 
     const optionLength = state.question[questionIndex].option.length;
+    const { currentChoiceId } = state.question[questionIndex];
 
     const left = state.question.slice(0, questionIndex);
     const curr = {
       ...state.question[questionIndex],
-      option: [...state.question[questionIndex].option, `옵션${optionLength + 1}`],
+      currentChoiceId: currentChoiceId + 1,
+      option: [
+        ...state.question[questionIndex].option,
+        { choiceId: currentChoiceId + 1, value: `옵션${optionLength + 1}` },
+      ],
     };
     const right = state.question.slice(questionIndex + 1);
 
@@ -160,7 +174,24 @@ function reducer(state: FormState, action: FormAction) {
     const rightChoice = state.question[questionIndex].option.slice(choiceIndex + 1);
     const currQuestion = {
       ...state.question[questionIndex],
-      option: [...leftChoice, value, ...rightChoice],
+      option: [...leftChoice, { ...state.question[questionIndex].option[choiceIndex], value }, ...rightChoice],
+    };
+
+    return {
+      ...state,
+      question: [...leftQuestion, currQuestion, ...rightQuestion],
+    };
+  }
+  if (type === "DELETE_QUESTION_CHOICE") {
+    const { questionIndex, choiceIndex } = action;
+
+    const leftQuestion = state.question.slice(0, questionIndex);
+    const rightQuestion = state.question.slice(questionIndex + 1);
+    const leftChoice = state.question[questionIndex].option.slice(0, choiceIndex);
+    const rightChoice = state.question[questionIndex].option.slice(choiceIndex + 1);
+    const currQuestion = {
+      ...state.question[questionIndex],
+      option: [...leftChoice, ...rightChoice],
     };
 
     return {
@@ -211,6 +242,10 @@ function Create() {
     dispatch({ type: "MODIFY_QUESTION_CHOICE", questionIndex, choiceIndex, value });
   };
 
+  const onClickDeleteQuestionChoice = (questionIndex: number, choiceIndex: number) => {
+    dispatch({ type: "DELETE_QUESTION_CHOICE", questionIndex, choiceIndex });
+  };
+
   return (
     <FormLayout>
       <Container>
@@ -251,6 +286,7 @@ function Create() {
                     questionState={question[questionIndex]}
                     addQuestionChoice={onClickAddQuestionChoice}
                     modifyChoice={onInputModifyQuestionChoice}
+                    deleteChoice={onClickDeleteQuestionChoice}
                   />
                 </QuestionBody>
                 <div>tail</div>
