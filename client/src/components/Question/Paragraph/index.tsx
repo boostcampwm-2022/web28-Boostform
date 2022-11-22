@@ -1,7 +1,8 @@
 import React from "react";
+import { Container, Text } from "./Paragraph.style";
 
 function Paragraph() {
-  return <div>paragraph</div>;
+  return <Container>장문형 텍스트</Container>;
 }
 
 export default Paragraph;

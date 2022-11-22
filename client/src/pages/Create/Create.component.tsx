@@ -119,10 +119,27 @@ function reducer(state: FormState, action: FormAction) {
   }
   if (type === "CHANGE_QUESTION_TYPE") {
     const { questionIndex, value } = action;
+    const prevType = state.question[questionIndex].type;
+    if (prevType === value) return state;
 
     const left = state.question.slice(0, questionIndex);
-    const curr = { ...state.question[questionIndex], type: value };
     const right = state.question.slice(questionIndex + 1);
+    let curr;
+
+    if ((prevType === "checkbox" || prevType === "multiple") && value === "paragraph")
+      curr = {
+        ...state.question[questionIndex],
+        type: value,
+        option: [],
+      };
+    else if (prevType === "paragraph" && (value === "checkbox" || value === "multiple"))
+      curr = {
+        ...state.question[questionIndex],
+        type: value,
+        option: [{ choiceId: 1, value: "옵션1" }],
+        currentChoiceId: 1,
+      };
+    else curr = { ...state.question[questionIndex], type: value };
 
     return {
       ...state,
