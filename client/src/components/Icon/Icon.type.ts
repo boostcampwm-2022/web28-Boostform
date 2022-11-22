@@ -13,6 +13,7 @@ interface IconProps {
     | "checkboxFull"
     | "close";
   size: string;
+  fill?: string;
 }
 
 export default IconProps;

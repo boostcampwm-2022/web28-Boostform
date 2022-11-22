@@ -14,7 +14,7 @@ import { ReactComponent as Close } from "assets/Icon/close.svg";
 import Container from "./Icon.style";
 import IconProps from "./Icon.type";
 
-function Icon({ type, size }: IconProps) {
+function Icon({ type, size, fill }: IconProps) {
   return (
     <Container>
       {type === "plus" && <Plus height={size} width={size} />}
@@ -25,7 +25,7 @@ function Icon({ type, size }: IconProps) {
       {type === "paragraph" && <Paragraph height={size} width={size} />}
       {type === "multiple" && <Multiple height={size} width={size} />}
       {type === "checkbox" && <Checkbox height={size} width={size} />}
-      {type === "checkboxEmpty" && <CheckboxEmpty height={size} width={size} />}
+      {type === "checkboxEmpty" && <CheckboxEmpty height={size} width={size} fill={fill} />}
       {type === "checkboxFull" && <CheckboxFull height={size} width={size} />}
       {type === "dropdown" && <Dropdown height={size} width={size} />}
       {type === "close" && <Close height={size} width={size} />}
