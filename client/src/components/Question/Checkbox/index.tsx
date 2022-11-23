@@ -1,19 +1,7 @@
 import React from "react";
 import Icon from "components/Icon/Icon.component";
+import { QuestionState } from "types/form.type";
 import { ChoiceWrapper, Input, DeleteButton, AddOptionWrapper, AddOptionButton } from "./Checkbox.style";
-
-interface QuestionState {
-  questionId: number;
-  page: number;
-  type: "checkbox" | "multiple" | "paragraph";
-  essential: boolean;
-  etcAdded: boolean;
-  title: string;
-  option: {
-    choiceId: number;
-    value: string;
-  }[];
-}
 
 function Checkbox({
   index,

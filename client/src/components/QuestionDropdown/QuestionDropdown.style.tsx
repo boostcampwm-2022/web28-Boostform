@@ -23,7 +23,7 @@ const Content = styled.ul`
   z-index: 1;
   background-color: white;
   padding: 10px 0;
-  border-radius: 9px;
+  border-radius: 3px;
   border: 1px solid #afafaf;
 
   li {
