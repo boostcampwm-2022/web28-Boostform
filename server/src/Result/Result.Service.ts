@@ -27,7 +27,7 @@ class ResultService {
 
   initQuestionResultDict() {
     const resultDict: any = {};
-    this.form.question.forEach((element: any) => {
+    this.form.question_list.forEach((element: any) => {
       resultDict[element.question_id] = {
         type: element.type,
         title: element.title,
