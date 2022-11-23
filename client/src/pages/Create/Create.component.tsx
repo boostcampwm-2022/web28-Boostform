@@ -54,14 +54,14 @@ function Create() {
 
   const [state, dispatch] = useReducer(writeReducer, initialState);
   const { form, question } = state;
-  const [focus, setFocus] = useState(-1);
+  const [focus, setFocus] = useState<string>("title");
 
   const onClickTitle = () => {
-    setFocus(-1);
+    setFocus("title");
   };
 
   const onClickQuestion = (index: number) => {
-    setFocus(index);
+    setFocus(`q${index}`);
   };
 
   const onInputTitle: React.ChangeEventHandler<HTMLInputElement> = (e) => {
@@ -108,13 +108,13 @@ function Create() {
     <FormLayout>
       <Container>
         <TitleContainer onClick={() => onClickTitle()}>
-          {focus !== -1 && (
+          {focus !== "title" && (
             <>
               <TitleRead>{form.title}</TitleRead>
               <DescriptionRead>{form.description ? form.description : "Form description"}</DescriptionRead>
             </>
           )}
-          {focus === -1 && (
+          {focus === "title" && (
             <>
               <TitleInput onInput={onInputTitle} value={form.title} />
               <DescriptionInput onInput={onInputDescription} value={form.description} placeholder="Form description" />
@@ -123,7 +123,7 @@ function Create() {
         </TitleContainer>
         {question.map(({ questionId, title, type, essential }, questionIndex) => (
           <QuestionContainer key={questionId} onClick={() => onClickQuestion(questionIndex)}>
-            {focus === questionIndex && (
+            {focus === `q${questionIndex}` && (
               <>
                 <QuestionHead>
                   <QuestionTitleInput
@@ -162,12 +162,10 @@ function Create() {
                 </QuestionTail>
               </>
             )}
-            {focus !== questionIndex && (
+            {focus !== `q${questionIndex}` && (
               <>
                 <div>{title}</div>
-                <div>
-                  <QuestionRead questionState={question[questionIndex]} />
-                </div>
+                <QuestionRead questionState={question[questionIndex]} />
               </>
             )}
           </QuestionContainer>
