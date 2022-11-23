@@ -22,12 +22,13 @@ class ResponseController {
       const { formID } = req.params;
 
       const form = await FormService.getForm(formID);
+      const questionList = FormService.getQuestionListForResponse(form.question_list);
 
       res.status(200).json({
         title: form.title,
         description: form.description,
         category: form.category,
-        question: form.question,
+        questionList,
         acceptResponse: form.accept_response,
         loginRequired: form.login_required,
       });
@@ -60,9 +61,9 @@ class ResponseController {
       const response = await ResponseService.getResponse(responseID);
 
       if (req.userID) {
-        res.status(200).json({ userID: req.userID, formID: response.form_id, answerList: response.answer_list });
+        res.status(200).json({ userID: req.userID, formID, answerList: response.answer_list });
       } else {
-        res.status(200).json({ formID: response.form_id, answerList: response.answer_list });
+        res.status(200).json({ formID, answerList: response.answer_list });
       }
     } catch (err) {
       next(err);

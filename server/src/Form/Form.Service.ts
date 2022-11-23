@@ -1,5 +1,5 @@
 import Form from "./Form.Model";
-import UpdateFormRequestBody from "./Form.Interface";
+import { UpdateFormRequestBody, QuestionInRequestBody, QuestionInDB } from "./Form.Interface";
 import getDateString from "../Common/Utils/GetDateString";
 
 class FormService {
@@ -26,14 +26,29 @@ class FormService {
     return formList;
   }
 
-  static async updateFormList(formID: string, body: UpdateFormRequestBody) {
+  static async updateForm(formID: string, body: UpdateFormRequestBody) {
+    const questionList = body.questionList.map((q: QuestionInRequestBody) => {
+      return {
+        question_id: q.questionID,
+        page: q.page,
+        type: q.type,
+        title: q.title,
+        option: q.option,
+        essential: q.essential,
+        etc_added: q.etcAdded,
+      };
+    });
+
     const updated = {
       title: body.title,
+      description: body.description,
       category: body.category,
-      question: body.question,
+      question_list: questionList,
       accept_response: body.acceptResponse,
       on_board: body.onBoard,
+      login_required: body.loginRequired,
     };
+
     await Form.findOneAndUpdate({ _id: formID }, updated);
   }
 
@@ -45,6 +60,21 @@ class FormService {
     const form = await Form.findOne({ form_id: formID });
 
     return form;
+  }
+
+  static getQuestionListForResponse(rawQuestion: Array<QuestionInDB>) {
+    const questionList = rawQuestion.map((question) => {
+      return {
+        questionID: question.question_id,
+        page: question.page,
+        type: question.type,
+        essential: question.essential,
+        etcAdded: question.etc_added,
+        title: question.title,
+        option: question.option,
+      };
+    });
+    return questionList;
   }
 }
 
