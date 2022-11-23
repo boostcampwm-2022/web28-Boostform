@@ -61,6 +61,10 @@ const FormSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    response_modifiable: {
+      type: Boolean,
+      default: true,
+    },
     response_count: {
       type: Number,
       default: 0,

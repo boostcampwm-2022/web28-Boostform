@@ -1,7 +1,7 @@
 import FormResponse from "./Response.Model";
 import Form from "../Form/Form.Model";
 import FormService from "../Form/Form.Service";
-import { AnswerInterface, ResponseInterface } from "./Response.Interface";
+import { AnswerInterface, AnswerFromRequest } from "./Response.Interface";
 
 class ResponseService {
   static async checkAnswerExistence(formId: string, userID: number) {
@@ -30,6 +30,17 @@ class ResponseService {
 
   static async updateResponse(responseId: string, answerList: Array<AnswerInterface>) {
     await FormResponse.findOneAndUpdate({ _id: responseId }, { answer_list: answerList });
+  }
+
+  static getAnswerListForDB(answerListFromRequest: Array<AnswerFromRequest>) {
+    const answerList = answerListFromRequest.map((a) => {
+      return {
+        question_id: a.questionId,
+        answer: a.answer,
+      };
+    });
+
+    return answerList;
   }
 }
 

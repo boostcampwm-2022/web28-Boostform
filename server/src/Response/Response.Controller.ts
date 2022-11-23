@@ -41,8 +41,9 @@ class ResponseController {
     try {
       const { formId } = req.params;
       const { userID } = req;
-      const { answerList } = req.body;
+      const answerListFromRequest = req.body.answerList;
 
+      const answerList = ResponseService.getAnswerListForDB(answerListFromRequest);
       const responseId = await ResponseService.saveResponse(formId, userID, answerList);
 
       res.status(201).json({ responseId });
@@ -73,8 +74,9 @@ class ResponseController {
   static async updateResponse(req: Request, res: Response, next: NextFunction) {
     try {
       const { responseId } = req.params;
-      const { answerList } = req.body;
+      const answerListFromRequest = req.body.answerList;
 
+      const answerList = ResponseService.getAnswerListForDB(answerListFromRequest);
       await ResponseService.updateResponse(responseId, answerList);
 
       res.status(200);

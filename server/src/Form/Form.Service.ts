@@ -47,6 +47,7 @@ class FormService {
       accept_response: body.acceptResponse,
       on_board: body.onBoard,
       login_required: body.loginRequired,
+      response_modifiable: body.responseModifiable,
     };
 
     await Form.findOneAndUpdate({ _id: formId }, updated);
