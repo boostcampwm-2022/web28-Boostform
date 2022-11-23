@@ -8,12 +8,12 @@ formRouter.use("/", authMiddleware);
 
 formRouter.get("/", FormController.getFormList);
 
-formRouter.get("/:id", FormController.getForm);
+formRouter.get("/:formId", FormController.getForm);
 
 formRouter.post("/", FormController.createNewForm);
 
-formRouter.patch("/:id", FormController.updateForm);
+formRouter.patch("/:formId", FormController.updateForm);
 
-formRouter.delete("/:id", FormController.deleteForm);
+formRouter.delete("/:formId", FormController.deleteForm);
 
 export default formRouter;

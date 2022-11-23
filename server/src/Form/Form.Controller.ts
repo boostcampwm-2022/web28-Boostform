@@ -62,7 +62,7 @@ class FormController {
   static async updateForm(req: Request, res: Response, next: NextFunction) {
     try {
       const { params, body } = req;
-      const formId = params.id;
+      const { formId } = params;
       await FormService.updateForm(formId, body);
       res.status(200);
     } catch (err) {
@@ -72,7 +72,7 @@ class FormController {
 
   static async deleteForm(req: Request, res: Response, next: NextFunction) {
     try {
-      const formId = req.params.id;
+      const { formId } = req.params;
       await FormService.deleteForm(formId);
       res.status(204);
     } catch (err) {

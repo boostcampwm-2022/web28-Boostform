@@ -58,7 +58,7 @@ class FormService {
   }
 
   static async getForm(formId: string): Promise<any> {
-    const form = await Form.findOne({ form_id: formId });
+    const form = await Form.findOne({ _id: formId });
 
     return form;
   }
