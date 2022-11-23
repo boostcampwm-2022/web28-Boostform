@@ -38,8 +38,9 @@ class FormController {
 
   static async getForm(req: Request, res: Response, next: NextFunction) {
     try {
-      const { formId } = req.params;
-      const form = (await FormService.getForm(formId)) as FormInDB;
+      const { id } = req.params;
+      const form = (await FormService.getForm(id)) as FormInDB;
+
       const questionList = FormService.getQuestionListForResponse(form.question_list);
 
       res.status(200).json({
@@ -62,9 +63,11 @@ class FormController {
   static async updateForm(req: Request, res: Response, next: NextFunction) {
     try {
       const { params, body } = req;
+      
       const formId = params.id;
       await FormService.updateForm(formId, body);
-      res.status(200);
+      res.status(200).end();
+
     } catch (err) {
       next(err);
     }
@@ -74,7 +77,7 @@ class FormController {
     try {
       const formId = req.params.id;
       await FormService.deleteForm(formId);
-      res.status(204);
+      res.status(204).end();
     } catch (err) {
       next(err);
     }

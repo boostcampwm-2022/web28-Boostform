@@ -1,5 +1,7 @@
 import React, { useEffect, useReducer, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+
 import FormLayout from "components/Layout/FormLayout.component";
 import Dropdown from "components/QuestionDropdown";
 import Question from "components/Question";
@@ -7,10 +9,12 @@ import Icon from "components/Icon/Icon.component";
 import ToggleButton from "components/ToggleButton";
 import QuestionRead from "components/QuestionRead";
 import TitleDropdown from "components/TitleDropdown";
+import ShareFormModal from "components/Modal/ShareFormModal";
 import writeReducer from "reducer/write/writeReducer";
-import { FormState } from "types/form.type";
+import { FormState, FormDataApi } from "types/form.type";
 import formApi from "api/formApi";
 import { fromApiToForm, fromFormToApi } from "utils/form";
+import useModal from "hooks/useModal";
 import {
   Container,
   TitleContainer,
@@ -30,47 +34,40 @@ import {
   TitleCategoryWrapper,
   TitleCategoryText,
   BottomContainer,
-  SaveButton,
   ShareButton,
 } from "./Create.style";
 
 const initialState: FormState = {
   form: {
-    id: "dfsdf",
+    id: "example",
     userId: 3,
-    title: "제목 없음",
-    description: "설문지 설명",
+    title: "",
+    description: "",
     category: "카테고리",
     acceptResponse: false,
     onBoard: false,
+    loginRequired: false,
     currentQuestionId: 1,
   },
-  question: [
-    {
-      questionId: 1,
-      currentChoiceId: 1,
-      page: 1,
-      type: "checkbox",
-      essential: false,
-      etcAdded: false,
-      title: "질문",
-      option: [{ choiceId: 1, value: "옵션1" }],
-    },
-  ],
+  question: [],
 };
 
 function Create() {
   const { id } = useParams();
 
+  const fetchForm = (): Promise<FormDataApi> => formApi.getForm(id);
+  const { data, isSuccess } = useQuery({ queryKey: [id], queryFn: fetchForm });
+
   const [state, dispatch] = useReducer(writeReducer, initialState);
   const { form, question } = state;
   const [focus, setFocus] = useState<string>("title");
 
+  const { openModal, closeModal, ModalPortal } = useModal();
+
   useEffect(() => {
-    console.log(fromFormToApi(state));
-    // if (!id) return;
-    // formApi.getForm(id).then((res) => console.log(res));
-  }, [state]);
+    if (!id) return;
+    if (isSuccess) dispatch({ type: "FETCH_DATA", init: fromApiToForm(data) });
+  }, [data, id, isSuccess]);
 
   const onClickTitle = () => {
     setFocus("title");
@@ -122,6 +119,20 @@ function Create() {
 
   const onClickSelectCategory = (value: string) => {
     dispatch({ type: "SELECT_FORM_CATEGORY", value });
+  };
+
+  const onClickChangeLoginRequired = () => {
+    dispatch({ type: "CHANGE_LOGIN_REQUIRED" });
+  };
+
+  const onClickChangeOnBoardShare = () => {
+    dispatch({ type: "CHANGE_ON_BOARD_SHARED" });
+  };
+
+  const onClickSaveForm = () => {
+    if (!id) return;
+    const apiData = fromFormToApi(state);
+    formApi.saveForm(id, apiData);
   };
 
   return (
@@ -195,10 +206,21 @@ function Create() {
           </QuestionContainer>
         ))}
         <BottomContainer>
-          <SaveButton type="button">저장</SaveButton>
-          <ShareButton type="button">공유</ShareButton>
+          <ShareButton type="button" onClick={() => openModal()}>
+            저장
+          </ShareButton>
         </BottomContainer>
       </Container>
+
+      <ModalPortal>
+        <ShareFormModal
+          formState={form}
+          closeModal={closeModal}
+          changeLoginRequired={onClickChangeLoginRequired}
+          changeOnBoardShare={onClickChangeOnBoardShare}
+          saveForm={onClickSaveForm}
+        />
+      </ModalPortal>
     </FormLayout>
   );
 }
