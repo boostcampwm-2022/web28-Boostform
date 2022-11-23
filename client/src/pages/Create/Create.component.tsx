@@ -9,10 +9,12 @@ import Icon from "components/Icon/Icon.component";
 import ToggleButton from "components/ToggleButton";
 import QuestionRead from "components/QuestionRead";
 import TitleDropdown from "components/TitleDropdown";
+import ShareFormModal from "components/Modal/ShareFormModal";
 import writeReducer from "reducer/write/writeReducer";
 import { FormState, FormDataApi } from "types/form.type";
 import formApi from "api/formApi";
 import { fromApiToForm, fromFormToApi } from "utils/form";
+import useModal from "hooks/useModal";
 import {
   Container,
   TitleContainer,
@@ -45,6 +47,7 @@ const initialState: FormState = {
     category: "카테고리",
     acceptResponse: false,
     onBoard: false,
+    loginRequired: false,
     currentQuestionId: 1,
   },
   question: [],
@@ -60,8 +63,11 @@ function Create() {
   const { form, question } = state;
   const [focus, setFocus] = useState<string>("title");
 
+  const { openModal, closeModal, ModalPortal } = useModal();
+
   useEffect(() => {
     if (!id) return;
+    if (isSuccess) console.log(data);
     if (isSuccess) dispatch({ type: "FETCH_DATA", init: fromApiToForm(data) });
   }, [data, id, isSuccess]);
 
@@ -117,9 +123,17 @@ function Create() {
     dispatch({ type: "SELECT_FORM_CATEGORY", value });
   };
 
-  const onClickSaveForm = (formData: FormState) => {
+  const onClickChangeLoginRequired = () => {
+    dispatch({ type: "CHANGE_LOGIN_REQUIRED" });
+  };
+
+  const onClickChangeOnBoardShare = () => {
+    dispatch({ type: "CHANGE_ON_BOARD_SHARED" });
+  };
+
+  const onClickSaveForm = () => {
     if (!id) return;
-    const apiData = fromFormToApi(formData);
+    const apiData = fromFormToApi(state);
     formApi.saveForm(id, apiData);
   };
 
@@ -194,12 +208,21 @@ function Create() {
           </QuestionContainer>
         ))}
         <BottomContainer>
-          <SaveButton type="button" onClick={() => onClickSaveForm(state)}>
+          <ShareButton type="button" onClick={() => openModal()}>
             저장
-          </SaveButton>
-          <ShareButton type="button">공유</ShareButton>
+          </ShareButton>
         </BottomContainer>
       </Container>
+
+      <ModalPortal>
+        <ShareFormModal
+          formState={form}
+          closeModal={closeModal}
+          changeLoginRequired={onClickChangeLoginRequired}
+          changeOnBoardShare={onClickChangeOnBoardShare}
+          saveForm={onClickSaveForm}
+        />
+      </ModalPortal>
     </FormLayout>
   );
 }

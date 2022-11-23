@@ -6,13 +6,12 @@ function ToggleButton({ state, onClick }: { state: boolean; onClick: () => void 
 
   const onClickToggle = () => {
     setToggle((prev) => !prev);
-    onClick();
   };
 
   return (
     <Container>
       <Toggle toggle={toggle}>
-        <Button onClick={onClickToggle} toggle={toggle} />
+        <Button onClick={onClickToggle} toggle={toggle} onTransitionEnd={() => onClick()} />
       </Toggle>
     </Container>
   );

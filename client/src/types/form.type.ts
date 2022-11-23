@@ -1,5 +1,17 @@
 type QuestionType = "checkbox" | "multiple" | "paragraph";
 
+interface FormSummary {
+  id: string;
+  userId: number;
+  title: string;
+  description: string;
+  category: string;
+  acceptResponse: boolean;
+  onBoard: boolean;
+  loginRequired: boolean;
+  currentQuestionId: number;
+}
+
 interface QuestionState {
   questionId: number;
   currentChoiceId: number;
@@ -15,17 +27,7 @@ interface QuestionState {
 }
 
 interface FormState {
-  form: {
-    id: string;
-    userId: number;
-    title: string;
-    description: string;
-    category: string;
-    acceptResponse: boolean;
-    onBoard: boolean;
-    loginRequired: boolean;
-    currentQuestionId: number;
-  };
+  form: FormSummary;
   question: QuestionState[];
 }
 
@@ -51,4 +53,4 @@ interface FormDataApi {
   loginRequired: boolean;
 }
 
-export type { FormState, QuestionType, QuestionState, FormDataApi };
+export type { FormState, QuestionType, QuestionState, FormDataApi, FormSummary };

@@ -180,6 +180,28 @@ function writeReducer(state: FormState, action: FormAction) {
     const { init } = action;
     return { ...state, ...init };
   }
+  if (type === "CHANGE_ON_BOARD_SHARED") {
+    const onBoardState = state.form.onBoard;
+
+    return {
+      ...state,
+      form: {
+        ...state.form,
+        onBoard: !onBoardState,
+      },
+    };
+  }
+  if (type === "CHANGE_LOGIN_REQUIRED") {
+    const loginRequiredState = state.form.loginRequired;
+
+    return {
+      ...state,
+      form: {
+        ...state.form,
+        loginRequired: !loginRequiredState,
+      },
+    };
+  }
 
   return state;
 }
