@@ -162,7 +162,7 @@ const TitleCategoryText = styled.span`
 const BottomContainer = styled.div`
   display: flex;
   justify-content: right;
-  margin-top: 16px;
+  margin: 16px 0 32px;
   background-color: #ffffff;
   border-radius: 3px;
   padding: 20px;
