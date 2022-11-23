@@ -1,0 +1,35 @@
+{
+  "config": {
+    "target": "http://127.0.0.1:8080",
+    "phases": [
+      {
+        "duration": 1,
+        "arrivalRate": 1
+      }
+    ]
+  },
+  "scenarios": [
+    {
+      "name": "Get Basic Form and Response",
+      "flow": [
+        {
+          "get": {
+            "url": "/api/responses/637db0981e0a01ef19ebe0de/response-page"
+          }
+        },
+        {
+          "post": {
+            "url": "/api/responses/637db0981e0a01ef19ebe0de",
+            "json": {
+              "answerList": [
+                { "question_id": 1, "answer": ["dog"] },
+                { "question_id": 2, "answer": ["chicken", "kimbap", "bread"] },
+                { "question_id": 3, "answer": ["의견1"] }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
