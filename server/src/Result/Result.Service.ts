@@ -13,15 +13,15 @@ class ResultService {
     this.responses = [];
   }
 
-  public async init(formID: string) {
+  public async init(formId: string) {
     this.form = undefined;
     this.responses = [];
-    this.form = await Form.findOne({ _id: formID })
+    this.form = await Form.findOne({ _id: formId })
       .exec()
       .catch(() => {
-        throw new BadRequestException("Invalid formID");
+        throw new BadRequestException("Invalid formId");
       });
-    this.responses = await FormResponse.find({ form_id: formID });
+    this.responses = await FormResponse.find({ form_id: formId });
     if (!this.form) throw new BadRequestException();
   }
 
