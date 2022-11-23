@@ -4,14 +4,14 @@ import { authMiddleware, checkAccessTokenExistence } from "../Middlewares/Auth.M
 
 const responseRouter = express.Router();
 
-responseRouter.get("/:formID", authMiddleware, ResponseController.checkResponseExistence);
+responseRouter.get("/:formId", authMiddleware, ResponseController.checkResponseExistence);
 
-responseRouter.get("/:formID/response-page", ResponseController.getFormForResponsePage);
+responseRouter.get("/:formId/response-page", ResponseController.getFormForResponsePage);
 
-responseRouter.post("/:formID", checkAccessTokenExistence, ResponseController.saveResponse);
+responseRouter.post("/:formId", checkAccessTokenExistence, ResponseController.saveResponse);
 
-responseRouter.get("/:formID/:responseID", checkAccessTokenExistence, ResponseController.revisitResponse);
+responseRouter.get("/:formId/:responseId", checkAccessTokenExistence, ResponseController.revisitResponse);
 
-responseRouter.patch("/:formID/:responseID", ResponseController.updateResponse);
+responseRouter.patch("/:formId/:responseId", ResponseController.updateResponse);
 
 export default responseRouter;

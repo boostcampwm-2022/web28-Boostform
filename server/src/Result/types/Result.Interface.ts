@@ -30,13 +30,13 @@ interface TargetForm {
 }
 
 interface Answer {
-  questionID: number;
+  questionId: number;
   answer: string;
 }
 
 interface FormResponse {
   userID: number | null;
-  formID: number;
+  formId: number;
   answerList: Array<Answer>;
 }
 
