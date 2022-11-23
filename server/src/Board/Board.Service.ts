@@ -52,7 +52,7 @@ class BoardService {
   }
 
   static async searchByQuery(searchQuery: FormSearchQuery, sortQuery: FormSortQuery) {
-    const select = "_id title response_count";
+    const select = "_id title category response_count";
     const updatedSearchQuery = this.pipe<SetToQueryFn, FormSearchQuery>(
       this.setOnBoardToQuery,
       this.setAcceptabilityToQuery,

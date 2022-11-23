@@ -15,7 +15,7 @@ class BoardController {
     const sortQuery = BoardController.filterByKeys(req.query, sortKeys);
 
     const searchResult = await BoardService.searchByQuery(searchQuery, sortQuery);
-    res.status(200).send(searchResult);
+    res.status(200).json(searchResult);
   }
 }
 
