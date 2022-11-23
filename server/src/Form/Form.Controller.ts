@@ -24,7 +24,7 @@ class FormController {
 
   static async sendFormList(req: Request, res: Response, next: NextFunction) {
     try {
-      const size = Number(req.params.size);
+      const size = Number(req.query.size);
       const userID = Number(req.userID);
       const formList = await FormService.getFormList(userID, size);
       res.json({
