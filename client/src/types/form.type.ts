@@ -16,6 +16,8 @@ interface QuestionState {
 
 interface FormState {
   form: {
+    id: string;
+    userId: number;
     title: string;
     description: string;
     category: string;

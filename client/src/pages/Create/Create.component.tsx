@@ -1,4 +1,4 @@
-import React, { useReducer, useState } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import { useParams } from "react-router-dom";
 import FormLayout from "components/Layout/FormLayout.component";
 import Dropdown from "components/QuestionDropdown";
@@ -9,6 +9,8 @@ import QuestionRead from "components/QuestionRead";
 import TitleDropdown from "components/TitleDropdown";
 import writeReducer from "reducer/write/writeReducer";
 import { FormState } from "types/form.type";
+import formApi from "api/formApi";
+import { fromApiToForm, fromFormToApi } from "utils/form";
 import {
   Container,
   TitleContainer,
@@ -34,6 +36,8 @@ import {
 
 const initialState: FormState = {
   form: {
+    id: "dfsdf",
+    userId: 3,
     title: "제목 없음",
     description: "설문지 설명",
     category: "카테고리",
@@ -61,6 +65,12 @@ function Create() {
   const [state, dispatch] = useReducer(writeReducer, initialState);
   const { form, question } = state;
   const [focus, setFocus] = useState<string>("title");
+
+  useEffect(() => {
+    console.log(fromFormToApi(state));
+    // if (!id) return;
+    // formApi.getForm(id).then((res) => console.log(res));
+  }, [state]);
 
   const onClickTitle = () => {
     setFocus("title");
