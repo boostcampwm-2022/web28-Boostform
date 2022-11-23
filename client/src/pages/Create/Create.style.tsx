@@ -139,6 +139,28 @@ const EssentialText = styled.span`
   margin-right: 8px;
 `;
 
+const TitleCategoryWrapper = styled.div`
+  width: 220px;
+  height: 41px;
+  display: flex;
+  align-items: center;
+  margin-top: 16px;
+  padding: 10px;
+  border: 1px solid #afafaf;
+  border-radius: 3px;
+  background-color: transparent;
+  cursor: pointer;
+`;
+
+const TitleCategoryText = styled.span`
+  text-align: left;
+  margin-left: 8px;
+  font-size: 13.3px;
+  font-weight: 400;
+  line-height: 16px;
+  font-family: Arial, Helvetica, sans-serif;
+`;
+
 export {
   Container,
   TitleContainer,
@@ -155,4 +177,6 @@ export {
   QuestionTailButton,
   EssentialWrapper,
   EssentialText,
+  TitleCategoryWrapper,
+  TitleCategoryText,
 };

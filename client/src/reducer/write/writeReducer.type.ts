@@ -8,6 +8,7 @@ type FormAction =
   | { type: "DELETE_QUESTION_CHOICE"; questionIndex: number; choiceIndex: number }
   | { type: "DELETE_QUESTION"; questionIndex: number }
   | { type: "COPY_QUESTION"; questionIndex: number }
-  | { type: "CHANGE_QUESTION_ESSENTIAL"; questionIndex: number };
+  | { type: "CHANGE_QUESTION_ESSENTIAL"; questionIndex: number }
+  | { type: "SELECT_FORM_CATEGORY"; value: string };
 
 export default FormAction;

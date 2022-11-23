@@ -1,11 +1,12 @@
 import React, { useReducer, useState } from "react";
 import { useParams } from "react-router-dom";
 import FormLayout from "components/Layout/FormLayout.component";
-import Dropdown from "components/Dropdown";
+import Dropdown from "components/QuestionDropdown";
 import Question from "components/Question";
 import Icon from "components/Icon/Icon.component";
 import ToggleButton from "components/ToggleButton";
 import QuestionRead from "components/QuestionRead";
+import TitleDropdown from "components/TitleDropdown";
 import writeReducer from "reducer/write/writeReducer";
 import { FormState } from "types/form.type";
 import {
@@ -24,13 +25,15 @@ import {
   QuestionTailButton,
   EssentialWrapper,
   EssentialText,
+  TitleCategoryWrapper,
+  TitleCategoryText,
 } from "./Create.style";
 
 const initialState: FormState = {
   form: {
     title: "제목 없음",
     description: "설문지 설명",
-    category: "-",
+    category: "카테고리",
     acceptResponse: false,
     onBoard: false,
     currentQuestionId: 1,
@@ -104,6 +107,10 @@ function Create() {
     dispatch({ type: "CHANGE_QUESTION_ESSENTIAL", questionIndex });
   };
 
+  const onClickSelectCategory = (value: string) => {
+    dispatch({ type: "SELECT_FORM_CATEGORY", value });
+  };
+
   return (
     <FormLayout>
       <Container>
@@ -112,12 +119,16 @@ function Create() {
             <>
               <TitleRead>{form.title}</TitleRead>
               <DescriptionRead>{form.description ? form.description : "Form description"}</DescriptionRead>
+              <TitleCategoryWrapper>
+                <TitleCategoryText>{form.category}</TitleCategoryText>
+              </TitleCategoryWrapper>
             </>
           )}
           {focus === "title" && (
             <>
               <TitleInput onInput={onInputTitle} value={form.title} />
               <DescriptionInput onInput={onInputDescription} value={form.description} placeholder="Form description" />
+              <TitleDropdown state={form.category} setState={onClickSelectCategory} />
             </>
           )}
         </TitleContainer>

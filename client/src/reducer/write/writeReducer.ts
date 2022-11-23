@@ -165,6 +165,17 @@ function writeReducer(state: FormState, action: FormAction) {
       question: [...leftQuestion, currQuestion, ...rightQuestion],
     };
   }
+  if (type === "SELECT_FORM_CATEGORY") {
+    const { value } = action;
+
+    return {
+      ...state,
+      form: {
+        ...state.form,
+        category: value,
+      },
+    };
+  }
 
   return state;
 }
