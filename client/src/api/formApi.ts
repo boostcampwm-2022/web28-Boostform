@@ -23,7 +23,7 @@ const formApi = {
   getFormLists: async (size: number, source: CancelTokenSource) => {
     return axios(`${API.FORM}?size=${size}`, { withCredentials: true, cancelToken: source.token });
   },
-  getForm: async (id: string) => {
+  getForm: async (id: string | undefined) => {
     const { data } = await axios.get(`${API.FORM}/${id}`, { withCredentials: true });
     return data;
   },

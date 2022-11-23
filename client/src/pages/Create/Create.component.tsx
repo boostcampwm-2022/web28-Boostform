@@ -1,6 +1,6 @@
 import React, { useEffect, useReducer, useState } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
 
 import FormLayout from "components/Layout/FormLayout.component";
 import Dropdown from "components/QuestionDropdown";
@@ -10,7 +10,7 @@ import ToggleButton from "components/ToggleButton";
 import QuestionRead from "components/QuestionRead";
 import TitleDropdown from "components/TitleDropdown";
 import writeReducer from "reducer/write/writeReducer";
-import { FormState } from "types/form.type";
+import { FormState, FormDataApi } from "types/form.type";
 import formApi from "api/formApi";
 import { fromApiToForm, fromFormToApi } from "utils/form";
 import {
@@ -38,42 +38,32 @@ import {
 
 const initialState: FormState = {
   form: {
-    id: "dfsdf",
+    id: "example",
     userId: 3,
-    title: "제목 없음",
-    description: "설문지 설명",
+    title: "",
+    description: "",
     category: "카테고리",
     acceptResponse: false,
     onBoard: false,
     currentQuestionId: 1,
   },
-  question: [
-    {
-      questionId: 1,
-      currentChoiceId: 1,
-      page: 1,
-      type: "checkbox",
-      essential: false,
-      etcAdded: false,
-      title: "질문",
-      option: [{ choiceId: 1, value: "옵션1" }],
-    },
-  ],
+  question: [],
 };
 
 function Create() {
   const { id } = useParams();
+
+  const fetchForm = (): Promise<FormDataApi> => formApi.getForm(id);
+  const { data, isSuccess } = useQuery({ queryKey: ["getForm"], queryFn: fetchForm });
+
   const [state, dispatch] = useReducer(writeReducer, initialState);
   const { form, question } = state;
   const [focus, setFocus] = useState<string>("title");
 
   useEffect(() => {
     if (!id) return;
-    formApi.getForm(id).then((res) => {
-      const initial = fromApiToForm(res);
-      dispatch({ type: "FETCH_DATA", init: initial });
-    });
-  }, [id]);
+    if (isSuccess) dispatch({ type: "FETCH_DATA", init: fromApiToForm(data) });
+  }, [data, id, isSuccess]);
 
   const onClickTitle = () => {
     setFocus("title");
