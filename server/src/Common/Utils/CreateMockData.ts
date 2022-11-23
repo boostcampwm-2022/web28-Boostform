@@ -100,7 +100,7 @@ async function createResponseMockData(
 // 응답 생성
 // (async () => {
 //   try {
-//     await createResponseMockData(1, "637dccbeab28d75b1af71be1", 3, [1, 4], "의견3");
+//     await createResponseMockData(4, "637e0d357020fb35a5182f26", 3, [1, 2, 3], "의견3");
 //     console.log("created successfully");
 //   } catch (err) {
 //     console.log(err);
