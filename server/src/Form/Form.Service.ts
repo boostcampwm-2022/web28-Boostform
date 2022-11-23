@@ -1,5 +1,5 @@
 import Form from "./Form.Model";
-import UpdateFormRequestBody from "./Form.Interface";
+import { UpdateFormRequestBody, QuestionInRequestBody } from "./Form.Interface";
 import getDateString from "../Common/Utils/GetDateString";
 
 class FormService {
@@ -26,14 +26,27 @@ class FormService {
     return formList;
   }
 
-  static async updateFormList(formID: string, body: UpdateFormRequestBody) {
+  static async updateForm(formID: string, body: UpdateFormRequestBody) {
+    const question = body.question.map((q: QuestionInRequestBody) => {
+      return {
+        question_id: q.questionID,
+        page: q.page,
+        type: q.type,
+        title: q.title,
+        option: q.option,
+        essential: q.essential,
+        etc_added: q.etcAdded,
+      };
+    });
+
     const updated = {
       title: body.title,
       category: body.category,
-      question: body.question,
+      question,
       accept_response: body.acceptResponse,
       on_board: body.onBoard,
     };
+
     await Form.findOneAndUpdate({ _id: formID }, updated);
   }
 

@@ -39,7 +39,7 @@ class FormController {
     try {
       const { params, body } = req;
       const formID = params.id;
-      await FormService.updateFormList(formID, body);
+      await FormService.updateForm(formID, body);
       res.json(200);
     } catch (err) {
       next(err);
