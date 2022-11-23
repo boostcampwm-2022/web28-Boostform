@@ -1,5 +1,5 @@
 interface QuestionInRequestBody {
-  questionID: number;
+  questionId: number;
   page: number;
   type: string;
   title: string;

@@ -26,12 +26,12 @@ class FormService {
     return formList;
   }
 
-  static async updateForm(formID: string, body: UpdateFormRequestBody) {
+  static async updateForm(formId: string, body: UpdateFormRequestBody) {
     let questionList;
     if (body.questionList) {
       questionList = body.questionList.map((q: QuestionInRequestBody) => {
         return {
-          question_id: q.questionID,
+          question_id: q.questionId,
           page: q.page,
           type: q.type,
           title: q.title,
@@ -52,15 +52,16 @@ class FormService {
       login_required: body.loginRequired,
     };
 
-    await Form.findOneAndUpdate({ _id: formID }, updated);
+    await Form.findOneAndUpdate({ _id: formId }, updated);
   }
 
-  static async deleteForm(formID: string) {
-    await Form.deleteOne({ _id: formID });
+  static async deleteForm(formId: string) {
+    await Form.deleteOne({ _id: formId });
   }
 
-  static async getForm(formID: string): Promise<any> {
-    const form = await Form.findOne({ _id: formID });
+  static async getForm(formId: string): Promise<any> {
+    const form = await Form.findOne({ _id: formId });
+
 
     return form;
   }
@@ -68,7 +69,7 @@ class FormService {
   static getQuestionListForResponse(rawQuestion: Array<QuestionInDB>) {
     const questionList = rawQuestion.map((question) => {
       return {
-        questionID: question.question_id,
+        questionId: question.question_id,
         page: question.page,
         type: question.type,
         essential: question.essential,

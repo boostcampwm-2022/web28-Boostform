@@ -17,6 +17,8 @@ interface FormSearchQuery {
 
 type SetToQueryFn = (query: FormSearchQuery) => FormSearchQuery;
 
+type EqualTypeReturnFn<T> = (arg: T) => T;
+
 class BoardService {
   static setOnBoardToQuery(query: FormSearchQuery) {
     return { ...query, on_board: false };
@@ -35,19 +37,22 @@ class BoardService {
   }
 
   // eslint-disable-next-line @typescript-eslint/ban-types
-  static pipe<F extends Function, V>(...fns: F[]) {
-    // pipe<H, F extends Function, V>(...fns: F[]): H - ReturnType 지정방법 찾아보기
+  static pipe<F extends Function, V>(...fns: F[]): EqualTypeReturnFn<V> {
     return (initial: V) => fns.reduce((acc, currentFn) => currentFn(acc), initial);
   }
 
   static setSortingToQuery(query: FormSortQuery) {
     if (!("order_by" in query) || !("order" in query)) return ``;
-    const order = query.order === "asc" ? "" : "-";
+    if (!["title", "category", "response_count"].includes(query.order_by as string)) return ``;
+    if (!["asc", "desc"].includes(query.order as string)) return ``;
+
+    const order = query.order === "desc" ? "-" : "";
     const orderBy = query.order_by;
     return `${order}${orderBy}`;
   }
 
   static async searchByQuery(searchQuery: FormSearchQuery, sortQuery: FormSortQuery) {
+    const select = "_id title category response_count";
     const updatedSearchQuery = this.pipe<SetToQueryFn, FormSearchQuery>(
       this.setOnBoardToQuery,
       this.setAcceptabilityToQuery,
@@ -56,7 +61,7 @@ class BoardService {
 
     const updatedSortQuery = this.setSortingToQuery(sortQuery);
 
-    const searchResults = await Form.find(updatedSearchQuery).sort(updatedSortQuery); // .skip(<number>).limit(<number>)
+    const searchResults = await Form.find(updatedSearchQuery, select).sort(updatedSortQuery); // .skip(<number>).limit(<number>)
     return searchResults;
   }
 }
