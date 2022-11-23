@@ -1,33 +1,12 @@
-import { FormState, QuestionType, QuestionState } from "types/form.type";
-
-interface QuestionDataApi {
-  questionId: number;
-  page: number;
-  type: QuestionType;
-  essential: boolean;
-  etcAdded: boolean;
-  title: string;
-  option: string[];
-}
-
-interface FormDataApi {
-  id: string;
-  userID: number;
-  title: string;
-  description: string;
-  category: string;
-  questionList: QuestionDataApi[];
-  acceptResponse: boolean;
-  onBoard: boolean;
-}
+import { FormState, QuestionState, FormDataApi } from "types/form.type";
 
 const fromApiToForm = (api: FormDataApi): FormState => {
-  const { id, userID, title, description, category, questionList, acceptResponse, onBoard } = api;
+  const { id, userID, title, description, category, questionList, acceptResponse, onBoard, loginRequired } = api;
 
-  let fQuestion: QuestionState[];
+  let formQuestionList: QuestionState[];
 
   if (!questionList.length)
-    fQuestion = [
+    formQuestionList = [
       {
         questionId: 1,
         currentChoiceId: 1,
@@ -40,51 +19,50 @@ const fromApiToForm = (api: FormDataApi): FormState => {
       },
     ];
   else
-    fQuestion = questionList.map(
-      ({ questionId, page, type, essential, etcAdded, title: questionTitle, option }, index) => {
-        const fOption = option.map((value, optionIndex) => {
-          return {
-            choiceId: optionIndex,
-            value,
-          };
-        });
-
+    formQuestionList = questionList.map(({ page, type, essential, etcAdded, title: questionTitle, option }, index) => {
+      const formOptionList = option.map((value, optionIndex) => {
         return {
-          questionId,
-          page,
-          type,
-          essential,
-          etcAdded,
-          title: questionTitle,
-          option: fOption,
-          currentChoiceId: index + 1,
+          choiceId: optionIndex + 1,
+          value,
         };
-      }
-    );
+      });
+
+      return {
+        questionId: index + 1,
+        page,
+        type,
+        essential,
+        etcAdded,
+        title: questionTitle,
+        option: formOptionList,
+        currentChoiceId: option.length,
+      };
+    });
 
   return {
     form: {
       id,
       userId: userID,
       title,
-      description,
-      category,
+      description: description || "설문지 설명",
+      category: category || "카테고리",
       acceptResponse,
       onBoard,
       currentQuestionId: questionList.length,
+      loginRequired,
     },
-    question: fQuestion,
+    question: formQuestionList,
   };
 };
 
 const fromFormToApi = (state: FormState): FormDataApi => {
   const { form, question } = state;
-  const { title, description, category, acceptResponse, onBoard, id, userId } = form;
+  const { title, description, category, acceptResponse, onBoard, id, userId, loginRequired } = form;
 
-  const q = question.map(({ questionId, page, type, essential, etcAdded, title: qTitle, option }) => {
-    const qOption = option.map(({ value }) => value);
+  const apiQuestionList = question.map(({ questionId, page, type, essential, etcAdded, title: qTitle, option }) => {
+    const apiQuestionOption = option.map(({ value }) => value);
 
-    return { questionId, page, type, essential, etcAdded, title: qTitle, option: qOption };
+    return { questionId, page, type, essential, etcAdded, title: qTitle, option: apiQuestionOption };
   });
 
   return {
@@ -95,35 +73,9 @@ const fromFormToApi = (state: FormState): FormDataApi => {
     category,
     acceptResponse,
     onBoard,
-    questionList: q,
+    loginRequired,
+    questionList: apiQuestionList,
   };
 };
-
-const initialState: FormState = {
-  form: {
-    id: "dfsdf",
-    userId: 3,
-    title: "제목 없음",
-    description: "설문지 설명",
-    category: "카테고리",
-    acceptResponse: false,
-    onBoard: false,
-    currentQuestionId: 1,
-  },
-  question: [
-    {
-      questionId: 1,
-      currentChoiceId: 1,
-      page: 1,
-      type: "checkbox",
-      essential: false,
-      etcAdded: false,
-      title: "질문",
-      option: [{ choiceId: 1, value: "옵션1" }],
-    },
-  ],
-};
-
-console.log(fromFormToApi(initialState));
 
 export { fromApiToForm, fromFormToApi };
