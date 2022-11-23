@@ -1,19 +1,7 @@
 import React from "react";
+import { QuestionState } from "types/form.type";
 import Checkbox from "./Checkbox";
 import Paragraph from "./Paragraph";
-
-interface QuestionState {
-  questionId: number;
-  page: number;
-  type: "checkbox" | "multiple" | "paragraph";
-  essential: boolean;
-  etcAdded: boolean;
-  title: string;
-  option: {
-    choiceId: number;
-    value: string;
-  }[];
-}
 
 function Question({
   index,

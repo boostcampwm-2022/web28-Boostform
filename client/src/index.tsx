@@ -1,4 +1,4 @@
-import React, { createContext } from "react";
+import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import GlobalStyle from "styles/GlobalStyle";
@@ -31,12 +31,12 @@ const router = createBrowserRouter([
 ]);
 
 root.render(
-  <React.StrictMode>
+  <>
     <GlobalStyle />
     <AuthProvider>
       <RouterProvider router={router} />
     </AuthProvider>
-  </React.StrictMode>
+  </>
 );
 
 // If you want to start measuring performance in your app, pass a function

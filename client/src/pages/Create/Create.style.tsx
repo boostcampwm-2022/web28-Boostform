@@ -97,8 +97,6 @@ const QuestionTitleInput = styled.input`
   }
 `;
 
-const QuestionTitleRead = styled.div``;
-
 const QuestionBody = styled.div`
   padding: 10px 0;
 `;
@@ -128,8 +126,65 @@ const QuestionTailButton = styled.button`
 `;
 
 const EssentialWrapper = styled.div`
+  display: flex;
+  align-items: center;
   border-left: 1px solid #aeaeae;
   padding: 8px 12px;
+`;
+
+const EssentialText = styled.span`
+  font-size: 15px;
+  margin-right: 8px;
+`;
+
+const TitleCategoryWrapper = styled.div`
+  width: 220px;
+  height: 41px;
+  display: flex;
+  align-items: center;
+  margin-top: 16px;
+  padding: 10px;
+  border: 1px solid #afafaf;
+  border-radius: 3px;
+  background-color: transparent;
+  cursor: pointer;
+`;
+
+const TitleCategoryText = styled.span`
+  text-align: left;
+  margin-left: 8px;
+  font-size: 13.3px;
+  font-weight: 400;
+  line-height: 16px;
+  font-family: Arial, Helvetica, sans-serif;
+`;
+
+const BottomContainer = styled.div`
+  display: flex;
+  justify-content: right;
+  margin-top: 16px;
+  background-color: #ffffff;
+  border-radius: 3px;
+  padding: 20px;
+`;
+
+const SaveButton = styled.button`
+  background-color: #284b8f;
+  color: #ffffff;
+  padding: 8px 16px;
+  border: 1px solid #aeaeae;
+  margin-right: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+`;
+
+const ShareButton = styled.button`
+  background-color: #284b8f;
+  color: #ffffff;
+  padding: 8px 16px;
+  border: 1px solid #aeaeae;
+  border-radius: 8px;
+  cursor: pointer;
 `;
 
 export {
@@ -147,4 +202,10 @@ export {
   QuestionTail,
   QuestionTailButton,
   EssentialWrapper,
+  EssentialText,
+  TitleCategoryWrapper,
+  TitleCategoryText,
+  BottomContainer,
+  SaveButton,
+  ShareButton,
 };

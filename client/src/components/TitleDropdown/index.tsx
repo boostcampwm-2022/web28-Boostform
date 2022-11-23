@@ -1,14 +1,12 @@
 import React, { useState } from "react";
 import Icon from "components/Icon/Icon.component";
 import OutsideDetecter from "hooks/useOutsideDetecter";
-import { Container, Button, Content, DropdownButton, DropdownText } from "./Dropdown.style";
+import { Container, Button, Content, DropdownButton, DropdownText } from "./TitleDropdown.style";
 
-type DropdownType = "checkbox" | "paragraph" | "multiple";
-
-function Dropdown({ state, setState }: { state: DropdownType; setState: (value: DropdownType) => void }) {
+function TitleDropdown({ state, setState }: { state: string; setState: (value: string) => void }) {
   const [open, setOpen] = useState(false);
-  const [selected, setSelected] = useState<DropdownType>(state);
-  const types: DropdownType[] = ["checkbox", "multiple", "paragraph"];
+  const [selected, setSelected] = useState<string>(state);
+  const category = ["MBTI", "Quiz", "survey"];
 
   return (
     <Container>
@@ -19,7 +17,6 @@ function Dropdown({ state, setState }: { state: DropdownType; setState: (value: 
           setOpen((prev) => !prev);
         }}
       >
-        <Icon type={selected} size="16px" />
         <DropdownText>{selected}</DropdownText>
         <Icon type="dropdown" size="16px" />
       </Button>
@@ -27,19 +24,18 @@ function Dropdown({ state, setState }: { state: DropdownType; setState: (value: 
       {open && (
         <OutsideDetecter callback={() => setOpen(false)}>
           <Content>
-            {types.map((type) => (
-              <li key={type}>
+            {category.map((value) => (
+              <li key={value}>
                 <DropdownButton
                   type="button"
                   onClick={(e) => {
                     e.stopPropagation();
-                    setSelected(type);
+                    setSelected(value);
                     setOpen(false);
-                    setState(type);
+                    setState(value);
                   }}
                 >
-                  <Icon type={type} size="16px" />
-                  <DropdownText>{type}</DropdownText>
+                  <DropdownText>{value}</DropdownText>
                 </DropdownButton>
               </li>
             ))}
@@ -50,4 +46,4 @@ function Dropdown({ state, setState }: { state: DropdownType; setState: (value: 
   );
 }
 
-export default Dropdown;
+export default TitleDropdown;
