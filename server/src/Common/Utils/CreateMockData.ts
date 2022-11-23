@@ -29,7 +29,7 @@ async function createFormMockData(id: number) {
     title: "Form Mock Data",
     description: "테스트를 위한 Mock Data",
     category: "기타",
-    question: [
+    question_list: [
       {
         question_id: 1,
         type: "single",
@@ -59,7 +59,7 @@ async function createFormMockData(id: number) {
 
 async function createResponseMockData(
   count: number,
-  formID: string,
+  formId: string,
   answer1: number,
   answer2: Array<number>,
   answer3: string
@@ -67,7 +67,7 @@ async function createResponseMockData(
   const answer2List = answer2.map((val) => option2[val - 1]);
   for (let i = 0; i < count; i += 1) {
     const mockData = new FormResponse({
-      form_id: formID,
+      form_id: formId,
       answer_list: [
         {
           question_id: 1,
@@ -90,7 +90,7 @@ async function createResponseMockData(
 // 설문지 생성
 // (async () => {
 //   try {
-//     await createFormMockData(4);
+//     await createFormMockData(2);
 //     console.log("created successfully");
 //   } catch (err) {
 //     console.log(err);
@@ -100,7 +100,7 @@ async function createResponseMockData(
 // 응답 생성
 // (async () => {
 //   try {
-//     await createResponseMockData(2, "637c51f6c87be404f5121f0a", 3, [2, 3, 4], "의견3");
+//     await createResponseMockData(5, "637db0981e0a01ef19ebe0de", 3, [1, 3, 4], "의견3");
 //     console.log("created successfully");
 //   } catch (err) {
 //     console.log(err);

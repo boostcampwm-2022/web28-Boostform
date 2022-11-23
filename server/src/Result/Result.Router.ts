@@ -3,5 +3,5 @@ import resultController from "./Result.Controller";
 
 const router = express.Router();
 
-router.get("/:formID", resultController.formResult);
+router.get("/:formId", resultController.formResult);
 export default router;
