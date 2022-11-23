@@ -18,12 +18,29 @@ interface QuestionInDB {
   etc_added: boolean;
 }
 
-interface UpdateFormRequestBody {
+interface FormInDB {
+  _id: string;
+  user_id: number;
   title: string;
+  description: string;
   category: string;
-  question: Array<QuestionInRequestBody>;
-  acceptResponse: boolean;
-  onBoard: boolean;
+  question_list: Array<QuestionInDB>;
+  accept_response: boolean;
+  on_board: boolean;
+  login_required: boolean;
+  response_count: number;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
-export { UpdateFormRequestBody, QuestionInRequestBody, QuestionInDB };
+interface UpdateFormRequestBody {
+  title: string;
+  description: string;
+  category: string;
+  questionList: Array<QuestionInRequestBody>;
+  acceptResponse: boolean;
+  onBoard: boolean;
+  loginRequired: boolean;
+}
+
+export { UpdateFormRequestBody, QuestionInRequestBody, QuestionInDB, FormInDB };

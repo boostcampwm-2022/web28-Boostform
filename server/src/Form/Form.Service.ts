@@ -27,7 +27,7 @@ class FormService {
   }
 
   static async updateForm(formID: string, body: UpdateFormRequestBody) {
-    const question = body.question.map((q: QuestionInRequestBody) => {
+    const questionList = body.questionList.map((q: QuestionInRequestBody) => {
       return {
         question_id: q.questionID,
         page: q.page,
@@ -41,10 +41,12 @@ class FormService {
 
     const updated = {
       title: body.title,
+      description: body.description,
       category: body.category,
-      question,
+      question_list: questionList,
       accept_response: body.acceptResponse,
       on_board: body.onBoard,
+      login_required: body.loginRequired,
     };
 
     await Form.findOneAndUpdate({ _id: formID }, updated);
@@ -60,16 +62,19 @@ class FormService {
     return form;
   }
 
-  static getQuestionForResponse(rawQuestion: QuestionInDB) {
-    return {
-      questionID: rawQuestion.question_id,
-      page: rawQuestion.page,
-      type: rawQuestion.type,
-      title: rawQuestion.title,
-      option: rawQuestion.option,
-      essential: rawQuestion.essential,
-      etcAdded: rawQuestion.etc_added,
-    };
+  static getQuestionListForResponse(rawQuestion: Array<QuestionInDB>) {
+    const questionList = rawQuestion.map((question) => {
+      return {
+        questionID: question.question_id,
+        page: question.page,
+        type: question.type,
+        essential: question.essential,
+        etcAdded: question.etc_added,
+        title: question.title,
+        option: question.option,
+      };
+    });
+    return questionList;
   }
 }
 

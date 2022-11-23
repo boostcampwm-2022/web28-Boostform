@@ -46,7 +46,7 @@ const FormSchema = new mongoose.Schema(
     category: {
       type: String,
     },
-    question: {
+    question_list: {
       type: [QuestionSchema],
     },
     accept_response: {

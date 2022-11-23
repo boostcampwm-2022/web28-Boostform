@@ -6,7 +6,9 @@ const formRouter = express.Router();
 
 formRouter.use("/", authMiddleware);
 
-formRouter.get("/", FormController.sendFormList);
+formRouter.get("/", FormController.getFormList);
+
+formRouter.get("/:id", FormController.getForm);
 
 formRouter.post("/", FormController.createNewForm);
 
