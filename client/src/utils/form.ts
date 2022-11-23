@@ -1,12 +1,12 @@
 import { FormState, QuestionState, FormDataApi } from "types/form.type";
 
 const fromApiToForm = (api: FormDataApi): FormState => {
-  const { id, userID, title, description, category, questionList, acceptResponse, onBoard } = api;
+  const { id, userID, title, description, category, questionList, acceptResponse, onBoard, loginRequired } = api;
 
-  let fQuestion: QuestionState[];
+  let formQuestionList: QuestionState[];
 
   if (!questionList.length)
-    fQuestion = [
+    formQuestionList = [
       {
         questionId: 1,
         currentChoiceId: 1,
@@ -19,8 +19,8 @@ const fromApiToForm = (api: FormDataApi): FormState => {
       },
     ];
   else
-    fQuestion = questionList.map(({ page, type, essential, etcAdded, title: questionTitle, option }, index) => {
-      const fOption = option.map((value, optionIndex) => {
+    formQuestionList = questionList.map(({ page, type, essential, etcAdded, title: questionTitle, option }, index) => {
+      const formOptionList = option.map((value, optionIndex) => {
         return {
           choiceId: optionIndex + 1,
           value,
@@ -34,7 +34,7 @@ const fromApiToForm = (api: FormDataApi): FormState => {
         essential,
         etcAdded,
         title: questionTitle,
-        option: fOption,
+        option: formOptionList,
         currentChoiceId: option.length,
       };
     });
@@ -49,16 +49,17 @@ const fromApiToForm = (api: FormDataApi): FormState => {
       acceptResponse,
       onBoard,
       currentQuestionId: questionList.length,
+      loginRequired,
     },
-    question: fQuestion,
+    question: formQuestionList,
   };
 };
 
 const fromFormToApi = (state: FormState): FormDataApi => {
   const { form, question } = state;
-  const { title, description, category, acceptResponse, onBoard, id, userId } = form;
+  const { title, description, category, acceptResponse, onBoard, id, userId, loginRequired } = form;
 
-  const q = question.map(({ questionId, page, type, essential, etcAdded, title: qTitle, option }) => {
+  const apiQuestionList = question.map(({ questionId, page, type, essential, etcAdded, title: qTitle, option }) => {
     const qOption = option.map(({ value }) => value);
 
     return { questionId, page, type, essential, etcAdded, title: qTitle, option: qOption };
@@ -72,7 +73,8 @@ const fromFormToApi = (state: FormState): FormDataApi => {
     category,
     acceptResponse,
     onBoard,
-    questionList: q,
+    loginRequired,
+    questionList: apiQuestionList,
   };
 };
 

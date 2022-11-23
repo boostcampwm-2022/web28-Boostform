@@ -23,6 +23,7 @@ interface FormState {
     category: string;
     acceptResponse: boolean;
     onBoard: boolean;
+    loginRequired: boolean;
     currentQuestionId: number;
   };
   question: QuestionState[];
@@ -47,6 +48,7 @@ interface FormDataApi {
   questionList: QuestionDataApi[];
   acceptResponse: boolean;
   onBoard: boolean;
+  loginRequired: boolean;
 }
 
 export type { FormState, QuestionType, QuestionState, FormDataApi };
