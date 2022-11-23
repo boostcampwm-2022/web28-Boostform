@@ -3,12 +3,12 @@ import { FormDataApi } from "types/form.type";
 import API from "./routes";
 
 const formApi = {
-  deleteForm: async (formID: string) => {
-    await axios.delete(`${API.FORM}/${formID}`, { withCredentials: true });
+  deleteForm: async (formId: string) => {
+    await axios.delete(`${API.FORM}/${formId}`, { withCredentials: true });
   },
-  editName: async (formID: string, title: string) => {
+  editName: async (formId: string, title: string) => {
     await axios.patch(
-      `${API.FORM}/${formID}`,
+      `${API.FORM}/${formId}`,
       {
         title,
       },

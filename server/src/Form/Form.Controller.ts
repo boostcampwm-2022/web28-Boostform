@@ -18,6 +18,8 @@ class FormController {
       if (err.message.includes("Form validation failed")) {
         next(new BadRequestException("설문지 제출 형식이 잘못되었습니다."));
       } else {
+        console.log(err);
+
         next(err);
       }
     }
@@ -38,8 +40,8 @@ class FormController {
 
   static async getForm(req: Request, res: Response, next: NextFunction) {
     try {
-      const { id } = req.params;
-      const form = (await FormService.getForm(id)) as FormInDB;
+      const { formId } = req.params;
+      const form = (await FormService.getForm(formId)) as FormInDB;
 
       const questionList = FormService.getQuestionListForResponse(form.question_list);
 
@@ -56,6 +58,8 @@ class FormController {
         loginRequired: form.login_required,
       });
     } catch (err) {
+      console.log(err);
+
       next(err);
     }
   }
@@ -67,8 +71,8 @@ class FormController {
 
       await FormService.updateForm(formId, body);
       res.status(200).end();
-
     } catch (err) {
+      console.log(err);
       next(err);
     }
   }
@@ -79,6 +83,8 @@ class FormController {
       await FormService.deleteForm(formId);
       res.status(204).end();
     } catch (err) {
+      console.log(err);
+
       next(err);
     }
   }

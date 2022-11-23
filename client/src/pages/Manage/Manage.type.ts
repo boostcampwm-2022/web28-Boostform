@@ -10,7 +10,7 @@ interface FormItems {
 }
 
 type CreateFormResponse = {
-  formID: string;
+  formId: string;
 };
 
 interface SelectedForm {

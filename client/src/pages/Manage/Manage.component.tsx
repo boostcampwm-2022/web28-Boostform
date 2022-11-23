@@ -63,12 +63,12 @@ function Manage() {
   }, [size]);
 
   const onClickCreateForm: React.MouseEventHandler<HTMLButtonElement> = async () => {
-    const { formID } = await formApi.createForm();
-    navigate(`/forms/${formID}`);
+    const { formId } = await formApi.createForm();
+    navigate(`/forms/${formId}`);
   };
 
-  const onClickNavigateForm = (formID: string) => {
-    navigate(`/forms/${formID}`);
+  const onClickNavigateForm = (formId: string) => {
+    navigate(`/forms/${formId}`);
   };
 
   const onClickFetchForms: React.MouseEventHandler<HTMLButtonElement> = () => {
@@ -92,17 +92,17 @@ function Manage() {
     setDropdowns(Array(length).fill(false));
   };
 
-  const onClickOpenNameChangeModal = (formID: string, index: number) => {
+  const onClickOpenNameChangeModal = (formId: string, index: number) => {
     closeAllDropDown();
     setModalType("change");
-    setSelectedForm({ id: formID, index });
+    setSelectedForm({ id: formId, index });
     openModal();
   };
 
-  const onClickOpenDeleteFormModal = (formID: string, index: number) => {
+  const onClickOpenDeleteFormModal = (formId: string, index: number) => {
     closeAllDropDown();
     setModalType("delete");
-    setSelectedForm({ id: formID, index });
+    setSelectedForm({ id: formId, index });
     openModal();
   };
 
