@@ -27,17 +27,20 @@ class FormService {
   }
 
   static async updateForm(formID: string, body: UpdateFormRequestBody) {
-    const questionList = body.questionList.map((q: QuestionInRequestBody) => {
-      return {
-        question_id: q.questionID,
-        page: q.page,
-        type: q.type,
-        title: q.title,
-        option: q.option,
-        essential: q.essential,
-        etc_added: q.etcAdded,
-      };
-    });
+    let questionList;
+    if (body.questionList) {
+      questionList = body.questionList.map((q: QuestionInRequestBody) => {
+        return {
+          question_id: q.questionID,
+          page: q.page,
+          type: q.type,
+          title: q.title,
+          option: q.option,
+          essential: q.essential,
+          etc_added: q.etcAdded,
+        };
+      });
+    }
 
     const updated = {
       title: body.title,
@@ -57,7 +60,7 @@ class FormService {
   }
 
   static async getForm(formID: string): Promise<any> {
-    const form = await Form.findOne({ form_id: formID });
+    const form = await Form.findOne({ _id: formID });
 
     return form;
   }

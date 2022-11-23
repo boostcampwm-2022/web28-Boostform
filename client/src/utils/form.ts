@@ -60,9 +60,9 @@ const fromFormToApi = (state: FormState): FormDataApi => {
   const { title, description, category, acceptResponse, onBoard, id, userId, loginRequired } = form;
 
   const apiQuestionList = question.map(({ questionId, page, type, essential, etcAdded, title: qTitle, option }) => {
-    const qOption = option.map(({ value }) => value);
+    const apiQuestionOption = option.map(({ value }) => value);
 
-    return { questionId, page, type, essential, etcAdded, title: qTitle, option: qOption };
+    return { questionId, page, type, essential, etcAdded, title: qTitle, option: apiQuestionOption };
   });
 
   return {

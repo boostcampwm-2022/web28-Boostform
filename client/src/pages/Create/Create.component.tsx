@@ -34,7 +34,6 @@ import {
   TitleCategoryWrapper,
   TitleCategoryText,
   BottomContainer,
-  SaveButton,
   ShareButton,
 } from "./Create.style";
 
@@ -57,7 +56,7 @@ function Create() {
   const { id } = useParams();
 
   const fetchForm = (): Promise<FormDataApi> => formApi.getForm(id);
-  const { data, isSuccess } = useQuery({ queryKey: ["getForm"], queryFn: fetchForm });
+  const { data, isSuccess } = useQuery({ queryKey: [id], queryFn: fetchForm });
 
   const [state, dispatch] = useReducer(writeReducer, initialState);
   const { form, question } = state;
@@ -67,7 +66,6 @@ function Create() {
 
   useEffect(() => {
     if (!id) return;
-    if (isSuccess) console.log(data);
     if (isSuccess) dispatch({ type: "FETCH_DATA", init: fromApiToForm(data) });
   }, [data, id, isSuccess]);
 

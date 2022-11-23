@@ -168,16 +168,6 @@ const BottomContainer = styled.div`
   padding: 20px;
 `;
 
-const SaveButton = styled.button`
-  background-color: #284b8f;
-  color: #ffffff;
-  padding: 8px 16px;
-  border: 1px solid #aeaeae;
-  margin-right: 16px;
-  border-radius: 8px;
-  cursor: pointer;
-`;
-
 const ShareButton = styled.button`
   background-color: #284b8f;
   color: #ffffff;
@@ -206,6 +196,5 @@ export {
   TitleCategoryWrapper,
   TitleCategoryText,
   BottomContainer,
-  SaveButton,
   ShareButton,
 };
