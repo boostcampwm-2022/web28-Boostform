@@ -22,9 +22,9 @@
             "url": "/api/responses/637db0981e0a01ef19ebe0de",
             "json": {
               "answerList": [
-                { "question_id": 1, "answer": ["dog"] },
-                { "question_id": 2, "answer": ["chicken", "kimbap", "bread"] },
-                { "question_id": 3, "answer": ["의견1"] }
+                { "questionId": 1, "answer": ["dog"] },
+                { "questionId": 2, "answer": ["chicken", "kimbap", "bread"] },
+                { "questionId": 3, "answer": ["의견1"] }
               ]
             }
           }
