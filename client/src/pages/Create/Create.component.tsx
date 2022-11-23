@@ -5,6 +5,7 @@ import Dropdown from "components/Dropdown";
 import Question from "components/Question";
 import Icon from "components/Icon/Icon.component";
 import ToggleButton from "components/ToggleButton";
+import QuestionRead from "components/QuestionRead";
 import writeReducer from "reducer/write/writeReducer";
 import { FormState } from "types/form.type";
 import {
@@ -164,7 +165,9 @@ function Create() {
             {focus !== questionIndex && (
               <>
                 <div>{title}</div>
-                <div>body</div>
+                <div>
+                  <QuestionRead questionState={question[questionIndex]} />
+                </div>
               </>
             )}
           </QuestionContainer>
