@@ -29,6 +29,7 @@ interface FormInDB {
   on_board: boolean;
   login_required: boolean;
   response_count: number;
+  response_modifiable: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -41,6 +42,7 @@ interface UpdateFormRequestBody {
   acceptResponse: boolean;
   onBoard: boolean;
   loginRequired: boolean;
+  responseModifiable: boolean;
 }
 
 export { UpdateFormRequestBody, QuestionInRequestBody, QuestionInDB, FormInDB };

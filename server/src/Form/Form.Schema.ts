@@ -32,6 +32,10 @@ const QuestionSchema = new mongoose.Schema({
 
 const FormSchema = new mongoose.Schema(
   {
+    _id: {
+      type: String,
+      alias: "formId",
+    },
     user_id: {
       type: Number,
       required: true,
@@ -61,12 +65,27 @@ const FormSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    response_modifiable: {
+      type: Boolean,
+      default: true,
+    },
     response_count: {
       type: Number,
       default: 0,
     },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+    toJSON: {
+      virtuals: true,
+      transform(doc, ret, options) {
+        // eslint-disable-next-line no-param-reassign, no-underscore-dangle
+        // delete ret._id;
+        // eslint-disable-next-line no-param-reassign
+        delete ret.id;
+      },
+    },
+  }
 );
 
 export { QuestionSchema, FormSchema };

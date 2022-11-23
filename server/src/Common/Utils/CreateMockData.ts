@@ -90,7 +90,7 @@ async function createResponseMockData(
 // 설문지 생성
 // (async () => {
 //   try {
-//     await createFormMockData(2);
+//     await createFormMockData(4);
 //     console.log("created successfully");
 //   } catch (err) {
 //     console.log(err);
@@ -100,7 +100,7 @@ async function createResponseMockData(
 // 응답 생성
 // (async () => {
 //   try {
-//     await createResponseMockData(5, "637db0981e0a01ef19ebe0de", 3, [1, 3, 4], "의견3");
+//     await createResponseMockData(4, "637e0d357020fb35a5182f26", 3, [1, 2, 3], "의견3");
 //     console.log("created successfully");
 //   } catch (err) {
 //     console.log(err);
