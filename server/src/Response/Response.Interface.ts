@@ -1,5 +1,5 @@
 interface AnswerInterface {
-  id: number;
+  question_id: number;
   answer: Array<string>;
 }
 
@@ -9,4 +9,9 @@ interface ResponseInterface {
   answer_list: Array<AnswerInterface>;
 }
 
-export { AnswerInterface, ResponseInterface };
+interface AnswerFromRequest {
+  questionId: number;
+  answer: Array<string>;
+}
+
+export { AnswerInterface, ResponseInterface, AnswerFromRequest };

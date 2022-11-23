@@ -50,6 +50,7 @@ class FormService {
       accept_response: body.acceptResponse,
       on_board: body.onBoard,
       login_required: body.loginRequired,
+      response_modifiable: body.responseModifiable,
     };
 
     await Form.findOneAndUpdate({ _id: formId }, updated);
@@ -61,7 +62,6 @@ class FormService {
 
   static async getForm(formId: string): Promise<any> {
     const form = await Form.findOne({ _id: formId });
-
 
     return form;
   }
