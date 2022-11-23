@@ -97,8 +97,6 @@ const QuestionTitleInput = styled.input`
   }
 `;
 
-const QuestionTitleRead = styled.div``;
-
 const QuestionBody = styled.div`
   padding: 10px 0;
 `;
@@ -161,6 +159,34 @@ const TitleCategoryText = styled.span`
   font-family: Arial, Helvetica, sans-serif;
 `;
 
+const BottomContainer = styled.div`
+  display: flex;
+  justify-content: right;
+  margin-top: 16px;
+  background-color: #ffffff;
+  border-radius: 3px;
+  padding: 20px;
+`;
+
+const SaveButton = styled.button`
+  background-color: #284b8f;
+  color: #ffffff;
+  padding: 8px 16px;
+  border: 1px solid #aeaeae;
+  margin-right: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+`;
+
+const ShareButton = styled.button`
+  background-color: #284b8f;
+  color: #ffffff;
+  padding: 8px 16px;
+  border: 1px solid #aeaeae;
+  border-radius: 8px;
+  cursor: pointer;
+`;
+
 export {
   Container,
   TitleContainer,
@@ -179,4 +205,7 @@ export {
   EssentialText,
   TitleCategoryWrapper,
   TitleCategoryText,
+  BottomContainer,
+  SaveButton,
+  ShareButton,
 };

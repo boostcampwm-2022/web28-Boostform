@@ -27,6 +27,9 @@ import {
   EssentialText,
   TitleCategoryWrapper,
   TitleCategoryText,
+  BottomContainer,
+  SaveButton,
+  ShareButton,
 } from "./Create.style";
 
 const initialState: FormState = {
@@ -181,6 +184,10 @@ function Create() {
             )}
           </QuestionContainer>
         ))}
+        <BottomContainer>
+          <SaveButton type="button">저장</SaveButton>
+          <ShareButton type="button">공유</ShareButton>
+        </BottomContainer>
       </Container>
     </FormLayout>
   );
