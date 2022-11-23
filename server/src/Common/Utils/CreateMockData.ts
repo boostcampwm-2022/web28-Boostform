@@ -59,7 +59,7 @@ async function createFormMockData(id: number) {
 
 async function createResponseMockData(
   count: number,
-  formID: string,
+  formId: string,
   answer1: number,
   answer2: Array<number>,
   answer3: string
@@ -67,7 +67,7 @@ async function createResponseMockData(
   const answer2List = answer2.map((val) => option2[val - 1]);
   for (let i = 0; i < count; i += 1) {
     const mockData = new FormResponse({
-      form_id: formID,
+      form_id: formId,
       answer_list: [
         {
           question_id: 1,
