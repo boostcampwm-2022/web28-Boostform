@@ -32,7 +32,7 @@ async function createFormMockData(id: number) {
     question_list: [
       {
         question_id: 1,
-        type: "single",
+        type: "checkbox",
         title: "좋아하는 동물",
         option: option1,
         essential: false,
@@ -48,7 +48,7 @@ async function createFormMockData(id: number) {
       },
       {
         question_id: 3,
-        type: "narrative",
+        type: "paragraph",
         title: "의견을 남겨주세요",
         essential: false,
       },
@@ -98,11 +98,11 @@ async function createResponseMockData(
 // })();
 
 // 응답 생성
-// (async () => {
-//   try {
-//     await createResponseMockData(4, "637e0d357020fb35a5182f26", 3, [1, 2, 3], "의견3");
-//     console.log("created successfully");
-//   } catch (err) {
-//     console.log(err);
-//   }
-// })();
+(async () => {
+  try {
+    await createResponseMockData(3, "637e2d988defe2cc0404ff2c", 3, [2, 3, 4], "의견3");
+    console.log("created successfully");
+  } catch (err) {
+    console.log(err);
+  }
+})();
