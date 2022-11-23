@@ -8,6 +8,16 @@ interface QuestionInRequestBody {
   etcAdded: boolean;
 }
 
+interface QuestionInDB {
+  question_id: number;
+  page: number;
+  type: string;
+  title: string;
+  option: Array<string>;
+  essential: boolean;
+  etc_added: boolean;
+}
+
 interface UpdateFormRequestBody {
   title: string;
   category: string;
@@ -16,4 +26,4 @@ interface UpdateFormRequestBody {
   onBoard: boolean;
 }
 
-export { UpdateFormRequestBody, QuestionInRequestBody };
+export { UpdateFormRequestBody, QuestionInRequestBody, QuestionInDB };

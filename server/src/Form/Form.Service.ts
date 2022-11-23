@@ -1,5 +1,5 @@
 import Form from "./Form.Model";
-import { UpdateFormRequestBody, QuestionInRequestBody } from "./Form.Interface";
+import { UpdateFormRequestBody, QuestionInRequestBody, QuestionInDB } from "./Form.Interface";
 import getDateString from "../Common/Utils/GetDateString";
 
 class FormService {
@@ -58,6 +58,18 @@ class FormService {
     const form = await Form.findOne({ form_id: formID });
 
     return form;
+  }
+
+  static getQuestionForResponse(rawQuestion: QuestionInDB) {
+    return {
+      questionID: rawQuestion.question_id,
+      page: rawQuestion.page,
+      type: rawQuestion.type,
+      title: rawQuestion.title,
+      option: rawQuestion.option,
+      essential: rawQuestion.essential,
+      etcAdded: rawQuestion.etc_added,
+    };
   }
 }
 
