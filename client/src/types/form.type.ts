@@ -28,4 +28,25 @@ interface FormState {
   question: QuestionState[];
 }
 
-export type { FormState, QuestionType, QuestionState };
+interface QuestionDataApi {
+  questionId: number;
+  page: number;
+  type: QuestionType;
+  essential: boolean;
+  etcAdded: boolean;
+  title: string;
+  option: string[];
+}
+
+interface FormDataApi {
+  id: string;
+  userID: number;
+  title: string;
+  description: string;
+  category: string;
+  questionList: QuestionDataApi[];
+  acceptResponse: boolean;
+  onBoard: boolean;
+}
+
+export type { FormState, QuestionType, QuestionState, FormDataApi };

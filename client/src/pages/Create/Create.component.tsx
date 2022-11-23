@@ -1,5 +1,7 @@
 import React, { useEffect, useReducer, useState } from "react";
 import { useParams } from "react-router-dom";
+import axios from "axios";
+
 import FormLayout from "components/Layout/FormLayout.component";
 import Dropdown from "components/QuestionDropdown";
 import Question from "components/Question";
@@ -61,16 +63,17 @@ const initialState: FormState = {
 
 function Create() {
   const { id } = useParams();
-
   const [state, dispatch] = useReducer(writeReducer, initialState);
   const { form, question } = state;
   const [focus, setFocus] = useState<string>("title");
 
   useEffect(() => {
-    console.log(fromFormToApi(state));
-    // if (!id) return;
-    // formApi.getForm(id).then((res) => console.log(res));
-  }, [state]);
+    if (!id) return;
+    formApi.getForm(id).then((res) => {
+      const initial = fromApiToForm(res);
+      dispatch({ type: "FETCH_DATA", init: initial });
+    });
+  }, [id]);
 
   const onClickTitle = () => {
     setFocus("title");
@@ -122,6 +125,12 @@ function Create() {
 
   const onClickSelectCategory = (value: string) => {
     dispatch({ type: "SELECT_FORM_CATEGORY", value });
+  };
+
+  const onClickSaveForm = (formData: FormState) => {
+    if (!id) return;
+    const apiData = fromFormToApi(formData);
+    formApi.saveForm(id, apiData);
   };
 
   return (
@@ -195,7 +204,9 @@ function Create() {
           </QuestionContainer>
         ))}
         <BottomContainer>
-          <SaveButton type="button">저장</SaveButton>
+          <SaveButton type="button" onClick={() => onClickSaveForm(state)}>
+            저장
+          </SaveButton>
           <ShareButton type="button">공유</ShareButton>
         </BottomContainer>
       </Container>

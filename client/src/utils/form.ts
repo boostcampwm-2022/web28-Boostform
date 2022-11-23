@@ -1,25 +1,4 @@
-import { FormState, QuestionType, QuestionState } from "types/form.type";
-
-interface QuestionDataApi {
-  questionId: number;
-  page: number;
-  type: QuestionType;
-  essential: boolean;
-  etcAdded: boolean;
-  title: string;
-  option: string[];
-}
-
-interface FormDataApi {
-  id: string;
-  userID: number;
-  title: string;
-  description: string;
-  category: string;
-  questionList: QuestionDataApi[];
-  acceptResponse: boolean;
-  onBoard: boolean;
-}
+import { FormState, QuestionState, FormDataApi } from "types/form.type";
 
 const fromApiToForm = (api: FormDataApi): FormState => {
   const { id, userID, title, description, category, questionList, acceptResponse, onBoard } = api;
@@ -67,8 +46,8 @@ const fromApiToForm = (api: FormDataApi): FormState => {
       id,
       userId: userID,
       title,
-      description,
-      category,
+      description: description || "설문지 설명",
+      category: category || "카테고리",
       acceptResponse,
       onBoard,
       currentQuestionId: questionList.length,
@@ -98,32 +77,5 @@ const fromFormToApi = (state: FormState): FormDataApi => {
     questionList: q,
   };
 };
-
-const initialState: FormState = {
-  form: {
-    id: "dfsdf",
-    userId: 3,
-    title: "제목 없음",
-    description: "설문지 설명",
-    category: "카테고리",
-    acceptResponse: false,
-    onBoard: false,
-    currentQuestionId: 1,
-  },
-  question: [
-    {
-      questionId: 1,
-      currentChoiceId: 1,
-      page: 1,
-      type: "checkbox",
-      essential: false,
-      etcAdded: false,
-      title: "질문",
-      option: [{ choiceId: 1, value: "옵션1" }],
-    },
-  ],
-};
-
-console.log(fromFormToApi(initialState));
 
 export { fromApiToForm, fromFormToApi };

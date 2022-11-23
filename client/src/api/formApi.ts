@@ -1,4 +1,5 @@
 import axios, { CancelTokenSource } from "axios";
+import { FormDataApi } from "types/form.type";
 import API from "./routes";
 
 const formApi = {
@@ -24,6 +25,10 @@ const formApi = {
   },
   getForm: async (id: string) => {
     const { data } = await axios.get(`${API.FORM}/${id}`, { withCredentials: true });
+    return data;
+  },
+  saveForm: async (id: string, apiData: FormDataApi) => {
+    const { data } = await axios.patch(`${API.FORM}/${id}`, apiData, { withCredentials: true });
     return data;
   },
 };

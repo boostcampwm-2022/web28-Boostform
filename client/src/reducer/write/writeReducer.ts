@@ -176,6 +176,10 @@ function writeReducer(state: FormState, action: FormAction) {
       },
     };
   }
+  if (type === "FETCH_DATA") {
+    const { init } = action;
+    return { ...state, ...init };
+  }
 
   return state;
 }
