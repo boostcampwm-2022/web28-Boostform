@@ -3,7 +3,7 @@ import Form from "../Form/Form.Model";
 import FormResponse from "../Response/Response.Model";
 import BadRequestException from "../Common/Exceptions/BadRequest.Exception";
 
-class ResultService {
+export default class ResultService {
   form: any;
 
   responses: Array<any>;
@@ -59,5 +59,3 @@ class ResultService {
     return result;
   }
 }
-
-export default new ResultService();
