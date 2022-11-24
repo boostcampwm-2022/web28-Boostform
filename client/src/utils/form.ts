@@ -48,7 +48,7 @@ const fromApiToForm = (api: FormDataApi): FormState => {
       category: category || "기타",
       acceptResponse,
       onBoard,
-      currentQuestionId: questionList.length,
+      currentQuestionId: questionList.length || 1,
       loginRequired,
     },
     question: formQuestionList,

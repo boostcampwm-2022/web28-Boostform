@@ -69,6 +69,8 @@ function Edit() {
     if (isSuccess) dispatch({ type: "FETCH_DATA", init: fromApiToForm(data) });
   }, [data, id, isSuccess]);
 
+  console.log(state);
+
   const onClickTitle = () => {
     setFocus("title");
   };
