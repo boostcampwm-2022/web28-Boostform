@@ -1,14 +1,12 @@
 import styled from "styled-components";
 
-const HeaderContainer = styled.header`
-  box-sizing: content-box;
+const Layout = styled.div`
   min-width: 1024px;
-  margin: 0 32px;
-  padding: 20px 0;
+  margin-left: auto;
+  margin-right: auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: white;
 
   a {
     text-decoration: none;
@@ -18,6 +16,14 @@ const HeaderContainer = styled.header`
       text-decoration: none;
     }
   }
+`;
+
+const HeaderContainer = styled.header`
+  box-sizing: content-box;
+  margin: 0 32px;
+  padding: 20px 0;
+  display: flex;
+  background-color: white;
 `;
 
 const LoginButton = styled.button`
@@ -42,4 +48,4 @@ const LogoutButton = styled.button`
   background-color: #ffffff;
 `;
 
-export { HeaderContainer, LoginButton, LogoutButton };
+export { HeaderContainer, LoginButton, LogoutButton, Layout };

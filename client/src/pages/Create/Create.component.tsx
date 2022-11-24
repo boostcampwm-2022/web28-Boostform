@@ -136,7 +136,7 @@ function Create() {
   };
 
   return (
-    <FormLayout>
+    <FormLayout backgroundColor="blue">
       <Container>
         <TitleContainer onClick={() => onClickTitle()}>
           {focus !== "title" && (
