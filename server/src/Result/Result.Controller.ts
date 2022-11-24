@@ -1,9 +1,15 @@
 import { Request, Response, NextFunction } from "express";
 import BadRequestException from "../Common/Exceptions/BadRequest.Exception";
-import resultService from "./Result.Service";
+import ResultService from "./Result.Service";
 
 class ResultController {
-  // eslint-disable-next-line class-methods-use-this
+  resultService: ResultService;
+
+  constructor(resultService: ResultService) {
+    this.resultService = resultService;
+    this.formResult = this.formResult.bind(this);
+  }
+
   async formResult(req: Request, res: Response, next: NextFunction) {
     const { formId } = req.params;
     if (!formId || typeof formId !== "string") {
@@ -12,8 +18,8 @@ class ResultController {
     }
 
     try {
-      await resultService.init(formId);
-      const result = resultService.formResult();
+      await this.resultService.init(formId);
+      const result = this.resultService.formResult();
       res.status(200).json(result);
     } catch (error) {
       next(error);
@@ -21,4 +27,4 @@ class ResultController {
   }
 }
 
-export default new ResultController();
+export default new ResultController(new ResultService());
