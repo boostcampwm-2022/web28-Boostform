@@ -79,7 +79,7 @@ class ResponseController {
       const answerList = ResponseService.getAnswerListForDB(answerListFromRequest);
       await ResponseService.updateResponse(responseId, answerList);
 
-      res.status(200);
+      res.status(200).json({ responseId });
     } catch (err) {
       next(err);
     }
