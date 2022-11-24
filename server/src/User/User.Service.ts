@@ -61,7 +61,7 @@ class UserService {
       throw new InternalServerException();
     }
     const accessToken = this.generateToken(user.id, "1m");
-    const refreshToken = this.generateToken(user.id, "2m");
+    const refreshToken = this.generateToken(user.id, "24h");
     user.refresh_token = refreshToken;
     user.save();
     return { accessToken, refreshToken };

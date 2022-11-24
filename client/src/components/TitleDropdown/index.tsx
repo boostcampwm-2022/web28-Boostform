@@ -6,7 +6,7 @@ import { Container, Button, Content, DropdownButton, DropdownText } from "./Titl
 function TitleDropdown({ state, setState }: { state: string; setState: (value: string) => void }) {
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState<string>(state);
-  const category = ["MBTI", "Quiz", "survey"];
+  const category = ["개발 및 학습", "취업 및 채용", "취미 및 여가", "기타"];
 
   return (
     <Container>

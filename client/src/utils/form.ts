@@ -45,7 +45,7 @@ const fromApiToForm = (api: FormDataApi): FormState => {
       userId: userID,
       title,
       description: description || "설문지 설명",
-      category: category || "카테고리",
+      category: category || "기타",
       acceptResponse,
       onBoard,
       currentQuestionId: questionList.length,

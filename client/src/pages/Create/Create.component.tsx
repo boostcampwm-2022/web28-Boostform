@@ -43,7 +43,7 @@ const initialState: FormState = {
     userId: 3,
     title: "",
     description: "",
-    category: "카테고리",
+    category: "기타",
     acceptResponse: false,
     onBoard: false,
     loginRequired: false,
@@ -60,7 +60,7 @@ function Create() {
 
   const [state, dispatch] = useReducer(writeReducer, initialState);
   const { form, question } = state;
-  const [focus, setFocus] = useState<string>("title");
+  const [focus, setFocus] = useState<string>("");
 
   const { openModal, closeModal, ModalPortal } = useModal();
 
