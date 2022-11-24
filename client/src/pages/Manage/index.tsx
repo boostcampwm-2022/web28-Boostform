@@ -42,10 +42,8 @@ function Manage() {
   const navigate = useNavigate();
   const { openModal, closeModal, ModalPortal } = useModal();
   useEffect(() => {
-    const source = axios.CancelToken.source();
-
     formApi
-      .getFormLists(size, source)
+      .getFormLists(size)
       .then((response) => {
         setFetchedForms((prev) => [...prev, ...response.data.form]);
 
@@ -53,15 +51,9 @@ function Manage() {
         setDropdowns((prev) => [...prev, ...falseArray]);
       })
       .catch((e) => {
-        if (e.response?.status === 401) {
-          window.location.href = `/login`;
-        }
-        // eslint-disable-next-line no-console
-        if (e.message !== "cleanup") console.log(e);
+        if (e.response?.status === 401) navigate(`/login`);
       });
-
-    return () => source.cancel("cleanup");
-  }, [size]);
+  }, [size, navigate]);
 
   const onClickCreateForm: React.MouseEventHandler<HTMLButtonElement> = async () => {
     const { formId } = await formApi.createForm();
