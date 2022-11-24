@@ -62,7 +62,15 @@ class BoardService {
     const updatedSortQuery = this.setSortingToQuery(sortQuery);
 
     const searchResults = await Form.find(updatedSearchQuery, select).sort(updatedSortQuery); // .skip(<number>).limit(<number>)
-    return searchResults;
+
+    const updatedSearchResults = searchResults.map((result) => {
+      const resultObject = Object.entries(result.toObject()).map(([k, v]) => [k === "_id" ? "formId" : k, v]);
+      return Object.fromEntries(resultObject);
+      // eslint-disable-next-line no-underscore-dangle
+      // return { ...result.toObject(), formId: result._id };
+    });
+
+    return updatedSearchResults;
   }
 }
 
