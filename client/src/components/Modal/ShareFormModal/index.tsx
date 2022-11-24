@@ -1,7 +1,7 @@
 import React from "react";
 import ToggleButton from "components/ToggleButton";
-import { FormSummary } from "types/form.type";
 import { Container, ToggleWrapper, Title, ButtonContainer, Button } from "./ShareFormModal.style";
+import ShareFormModalProps from "./SharedFormModal.type";
 
 function ShareFormModal({
   formState,
@@ -9,13 +9,7 @@ function ShareFormModal({
   changeLoginRequired,
   changeOnBoardShare,
   saveForm,
-}: {
-  formState: FormSummary;
-  closeModal: () => void;
-  changeLoginRequired: () => void;
-  changeOnBoardShare: () => void;
-  saveForm: () => void;
-}) {
+}: ShareFormModalProps) {
   const { loginRequired, onBoard } = formState;
   const onClickCancel = () => closeModal();
   const onClickSave = () => {

@@ -3,8 +3,9 @@ import Icon from "components/Icon";
 import OutsideDetecter from "hooks/useOutsideDetecter/useOutsideDetecter";
 import { QuestionType } from "types/form.type";
 import { Container, Button, Content, DropdownButton, DropdownText } from "./QuestionTypeDropdown.style";
+import QuestionTypeDropdownProps from "./QuestionTypeDropdown.type";
 
-function QuestionTypeDropdown({ state, setState }: { state: QuestionType; setState: (value: QuestionType) => void }) {
+function QuestionTypeDropdown({ state, setState }: QuestionTypeDropdownProps) {
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState<QuestionType>(state);
   const types: QuestionType[] = ["checkbox", "multiple", "paragraph"];

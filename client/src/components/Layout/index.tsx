@@ -1,7 +1,8 @@
 import React from "react";
 import Main from "./Layout.style";
+import LayoutProps from "./Layout.type";
 
-function Layout({ children, backgroundColor }: { backgroundColor: "white" | "blue"; children: React.ReactNode }) {
+function Layout({ children, backgroundColor }: LayoutProps) {
   return <Main backgroundColor={backgroundColor}>{children}</Main>;
 }
 

@@ -1,21 +1,9 @@
 import React from "react";
-import { QuestionState } from "types/form.type";
 import Objective from "./Objective";
 import Subjective from "./Subjective";
+import QuestionProps from "./Question.type";
 
-function Question({
-  index,
-  questionState,
-  addQuestionChoice,
-  modifyChoice,
-  deleteChoice,
-}: {
-  index: number;
-  questionState: QuestionState;
-  addQuestionChoice: (idx: number) => void;
-  modifyChoice: (questionIndex: number, choiceIndex: number, value: string) => void;
-  deleteChoice: (questionIndex: number, choiceIndex: number) => void;
-}) {
+function Question({ index, questionState, addQuestionChoice, modifyChoice, deleteChoice }: QuestionProps) {
   const { type } = questionState;
   return (
     <>
