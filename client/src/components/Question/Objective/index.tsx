@@ -1,9 +1,9 @@
 import React from "react";
-import Icon from "components/Icon/Icon.component";
+import Icon from "components/Icon";
 import { QuestionState } from "types/form.type";
-import { ChoiceWrapper, Input, DeleteButton, AddOptionWrapper, AddOptionButton } from "./Checkbox.style";
+import { ChoiceWrapper, Input, DeleteButton, AddOptionWrapper, AddOptionButton } from "./Objective.style";
 
-function Checkbox({
+function Objective({
   index,
   questionState,
   addQuestionChoice,
@@ -45,4 +45,4 @@ function Checkbox({
   );
 }
 
-export default Checkbox;
+export default Objective;

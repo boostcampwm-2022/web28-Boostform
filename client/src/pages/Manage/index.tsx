@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import formApi from "api/formApi";
-import Head from "components/Header/Header.component";
-import Icon from "components/Icon/Icon.component";
-import FormLayout from "components/Layout/FormLayout.component";
-import useModal from "hooks/useModal";
-import OutsideDetecter from "hooks/useOutsideDetecter";
-import EditNameModal from "./EditNameModal.component";
-import DeleteSurveyModal from "./DeleteSurveyModal.component";
+import Head from "components/Header";
+import Icon from "components/Icon";
+import FormLayout from "components/Layout";
+import useModal from "hooks/useModal/useModal";
+import OutsideDetecter from "hooks/useOutsideDetecter/useOutsideDetecter";
+import EditNameModal from "../../components/Modal/EditFormNameModal";
+import DeleteSurveyModal from "../../components/Modal/DeleteFormModal";
 import {
   Container,
   HeaderContainer,
@@ -65,11 +65,11 @@ function Manage() {
 
   const onClickCreateForm: React.MouseEventHandler<HTMLButtonElement> = async () => {
     const { formId } = await formApi.createForm();
-    navigate(`/forms/${formId}`);
+    navigate(`/forms/${formId}/edit`);
   };
 
   const onClickNavigateForm = (formId: string) => {
-    navigate(`/forms/${formId}`);
+    navigate(`/forms/${formId}/edit`);
   };
 
   const onClickFetchForms: React.MouseEventHandler<HTMLButtonElement> = () => {

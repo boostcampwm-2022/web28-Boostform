@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import Header from "components/Header/Header.component";
-import FormLayout from "components/Layout/FormLayout.component";
+import Header from "components/Header";
+import FormLayout from "components/Layout";
 import { AuthContext } from "contexts/authProvider";
 import Example from "assets/Images/Example.png";
 import { Container, TextContainer, ImageContainer, H1, Image, Button, Text } from "./Main.style";

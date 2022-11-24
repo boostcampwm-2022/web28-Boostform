@@ -1,8 +1,8 @@
 import lodash from "lodash";
 import { FormState } from "types/form.type";
-import FormAction from "./writeReducer.type";
+import FormEditAction from "./formEditReducer.type";
 
-function writeReducer(state: FormState, action: FormAction) {
+function formEditReducer(state: FormState, action: FormEditAction) {
   const { type } = action;
 
   if (type === "CHANGE_TITLE") {
@@ -206,4 +206,4 @@ function writeReducer(state: FormState, action: FormAction) {
   return state;
 }
 
-export default writeReducer;
+export default formEditReducer;

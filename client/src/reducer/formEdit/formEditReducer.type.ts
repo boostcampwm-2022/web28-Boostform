@@ -1,6 +1,6 @@
 import { FormState } from "types/form.type";
 
-type FormAction =
+type FormEditAction =
   | { type: "CHANGE_TITLE"; value: string }
   | { type: "CHANGE_DESCRIPTION"; value: string }
   | { type: "CHANGE_QUESTION_TITLE"; value: string; questionIndex: number }
@@ -16,4 +16,4 @@ type FormAction =
   | { type: "CHANGE_LOGIN_REQUIRED" }
   | { type: "CHANGE_ON_BOARD_SHARED" };
 
-export default FormAction;
+export default FormEditAction;

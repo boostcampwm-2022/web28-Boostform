@@ -2,19 +2,19 @@ import React, { useEffect, useReducer, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 
-import FormLayout from "components/Layout/FormLayout.component";
-import Dropdown from "components/QuestionDropdown";
+import FormLayout from "components/Layout";
+import Dropdown from "components/QuestionTypeDropdown";
 import Question from "components/Question";
-import Icon from "components/Icon/Icon.component";
+import Icon from "components/Icon";
 import ToggleButton from "components/ToggleButton";
 import QuestionRead from "components/QuestionRead";
-import TitleDropdown from "components/TitleDropdown";
+import TitleDropdown from "components/CategoryDropdown";
 import ShareFormModal from "components/Modal/ShareFormModal";
-import writeReducer from "reducer/write/writeReducer";
+import writeReducer from "reducer/formEdit/formEditReducer";
 import { FormState, FormDataApi } from "types/form.type";
 import formApi from "api/formApi";
 import { fromApiToForm, fromFormToApi } from "utils/form";
-import useModal from "hooks/useModal";
+import useModal from "hooks/useModal/useModal";
 import {
   Container,
   TitleContainer,
@@ -35,7 +35,7 @@ import {
   TitleCategoryText,
   BottomContainer,
   ShareButton,
-} from "./Create.style";
+} from "./Edit.style";
 
 const initialState: FormState = {
   form: {
@@ -52,7 +52,7 @@ const initialState: FormState = {
   question: [],
 };
 
-function Create() {
+function Edit() {
   const { id } = useParams();
 
   const fetchForm = (): Promise<FormDataApi> => formApi.getForm(id);
@@ -227,4 +227,4 @@ function Create() {
   );
 }
 
-export default Create;
+export default Edit;

@@ -48,7 +48,7 @@ const reissueTokens = async (refreshToken: string): Promise<tokens> => {
       throw new UnauthorizedException("refreshToken Rotated");
     }
     reissuedTokens.accessToken = userService.generateToken(userID, "1m");
-    reissuedTokens.refreshToken = userService.generateToken(userID, "2m");
+    reissuedTokens.refreshToken = userService.generateToken(userID, "2d");
     targetUser.refresh_token = reissuedTokens.refreshToken;
     targetUser.save();
   } catch (err) {

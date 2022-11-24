@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import Icon from "components/Icon/Icon.component";
-import OutsideDetecter from "hooks/useOutsideDetecter";
-import { Container, Button, Content, DropdownButton, DropdownText } from "./TitleDropdown.style";
+import Icon from "components/Icon";
+import OutsideDetecter from "hooks/useOutsideDetecter/useOutsideDetecter";
+import { Container, Button, Content, DropdownButton, DropdownText } from "./CategoryDropdown.style";
 
-function TitleDropdown({ state, setState }: { state: string; setState: (value: string) => void }) {
+function CategoryDropdown({ state, setState }: { state: string; setState: (value: string) => void }) {
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState<string>(state);
   const category = ["개발 및 학습", "취업 및 채용", "취미 및 여가", "기타"];
@@ -46,4 +46,4 @@ function TitleDropdown({ state, setState }: { state: string; setState: (value: s
   );
 }
 
-export default TitleDropdown;
+export default CategoryDropdown;

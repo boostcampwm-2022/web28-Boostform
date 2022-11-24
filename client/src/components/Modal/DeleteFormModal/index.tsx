@@ -1,9 +1,9 @@
 import React from "react";
 import formApi from "api/formApi";
-import { Container, Text, ButtonContainer, Button } from "./DeleteSurveyModal.style";
-import DeleteSurveyModalProps from "./DeleteSurveyModal.type";
+import { Container, Text, ButtonContainer, Button } from "./DeleteFormModal.style";
+import DeleteFormModalProps from "./DeleteFormModal.type";
 
-function DeleteSurveyModal({ closeModal, renderByDeleteForm, selectedForm }: DeleteSurveyModalProps) {
+function DeleteFormModal({ closeModal, renderByDeleteForm, selectedForm }: DeleteFormModalProps) {
   const onClickDeleteSurvey = async () => {
     await formApi.deleteForm(selectedForm.id);
     renderByDeleteForm(selectedForm.index);
@@ -27,4 +27,4 @@ function DeleteSurveyModal({ closeModal, renderByDeleteForm, selectedForm }: Del
   );
 }
 
-export default DeleteSurveyModal;
+export default DeleteFormModal;

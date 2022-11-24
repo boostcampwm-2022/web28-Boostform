@@ -1,7 +1,7 @@
 import React from "react";
 import { QuestionState } from "types/form.type";
-import Checkbox from "./Checkbox";
-import Paragraph from "./Paragraph";
+import Objective from "./Objective";
+import Subjective from "./Subjective";
 
 function Question({
   index,
@@ -20,7 +20,7 @@ function Question({
   return (
     <>
       {(type === "checkbox" || type === "multiple") && (
-        <Checkbox
+        <Objective
           questionState={questionState}
           addQuestionChoice={addQuestionChoice}
           modifyChoice={modifyChoice}
@@ -29,7 +29,7 @@ function Question({
         />
       )}
 
-      {type === "paragraph" && <Paragraph />}
+      {type === "paragraph" && <Subjective />}
     </>
   );
 }
