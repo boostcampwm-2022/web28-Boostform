@@ -11,7 +11,7 @@ const QuestionSchema = new mongoose.Schema({
   type: {
     type: String,
     required: true,
-    enum: ["single", "multiple", "narrative"],
+    enum: ["checkbox", "multiple", "paragraph"],
   },
   title: {
     type: String,
