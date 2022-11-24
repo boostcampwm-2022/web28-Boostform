@@ -142,7 +142,9 @@ function Create() {
           {focus !== "title" && (
             <>
               <TitleRead>{form.title}</TitleRead>
-              <DescriptionRead>{form.description ? form.description : "Form description"}</DescriptionRead>
+              <DescriptionRead isEmpty={!form.description}>
+                {form.description ? form.description : "설문지 설명"}
+              </DescriptionRead>
               <TitleCategoryWrapper>
                 <TitleCategoryText>{form.category}</TitleCategoryText>
               </TitleCategoryWrapper>
@@ -151,7 +153,7 @@ function Create() {
           {focus === "title" && (
             <>
               <TitleInput onInput={onInputTitle} value={form.title} />
-              <DescriptionInput onInput={onInputDescription} value={form.description} placeholder="Form description" />
+              <DescriptionInput onInput={onInputDescription} value={form.description} placeholder="설문지 설명" />
               <TitleDropdown state={form.category} setState={onClickSelectCategory} />
             </>
           )}
