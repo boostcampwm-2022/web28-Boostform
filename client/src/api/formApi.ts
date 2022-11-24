@@ -1,4 +1,4 @@
-import axios, { CancelTokenSource } from "axios";
+import axios from "axios";
 import { FormDataApi } from "types/form.type";
 import API from "./routes";
 
@@ -20,8 +20,8 @@ const formApi = {
 
     return data;
   },
-  getFormLists: async (size: number, source: CancelTokenSource) => {
-    return axios(`${API.FORM}?size=${size}`, { withCredentials: true, cancelToken: source.token });
+  getFormLists: async (size: number) => {
+    return axios(`${API.FORM}?size=${size}`, { withCredentials: true });
   },
   getForm: async (id: string | undefined) => {
     const { data } = await axios.get(`${API.FORM}/${id}`, { withCredentials: true });

@@ -1,26 +1,14 @@
 import React from "react";
-import { QuestionState } from "types/form.type";
-import Checkbox from "./Checkbox";
-import Paragraph from "./Paragraph";
+import Objective from "./Objective";
+import Subjective from "./Subjective";
+import QuestionProps from "./Question.type";
 
-function Question({
-  index,
-  questionState,
-  addQuestionChoice,
-  modifyChoice,
-  deleteChoice,
-}: {
-  index: number;
-  questionState: QuestionState;
-  addQuestionChoice: (idx: number) => void;
-  modifyChoice: (questionIndex: number, choiceIndex: number, value: string) => void;
-  deleteChoice: (questionIndex: number, choiceIndex: number) => void;
-}) {
+function Question({ index, questionState, addQuestionChoice, modifyChoice, deleteChoice }: QuestionProps) {
   const { type } = questionState;
   return (
     <>
       {(type === "checkbox" || type === "multiple") && (
-        <Checkbox
+        <Objective
           questionState={questionState}
           addQuestionChoice={addQuestionChoice}
           modifyChoice={modifyChoice}
@@ -29,7 +17,7 @@ function Question({
         />
       )}
 
-      {type === "paragraph" && <Paragraph />}
+      {type === "paragraph" && <Subjective />}
     </>
   );
 }

@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Container, Button, Toggle } from "./ToggleButton.style";
+import ToggleButtonProps from "./ToggleButton.type";
 
-function ToggleButton({ state, onClick }: { state: boolean; onClick: () => void }) {
+function ToggleButton({ state, onClick }: ToggleButtonProps) {
   const [toggle, setToggle] = useState(state);
 
   const onClickToggle = () => {

@@ -1,21 +1,9 @@
 import React from "react";
-import Icon from "components/Icon/Icon.component";
-import { QuestionState } from "types/form.type";
-import { ChoiceWrapper, Input, DeleteButton, AddOptionWrapper, AddOptionButton } from "./Checkbox.style";
+import Icon from "components/Icon";
+import { ChoiceWrapper, Input, DeleteButton, AddOptionWrapper, AddOptionButton } from "./Objective.style";
+import ObjectiveProps from "./Objective.type";
 
-function Checkbox({
-  index,
-  questionState,
-  addQuestionChoice,
-  modifyChoice,
-  deleteChoice,
-}: {
-  index: number;
-  questionState: QuestionState;
-  addQuestionChoice: (idx: number) => void;
-  modifyChoice: (questionIndex: number, choiceIndex: number, value: string) => void;
-  deleteChoice: (questionIndex: number, choiceIndex: number) => void;
-}) {
+function Objective({ index, questionState, addQuestionChoice, modifyChoice, deleteChoice }: ObjectiveProps) {
   const { option, type } = questionState;
 
   return (
@@ -45,4 +33,4 @@ function Checkbox({
   );
 }
 
-export default Checkbox;
+export default Objective;

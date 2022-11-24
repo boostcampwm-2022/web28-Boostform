@@ -3,13 +3,12 @@ import styled from "styled-components";
 const Container = styled.section`
   display: flex;
   justify-content: space-between;
-  margin: 0 32px;
   margin-top: 64px;
   min-width: 1024px;
 `;
 
 const TextContainer = styled.div`
-  width: 50%;
+  width: 512px;
   margin-left: auto;
 `;
 
@@ -30,7 +29,7 @@ const Text = styled.p`
 `;
 
 const ImageContainer = styled.div`
-  width: 50%;
+  width: 512px;
   margin-left: 36px;
   user-select: none;
 `;

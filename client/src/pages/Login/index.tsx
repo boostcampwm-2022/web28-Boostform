@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import Logo from "assets/Images/Logo.png";
-import Icon from "components/Icon/Icon.component";
+import Icon from "components/Icon";
 import { Container, LoginContainer, OAuthButton, HomeButton, ButtonText } from "./Login.style";
 
 function Login() {

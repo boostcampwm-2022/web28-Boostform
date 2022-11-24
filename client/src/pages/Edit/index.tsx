@@ -2,19 +2,19 @@ import React, { useEffect, useReducer, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 
-import FormLayout from "components/Layout/FormLayout.component";
-import Dropdown from "components/QuestionDropdown";
+import FormLayout from "components/Layout";
+import Dropdown from "components/QuestionTypeDropdown";
 import Question from "components/Question";
-import Icon from "components/Icon/Icon.component";
+import Icon from "components/Icon";
 import ToggleButton from "components/ToggleButton";
 import QuestionRead from "components/QuestionRead";
-import TitleDropdown from "components/TitleDropdown";
+import TitleDropdown from "components/CategoryDropdown";
 import ShareFormModal from "components/Modal/ShareFormModal";
-import writeReducer from "reducer/write/writeReducer";
+import writeReducer from "reducer/formEdit/formEditReducer";
 import { FormState, FormDataApi } from "types/form.type";
 import formApi from "api/formApi";
 import { fromApiToForm, fromFormToApi } from "utils/form";
-import useModal from "hooks/useModal";
+import useModal from "hooks/useModal/useModal";
 import {
   Container,
   TitleContainer,
@@ -35,7 +35,7 @@ import {
   TitleCategoryText,
   BottomContainer,
   ShareButton,
-} from "./Create.style";
+} from "./Edit.style";
 
 const initialState: FormState = {
   form: {
@@ -43,7 +43,7 @@ const initialState: FormState = {
     userId: 3,
     title: "",
     description: "",
-    category: "카테고리",
+    category: "기타",
     acceptResponse: false,
     onBoard: false,
     loginRequired: false,
@@ -52,7 +52,7 @@ const initialState: FormState = {
   question: [],
 };
 
-function Create() {
+function Edit() {
   const { id } = useParams();
 
   const fetchForm = (): Promise<FormDataApi> => formApi.getForm(id);
@@ -60,7 +60,7 @@ function Create() {
 
   const [state, dispatch] = useReducer(writeReducer, initialState);
   const { form, question } = state;
-  const [focus, setFocus] = useState<string>("title");
+  const [focus, setFocus] = useState<string>("");
 
   const { openModal, closeModal, ModalPortal } = useModal();
 
@@ -68,6 +68,8 @@ function Create() {
     if (!id) return;
     if (isSuccess) dispatch({ type: "FETCH_DATA", init: fromApiToForm(data) });
   }, [data, id, isSuccess]);
+
+  console.log(state);
 
   const onClickTitle = () => {
     setFocus("title");
@@ -136,13 +138,15 @@ function Create() {
   };
 
   return (
-    <FormLayout>
+    <FormLayout backgroundColor="blue">
       <Container>
         <TitleContainer onClick={() => onClickTitle()}>
           {focus !== "title" && (
             <>
               <TitleRead>{form.title}</TitleRead>
-              <DescriptionRead>{form.description ? form.description : "Form description"}</DescriptionRead>
+              <DescriptionRead isEmpty={!form.description}>
+                {form.description ? form.description : "설문지 설명"}
+              </DescriptionRead>
               <TitleCategoryWrapper>
                 <TitleCategoryText>{form.category}</TitleCategoryText>
               </TitleCategoryWrapper>
@@ -151,7 +155,7 @@ function Create() {
           {focus === "title" && (
             <>
               <TitleInput onInput={onInputTitle} value={form.title} />
-              <DescriptionInput onInput={onInputDescription} value={form.description} placeholder="Form description" />
+              <DescriptionInput onInput={onInputDescription} value={form.description} placeholder="설문지 설명" />
               <TitleDropdown state={form.category} setState={onClickSelectCategory} />
             </>
           )}
@@ -225,4 +229,4 @@ function Create() {
   );
 }
 
-export default Create;
+export default Edit;

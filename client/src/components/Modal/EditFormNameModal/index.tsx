@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import formApi from "api/formApi";
-import { Container, ButtonContainer, Button, Input, Title, Text } from "./EditNameModal.style";
-import EditNameModalProps from "./EditNameModal.type";
+import { Container, ButtonContainer, Button, Input, Title, Text } from "./EditFormNameModal.style";
+import EditFormNameModalProps from "./EditFormNameModal.type";
 
-function EditNameModal({ closeModal, selectedForm, renderByNameChange }: EditNameModalProps) {
+function EditFormNameModal({ closeModal, selectedForm, renderByNameChange }: EditFormNameModalProps) {
   const [title, setTitle] = useState("");
 
   const onClickChangeName = async () => {
@@ -35,4 +35,4 @@ function EditNameModal({ closeModal, selectedForm, renderByNameChange }: EditNam
   );
 }
 
-export default EditNameModal;
+export default EditFormNameModal;

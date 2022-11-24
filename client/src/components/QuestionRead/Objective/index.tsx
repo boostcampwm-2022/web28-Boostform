@@ -1,9 +1,9 @@
 import React from "react";
-import Icon from "components/Icon/Icon.component";
+import Icon from "components/Icon";
 import { QuestionState } from "types/form.type";
 import { Container, ObjectiveWrapper, Option } from "./Objective.style";
 
-function Checkbox({ questionState }: { questionState: QuestionState }) {
+function Objective({ questionState }: { questionState: QuestionState }) {
   const { option, type } = questionState;
 
   return (
@@ -19,4 +19,4 @@ function Checkbox({ questionState }: { questionState: QuestionState }) {
   );
 }
 
-export default Checkbox;
+export default Objective;

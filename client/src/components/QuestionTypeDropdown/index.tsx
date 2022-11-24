@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import Icon from "components/Icon/Icon.component";
-import OutsideDetecter from "hooks/useOutsideDetecter";
+import Icon from "components/Icon";
+import OutsideDetecter from "hooks/useOutsideDetecter/useOutsideDetecter";
 import { QuestionType } from "types/form.type";
+import { Container, Button, Content, DropdownButton, DropdownText } from "./QuestionTypeDropdown.style";
+import QuestionTypeDropdownProps from "./QuestionTypeDropdown.type";
 
-import { Container, Button, Content, DropdownButton, DropdownText } from "./QuestionDropdown.style";
-
-function Dropdown({ state, setState }: { state: QuestionType; setState: (value: QuestionType) => void }) {
+function QuestionTypeDropdown({ state, setState }: QuestionTypeDropdownProps) {
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState<QuestionType>(state);
   const types: QuestionType[] = ["checkbox", "multiple", "paragraph"];
@@ -50,4 +50,4 @@ function Dropdown({ state, setState }: { state: QuestionType; setState: (value: 
   );
 }
 
-export default Dropdown;
+export default QuestionTypeDropdown;

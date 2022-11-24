@@ -55,13 +55,14 @@ const TitleRead = styled.div`
   line-height: 48px;
 `;
 
-const DescriptionRead = styled.div`
+const DescriptionRead = styled.div<{ isEmpty: boolean }>`
   width: 100%;
   margin-top: 10px;
   display: block;
   font-size: 16px;
   padding: 5px 0;
   border: none;
+  color: ${({ isEmpty }) => (isEmpty ? "#afafaf" : "black")};
   border-bottom: 1px solid #afafaf;
   font-family: Arial, Helvetica, sans-serif;
   line-height: 29px;
