@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import formApi from "api/formApi";
 import Head from "components/Header";
 import Icon from "components/Icon";

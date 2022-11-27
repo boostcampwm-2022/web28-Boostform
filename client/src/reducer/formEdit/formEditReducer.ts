@@ -1,5 +1,5 @@
 import lodash from "lodash";
-import { FormState } from "types/form.type";
+import { FormState, QuestionState } from "types/form.type";
 import FormEditAction from "./formEditReducer.type";
 
 function formEditReducer(state: FormState, action: FormEditAction) {
@@ -149,6 +149,34 @@ function formEditReducer(state: FormState, action: FormEditAction) {
       question: [...leftQuestion, ...rightQuestion],
     };
   }
+  if (type === "ADD_QUESTION") {
+    const { questionIndex } = action;
+    const { currentQuestionId } = state.form;
+
+    const leftQuestion = state.question.slice(0, questionIndex);
+    const rightQuestion = state.question.slice(questionIndex + 1);
+    const currentQuestion = state.question[questionIndex];
+    const addedQuestion: QuestionState = {
+      ...currentQuestion,
+      questionId: currentQuestionId + 1,
+      currentChoiceId: 1,
+      type: "checkbox",
+      essential: false,
+      etcAdded: false,
+      title: "질문",
+      option: [
+        {
+          choiceId: 1,
+          value: "옵션1",
+        },
+      ],
+    };
+
+    return {
+      form: { ...state.form, currentQuestionId: currentQuestionId + 1 },
+      question: [...leftQuestion, currentQuestion, addedQuestion, ...rightQuestion],
+    };
+  }
   if (type === "CHANGE_QUESTION_ESSENTIAL") {
     const { questionIndex } = action;
     const prevState = state.question[questionIndex].essential;
@@ -200,6 +228,19 @@ function formEditReducer(state: FormState, action: FormEditAction) {
         ...state.form,
         loginRequired: !loginRequiredState,
       },
+    };
+  }
+  if (type === "CHANGE_QUESTION_ORDER") {
+    const { originIndex, destinationIndex } = action;
+
+    const grabbedQuestion = state.question.slice(originIndex, originIndex + 1);
+
+    state.question.splice(originIndex, 1);
+    state.question.splice(destinationIndex, 0, ...grabbedQuestion);
+
+    return {
+      ...state,
+      question: [...state.question],
     };
   }
 

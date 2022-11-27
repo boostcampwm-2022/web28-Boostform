@@ -10,10 +10,12 @@ type FormEditAction =
   | { type: "DELETE_QUESTION_CHOICE"; questionIndex: number; choiceIndex: number }
   | { type: "DELETE_QUESTION"; questionIndex: number }
   | { type: "COPY_QUESTION"; questionIndex: number }
+  | { type: "ADD_QUESTION"; questionIndex: number }
   | { type: "CHANGE_QUESTION_ESSENTIAL"; questionIndex: number }
   | { type: "SELECT_FORM_CATEGORY"; value: string }
   | { type: "FETCH_DATA"; init: FormState }
   | { type: "CHANGE_LOGIN_REQUIRED" }
-  | { type: "CHANGE_ON_BOARD_SHARED" };
+  | { type: "CHANGE_ON_BOARD_SHARED" }
+  | { type: "CHANGE_QUESTION_ORDER"; originIndex: number; destinationIndex: number };
 
 export default FormEditAction;

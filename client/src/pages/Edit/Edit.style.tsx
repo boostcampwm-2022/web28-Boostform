@@ -72,7 +72,8 @@ const QuestionContainer = styled.div`
   margin-top: 16px;
   background-color: white;
   border-radius: 3px;
-  padding: 20px;
+  padding: 0 20px 20px;
+  border: solid 1px #d2d2d2;
 `;
 
 const QuestionHead = styled.div`
@@ -178,6 +179,13 @@ const ShareButton = styled.button`
   cursor: pointer;
 `;
 
+const DragIndicator = styled.div`
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  padding: 5px 0;
+`;
+
 export {
   Container,
   TitleContainer,
@@ -198,4 +206,5 @@ export {
   TitleCategoryText,
   BottomContainer,
   ShareButton,
+  DragIndicator,
 };

@@ -13,7 +13,9 @@ interface IconProps {
     | "checkboxFull"
     | "close"
     | "copy"
-    | "multipleEmpty";
+    | "multipleEmpty"
+    | "dragIndicator"
+    | "add";
   size: string;
   fill?: string;
 }
