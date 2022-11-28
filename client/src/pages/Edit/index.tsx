@@ -1,6 +1,9 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable react/jsx-props-no-spreading */
 import React, { useEffect, useReducer, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
+import { DragDropContext, Droppable, Draggable, DropResult, DragStart } from "react-beautiful-dnd";
 
 import FormLayout from "components/Layout";
 import Dropdown from "components/QuestionTypeDropdown";
@@ -35,6 +38,7 @@ import {
   TitleCategoryText,
   BottomContainer,
   ShareButton,
+  DragIndicator,
 } from "./Edit.style";
 
 const initialState: FormState = {
@@ -60,7 +64,9 @@ function Edit() {
 
   const [state, dispatch] = useReducer(writeReducer, initialState);
   const { form, question } = state;
-  const [focus, setFocus] = useState<string>("");
+  const [focus, setFocus] = useState("");
+  const [hover, setHover] = useState("");
+  const [drag, setDrag] = useState("");
 
   const { openModal, closeModal, ModalPortal } = useModal();
 
@@ -69,14 +75,18 @@ function Edit() {
     if (isSuccess) dispatch({ type: "FETCH_DATA", init: fromApiToForm(data) });
   }, [data, id, isSuccess]);
 
-  console.log(state);
-
   const onClickTitle = () => {
     setFocus("title");
   };
-
   const onClickQuestion = (index: number) => {
     setFocus(`q${index}`);
+  };
+
+  const onMouseOverQuestion = (index: number) => {
+    setHover(`q${index}`);
+  };
+  const onMouseOutQuestion = () => {
+    setHover("");
   };
 
   const onInputTitle: React.ChangeEventHandler<HTMLInputElement> = (e) => {
@@ -111,6 +121,10 @@ function Edit() {
     dispatch({ type: "COPY_QUESTION", questionIndex });
   };
 
+  const onClickAddQuestion = (questionIndex: number) => {
+    dispatch({ type: "ADD_QUESTION", questionIndex });
+  };
+
   const onClickDeleteQuestion = (questionIndex: number) => {
     dispatch({ type: "DELETE_QUESTION", questionIndex });
   };
@@ -137,6 +151,29 @@ function Edit() {
     formApi.saveForm(id, apiData);
   };
 
+  const onDragStart = (initial: DragStart) => {
+    const { source } = initial;
+    setDrag(`q${source.index}`);
+  };
+
+  const onDragEnd = (result: DropResult) => {
+    const { destination, source } = result;
+    setDrag("");
+    if (!destination) return;
+    if (destination.droppableId === source.droppableId && destination.index === source.index) return;
+
+    dispatch({ type: "CHANGE_QUESTION_ORDER", destinationIndex: destination.index, originIndex: source.index });
+    setFocus(`q${destination.index}`);
+  };
+
+  const showDragIndicator = (index: number) => {
+    if (focus === `q${index}`) return true;
+    if (drag === `q${index}`) return true;
+    if (drag && drag !== hover) return false;
+    if (hover === `q${index}`) return true;
+    return false;
+  };
+
   return (
     <FormLayout backgroundColor="blue">
       <Container>
@@ -160,55 +197,95 @@ function Edit() {
             </>
           )}
         </TitleContainer>
-        {question.map(({ questionId, title, type, essential }, questionIndex) => (
-          <QuestionContainer key={questionId} onClick={() => onClickQuestion(questionIndex)}>
-            {focus === `q${questionIndex}` && (
-              <>
-                <QuestionHead>
-                  <QuestionTitleInput
-                    onInput={(e) => onInputQuestionTitle(e.currentTarget.value, questionIndex)}
-                    value={question[questionIndex].title}
-                    placeholder="질문"
-                  />
-                  <Dropdown
-                    state={type}
-                    setState={(questionType) => {
-                      onClickSetQuestionType(questionType, questionIndex);
+        <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
+          <Droppable droppableId="formQuestions">
+            {(droppable) => (
+              <div ref={droppable.innerRef} {...droppable.droppableProps}>
+                {question.map(({ questionId, title, type, essential }, questionIndex) => (
+                  <Draggable draggableId={questionId.toString()} index={questionIndex} key={questionId}>
+                    {(draggable) => {
+                      let transform = draggable.draggableProps.style?.transform;
+
+                      if (transform) {
+                        transform = transform.replace(/([0-9]+px)/, "0px");
+                        draggable.draggableProps.style = {
+                          ...draggable.draggableProps.style,
+                          transform,
+                        };
+                      }
+
+                      return (
+                        <QuestionContainer
+                          onClick={() => onClickQuestion(questionIndex)}
+                          onMouseOver={() => onMouseOverQuestion(questionIndex)}
+                          onMouseOut={() => onMouseOutQuestion()}
+                          {...draggable.draggableProps}
+                          ref={draggable.innerRef}
+                        >
+                          <DragIndicator {...draggable.dragHandleProps}>
+                            {showDragIndicator(questionIndex) ? <Icon type="dragIndicator" size="16px" /> : null}
+                          </DragIndicator>
+                          {focus === `q${questionIndex}` && (
+                            <>
+                              <QuestionHead>
+                                <QuestionTitleInput
+                                  onInput={(e) => onInputQuestionTitle(e.currentTarget.value, questionIndex)}
+                                  value={question[questionIndex].title}
+                                  placeholder="질문"
+                                />
+                                <Dropdown
+                                  state={type}
+                                  setState={(questionType) => {
+                                    onClickSetQuestionType(questionType, questionIndex);
+                                  }}
+                                />
+                              </QuestionHead>
+                              <QuestionBody>
+                                <Question
+                                  index={questionIndex}
+                                  questionState={question[questionIndex]}
+                                  addQuestionChoice={onClickAddQuestionChoice}
+                                  modifyChoice={onInputModifyQuestionChoice}
+                                  deleteChoice={onClickDeleteQuestionChoice}
+                                />
+                              </QuestionBody>
+                              <HorizontalRule />
+                              <QuestionTail>
+                                <QuestionTailButton type="button" onClick={() => onClickAddQuestion(questionIndex)}>
+                                  <Icon type="add" size="21px" />
+                                </QuestionTailButton>
+                                <QuestionTailButton type="button" onClick={() => onClickCopyQuestion(questionIndex)}>
+                                  <Icon type="copy" size="18px" />
+                                </QuestionTailButton>
+                                <QuestionTailButton type="button" onClick={() => onClickDeleteQuestion(questionIndex)}>
+                                  <Icon type="trashcan" size="18px" />
+                                </QuestionTailButton>
+                                <EssentialWrapper>
+                                  <EssentialText>필수</EssentialText>
+                                  <ToggleButton
+                                    state={essential}
+                                    onClick={() => onClickChangeQuestionEssential(questionIndex)}
+                                  />
+                                </EssentialWrapper>
+                              </QuestionTail>
+                            </>
+                          )}
+                          {focus !== `q${questionIndex}` && (
+                            <>
+                              <div>{title}</div>
+                              <QuestionRead questionState={question[questionIndex]} />
+                            </>
+                          )}
+                        </QuestionContainer>
+                      );
                     }}
-                  />
-                </QuestionHead>
-                <QuestionBody>
-                  <Question
-                    index={questionIndex}
-                    questionState={question[questionIndex]}
-                    addQuestionChoice={onClickAddQuestionChoice}
-                    modifyChoice={onInputModifyQuestionChoice}
-                    deleteChoice={onClickDeleteQuestionChoice}
-                  />
-                </QuestionBody>
-                <HorizontalRule />
-                <QuestionTail>
-                  <QuestionTailButton type="button" onClick={() => onClickCopyQuestion(questionIndex)}>
-                    <Icon type="copy" size="18px" />
-                  </QuestionTailButton>
-                  <QuestionTailButton type="button" onClick={() => onClickDeleteQuestion(questionIndex)}>
-                    <Icon type="trashcan" size="18px" />
-                  </QuestionTailButton>
-                  <EssentialWrapper>
-                    <EssentialText>필수</EssentialText>
-                    <ToggleButton state={essential} onClick={() => onClickChangeQuestionEssential(questionIndex)} />
-                  </EssentialWrapper>
-                </QuestionTail>
-              </>
+                  </Draggable>
+                ))}
+                {droppable.placeholder}
+              </div>
             )}
-            {focus !== `q${questionIndex}` && (
-              <>
-                <div>{title}</div>
-                <QuestionRead questionState={question[questionIndex]} />
-              </>
-            )}
-          </QuestionContainer>
-        ))}
+          </Droppable>
+        </DragDropContext>
         <BottomContainer>
           <ShareButton type="button" onClick={() => openModal()}>
             저장
