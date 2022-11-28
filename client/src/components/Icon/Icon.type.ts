@@ -14,6 +14,7 @@ interface IconProps {
     | "close"
     | "copy"
     | "multipleEmpty"
+    | "multipleFull"
     | "dragIndicator"
     | "add";
   size: string;
