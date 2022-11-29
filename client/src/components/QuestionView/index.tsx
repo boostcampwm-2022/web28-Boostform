@@ -2,9 +2,18 @@ import React from "react";
 import Checkbox from "./Checkbox";
 import Multiple from "./Multiple";
 import Paragraph from "./Paragraph";
-import QuestionViewProps from "./type";
+import { QuestionViewProps } from "./type";
 
-function QuestionView({ questionState, addResponse, deleteResponse, editResponse, responseState }: QuestionViewProps) {
+function QuestionView({
+  questionState,
+  addResponse,
+  deleteResponse,
+  editResponse,
+  responseState,
+  validationMode,
+  validation,
+  setValidation,
+}: QuestionViewProps) {
   const { type } = questionState;
   return (
     <>
@@ -15,6 +24,9 @@ function QuestionView({ questionState, addResponse, deleteResponse, editResponse
           deleteResponse={deleteResponse}
           editResponse={editResponse}
           responseState={responseState}
+          validationMode={validationMode}
+          validation={validation}
+          setValidation={setValidation}
         />
       )}
       {type === "multiple" && (
@@ -24,6 +36,9 @@ function QuestionView({ questionState, addResponse, deleteResponse, editResponse
           deleteResponse={deleteResponse}
           editResponse={editResponse}
           responseState={responseState}
+          validationMode={validationMode}
+          validation={validation}
+          setValidation={setValidation}
         />
       )}
       {type === "paragraph" && (
@@ -33,6 +48,9 @@ function QuestionView({ questionState, addResponse, deleteResponse, editResponse
           deleteResponse={deleteResponse}
           editResponse={editResponse}
           responseState={responseState}
+          validationMode={validationMode}
+          validation={validation}
+          setValidation={setValidation}
         />
       )}
     </>

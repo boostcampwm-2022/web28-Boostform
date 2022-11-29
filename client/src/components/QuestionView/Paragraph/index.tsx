@@ -1,20 +1,56 @@
+import Icon from "components/Icon";
 import React from "react";
-import QuestionViewProps from "../type";
-import ParagraphInput from "./style";
+import { QuestionViewProps } from "../type";
+import * as S from "./style";
 
-function Paragraph({ questionState, addResponse, deleteResponse, editResponse, responseState }: QuestionViewProps) {
-  const { questionId } = questionState;
+function Paragraph({
+  questionState,
+  addResponse,
+  deleteResponse,
+  editResponse,
+  responseState,
+  validationMode,
+  validation,
+  setValidation,
+}: QuestionViewProps) {
+  const { questionId, essential } = questionState;
   const selection =
     responseState.find(({ questionId: responseQuestionId }) => responseQuestionId === questionId)?.answer[0] || null;
 
   const onInputEditAnswer: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     const value = e.target.value.trim();
-    if (!value) deleteResponse(questionId);
-    if (value.length === 1) addResponse({ questionId, answer: [value] });
-    else editResponse(questionId, [value]);
+    if (!value) {
+      deleteResponse(questionId);
+      setValidation((prev) => {
+        if (essential) return { ...prev, [questionId]: false };
+        return prev;
+      });
+    } else if (value.length === 1) {
+      addResponse({ questionId, answer: [value] });
+      setValidation((prev) => {
+        if (essential) return { ...prev, [questionId]: true };
+        return prev;
+      });
+    } else {
+      editResponse(questionId, [value]);
+      setValidation((prev) => {
+        if (essential) return { ...prev, [questionId]: true };
+        return prev;
+      });
+    }
   };
 
-  return <ParagraphInput placeholder="내 답변" defaultValue={selection || ""} onInput={onInputEditAnswer} />;
+  return (
+    <>
+      <S.ParagraphInput placeholder="내 답변" defaultValue={selection || ""} onInput={onInputEditAnswer} />
+      {validationMode && !validation[questionId] && essential && (
+        <S.VaidationWrapper>
+          <Icon type="error" size="16px" fill="#d93025" />
+          <S.ValidationText>필수 질문입니다!</S.ValidationText>
+        </S.VaidationWrapper>
+      )}
+    </>
+  );
 }
 
 export default Paragraph;

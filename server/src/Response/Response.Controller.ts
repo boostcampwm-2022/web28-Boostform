@@ -62,9 +62,9 @@ class ResponseController {
       const response = await ResponseService.getResponse(responseId);
 
       if (req.userID) {
-        res.status(200).json({ userID: req.userID, formId, answerList: response.answer_list });
+        res.status(200).json({ userID: req.userID, formId, answerList: response.answerList });
       } else {
-        res.status(200).json({ formId, answerList: response.answer_list });
+        res.status(200).json({ formId, answerList: response.answerList });
       }
     } catch (err) {
       next(err);

@@ -1,13 +1,15 @@
 import React, { useEffect, useReducer, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { FormState, FormDataApi, ResponseElement } from "types/form.type";
+import { FormState, FormDataApi } from "types/form.type";
 import formViewReducer from "reducer/formView";
 import formApi from "api/formApi";
 import { fromApiToForm } from "utils/form";
+import { checkPrevResponseUpdateValidateCheckList, fromApiToValidateCheckList } from "utils/response";
 import FormLayout from "components/Layout";
 import QuestionView from "components/QuestionView";
-
+import responseApi from "api/responseApi";
+import { ResponseElement, Validation } from "types/response";
 import * as S from "./style";
 
 const initialState: FormState = {
@@ -29,15 +31,19 @@ function View() {
   const { id } = useParams();
 
   const fetchForm = (): Promise<FormDataApi> => formApi.getForm(id);
-  const { data, isSuccess } = useQuery({ queryKey: [id], queryFn: fetchForm });
+  const { data: formData, isSuccess: formIsSuccess } = useQuery({ queryKey: [id], queryFn: fetchForm });
+
+  const fetchResponse = (): Promise<ResponseElement[]> => responseApi.getResponse(id, "63859e28159d764514e1f2cf");
+  const { data: responseData, isSuccess: responseIsSuccess } = useQuery({
+    queryKey: ["63859e28159d764514e1f2cf"],
+    queryFn: fetchResponse,
+  });
+
   const [state, setState] = useState(initialState);
   const { form, question } = state;
-
-  const [responseState, dispatch] = useReducer(formViewReducer, [
-    { questionId: 1, answer: ["사자"] },
-    { questionId: 2, answer: ["피자", "햄버거"] },
-    { questionId: 4, answer: ["아이유"] },
-  ]);
+  const [responseState, dispatch] = useReducer(formViewReducer, []);
+  const [validationMode, setValidationMode] = useState(false);
+  const [validation, setValidation] = useState<Validation>({});
 
   const onClickAddResponse = (value: ResponseElement) => {
     dispatch({ type: "ADD_RESPONSE", value });
@@ -51,8 +57,24 @@ function View() {
 
   useEffect(() => {
     if (!id) return;
-    if (isSuccess) setState(fromApiToForm(data));
-  }, [data, id, isSuccess]);
+    if (formIsSuccess) {
+      setState(fromApiToForm(formData));
+      const checkList = fromApiToValidateCheckList(formData);
+      setValidation(checkList);
+    }
+    if (responseIsSuccess) dispatch({ type: "FETCH_DATA", init: responseData });
+
+    if (formIsSuccess && responseIsSuccess) {
+      const checkList = fromApiToValidateCheckList(formData);
+      setValidation(checkPrevResponseUpdateValidateCheckList(checkList, responseData));
+    }
+  }, [formData, id, formIsSuccess, responseData, responseIsSuccess]);
+
+  const onClickSubmitForm = async () => {
+    setValidationMode(true);
+    console.log("submit");
+    console.log(validation);
+  };
 
   return (
     <FormLayout backgroundColor="blue">
@@ -62,10 +84,10 @@ function View() {
           {form.description ? <S.HeadDescription>{form.description}</S.HeadDescription> : null}
         </S.HeadContainer>
         {question.map(({ questionId, title, essential }, questionIndex) => (
-          <S.QuestionContainer key={questionId}>
+          <S.QuestionContainer key={questionId} isEssential={validationMode && !validation[questionId] && essential}>
             <div>
               <span>{title}</span>
-              {essential ? <span>*</span> : null}
+              {essential ? <S.Essential>*</S.Essential> : null}
             </div>
             <QuestionView
               questionState={question[questionIndex]}
@@ -73,11 +95,14 @@ function View() {
               deleteResponse={onClickDeleteResponse}
               editResponse={onClickEditResponse}
               responseState={responseState}
+              validationMode={validationMode}
+              validation={validation}
+              setValidation={setValidation}
             />
           </S.QuestionContainer>
         ))}
         <S.BottomContainer>
-          <S.SubmitButton type="button" onClick={() => console.log(responseState)}>
+          <S.SubmitButton type="button" onClick={onClickSubmitForm}>
             제출
           </S.SubmitButton>
         </S.BottomContainer>

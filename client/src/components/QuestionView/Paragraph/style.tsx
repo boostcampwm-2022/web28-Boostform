@@ -16,4 +16,16 @@ const ParagraphInput = styled.input`
   }
 `;
 
-export default ParagraphInput;
+const VaidationWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 8px;
+  font-size: 12px;
+  color: #d93025;
+`;
+
+const ValidationText = styled.span`
+  margin-left: 5px;
+`;
+
+export { ParagraphInput, VaidationWrapper, ValidationText };

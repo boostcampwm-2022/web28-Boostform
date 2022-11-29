@@ -23,4 +23,16 @@ const MultipleIconButton = styled.button`
   border: 0;
 `;
 
-export { Container, MultipleWrapper, Option, MultipleIconButton };
+const VaidationWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 8px;
+  font-size: 12px;
+  color: #d93025;
+`;
+
+const ValidationText = styled.span`
+  margin-left: 5px;
+`;
+
+export { Container, MultipleWrapper, Option, MultipleIconButton, VaidationWrapper, ValidationText };

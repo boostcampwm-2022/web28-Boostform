@@ -24,7 +24,21 @@ class ResponseService {
   }
 
   static async getResponse(responseId: string): Promise<any> {
-    const response = await FormResponse.findOne({ _id: responseId });
+    const rawResponse = await FormResponse.findOne({ _id: responseId });
+
+    const answerList = rawResponse?.answer_list.map((rawAnswer) => {
+      return {
+        questionId: rawAnswer.question_id,
+        answer: rawAnswer.answer,
+      };
+    });
+
+    const response = {
+      userId: rawResponse?.user_id,
+      formId: rawResponse?.form_id,
+      answerList,
+    };
+
     return response;
   }
 

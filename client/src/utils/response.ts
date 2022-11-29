@@ -1,0 +1,29 @@
+import { FormDataApi } from "types/form.type";
+import { Validation, ResponseElement } from "types/response";
+
+const fromApiToValidateCheckList = (api: FormDataApi): Validation => {
+  const question = api.questionList;
+  const validationCheckList: Validation = {};
+
+  question.forEach(({ essential, questionId }) => {
+    if (essential) validationCheckList[questionId] = false;
+  });
+
+  return validationCheckList;
+};
+
+const checkPrevResponseUpdateValidateCheckList = (
+  prevValidation: Validation,
+  response: ResponseElement[]
+): Validation => {
+  const keys = Object.keys(prevValidation);
+  const validation: Validation = {};
+
+  keys.forEach((key) => {
+    if (response.find(({ questionId }) => key === questionId.toString())) validation[key] = true;
+  });
+
+  return validation;
+};
+
+export { fromApiToValidateCheckList, checkPrevResponseUpdateValidateCheckList };
