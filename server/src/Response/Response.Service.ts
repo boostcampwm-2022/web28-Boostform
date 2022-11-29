@@ -17,8 +17,8 @@ class ResponseService {
       answer_list: answerList,
     });
 
-    await newResponse.save();
-    await Form.findOneAndUpdate({ _id: formId }, { $inc: { response_count: 1 } });
+    newResponse.save();
+    Form.findOneAndUpdate({ _id: formId }, { $inc: { response_count: 1 } });
 
     return newResponse.id;
   }
