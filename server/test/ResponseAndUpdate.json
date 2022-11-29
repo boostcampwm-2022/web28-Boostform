@@ -1,6 +1,6 @@
 {
   "config": {
-    "target": "http://101.101.208.135:8080",
+    "target": "http://http://101.101.208.135/:8080",
     "phases": [
       {
         "name": "phase1",
@@ -23,36 +23,6 @@
         {
           "get": {
             "url": "/api/responses/{{formId}}/response-page"
-          }
-        },
-        {
-          "think": 10
-        },
-        {
-          "post": {
-            "url": "/api/responses/{{formId}}",
-            "json": {
-              "answerList": [
-                {
-                  "questionId": 1,
-                  "answer": ["{{question1}}"]
-                },
-                {
-                  "questionId": 2,
-                  "answer": ["{{question2}}"]
-                },
-                {
-                  "questionId": 3,
-                  "answer": ["{{question3}}"]
-                }
-              ]
-            },
-            "capture": [
-              {
-                "json": "$.responseId",
-                "as": "responseId"
-              }
-            ]
           }
         }
       ]
