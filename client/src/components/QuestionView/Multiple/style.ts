@@ -4,7 +4,7 @@ const Container = styled.div`
   margin-top: 20px;
 `;
 
-const ObjectiveWrapper = styled.div`
+const MultipleWrapper = styled.div`
   display: flex;
   align-items: center;
   margin-top: 5px;
@@ -23,4 +23,4 @@ const MultipleIconButton = styled.button`
   border: 0;
 `;
 
-export { Container, ObjectiveWrapper, Option, MultipleIconButton };
+export { Container, MultipleWrapper, Option, MultipleIconButton };

@@ -53,4 +53,9 @@ interface FormDataApi {
   loginRequired: boolean;
 }
 
-export type { FormState, QuestionType, QuestionState, FormDataApi, FormSummary };
+type ResponseElement = {
+  questionId: number;
+  answer: string[];
+};
+
+export type { FormState, QuestionType, QuestionState, FormDataApi, FormSummary, ResponseElement };

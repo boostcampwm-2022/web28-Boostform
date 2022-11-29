@@ -1,24 +1,36 @@
 import React, { useState } from "react";
-import { QuestionState } from "types/form.type";
 import Icon from "components/Icon";
-
+import QuestionViewProps from "../type";
 import * as S from "./style";
 
-function Checkbox({ questionState }: { questionState: QuestionState }) {
-  const { option } = questionState;
-  const [selected, setSelected] = useState(-1);
+function Checkbox({ questionState, addResponse, deleteResponse, editResponse, responseState }: QuestionViewProps) {
+  const { option, questionId } = questionState;
+  const selection =
+    responseState.find(({ questionId: responseQuestionId }) => responseQuestionId === questionId)?.answer[0] || null;
+  const [selected, setSelected] = useState<string | null>(selection);
+
+  const onClickSelectOption = (value: string) => {
+    if (selected) editResponse(questionId, [value]);
+    else addResponse({ questionId, answer: [value] });
+    setSelected(value);
+  };
+
+  const onClickDeselectOption = () => {
+    setSelected(null);
+    deleteResponse(questionId);
+  };
 
   return (
     <S.Container>
-      {option.map(({ choiceId, value }, index) => (
+      {option.map(({ choiceId, value }) => (
         <S.ObjectiveWrapper key={choiceId}>
-          {selected !== index && (
-            <S.CheckIconButton type="button" onClick={() => setSelected(index)}>
+          {selected !== value && (
+            <S.CheckIconButton type="button" onClick={() => onClickSelectOption(value)}>
               <Icon type="checkboxEmpty" size="20px" />
             </S.CheckIconButton>
           )}
-          {selected === index && (
-            <S.CheckIconButton type="button" onClick={() => setSelected(-1)}>
+          {selected === value && (
+            <S.CheckIconButton type="button" onClick={() => onClickDeselectOption()}>
               <Icon type="checkboxFull" size="20px" fill="#3c64b1" />
             </S.CheckIconButton>
           )}

@@ -1,5 +1,8 @@
-import { FormState } from "types/form.type";
+import { ResponseElement } from "types/form.type";
 
-type FormViewAction = { type: "FETCH_DATA"; init: FormState };
+type FormViewAction =
+  | { type: "ADD_RESPONSE"; value: ResponseElement }
+  | { type: "DELETE_RESPONSE"; questionId: number }
+  | { type: "EDIT_RESPONSE"; questionId: number; value: string[] };
 
 export default FormViewAction;
