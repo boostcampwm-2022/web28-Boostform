@@ -9,6 +9,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 import "reflect-metadata";
 import { DataSource } from "typeorm";
+import * as redis from "redis";
 
 import indexRouter from "./routes/index";
 import errorMiddleware from "./Middlewares/Error.Middleware";
@@ -54,8 +55,24 @@ function connectDB() {
 
 connectDB();
 
-// view engine setup
+// redis 연결
+const redisClient = redis.createClient({
+  url: `redis://@49.50.161.193:6379/0`,
+  legacyMode: true,
+});
 
+redisClient.on("connect", () => {
+  console.info("Redis connected!");
+});
+redisClient.on("error", (err) => {
+  console.error("Redis Client Error", err);
+});
+
+redisClient.connect();
+
+export const redisCli = redisClient.v4;
+
+// view engine setup
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
