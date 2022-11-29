@@ -1,5 +1,5 @@
 import React, { useEffect, useReducer, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { FormState, FormDataApi } from "types/form.type";
 import formViewReducer from "reducer/formView";
@@ -29,13 +29,15 @@ const initialState: FormState = {
 
 function View() {
   const { id } = useParams();
+  const navigate = useNavigate();
+  const { state: prevResponseId } = useLocation();
 
   const fetchForm = (): Promise<FormDataApi> => formApi.getForm(id);
   const { data: formData, isSuccess: formIsSuccess } = useQuery({ queryKey: [id], queryFn: fetchForm });
 
-  const fetchResponse = (): Promise<ResponseElement[]> => responseApi.getResponse(id, "63859e28159d764514e1f2cf");
+  const fetchResponse = (): Promise<ResponseElement[]> => responseApi.getResponse(id, prevResponseId);
   const { data: responseData, isSuccess: responseIsSuccess } = useQuery({
-    queryKey: ["63859e28159d764514e1f2cf"],
+    queryKey: [prevResponseId],
     queryFn: fetchResponse,
   });
 
@@ -74,12 +76,11 @@ function View() {
     setValidationMode(true);
     const checkResult = validationCheck(validation);
     if (checkResult) {
-      const responseId = await responseApi.sendResponse(id, responseState);
-      // console.log(responseId);
+      let responseId;
+      if (!prevResponseId) responseId = await responseApi.sendResponse(id, responseState);
+      if (prevResponseId) responseId = await responseApi.patchResponse(id, prevResponseId, responseState);
+      navigate(`/forms/${id}/response`, { state: responseId });
     }
-    // console.log("submit");
-    // console.log(validation);
-    // console.log(checkResult);
   };
 
   return (

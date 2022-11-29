@@ -5,6 +5,7 @@ import Edit from "pages/Edit";
 import Main from "pages/Main";
 import Login from "pages/Login";
 import View from "pages/View";
+import Response from "pages/Response";
 
 const router = createBrowserRouter([
   {
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
   {
     path: "/manage",
     element: <Manage />,
+  },
+  {
+    path: "/forms/:id/response",
+    element: <Response />,
   },
 ]);
 
