@@ -5,7 +5,7 @@ import { FormState, FormDataApi } from "types/form.type";
 import formViewReducer from "reducer/formView";
 import formApi from "api/formApi";
 import { fromApiToForm } from "utils/form";
-import { checkPrevResponseUpdateValidateCheckList, fromApiToValidateCheckList } from "utils/response";
+import { checkPrevResponseUpdateValidateCheckList, fromApiToValidateCheckList, validationCheck } from "utils/response";
 import FormLayout from "components/Layout";
 import QuestionView from "components/QuestionView";
 import responseApi from "api/responseApi";
@@ -72,8 +72,14 @@ function View() {
 
   const onClickSubmitForm = async () => {
     setValidationMode(true);
-    console.log("submit");
-    console.log(validation);
+    const checkResult = validationCheck(validation);
+    if (checkResult) {
+      const responseId = await responseApi.sendResponse(id, responseState);
+      // console.log(responseId);
+    }
+    // console.log("submit");
+    // console.log(validation);
+    // console.log(checkResult);
   };
 
   return (

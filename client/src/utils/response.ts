@@ -26,4 +26,9 @@ const checkPrevResponseUpdateValidateCheckList = (
   return validation;
 };
 
-export { fromApiToValidateCheckList, checkPrevResponseUpdateValidateCheckList };
+const validationCheck = (validation: Validation) => {
+  const result = Object.values(validation).every((v) => v);
+  return result;
+};
+
+export { fromApiToValidateCheckList, checkPrevResponseUpdateValidateCheckList, validationCheck };
