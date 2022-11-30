@@ -3,6 +3,7 @@ import InteranServerException from "../Common/Exceptions/InternalServer.Exceptio
 import BadRequestException from "../Common/Exceptions/BadRequest.Exception";
 import FormService from "./Form.Service";
 import { FormInDB } from "./Form.Interface";
+import { redisCli } from "../app";
 
 class FormController {
   static async createNewForm(req: Request, res: Response, next: NextFunction) {
@@ -43,20 +44,8 @@ class FormController {
       const { formId } = req.params;
       const form = (await FormService.getForm(formId)) as FormInDB;
 
-      const questionList = FormService.getQuestionListForResponse(form.question_list);
-
-      res.status(200).json({
-        // eslint-disable-next-line no-underscore-dangle
-        id: form._id,
-        userID: form.user_id,
-        title: form.title,
-        description: form.description,
-        category: form.category,
-        questionList,
-        acceptResponse: form.accept_response,
-        onBoard: form.on_board,
-        loginRequired: form.login_required,
-      });
+      res.status(200).json(form);
+      redisCli.set(`form:${formId}`, JSON.stringify(form), { EX: 300 });
     } catch (err) {
       console.log(err);
 
@@ -71,6 +60,9 @@ class FormController {
 
       await FormService.updateForm(formId, body);
       res.status(200).end();
+
+      const form = (await FormService.getForm(formId)) as FormInDB;
+      redisCli.set(`form:${formId}`, JSON.stringify(form), { EX: 300 });
     } catch (err) {
       console.log(err);
       next(err);
