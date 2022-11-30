@@ -1,4 +1,4 @@
-import { FormResult, QuestionResult } from "./types/Result.Interface";
+import { FormResult } from "./types/Result.Interface";
 import Form from "../Form/Form.Model";
 import FormResponse from "../Response/Response.Model";
 import BadRequestException from "../Common/Exceptions/BadRequest.Exception";
@@ -30,7 +30,7 @@ export default class ResultService {
     this.form.question_list.forEach((element: any) => {
       resultDict[element.question_id] = {
         type: element.type,
-        title: element.title,
+        questionTitle: element.title,
         responseCount: 0,
         answerTotal: {},
       };
@@ -40,6 +40,7 @@ export default class ResultService {
 
   formResult(): FormResult {
     const result: FormResult = {
+      formTitle: this.form.title,
       totalResponseCount: this.form.response_count,
       acceptResponse: this.form.accept_response,
       questionResultDict: this.initQuestionResultDict(),
