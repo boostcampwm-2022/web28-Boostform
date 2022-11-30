@@ -1,20 +1,18 @@
 import express from "express";
 import FormController from "./Form.Controller";
 import { authMiddleware } from "../Middlewares/Auth.Middleware";
-import responseCaching from "./Form.Caching";
+import formCaching from "./Form.Caching";
 
 const formRouter = express.Router();
 
-formRouter.use("/", authMiddleware);
+formRouter.get("/", authMiddleware, FormController.getFormList);
 
-formRouter.get("/", FormController.getFormList);
+formRouter.get("/:formId", formCaching, FormController.getForm);
 
-formRouter.get("/:formId", responseCaching, FormController.getForm);
+formRouter.post("/", authMiddleware, FormController.createNewForm);
 
-formRouter.post("/", FormController.createNewForm);
+formRouter.patch("/:formId", authMiddleware, FormController.updateForm);
 
-formRouter.patch("/:formId", FormController.updateForm);
-
-formRouter.delete("/:formId", FormController.deleteForm);
+formRouter.delete("/:formId", authMiddleware, FormController.deleteForm);
 
 export default formRouter;

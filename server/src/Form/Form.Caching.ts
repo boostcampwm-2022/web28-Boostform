@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { redisCli } from "../app";
 
-const responseCaching = async (req: Request, res: Response, next: NextFunction) => {
+const formCaching = async (req: Request, res: Response, next: NextFunction) => {
   const cachingResult = await redisCli.get(`form:${req.params.formId}`);
   if (cachingResult) {
     const form = JSON.parse(cachingResult);
@@ -13,4 +13,4 @@ const responseCaching = async (req: Request, res: Response, next: NextFunction) 
   }
 };
 
-export default responseCaching;
+export default formCaching;
