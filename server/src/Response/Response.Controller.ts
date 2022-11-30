@@ -37,7 +37,7 @@ class ResponseController {
     }
   }
 
-  static async saveResponse(req: Request, res: Response, next: NextFunction) {
+  static saveResponse(req: Request, res: Response, next: NextFunction) {
     try {
       const { formId } = req.params;
       const { userID } = req;
@@ -46,7 +46,6 @@ class ResponseController {
       const answerList = ResponseService.getAnswerListForDB(answerListFromRequest);
       const responseId = ResponseService.saveResponse(formId, userID, answerList);
 
-      console.log(responseId);
       res.status(201).json({ responseId });
     } catch (err: any) {
       if (err.message.includes("Response validation failed")) {
