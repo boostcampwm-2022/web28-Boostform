@@ -22,16 +22,8 @@ class ResponseController {
       const { formId } = req.params;
 
       const form = await FormService.getForm(formId);
-      const questionList = FormService.getQuestionListForResponse(form.question_list);
 
-      res.status(200).json({
-        title: form.title,
-        description: form.description,
-        category: form.category,
-        questionList,
-        acceptResponse: form.accept_response,
-        loginRequired: form.login_required,
-      });
+      res.status(200).json(form);
     } catch (err) {
       next(err);
     }

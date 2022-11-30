@@ -43,20 +43,7 @@ class FormController {
       const { formId } = req.params;
       const form = (await FormService.getForm(formId)) as FormInDB;
 
-      const questionList = FormService.getQuestionListForResponse(form.question_list);
-
-      res.status(200).json({
-        // eslint-disable-next-line no-underscore-dangle
-        id: form._id,
-        userID: form.user_id,
-        title: form.title,
-        description: form.description,
-        category: form.category,
-        questionList,
-        acceptResponse: form.accept_response,
-        onBoard: form.on_board,
-        loginRequired: form.login_required,
-      });
+      res.status(200).json(form);
     } catch (err) {
       console.log(err);
 

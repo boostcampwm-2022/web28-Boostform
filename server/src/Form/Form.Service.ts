@@ -1,5 +1,5 @@
 import Form from "./Form.Model";
-import { UpdateFormRequestBody, QuestionInRequestBody, QuestionInDB } from "./Form.Interface";
+import { UpdateFormRequestBody, QuestionInRequestBody, QuestionInDB, FormInDB } from "./Form.Interface";
 import getDateString from "../Common/Utils/GetDateString";
 
 class FormService {
@@ -61,13 +61,29 @@ class FormService {
   }
 
   static async getForm(formId: string): Promise<any> {
-    const form = await Form.findOne({ _id: formId });
-
+    const rawForm = (await Form.findOne({ _id: formId })) as FormInDB;
+    const questionList = FormService.getQuestionListForResponse(rawForm.question_list);
+    const form = {
+      // eslint-disable-next-line no-underscore-dangle
+      id: rawForm._id,
+      userID: rawForm.user_id,
+      title: rawForm.title,
+      description: rawForm.description,
+      category: rawForm.category,
+      questionList,
+      acceptResponse: rawForm.accept_response,
+      onBoard: rawForm.on_board,
+      loginRequired: rawForm.login_required,
+      responseCount: rawForm.response_count,
+      responseModifiable: rawForm.response_modifiable,
+      createdAt: rawForm.createdAt,
+      updatedAt: rawForm.updatedAt,
+    };
     return form;
   }
 
-  static getQuestionListForResponse(rawQuestion: Array<QuestionInDB>) {
-    const questionList = rawQuestion.map((question) => {
+  static getQuestionListForResponse(rawQuestionList: Array<QuestionInDB>) {
+    const questionList = rawQuestionList.map((question) => {
       return {
         questionId: question.question_id,
         page: question.page,
