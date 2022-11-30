@@ -6,6 +6,7 @@ import Main from "pages/Main";
 import Login from "pages/Login";
 import View from "pages/View";
 import Response from "pages/Response";
+import Result from "pages/Result";
 
 const router = createBrowserRouter([
   {
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
   {
     path: "/forms/:id/response",
     element: <Response />,
+  },
+  {
+    path: "/forms/:id/result",
+    element: <Result />,
   },
 ]);
 

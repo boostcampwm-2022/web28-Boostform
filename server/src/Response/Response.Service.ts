@@ -10,7 +10,7 @@ class ResponseService {
     return !(isExist === null);
   }
 
-  static async saveResponse(formId: string, userID: number | undefined, answerList: Array<AnswerInterface>) {
+  static saveResponse(formId: string, userID: number | undefined, answerList: Array<AnswerInterface>) {
     const newResponse = new FormResponse({
       user_id: userID,
       form_id: formId,
@@ -18,7 +18,7 @@ class ResponseService {
     });
 
     newResponse.save();
-    Form.findOneAndUpdate({ _id: formId }, { $inc: { response_count: 1 } });
+    Form.findOneAndUpdate({ _id: formId }, { $inc: { response_count: 1 } }).exec();
 
     return newResponse.id;
   }
