@@ -43,10 +43,16 @@ function Result() {
             <div>
               <span>{title}</span>
             </div>
-            <div>
-              <span>{responseCount}</span>
-            </div>
-            <QuestionResult type={type} answerTotal={answerTotal} />
+            {responseCount ? (
+              <div>
+                <span>{responseCount}</span>
+              </div>
+            ) : null}
+            {responseCount ? (
+              <QuestionResult type={type} answerTotal={answerTotal} />
+            ) : (
+              <div>질문에 대한 응답이 없습니다.</div>
+            )}
           </S.QuestionContainer>
         ))}
       </S.Container>
