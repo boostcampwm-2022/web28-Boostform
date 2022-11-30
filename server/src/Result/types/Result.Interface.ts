@@ -6,6 +6,7 @@ interface QuestionResult {
 }
 
 interface FormResult {
+  formTitle: string;
   totalResponseCount: number;
   acceptResponse: boolean;
   questionResultDict: any;

@@ -4,6 +4,7 @@ const fromApiToForm = (api: FormDataApi): FormState => {
   const { id, userID, title, description, category, questionList, acceptResponse, onBoard, loginRequired } = api;
 
   let formQuestionList: QuestionState[];
+  let currentQuestionId = 1;
 
   if (!questionList.length)
     formQuestionList = [
@@ -19,25 +20,29 @@ const fromApiToForm = (api: FormDataApi): FormState => {
       },
     ];
   else
-    formQuestionList = questionList.map(({ page, type, essential, etcAdded, title: questionTitle, option }, index) => {
-      const formOptionList = option.map((value, optionIndex) => {
-        return {
-          choiceId: optionIndex + 1,
-          value,
-        };
-      });
+    formQuestionList = questionList.map(
+      ({ questionId, page, type, essential, etcAdded, title: questionTitle, option }) => {
+        if (currentQuestionId <= questionId) currentQuestionId = questionId;
 
-      return {
-        questionId: index + 1,
-        page,
-        type,
-        essential,
-        etcAdded,
-        title: questionTitle,
-        option: formOptionList,
-        currentChoiceId: option.length,
-      };
-    });
+        const formOptionList = option.map((value, optionIndex) => {
+          return {
+            choiceId: optionIndex + 1,
+            value,
+          };
+        });
+
+        return {
+          questionId,
+          page,
+          type,
+          essential,
+          etcAdded,
+          title: questionTitle,
+          option: formOptionList,
+          currentChoiceId: option.length,
+        };
+      }
+    );
 
   return {
     form: {
@@ -48,7 +53,7 @@ const fromApiToForm = (api: FormDataApi): FormState => {
       category: category || "기타",
       acceptResponse,
       onBoard,
-      currentQuestionId: questionList.length || 1,
+      currentQuestionId,
       loginRequired,
     },
     question: formQuestionList,

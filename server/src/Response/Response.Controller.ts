@@ -17,7 +17,7 @@ class ResponseController {
     }
   }
 
-  static async saveResponse(req: Request, res: Response, next: NextFunction) {
+  static saveResponse(req: Request, res: Response, next: NextFunction) {
     try {
       const { formId } = req.params;
       const { userID } = req;
