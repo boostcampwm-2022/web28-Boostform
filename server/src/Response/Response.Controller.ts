@@ -17,18 +17,6 @@ class ResponseController {
     }
   }
 
-  static async getFormForResponsePage(req: Request, res: Response, next: NextFunction) {
-    try {
-      const { formId } = req.params;
-
-      const form = await FormService.getForm(formId);
-
-      res.status(200).json(form);
-    } catch (err) {
-      next(err);
-    }
-  }
-
   static async saveResponse(req: Request, res: Response, next: NextFunction) {
     try {
       const { formId } = req.params;
