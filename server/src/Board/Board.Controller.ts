@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import BoardService from "./Board.Service";
+import { redisCli } from "../app";
 
 class BoardController {
   static filterByKeys(reqQuery: any, keys: string[]) {
@@ -14,8 +15,22 @@ class BoardController {
     const searchQuery = BoardController.filterByKeys(req.query, searchKeys);
     const sortQuery = BoardController.filterByKeys(req.query, sortKeys);
 
-    const searchResult = await BoardService.searchByQuery(searchQuery, sortQuery);
+    const cacheKey = `board:${JSON.stringify(req.query)}`;
+
+    let searchResult = await (req.query.title
+      ? BoardService.searchByQuery(searchQuery, sortQuery)
+      : redisCli.get(cacheKey));
+
+    if (!searchResult) {
+      searchResult = await BoardService.searchByQuery(searchQuery, sortQuery);
+      redisCli.set(cacheKey, JSON.stringify(searchResult));
+      redisCli.expire(cacheKey, 120);
+    }
     res.status(200).json(searchResult);
+
+    // 캐싱 안하는 실험 코드
+    // const searchResult = await BoardService.searchByQuery(searchQuery, sortQuery);
+    // res.status(200).json(searchResult);
   }
 }
 
