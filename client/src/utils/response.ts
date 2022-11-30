@@ -16,6 +16,7 @@ const checkPrevResponseUpdateValidateCheckList = (
   prevValidation: Validation,
   response: ResponseElement[]
 ): Validation => {
+  if (!response.length) return prevValidation;
   const keys = Object.keys(prevValidation);
   const validation: Validation = {};
 

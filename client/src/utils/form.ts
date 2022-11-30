@@ -19,25 +19,27 @@ const fromApiToForm = (api: FormDataApi): FormState => {
       },
     ];
   else
-    formQuestionList = questionList.map(({ page, type, essential, etcAdded, title: questionTitle, option }, index) => {
-      const formOptionList = option.map((value, optionIndex) => {
-        return {
-          choiceId: optionIndex + 1,
-          value,
-        };
-      });
+    formQuestionList = questionList.map(
+      ({ questionId, page, type, essential, etcAdded, title: questionTitle, option }) => {
+        const formOptionList = option.map((value, optionIndex) => {
+          return {
+            choiceId: optionIndex + 1,
+            value,
+          };
+        });
 
-      return {
-        questionId: index + 1,
-        page,
-        type,
-        essential,
-        etcAdded,
-        title: questionTitle,
-        option: formOptionList,
-        currentChoiceId: option.length,
-      };
-    });
+        return {
+          questionId,
+          page,
+          type,
+          essential,
+          etcAdded,
+          title: questionTitle,
+          option: formOptionList,
+          currentChoiceId: option.length,
+        };
+      }
+    );
 
   return {
     form: {
