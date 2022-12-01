@@ -9,6 +9,7 @@ interface FormSummary {
   acceptResponse: boolean;
   onBoard: boolean;
   loginRequired: boolean;
+  responseModifiable: boolean;
   currentQuestionId: number;
 }
 
@@ -51,6 +52,7 @@ interface FormDataApi {
   acceptResponse: boolean;
   onBoard: boolean;
   loginRequired: boolean;
+  responseModifiable: boolean;
 }
 
 export type { FormState, QuestionType, QuestionState, FormDataApi, FormSummary };

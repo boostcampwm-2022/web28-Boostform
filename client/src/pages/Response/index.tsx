@@ -31,6 +31,8 @@ function Result() {
     navigate(`/forms/${id}/view`);
   };
 
+  console.log(form);
+
   return (
     <FormLayout backgroundColor="blue">
       <S.Container>
@@ -38,7 +40,7 @@ function Result() {
           <S.Title>{form?.title}</S.Title>
           <S.Description>응답이 기록되었습니다.</S.Description>
           <S.LinkWrapper>
-            <S.Link onClick={onClickModifyPreviousResponse}>응답 수정</S.Link>
+            {form?.responseModifiable ? <S.Link onClick={onClickModifyPreviousResponse}>응답 수정</S.Link> : null}
             {!form?.loginRequired ? <S.Link onClick={onClickNavigateOtherResponse}>다른 응답 제출</S.Link> : null}
           </S.LinkWrapper>
         </S.HeadContainer>

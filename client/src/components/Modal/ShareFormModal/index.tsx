@@ -9,9 +9,10 @@ function ShareFormModal({
   changeLoginRequired,
   changeOnBoardShare,
   changeAcceptResponse,
+  changeResponseModifiable,
   saveForm,
 }: ShareFormModalProps) {
-  const { loginRequired, onBoard, acceptResponse } = formState;
+  const { loginRequired, onBoard, acceptResponse, responseModifiable } = formState;
   const onClickCancel = () => closeModal();
   const onClickSave = () => {
     saveForm();
@@ -32,7 +33,7 @@ function ShareFormModal({
         </S.ToggleWrapper>
         <S.ToggleWrapper>
           <span>응답 수정 가능</span>
-          <ToggleButton state={loginRequired} onClick={() => console.log("response")} />
+          <ToggleButton state={responseModifiable} onClick={changeResponseModifiable} />
         </S.ToggleWrapper>
         <S.ToggleWrapper>
           <span>게시판에 공유하기</span>

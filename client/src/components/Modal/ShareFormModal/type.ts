@@ -6,6 +6,7 @@ interface ShareFormModalProps {
   changeLoginRequired: () => void;
   changeOnBoardShare: () => void;
   changeAcceptResponse: () => void;
+  changeResponseModifiable: () => void;
   saveForm: () => void;
 }
 

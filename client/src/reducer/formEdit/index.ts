@@ -241,6 +241,17 @@ function formEditReducer(state: FormState, action: FormEditAction) {
       },
     };
   }
+  if (type === "CHANGE_RESPONSE_MODIFIABLE") {
+    const responseModifiableState = state.form.responseModifiable;
+
+    return {
+      ...state,
+      form: {
+        ...state.form,
+        responseModifiable: !responseModifiableState,
+      },
+    };
+  }
   if (type === "CHANGE_QUESTION_ORDER") {
     const { originIndex, destinationIndex } = action;
 

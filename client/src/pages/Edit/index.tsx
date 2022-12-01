@@ -30,6 +30,7 @@ const initialState: FormState = {
     acceptResponse: false,
     onBoard: false,
     loginRequired: false,
+    responseModifiable: false,
     currentQuestionId: 1,
   },
   question: [],
@@ -126,6 +127,10 @@ function Edit() {
 
   const onClickChangeAcceptResponse = () => {
     dispatch({ type: "CHANGE_ACCEPT_RESPONSE" });
+  };
+
+  const onClickChangeResponseModifiable = () => {
+    dispatch({ type: "CHANGE_RESPONSE_MODIFIABLE" });
   };
 
   const onClickSaveForm = () => {
@@ -286,6 +291,7 @@ function Edit() {
           changeLoginRequired={onClickChangeLoginRequired}
           changeOnBoardShare={onClickChangeOnBoardShare}
           changeAcceptResponse={onClickChangeAcceptResponse}
+          changeResponseModifiable={onClickChangeResponseModifiable}
           saveForm={onClickSaveForm}
         />
       </ModalPortal>

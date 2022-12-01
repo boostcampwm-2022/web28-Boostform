@@ -1,7 +1,18 @@
 import { FormState, QuestionState, FormDataApi } from "types/form";
 
 const fromApiToForm = (api: FormDataApi): FormState => {
-  const { id, userID, title, description, category, questionList, acceptResponse, onBoard, loginRequired } = api;
+  const {
+    id,
+    userID,
+    title,
+    description,
+    category,
+    questionList,
+    acceptResponse,
+    onBoard,
+    loginRequired,
+    responseModifiable,
+  } = api;
 
   let formQuestionList: QuestionState[];
   let currentQuestionId = 1;
@@ -55,6 +66,7 @@ const fromApiToForm = (api: FormDataApi): FormState => {
       onBoard,
       currentQuestionId,
       loginRequired,
+      responseModifiable,
     },
     question: formQuestionList,
   };
@@ -62,7 +74,7 @@ const fromApiToForm = (api: FormDataApi): FormState => {
 
 const fromFormToApi = (state: FormState): FormDataApi => {
   const { form, question } = state;
-  const { title, description, category, acceptResponse, onBoard, id, userId, loginRequired } = form;
+  const { title, description, category, acceptResponse, onBoard, id, userId, loginRequired, responseModifiable } = form;
 
   const apiQuestionList = question.map(({ questionId, page, type, essential, etcAdded, title: qTitle, option }) => {
     const apiQuestionOption = option.map(({ value }) => value);
@@ -79,6 +91,7 @@ const fromFormToApi = (state: FormState): FormDataApi => {
     acceptResponse,
     onBoard,
     loginRequired,
+    responseModifiable,
     questionList: apiQuestionList,
   };
 };

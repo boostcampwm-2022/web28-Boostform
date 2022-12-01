@@ -22,6 +22,7 @@ const initialState: FormState = {
     acceptResponse: false,
     onBoard: false,
     loginRequired: false,
+    responseModifiable: false,
     currentQuestionId: 1,
   },
   question: [],

@@ -17,6 +17,7 @@ type FormEditAction =
   | { type: "CHANGE_LOGIN_REQUIRED" }
   | { type: "CHANGE_ON_BOARD_SHARED" }
   | { type: "CHANGE_ACCEPT_RESPONSE" }
+  | { type: "CHANGE_RESPONSE_MODIFIABLE" }
   | { type: "CHANGE_QUESTION_ORDER"; originIndex: number; destinationIndex: number };
 
 export default FormEditAction;
