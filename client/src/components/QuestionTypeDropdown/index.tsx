@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Icon from "components/Icon";
 import OutsideDetecter from "hooks/useOutsideDetecter";
 import { QuestionType } from "types/form";
-import { Container, Button, Content, DropdownButton, DropdownText } from "./style";
+import * as S from "./style";
 import QuestionTypeDropdownProps from "./type";
 
 function QuestionTypeDropdown({ state, setState }: QuestionTypeDropdownProps) {
@@ -11,8 +11,8 @@ function QuestionTypeDropdown({ state, setState }: QuestionTypeDropdownProps) {
   const types: QuestionType[] = ["checkbox", "multiple", "paragraph"];
 
   return (
-    <Container>
-      <Button
+    <S.Container>
+      <S.Button
         type="button"
         onClick={(e) => {
           e.stopPropagation();
@@ -20,16 +20,16 @@ function QuestionTypeDropdown({ state, setState }: QuestionTypeDropdownProps) {
         }}
       >
         <Icon type={selected} size="16px" />
-        <DropdownText>{selected}</DropdownText>
+        <S.DropdownText>{selected}</S.DropdownText>
         <Icon type="dropdown" size="16px" />
-      </Button>
+      </S.Button>
 
       {open && (
         <OutsideDetecter callback={() => setOpen(false)}>
-          <Content>
+          <S.Content>
             {types.map((type) => (
               <li key={type}>
-                <DropdownButton
+                <S.DropdownButton
                   type="button"
                   onClick={(e) => {
                     e.stopPropagation();
@@ -39,14 +39,14 @@ function QuestionTypeDropdown({ state, setState }: QuestionTypeDropdownProps) {
                   }}
                 >
                   <Icon type={type} size="16px" />
-                  <DropdownText>{type}</DropdownText>
-                </DropdownButton>
+                  <S.DropdownText>{type}</S.DropdownText>
+                </S.DropdownButton>
               </li>
             ))}
-          </Content>
+          </S.Content>
         </OutsideDetecter>
       )}
-    </Container>
+    </S.Container>
   );
 }
 

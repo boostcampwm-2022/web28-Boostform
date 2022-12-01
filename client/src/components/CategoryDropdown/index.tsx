@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Icon from "components/Icon";
 import OutsideDetecter from "hooks/useOutsideDetecter";
-import { Container, Button, Content, DropdownButton, DropdownText } from "./style";
+import * as S from "./style";
 import CategoryDropdownProps from "./type";
 
 function CategoryDropdown({ state, setState }: CategoryDropdownProps) {
@@ -10,24 +10,24 @@ function CategoryDropdown({ state, setState }: CategoryDropdownProps) {
   const category = ["개발 및 학습", "취업 및 채용", "취미 및 여가", "기타"];
 
   return (
-    <Container>
-      <Button
+    <S.Container>
+      <S.Button
         type="button"
         onClick={(e) => {
           e.stopPropagation();
           setOpen((prev) => !prev);
         }}
       >
-        <DropdownText>{selected}</DropdownText>
+        <S.DropdownText>{selected}</S.DropdownText>
         <Icon type="dropdown" size="16px" />
-      </Button>
+      </S.Button>
 
       {open && (
         <OutsideDetecter callback={() => setOpen(false)}>
-          <Content>
+          <S.Content>
             {category.map((value) => (
               <li key={value}>
-                <DropdownButton
+                <S.DropdownButton
                   type="button"
                   onClick={(e) => {
                     e.stopPropagation();
@@ -36,14 +36,14 @@ function CategoryDropdown({ state, setState }: CategoryDropdownProps) {
                     setState(value);
                   }}
                 >
-                  <DropdownText>{value}</DropdownText>
-                </DropdownButton>
+                  <S.DropdownText>{value}</S.DropdownText>
+                </S.DropdownButton>
               </li>
             ))}
-          </Content>
+          </S.Content>
         </OutsideDetecter>
       )}
-    </Container>
+    </S.Container>
   );
 }
 

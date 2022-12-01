@@ -1,6 +1,6 @@
 import React from "react";
 import ToggleButton from "components/ToggleButton";
-import { Container, ToggleWrapper, Title, ButtonContainer, Button } from "./style";
+import * as S from "./style";
 import ShareFormModalProps from "./type";
 
 function ShareFormModal({
@@ -18,32 +18,32 @@ function ShareFormModal({
   };
 
   return (
-    <Container>
-      <Title>공유설정</Title>
+    <S.Container>
+      <S.Title>공유설정</S.Title>
       <div>
-        <ToggleWrapper>
+        <S.ToggleWrapper>
           <span>응답횟수 1회로 제한 (로그인 필수)</span>
           <ToggleButton state={loginRequired} onClick={changeLoginRequired} />
-        </ToggleWrapper>
-        <ToggleWrapper>
+        </S.ToggleWrapper>
+        <S.ToggleWrapper>
           <span>응답 수정 가능</span>
           <ToggleButton state={loginRequired} onClick={() => console.log("response")} />
-        </ToggleWrapper>
-        <ToggleWrapper>
+        </S.ToggleWrapper>
+        <S.ToggleWrapper>
           <span>게시판에 공유하기</span>
           <ToggleButton state={onBoard} onClick={changeOnBoardShare} />
-        </ToggleWrapper>
-        <ToggleWrapper>링크</ToggleWrapper>
+        </S.ToggleWrapper>
+        <S.ToggleWrapper>링크</S.ToggleWrapper>
       </div>
-      <ButtonContainer>
-        <Button type="button" onClick={onClickSave}>
+      <S.ButtonContainer>
+        <S.Button type="button" onClick={onClickSave}>
           저장
-        </Button>
-        <Button type="button" onClick={onClickCancel}>
+        </S.Button>
+        <S.Button type="button" onClick={onClickCancel}>
           취소
-        </Button>
-      </ButtonContainer>
-    </Container>
+        </S.Button>
+      </S.ButtonContainer>
+    </S.Container>
   );
 }
 

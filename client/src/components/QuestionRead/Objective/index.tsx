@@ -1,21 +1,21 @@
 import React from "react";
 import Icon from "components/Icon";
 import { QuestionState } from "types/form";
-import { Container, ObjectiveWrapper, Option } from "./style";
+import * as S from "./style";
 
 function Objective({ questionState }: { questionState: QuestionState }) {
   const { option, type } = questionState;
 
   return (
-    <Container>
+    <S.Container>
       {option.map(({ choiceId, value }) => (
-        <ObjectiveWrapper key={choiceId}>
+        <S.ObjectiveWrapper key={choiceId}>
           {type === "checkbox" && <Icon type="checkboxEmpty" size="20px" fill="#aeaeae" />}
           {type === "multiple" && <Icon type="multipleEmpty" size="20px" fill="#aeaeae" />}
-          <Option>{value}</Option>
-        </ObjectiveWrapper>
+          <S.Option>{value}</S.Option>
+        </S.ObjectiveWrapper>
       ))}
-    </Container>
+    </S.Container>
   );
 }
 

@@ -1,8 +1,8 @@
 import React from "react";
-import { Container } from "./style";
+import * as S from "./style";
 
 function Subjective() {
-  return <Container>장문형 텍스트</Container>;
+  return <S.Container>장문형 텍스트</S.Container>;
 }
 
 export default Subjective;

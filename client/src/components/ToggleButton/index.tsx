@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Container, Button, Toggle } from "./style";
+import * as S from "./style";
 import ToggleButtonProps from "./type";
 
 function ToggleButton({ state, onClick }: ToggleButtonProps) {
@@ -10,11 +10,11 @@ function ToggleButton({ state, onClick }: ToggleButtonProps) {
   };
 
   return (
-    <Container>
-      <Toggle toggle={toggle}>
-        <Button onClick={onClickToggle} toggle={toggle} onTransitionEnd={() => onClick()} />
-      </Toggle>
-    </Container>
+    <S.Container>
+      <S.Toggle toggle={toggle}>
+        <S.Button onClick={onClickToggle} toggle={toggle} onTransitionEnd={() => onClick()} />
+      </S.Toggle>
+    </S.Container>
   );
 }
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { ModalContainer, ModalBackground } from "./style";
+import * as S from "./style";
 import ModalPortalProps from "./type";
 
 const useModal = () => {
@@ -28,10 +28,10 @@ const useModal = () => {
   function ModalPortal({ children }: ModalPortalProps) {
     if (modalOpen)
       return createPortal(
-        <ModalContainer>
+        <S.ModalContainer>
           {children}
-          <ModalBackground onClick={closeModal} />
-        </ModalContainer>,
+          <S.ModalBackground onClick={closeModal} />
+        </S.ModalContainer>,
         modalRoot
       );
     return null;
