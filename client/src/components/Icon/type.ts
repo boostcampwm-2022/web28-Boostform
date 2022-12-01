@@ -17,7 +17,8 @@ interface IconProps {
     | "multipleFull"
     | "dragIndicator"
     | "add"
-    | "error";
+    | "error"
+    | "chain";
   size: string;
   fill?: string;
 }

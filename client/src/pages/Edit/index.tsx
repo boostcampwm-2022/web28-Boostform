@@ -133,6 +133,10 @@ function Edit() {
     dispatch({ type: "CHANGE_RESPONSE_MODIFIABLE" });
   };
 
+  const onClickCopyLink = () => {
+    navigator.clipboard.writeText(`${process.env.REACT_APP_CLIENT_ORIGIN_URL}/forms/${id}/view`);
+  };
+
   const onClickSaveForm = () => {
     if (!id) return;
     const apiData = fromFormToApi(state);
@@ -293,6 +297,7 @@ function Edit() {
           changeAcceptResponse={onClickChangeAcceptResponse}
           changeResponseModifiable={onClickChangeResponseModifiable}
           saveForm={onClickSaveForm}
+          copyLink={onClickCopyLink}
         />
       </ModalPortal>
     </FormLayout>

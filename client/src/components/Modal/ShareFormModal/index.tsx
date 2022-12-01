@@ -1,5 +1,6 @@
 import React from "react";
 import ToggleButton from "components/ToggleButton";
+import Icon from "components/Icon";
 import * as S from "./style";
 import ShareFormModalProps from "./type";
 
@@ -11,6 +12,7 @@ function ShareFormModal({
   changeAcceptResponse,
   changeResponseModifiable,
   saveForm,
+  copyLink,
 }: ShareFormModalProps) {
   const { loginRequired, onBoard, acceptResponse, responseModifiable } = formState;
   const onClickCancel = () => closeModal();
@@ -39,7 +41,13 @@ function ShareFormModal({
           <span>게시판에 공유하기</span>
           <ToggleButton state={onBoard} onClick={changeOnBoardShare} />
         </S.ToggleWrapper>
-        <S.ToggleWrapper>링크</S.ToggleWrapper>
+        <S.ToggleWrapper>
+          <span>링크</span>
+          <S.CopyLinkButton type="button" onClick={copyLink}>
+            <Icon type="chain" fill="#3c64b1" size="24px" />
+            <S.CopyLinkText>링크 복사하기</S.CopyLinkText>
+          </S.CopyLinkButton>
+        </S.ToggleWrapper>
       </div>
       <S.ButtonContainer>
         <S.Button type="button" onClick={onClickSave}>

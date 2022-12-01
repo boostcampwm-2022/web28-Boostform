@@ -8,6 +8,7 @@ interface ShareFormModalProps {
   changeAcceptResponse: () => void;
   changeResponseModifiable: () => void;
   saveForm: () => void;
+  copyLink: () => void;
 }
 
 export default ShareFormModalProps;

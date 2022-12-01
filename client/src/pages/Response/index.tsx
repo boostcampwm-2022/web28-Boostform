@@ -31,8 +31,6 @@ function Result() {
     navigate(`/forms/${id}/view`);
   };
 
-  console.log(form);
-
   return (
     <FormLayout backgroundColor="blue">
       <S.Container>
