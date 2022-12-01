@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import FormLayout from "components/Layout";
-import ToggleButton from "components/ToggleButton";
 import { useQuery } from "@tanstack/react-query";
 import resultApi from "api/resultApi";
 import { ResultApi, QuestionSummary } from "types/result";
@@ -45,7 +44,7 @@ function Result() {
             {responseCount ? (
               <QuestionResult type={type} answerTotal={answerTotal} />
             ) : (
-              <div>질문에 대한 응답이 없습니다.</div>
+              <S.NoResponse>질문에 대한 응답이 없습니다.</S.NoResponse>
             )}
           </S.QuestionContainer>
         ))}

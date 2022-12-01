@@ -54,6 +54,12 @@ const QuestionResponseCount = styled.div`
   font-weight: 400;
 `;
 
+const NoResponse = styled.div`
+  margin-top: 24px;
+  font-size: 14px;
+  font-weight: 400;
+`;
+
 export {
   Container,
   HeadContainer,
@@ -63,4 +69,5 @@ export {
   OverallResponseCount,
   QuestionContainer,
   QuestionResponseCount,
+  NoResponse,
 };
