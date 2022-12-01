@@ -38,10 +38,10 @@ function Result() {
             </S.ToggleWrapper>
           </S.ResponseCountWrapper>
         </S.HeadContainer>
-        {questionResult.map(({ type, title, responseCount, answerTotal }) => (
-          <S.QuestionContainer key={title}>
+        {questionResult.map(({ type, questionTitle, responseCount, answerTotal }) => (
+          <S.QuestionContainer key={questionTitle}>
             <div>
-              <span>{title}</span>
+              <span>{questionTitle}</span>
             </div>
             {responseCount ? (
               <div>

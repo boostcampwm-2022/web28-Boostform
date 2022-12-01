@@ -6,7 +6,7 @@ interface AnswerTotal {
 
 interface QuestionSummary {
   type: QuestionType;
-  title: string;
+  questionTitle: string;
   responseCount: number;
   answerTotal: AnswerTotal;
 }
