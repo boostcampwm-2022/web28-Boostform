@@ -1,16 +1,17 @@
 import React from "react";
 import { AnswerTotal } from "types/result";
+import * as S from "./style";
 
 function Paragraph({ answerTotal }: { answerTotal: AnswerTotal }) {
   const values = Object.entries(answerTotal);
-  console.log(answerTotal);
+  const moreThanTenElements = values.length > 10;
 
   return (
-    <div>
+    <S.Container scroll={moreThanTenElements}>
       {values.map(([key, value]) => (
-        <div key={`${key}${value}`}>{key}</div>
+        <S.ListElement key={`${key}${value}`}>{key}</S.ListElement>
       ))}
-    </div>
+    </S.Container>
   );
 }
 
