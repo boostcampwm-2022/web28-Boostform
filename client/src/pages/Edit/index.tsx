@@ -124,6 +124,10 @@ function Edit() {
     dispatch({ type: "CHANGE_ON_BOARD_SHARED" });
   };
 
+  const onClickChangeAcceptResponse = () => {
+    dispatch({ type: "CHANGE_ACCEPT_RESPONSE" });
+  };
+
   const onClickSaveForm = () => {
     if (!id) return;
     const apiData = fromFormToApi(state);
@@ -281,6 +285,7 @@ function Edit() {
           closeModal={closeModal}
           changeLoginRequired={onClickChangeLoginRequired}
           changeOnBoardShare={onClickChangeOnBoardShare}
+          changeAcceptResponse={onClickChangeAcceptResponse}
           saveForm={onClickSaveForm}
         />
       </ModalPortal>

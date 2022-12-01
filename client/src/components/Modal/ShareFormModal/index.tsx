@@ -8,9 +8,10 @@ function ShareFormModal({
   closeModal,
   changeLoginRequired,
   changeOnBoardShare,
+  changeAcceptResponse,
   saveForm,
 }: ShareFormModalProps) {
-  const { loginRequired, onBoard } = formState;
+  const { loginRequired, onBoard, acceptResponse } = formState;
   const onClickCancel = () => closeModal();
   const onClickSave = () => {
     saveForm();
@@ -21,6 +22,10 @@ function ShareFormModal({
     <S.Container>
       <S.Title>공유설정</S.Title>
       <div>
+        <S.ToggleWrapper>
+          <span>응답 받기</span>
+          <ToggleButton state={acceptResponse} onClick={changeAcceptResponse} />
+        </S.ToggleWrapper>
         <S.ToggleWrapper>
           <span>응답횟수 1회로 제한 (로그인 필수)</span>
           <ToggleButton state={loginRequired} onClick={changeLoginRequired} />

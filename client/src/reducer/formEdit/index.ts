@@ -230,6 +230,17 @@ function formEditReducer(state: FormState, action: FormEditAction) {
       },
     };
   }
+  if (type === "CHANGE_ACCEPT_RESPONSE") {
+    const acceptResponseState = state.form.acceptResponse;
+
+    return {
+      ...state,
+      form: {
+        ...state.form,
+        acceptResponse: !acceptResponseState,
+      },
+    };
+  }
   if (type === "CHANGE_QUESTION_ORDER") {
     const { originIndex, destinationIndex } = action;
 
