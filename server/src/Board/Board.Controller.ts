@@ -19,7 +19,7 @@ class BoardController {
 
     let searchResult = await (req.query.title
       ? BoardService.searchByQuery(searchQuery, sortQuery)
-      : redisCli.get(cacheKey));
+      : JSON.parse(redisCli.get(cacheKey)));
 
     if (!searchResult) {
       searchResult = await BoardService.searchByQuery(searchQuery, sortQuery);
