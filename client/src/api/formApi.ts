@@ -1,5 +1,5 @@
 import axios from "axios";
-import { FormDataApi } from "types/form.type";
+import { FormDataApi } from "types/form";
 import API from "./routes";
 
 const formApi = {

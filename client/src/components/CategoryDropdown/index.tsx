@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import Icon from "components/Icon";
-import OutsideDetecter from "hooks/useOutsideDetecter/useOutsideDetecter";
-import { Container, Button, Content, DropdownButton, DropdownText } from "./CategoryDropdown.style";
-import CategoryDropdownProps from "./CategoryDropdown.type";
+import OutsideDetecter from "hooks/useOutsideDetecter";
+import { Container, Button, Content, DropdownButton, DropdownText } from "./style";
+import CategoryDropdownProps from "./type";
 
 function CategoryDropdown({ state, setState }: CategoryDropdownProps) {
   const [open, setOpen] = useState(false);

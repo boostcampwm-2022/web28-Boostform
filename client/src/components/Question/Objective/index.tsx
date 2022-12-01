@@ -1,7 +1,7 @@
 import React from "react";
 import Icon from "components/Icon";
-import { ChoiceWrapper, Input, DeleteButton, AddOptionWrapper, AddOptionButton } from "./Objective.style";
-import ObjectiveProps from "./Objective.type";
+import { ChoiceWrapper, Input, DeleteButton, AddOptionWrapper, AddOptionButton } from "./style";
+import ObjectiveProps from "./type";
 
 function Objective({ index, questionState, addQuestionChoice, modifyChoice, deleteChoice }: ObjectiveProps) {
   const { option, type } = questionState;

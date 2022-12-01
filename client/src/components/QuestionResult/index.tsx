@@ -1,5 +1,5 @@
 import React from "react";
-import { QuestionType } from "types/form.type";
+import { QuestionType } from "types/form";
 import { AnswerTotal } from "types/result";
 import Checkbox from "./Checkbox";
 import Multiple from "./Multiple";

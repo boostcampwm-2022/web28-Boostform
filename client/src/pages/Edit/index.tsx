@@ -13,11 +13,11 @@ import ToggleButton from "components/ToggleButton";
 import QuestionRead from "components/QuestionRead";
 import TitleDropdown from "components/CategoryDropdown";
 import ShareFormModal from "components/Modal/ShareFormModal";
-import writeReducer from "reducer/formEdit/formEditReducer";
-import { FormState, FormDataApi } from "types/form.type";
+import writeReducer from "reducer/formEdit";
+import { FormState, FormDataApi } from "types/form";
 import formApi from "api/formApi";
 import { fromApiToForm, fromFormToApi } from "utils/form";
-import useModal from "hooks/useModal/useModal";
+import useModal from "hooks/useModal";
 import {
   Container,
   TitleContainer,
@@ -39,7 +39,7 @@ import {
   BottomContainer,
   ShareButton,
   DragIndicator,
-} from "./Edit.style";
+} from "./style";
 
 const initialState: FormState = {
   form: {

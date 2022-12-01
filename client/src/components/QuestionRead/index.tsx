@@ -1,5 +1,5 @@
 import React from "react";
-import { QuestionState } from "types/form.type";
+import { QuestionState } from "types/form";
 import Objective from "./Objective";
 import Subjective from "./Subjective";
 

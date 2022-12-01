@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { ModalContainer, ModalBackground } from "./useModal.style";
-import ModalPortalProps from "./useModal.type";
+import { ModalContainer, ModalBackground } from "./style";
+import ModalPortalProps from "./type";
 
 const useModal = () => {
   const [modalOpen, setModalOpen] = useState(false);

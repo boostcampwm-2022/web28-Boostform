@@ -1,4 +1,4 @@
-import { QuestionState } from "types/form.type";
+import { QuestionState } from "types/form";
 
 interface ObjectiveProps {
   index: number;

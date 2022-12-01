@@ -1,7 +1,7 @@
 import React from "react";
 import ToggleButton from "components/ToggleButton";
-import { Container, ToggleWrapper, Title, ButtonContainer, Button } from "./ShareFormModal.style";
-import ShareFormModalProps from "./SharedFormModal.type";
+import { Container, ToggleWrapper, Title, ButtonContainer, Button } from "./style";
+import ShareFormModalProps from "./type";
 
 function ShareFormModal({
   formState,

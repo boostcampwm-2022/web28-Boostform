@@ -3,7 +3,7 @@ import { AuthContext } from "contexts/authProvider";
 import { useNavigate, Link } from "react-router-dom";
 import authApi from "api/authApi";
 import Logo from "assets/Images/Logo.png";
-import { HeaderContainer, LoginButton, LogoutButton, Layout } from "./Header.style";
+import { HeaderContainer, LoginButton, LogoutButton, Layout } from "./style";
 
 function Header() {
   const { auth, setAuth } = useContext(AuthContext);

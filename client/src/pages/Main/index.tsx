@@ -4,7 +4,7 @@ import Header from "components/Header";
 import FormLayout from "components/Layout";
 import { AuthContext } from "contexts/authProvider";
 import Example from "assets/Images/Example.png";
-import { Container, TextContainer, ImageContainer, H1, Image, Button, Text } from "./Main.style";
+import { Container, TextContainer, ImageContainer, H1, Image, Button, Text } from "./style";
 
 function Main() {
   const { auth } = useContext(AuthContext);

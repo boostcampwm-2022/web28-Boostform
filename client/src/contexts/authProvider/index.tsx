@@ -1,7 +1,7 @@
 import React, { createContext, useMemo, useState, useEffect } from "react";
 import { useCookies } from "react-cookie";
 import authApi from "api/authApi";
-import AuthContextProps from "./authProvider.type";
+import AuthContextProps from "./type";
 
 export const AuthContext = createContext<AuthContextProps>({});
 

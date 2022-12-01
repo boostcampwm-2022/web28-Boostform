@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import Icon from "components/Icon";
-import OutsideDetecter from "hooks/useOutsideDetecter/useOutsideDetecter";
-import { QuestionType } from "types/form.type";
-import { Container, Button, Content, DropdownButton, DropdownText } from "./QuestionTypeDropdown.style";
-import QuestionTypeDropdownProps from "./QuestionTypeDropdown.type";
+import OutsideDetecter from "hooks/useOutsideDetecter";
+import { QuestionType } from "types/form";
+import { Container, Button, Content, DropdownButton, DropdownText } from "./style";
+import QuestionTypeDropdownProps from "./type";
 
 function QuestionTypeDropdown({ state, setState }: QuestionTypeDropdownProps) {
   const [open, setOpen] = useState(false);

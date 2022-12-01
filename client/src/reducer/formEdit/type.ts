@@ -1,4 +1,4 @@
-import { FormState } from "types/form.type";
+import { FormState } from "types/form";
 
 type FormEditAction =
   | { type: "CHANGE_TITLE"; value: string }

@@ -1,7 +1,7 @@
 import React, { useEffect, useReducer, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { FormState, FormDataApi } from "types/form.type";
+import { FormState, FormDataApi } from "types/form";
 import formViewReducer from "reducer/formView";
 import formApi from "api/formApi";
 import { fromApiToForm } from "utils/form";

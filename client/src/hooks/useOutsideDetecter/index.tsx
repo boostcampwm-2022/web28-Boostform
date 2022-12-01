@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from "react";
-import OutsideDetecterProps from "./useOutsideDetecter.type";
+import OutsideDetecterProps from "./type";
 
 function assertIsNode(e: EventTarget | null): asserts e is Node {
   if (!e || !("nodeType" in e)) {

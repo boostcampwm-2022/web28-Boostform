@@ -1,7 +1,7 @@
 import React from "react";
 import Objective from "./Objective";
 import Subjective from "./Subjective";
-import QuestionProps from "./Question.type";
+import QuestionProps from "./type";
 
 function Question({ index, questionState, addQuestionChoice, modifyChoice, deleteChoice }: QuestionProps) {
   const { type } = questionState;

@@ -1,4 +1,4 @@
-import { QuestionType } from "./form.type";
+import { QuestionType } from "./form";
 
 interface AnswerTotal {
   [key: string]: number;

@@ -1,7 +1,7 @@
 import React from "react";
 import Icon from "components/Icon";
-import { QuestionState } from "types/form.type";
-import { Container, ObjectiveWrapper, Option } from "./Objective.style";
+import { QuestionState } from "types/form";
+import { Container, ObjectiveWrapper, Option } from "./style";
 
 function Objective({ questionState }: { questionState: QuestionState }) {
   const { option, type } = questionState;

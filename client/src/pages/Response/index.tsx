@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 import FormLayout from "components/Layout";
-import { FormDataApi } from "types/form.type";
+import { FormDataApi } from "types/form";
 import { useQuery } from "@tanstack/react-query";
 import formApi from "api/formApi";
 import * as S from "./style";

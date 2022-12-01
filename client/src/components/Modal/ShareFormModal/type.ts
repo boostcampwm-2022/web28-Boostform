@@ -1,4 +1,4 @@
-import { FormSummary } from "types/form.type";
+import { FormSummary } from "types/form";
 
 interface ShareFormModalProps {
   formState: FormSummary;

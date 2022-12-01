@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import formApi from "api/formApi";
-import { Container, ButtonContainer, Button, Input, Title, Text } from "./EditFormNameModal.style";
-import EditFormNameModalProps from "./EditFormNameModal.type";
+import { Container, ButtonContainer, Button, Input, Title, Text } from "./style";
+import EditFormNameModalProps from "./type";
 
 function EditFormNameModal({ closeModal, selectedForm, renderByNameChange }: EditFormNameModalProps) {
   const [title, setTitle] = useState("");

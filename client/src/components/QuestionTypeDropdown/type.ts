@@ -1,4 +1,4 @@
-import { QuestionType } from "types/form.type";
+import { QuestionType } from "types/form";
 
 interface QuestionTypeDropdownProps {
   state: QuestionType;

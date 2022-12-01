@@ -1,4 +1,4 @@
-import { FormState, QuestionState, FormDataApi } from "types/form.type";
+import { FormState, QuestionState, FormDataApi } from "types/form";
 
 const fromApiToForm = (api: FormDataApi): FormState => {
   const { id, userID, title, description, category, questionList, acceptResponse, onBoard, loginRequired } = api;

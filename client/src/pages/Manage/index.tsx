@@ -4,8 +4,8 @@ import formApi from "api/formApi";
 import Head from "components/Header";
 import Icon from "components/Icon";
 import FormLayout from "components/Layout";
-import useModal from "hooks/useModal/useModal";
-import OutsideDetecter from "hooks/useOutsideDetecter/useOutsideDetecter";
+import useModal from "hooks/useModal";
+import OutsideDetecter from "hooks/useOutsideDetecter";
 import EditNameModal from "../../components/Modal/EditFormNameModal";
 import DeleteSurveyModal from "../../components/Modal/DeleteFormModal";
 import {
@@ -28,8 +28,8 @@ import {
   Dropdown,
   DropdownButton,
   DropdownText,
-} from "./Manage.style";
-import { FormItems, SelectedForm } from "./Manage.type";
+} from "./style";
+import { FormItems, SelectedForm } from "./type";
 
 function Manage() {
   const [size, setSize] = useState(0);

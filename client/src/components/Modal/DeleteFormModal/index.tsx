@@ -1,7 +1,7 @@
 import React from "react";
 import formApi from "api/formApi";
-import { Container, Text, ButtonContainer, Button } from "./DeleteFormModal.style";
-import DeleteFormModalProps from "./DeleteFormModal.type";
+import { Container, Text, ButtonContainer, Button } from "./style";
+import DeleteFormModalProps from "./type";
 
 function DeleteFormModal({ closeModal, renderByDeleteForm, selectedForm }: DeleteFormModalProps) {
   const onClickDeleteSurvey = async () => {
