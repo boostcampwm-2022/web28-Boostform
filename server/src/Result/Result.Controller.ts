@@ -12,6 +12,7 @@ class ResultController {
 
   async formResult(req: Request, res: Response, next: NextFunction) {
     const { formId } = req.params;
+    console.log(formId);
     if (!formId || typeof formId !== "string") {
       next(new BadRequestException());
       return;

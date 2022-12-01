@@ -25,14 +25,22 @@ export default class ResultService {
     if (!this.form) throw new BadRequestException();
   }
 
+  static questionOptionToAnswerTotal(question: { option: string[] }) {
+    const answerTotal: any = {};
+    question.option.forEach((element: string) => {
+      answerTotal[element] = 0;
+    });
+    return answerTotal;
+  }
+
   initQuestionResultDict() {
     const resultDict: any = {};
-    this.form.question_list.forEach((element: any) => {
-      resultDict[element.question_id] = {
-        type: element.type,
-        questionTitle: element.title,
+    this.form.question_list.forEach((question: any) => {
+      resultDict[question.question_id] = {
+        type: question.type,
+        questionTitle: question.title,
         responseCount: 0,
-        answerTotal: {},
+        answerTotal: ResultService.questionOptionToAnswerTotal(question),
       };
     });
     return resultDict;
