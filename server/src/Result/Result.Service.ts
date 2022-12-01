@@ -1,4 +1,4 @@
-import { FormResult } from "./types/Result.Interface";
+import { Response, FormResult, Answer } from "./types/Result.Interface";
 import Form from "../Form/Form.Model";
 import FormResponse from "../Response/Response.Model";
 import BadRequestException from "../Common/Exceptions/BadRequest.Exception";
@@ -8,9 +8,17 @@ export default class ResultService {
 
   responses: Array<any>;
 
+  result: FormResult;
+
   constructor() {
     this.form = undefined;
     this.responses = [];
+    this.result = {
+      formTitle: "",
+      totalResponseCount: 0,
+      acceptResponse: false,
+      questionResultDict: {},
+    };
   }
 
   public async init(formId: string) {
@@ -21,8 +29,14 @@ export default class ResultService {
       .catch(() => {
         throw new BadRequestException("Invalid formId");
       });
+    if (!this.form) throw new BadRequestException("Invalid formId");
     this.responses = await FormResponse.find({ form_id: formId });
-    if (!this.form) throw new BadRequestException();
+    this.result = {
+      formTitle: this.form.title,
+      totalResponseCount: this.form.response_count,
+      acceptResponse: this.form.accept_response,
+      questionResultDict: this.initQuestionResultDict(),
+    };
   }
 
   static questionOptionToAnswerTotal(question: { option: string[] }) {
@@ -47,24 +61,24 @@ export default class ResultService {
   }
 
   formResult(): FormResult {
-    const result: FormResult = {
-      formTitle: this.form.title,
-      totalResponseCount: this.form.response_count,
-      acceptResponse: this.form.accept_response,
-      questionResultDict: this.initQuestionResultDict(),
-    };
-    this.responses.forEach((response) => {
-      response.answer_list.forEach((answer: any) => {
-        result.questionResultDict[answer.question_id].responseCount += 1;
-        answer.answer.forEach((e: string) => {
-          if (e in result.questionResultDict[answer.question_id].answerTotal) {
-            result.questionResultDict[answer.question_id].answerTotal[e] += 1;
-          } else {
-            result.questionResultDict[answer.question_id].answerTotal[e] = 1;
-          }
-        });
-      });
-    });
-    return result;
+    this.responses.forEach((response) => this.aggregateResponse(response));
+    return this.result;
+  }
+
+  aggregateResponse(response: Response) {
+    response.answer_list.forEach((answer: Answer) => this.aggregateAnswer(answer));
+  }
+
+  aggregateAnswer(answer: Answer) {
+    this.result.questionResultDict[answer.question_id].responseCount += 1;
+    answer.answer.forEach((option: string) => this.countOptionSelected(option, answer.question_id));
+  }
+
+  countOptionSelected(option: string, questionId: number) {
+    if (option in this.result.questionResultDict[questionId].answerTotal) {
+      this.result.questionResultDict[questionId].answerTotal[option] += 1;
+    } else {
+      this.result.questionResultDict[questionId].answerTotal[option] = 1;
+    }
   }
 }

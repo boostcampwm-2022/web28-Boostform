@@ -31,14 +31,14 @@ interface TargetForm {
 }
 
 interface Answer {
-  questionId: number;
-  answer: string;
+  question_id: number;
+  answer: Array<string>;
 }
 
-interface FormResponse {
-  userID: number | null;
-  formId: number;
-  answerList: Array<Answer>;
+interface Response {
+  user_iD: number | null;
+  form_id: number;
+  answer_list: Array<Answer>;
 }
 
-export { QuestionResult, FormResult, TargetForm, FormResponse };
+export { QuestionResult, FormResult, TargetForm, Response, Answer };
