@@ -1,4 +1,4 @@
-import { QuestionType } from "./form.type";
+import { QuestionType } from "./form";
 
 interface AnswerTotal {
   [key: string]: number;
@@ -6,7 +6,7 @@ interface AnswerTotal {
 
 interface QuestionSummary {
   type: QuestionType;
-  title: string;
+  questionTitle: string;
   responseCount: number;
   answerTotal: AnswerTotal;
 }
@@ -14,7 +14,7 @@ interface QuestionSummary {
 interface ResultApi {
   formTitle: string;
   totalResponseCount: number;
-  acceptResponse: "on" | "off";
+  acceptResponse: boolean;
   questionResultDict: {
     [key: number]: QuestionSummary;
   };

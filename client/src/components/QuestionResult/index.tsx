@@ -1,11 +1,10 @@
 import React from "react";
-import { QuestionType } from "types/form.type";
-import { AnswerTotal } from "types/result";
 import Checkbox from "./Checkbox";
 import Multiple from "./Multiple";
 import Paragraph from "./Paragraph";
+import QuestionResultProps from "./type";
 
-function QuestionResult({ type, answerTotal }: { type: QuestionType; answerTotal: AnswerTotal }) {
+function QuestionResult({ type, answerTotal }: QuestionResultProps) {
   return (
     <>
       {type === "checkbox" && <Checkbox answerTotal={answerTotal} />}

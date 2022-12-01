@@ -1,4 +1,4 @@
-import { FormDataApi } from "types/form.type";
+import { FormDataApi } from "types/form";
 import { Validation, ResponseElement } from "types/response";
 
 const fromApiToValidateCheckList = (api: FormDataApi): Validation => {

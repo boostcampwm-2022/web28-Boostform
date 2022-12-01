@@ -16,15 +16,17 @@ function Multiple({ answerTotal }: { answerTotal: AnswerTotal }) {
   );
 
   const data = {
-    labels: [""],
-    datasets: Object.entries(answerTotal).map(([key, value], index) => ({
-      label: key,
-      data: [value],
-      backgroundColor: colorSet[index].backgroundColor,
-      borderColor: colorSet[index].borderColor,
-      borderWidth: 1.5,
-      barPercentage: 0.8,
-    })),
+    labels: Object.keys(answerTotal),
+    datasets: [
+      {
+        label: "",
+        data: Object.values(answerTotal),
+        backgroundColor: colorSet.map((color) => color.backgroundColor),
+        borderColor: colorSet.map((color) => color.borderColor),
+        borderWidth: 1.5,
+        barPercentage: 0.8,
+      },
+    ],
   };
 
   const options = {
@@ -35,6 +37,16 @@ function Multiple({ answerTotal }: { answerTotal: AnswerTotal }) {
         position: "bottom" as const,
         align: "start" as const,
         boxWidth: 10,
+        onClick: () => null,
+        labels: {
+          generateLabels: () => {
+            return Object.keys(answerTotal).map((name, index) => ({
+              text: name,
+              strokeStyle: colorSet[index].borderColor,
+              fillStyle: colorSet[index].backgroundColor,
+            }));
+          },
+        },
       },
     },
     scales: {

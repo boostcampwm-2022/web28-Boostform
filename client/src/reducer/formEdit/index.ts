@@ -1,6 +1,6 @@
 import lodash from "lodash";
-import { FormState, QuestionState } from "types/form.type";
-import FormEditAction from "./formEditReducer.type";
+import { FormState, QuestionState } from "types/form";
+import FormEditAction from "./type";
 
 function formEditReducer(state: FormState, action: FormEditAction) {
   const { type } = action;
@@ -227,6 +227,28 @@ function formEditReducer(state: FormState, action: FormEditAction) {
       form: {
         ...state.form,
         loginRequired: !loginRequiredState,
+      },
+    };
+  }
+  if (type === "CHANGE_ACCEPT_RESPONSE") {
+    const acceptResponseState = state.form.acceptResponse;
+
+    return {
+      ...state,
+      form: {
+        ...state.form,
+        acceptResponse: !acceptResponseState,
+      },
+    };
+  }
+  if (type === "CHANGE_RESPONSE_MODIFIABLE") {
+    const responseModifiableState = state.form.responseModifiable;
+
+    return {
+      ...state,
+      form: {
+        ...state.form,
+        responseModifiable: !responseModifiableState,
       },
     };
   }

@@ -17,8 +17,9 @@ import { ReactComponent as Copy } from "assets/Icon/copy.svg";
 import { ReactComponent as DragIndicator } from "assets/Icon/dragIndicator.svg";
 import { ReactComponent as Add } from "assets/Icon/add.svg";
 import { ReactComponent as Error } from "assets/Icon/error.svg";
-import Container from "./Icon.style";
-import IconProps from "./Icon.type";
+import { ReactComponent as Chain } from "assets/Icon/chain.svg";
+import Container from "./style";
+import IconProps from "./type";
 
 function Icon({ type, size, fill }: IconProps) {
   return (
@@ -41,6 +42,7 @@ function Icon({ type, size, fill }: IconProps) {
       {type === "dragIndicator" && <DragIndicator height={size} width={size} fill={fill} />}
       {type === "add" && <Add height={size} width={size} />}
       {type === "error" && <Error height={size} width={size} fill={fill} />}
+      {type === "chain" && <Chain height={size} width={size} fill={fill} />}
     </Container>
   );
 }

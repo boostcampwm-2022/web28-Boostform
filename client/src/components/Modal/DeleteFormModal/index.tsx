@@ -1,7 +1,7 @@
 import React from "react";
 import formApi from "api/formApi";
-import { Container, Text, ButtonContainer, Button } from "./DeleteFormModal.style";
-import DeleteFormModalProps from "./DeleteFormModal.type";
+import * as S from "./style";
+import DeleteFormModalProps from "./type";
 
 function DeleteFormModal({ closeModal, renderByDeleteForm, selectedForm }: DeleteFormModalProps) {
   const onClickDeleteSurvey = async () => {
@@ -13,17 +13,17 @@ function DeleteFormModal({ closeModal, renderByDeleteForm, selectedForm }: Delet
   const onClickCancelDelete = () => closeModal();
 
   return (
-    <Container>
-      <Text>삭제하시겠습니까?</Text>
-      <ButtonContainer>
-        <Button type="button" onClick={onClickDeleteSurvey}>
+    <S.Container>
+      <S.Text>삭제하시겠습니까?</S.Text>
+      <S.ButtonContainer>
+        <S.Button type="button" onClick={onClickDeleteSurvey}>
           확인
-        </Button>
-        <Button type="button" onClick={onClickCancelDelete}>
+        </S.Button>
+        <S.Button type="button" onClick={onClickCancelDelete}>
           취소
-        </Button>
-      </ButtonContainer>
-    </Container>
+        </S.Button>
+      </S.ButtonContainer>
+    </S.Container>
   );
 }
 

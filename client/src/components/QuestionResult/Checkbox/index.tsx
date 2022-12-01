@@ -7,6 +7,7 @@ import randomRGBGenerator from "utils/randomRGBGenerator";
 function Checkbox({ answerTotal }: { answerTotal: AnswerTotal }) {
   ChartJS.register(ArcElement, Tooltip, Legend);
   const { length } = Object.keys(answerTotal);
+  const hasMoreThanOneValue = Object.values(answerTotal).filter((v) => v).length > 1;
 
   const colorSet = Array.from(
     {
@@ -20,8 +21,8 @@ function Checkbox({ answerTotal }: { answerTotal: AnswerTotal }) {
     datasets: [
       {
         data: Object.values(answerTotal),
-        borderWidth: length === 1 ? 0 : 3,
-        hoverBorderWidth: length === 1 ? 0 : 1,
+        borderWidth: hasMoreThanOneValue ? 2 : 0,
+        hoverBorderWidth: hasMoreThanOneValue ? 1 : 0,
         backgroundColor: colorSet.map(({ backgroundColor }) => backgroundColor),
         hoverBorderColor: colorSet.map(({ borderColor }) => borderColor),
       },

@@ -3,7 +3,7 @@ import { AuthContext } from "contexts/authProvider";
 import { useNavigate, Link } from "react-router-dom";
 import authApi from "api/authApi";
 import Logo from "assets/Images/Logo.png";
-import { HeaderContainer, LoginButton, LogoutButton, Layout } from "./Header.style";
+import * as S from "./style";
 
 function Header() {
   const { auth, setAuth } = useContext(AuthContext);
@@ -21,25 +21,25 @@ function Header() {
   };
 
   return (
-    <HeaderContainer>
-      <Layout>
+    <S.HeaderContainer>
+      <S.Layout>
         <Link to="/">
           <img src={Logo} alt="logo" width="120px" draggable={false} />
         </Link>
         {auth?.userID && <Link to="/manage">내 설문조사</Link>}
         {auth?.userID && <Link to="/#">설문조사 게시판</Link>}
         {auth?.userID && (
-          <LogoutButton type="button" onClick={onClickLogout}>
+          <S.LogoutButton type="button" onClick={onClickLogout}>
             로그아웃
-          </LogoutButton>
+          </S.LogoutButton>
         )}
         {!auth?.userID && (
-          <LoginButton type="button" onClick={onClickLogin}>
+          <S.LoginButton type="button" onClick={onClickLogin}>
             로그인
-          </LoginButton>
+          </S.LoginButton>
         )}
-      </Layout>
-    </HeaderContainer>
+      </S.Layout>
+    </S.HeaderContainer>
   );
 }
 

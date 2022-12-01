@@ -4,32 +4,12 @@ import formApi from "api/formApi";
 import Head from "components/Header";
 import Icon from "components/Icon";
 import FormLayout from "components/Layout";
-import useModal from "hooks/useModal/useModal";
-import OutsideDetecter from "hooks/useOutsideDetecter/useOutsideDetecter";
+import useModal from "hooks/useModal";
+import OutsideDetecter from "hooks/useOutsideDetecter";
 import EditNameModal from "../../components/Modal/EditFormNameModal";
 import DeleteSurveyModal from "../../components/Modal/DeleteFormModal";
-import {
-  Container,
-  HeaderContainer,
-  Header,
-  FormListContainer,
-  FormList,
-  Title,
-  Status,
-  ResponseCount,
-  Date,
-  Share,
-  Category,
-  More,
-  ButtonContainer,
-  Button,
-  NewFormButton,
-  NewFormText,
-  Dropdown,
-  DropdownButton,
-  DropdownText,
-} from "./Manage.style";
-import { FormItems, SelectedForm } from "./Manage.type";
+import * as S from "./style";
+import { FormItems, SelectedForm } from "./type";
 
 function Manage() {
   const [size, setSize] = useState(0);
@@ -124,35 +104,35 @@ function Manage() {
     <>
       <Head />
       <FormLayout backgroundColor="white">
-        <Container>
-          <HeaderContainer>
-            <NewFormButton type="button" onClick={onClickCreateForm}>
+        <S.Container>
+          <S.HeaderContainer>
+            <S.NewFormButton type="button" onClick={onClickCreateForm}>
               <Icon type="plus" size="24px" />
-              <NewFormText>새 설문지</NewFormText>
-            </NewFormButton>
-            <Header>
-              <Title>제목</Title>
-              <Status>상태</Status>
-              <ResponseCount>응답수</ResponseCount>
-              <Date>수정 날짜</Date>
-              <Share>게시판 공유</Share>
-              <Category>카테고리</Category>
-              <More>더보기</More>
-            </Header>
-          </HeaderContainer>
-          <FormListContainer>
+              <S.NewFormText>새 설문지</S.NewFormText>
+            </S.NewFormButton>
+            <S.Header>
+              <S.Title>제목</S.Title>
+              <S.Status>상태</S.Status>
+              <S.ResponseCount>응답수</S.ResponseCount>
+              <S.Date>수정 날짜</S.Date>
+              <S.Share>게시판 공유</S.Share>
+              <S.Category>카테고리</S.Category>
+              <S.More>더보기</S.More>
+            </S.Header>
+          </S.HeaderContainer>
+          <S.FormListContainer>
             <>
               {fetchedForms.map(({ category, _id, onBoard, response, title, updatedAt, acceptResponse }, index) => (
-                <FormList key={_id} onClick={() => onClickNavigateForm(_id)}>
-                  <Title key={`${_id}Title`}>{title}</Title>
-                  <Status key={`${_id}AcceptResponse`}>{acceptResponse ? "Open" : "Close"}</Status>
-                  <ResponseCount key={`${_id}Response`}>{response}</ResponseCount>
-                  <Date key={`${_id}UpdatedAt`}>{updatedAt}</Date>
-                  <Share key={`${_id}onBoard`}>{onBoard ? "On" : "Off"}</Share>
-                  <Category key={`${_id}Category`}>{category}</Category>
-                  <More key={`${_id}More`}>
+                <S.FormList key={_id} onClick={() => onClickNavigateForm(_id)}>
+                  <S.Title key={`${_id}Title`}>{title}</S.Title>
+                  <S.Status key={`${_id}AcceptResponse`}>{acceptResponse ? "Open" : "Close"}</S.Status>
+                  <S.ResponseCount key={`${_id}Response`}>{response}</S.ResponseCount>
+                  <S.Date key={`${_id}UpdatedAt`}>{updatedAt}</S.Date>
+                  <S.Share key={`${_id}onBoard`}>{onBoard ? "On" : "Off"}</S.Share>
+                  <S.Category key={`${_id}Category`}>{category}</S.Category>
+                  <S.More key={`${_id}More`}>
                     <span>
-                      <Button
+                      <S.Button
                         type="button"
                         onClick={(e) => {
                           e.stopPropagation();
@@ -160,12 +140,12 @@ function Manage() {
                         }}
                       >
                         <Icon type="kebab" size="16px" />
-                      </Button>
+                      </S.Button>
                       {dropdowns[index] && (
                         <OutsideDetecter callback={closeAllDropDown}>
-                          <Dropdown>
+                          <S.Dropdown>
                             <li key={`${_id}EditName`}>
-                              <DropdownButton
+                              <S.DropdownButton
                                 type="button"
                                 onClick={(e) => {
                                   e.stopPropagation();
@@ -173,11 +153,11 @@ function Manage() {
                                 }}
                               >
                                 <Icon type="text" size="16px" />
-                                <DropdownText>제목 바꾸기</DropdownText>
-                              </DropdownButton>
+                                <S.DropdownText>제목 바꾸기</S.DropdownText>
+                              </S.DropdownButton>
                             </li>
                             <li key={`${_id}DeleteSurvey`}>
-                              <DropdownButton
+                              <S.DropdownButton
                                 type="button"
                                 onClick={(e) => {
                                   e.stopPropagation();
@@ -185,23 +165,23 @@ function Manage() {
                                 }}
                               >
                                 <Icon type="trashcan" size="16px" />
-                                <DropdownText>삭제</DropdownText>
-                              </DropdownButton>
+                                <S.DropdownText>삭제</S.DropdownText>
+                              </S.DropdownButton>
                             </li>
-                          </Dropdown>
+                          </S.Dropdown>
                         </OutsideDetecter>
                       )}
                     </span>
-                  </More>
-                </FormList>
+                  </S.More>
+                </S.FormList>
               ))}
             </>
-            <ButtonContainer>
-              <Button type="button" onClick={onClickFetchForms}>
+            <S.ButtonContainer>
+              <S.Button type="button" onClick={onClickFetchForms}>
                 <Icon type="plus" size="24px" />
-              </Button>
-            </ButtonContainer>
-          </FormListContainer>
+              </S.Button>
+            </S.ButtonContainer>
+          </S.FormListContainer>
 
           {modalType === "change" && (
             <ModalPortal>
@@ -221,7 +201,7 @@ function Manage() {
               />
             </ModalPortal>
           )}
-        </Container>
+        </S.Container>
       </FormLayout>
     </>
   );

@@ -41,4 +41,17 @@ const Button = styled.button`
   margin-left: 16px;
 `;
 
-export { Container, ToggleWrapper, Title, ButtonContainer, Button };
+const CopyLinkButton = styled.button`
+  display: flex;
+  align-items: center;
+  border: 0;
+  background-color: transparent;
+  cursor: pointer;
+`;
+
+const CopyLinkText = styled.span`
+  color: #3e57cb;
+  margin-left: 6px;
+`;
+
+export { Container, ToggleWrapper, Title, ButtonContainer, Button, CopyLinkButton, CopyLinkText };

@@ -1,16 +1,20 @@
 import React from "react";
 import ToggleButton from "components/ToggleButton";
-import { Container, ToggleWrapper, Title, ButtonContainer, Button } from "./ShareFormModal.style";
-import ShareFormModalProps from "./SharedFormModal.type";
+import Icon from "components/Icon";
+import * as S from "./style";
+import ShareFormModalProps from "./type";
 
 function ShareFormModal({
   formState,
   closeModal,
   changeLoginRequired,
   changeOnBoardShare,
+  changeAcceptResponse,
+  changeResponseModifiable,
   saveForm,
+  copyLink,
 }: ShareFormModalProps) {
-  const { loginRequired, onBoard } = formState;
+  const { loginRequired, onBoard, acceptResponse, responseModifiable } = formState;
   const onClickCancel = () => closeModal();
   const onClickSave = () => {
     saveForm();
@@ -18,32 +22,42 @@ function ShareFormModal({
   };
 
   return (
-    <Container>
-      <Title>공유설정</Title>
+    <S.Container>
+      <S.Title>공유설정</S.Title>
       <div>
-        <ToggleWrapper>
+        <S.ToggleWrapper>
+          <span>응답 받기</span>
+          <ToggleButton state={acceptResponse} onClick={changeAcceptResponse} />
+        </S.ToggleWrapper>
+        <S.ToggleWrapper>
           <span>응답횟수 1회로 제한 (로그인 필수)</span>
           <ToggleButton state={loginRequired} onClick={changeLoginRequired} />
-        </ToggleWrapper>
-        <ToggleWrapper>
+        </S.ToggleWrapper>
+        <S.ToggleWrapper>
           <span>응답 수정 가능</span>
-          <ToggleButton state={loginRequired} onClick={() => console.log("response")} />
-        </ToggleWrapper>
-        <ToggleWrapper>
+          <ToggleButton state={responseModifiable} onClick={changeResponseModifiable} />
+        </S.ToggleWrapper>
+        <S.ToggleWrapper>
           <span>게시판에 공유하기</span>
           <ToggleButton state={onBoard} onClick={changeOnBoardShare} />
-        </ToggleWrapper>
-        <ToggleWrapper>링크</ToggleWrapper>
+        </S.ToggleWrapper>
+        <S.ToggleWrapper>
+          <span>링크</span>
+          <S.CopyLinkButton type="button" onClick={copyLink}>
+            <Icon type="chain" fill="#3c64b1" size="24px" />
+            <S.CopyLinkText>링크 복사하기</S.CopyLinkText>
+          </S.CopyLinkButton>
+        </S.ToggleWrapper>
       </div>
-      <ButtonContainer>
-        <Button type="button" onClick={onClickSave}>
+      <S.ButtonContainer>
+        <S.Button type="button" onClick={onClickSave}>
           저장
-        </Button>
-        <Button type="button" onClick={onClickCancel}>
+        </S.Button>
+        <S.Button type="button" onClick={onClickCancel}>
           취소
-        </Button>
-      </ButtonContainer>
-    </Container>
+        </S.Button>
+      </S.ButtonContainer>
+    </S.Container>
   );
 }
 

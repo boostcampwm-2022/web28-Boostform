@@ -1,7 +1,9 @@
+// 출처: https://stackoverflow.com/questions/17242144/javascript-convert-hsb-hsv-color-to-rgb-accurately
 const mix = (a: number, b: number, v: number) => {
   return (1 - v) * a + v * b;
 };
 
+// 출처: https://stackoverflow.com/questions/17242144/javascript-convert-hsb-hsv-color-to-rgb-accurately
 const HSVtoRGB = (H: number, S: number, V: number) => {
   const V2 = V * (1 - S);
 

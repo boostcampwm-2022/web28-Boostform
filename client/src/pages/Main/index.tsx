@@ -4,7 +4,7 @@ import Header from "components/Header";
 import FormLayout from "components/Layout";
 import { AuthContext } from "contexts/authProvider";
 import Example from "assets/Images/Example.png";
-import { Container, TextContainer, ImageContainer, H1, Image, Button, Text } from "./Main.style";
+import * as S from "./style";
 
 function Main() {
   const { auth } = useContext(AuthContext);
@@ -19,18 +19,18 @@ function Main() {
     <>
       <Header />
       <FormLayout backgroundColor="white">
-        <Container>
-          <TextContainer>
-            <H1>Boost Forms로 설문조사를 빠르게 작성하세요!</H1>
-            <Text>온라인 양식과 설문조사를 손쉽게 만들고 공유할 수 있습니다.</Text>
-            <Button type="button" onClick={handleClick}>
+        <S.Container>
+          <S.TextContainer>
+            <S.H1>Boost Forms로 설문조사를 빠르게 작성하세요!</S.H1>
+            <S.Text>온라인 양식과 설문조사를 손쉽게 만들고 공유할 수 있습니다.</S.Text>
+            <S.Button type="button" onClick={handleClick}>
               시작하기
-            </Button>
-          </TextContainer>
-          <ImageContainer>
-            <Image src={Example} alt="example" draggable={false} />
-          </ImageContainer>
-        </Container>
+            </S.Button>
+          </S.TextContainer>
+          <S.ImageContainer>
+            <S.Image src={Example} alt="example" draggable={false} />
+          </S.ImageContainer>
+        </S.Container>
       </FormLayout>
     </>
   );

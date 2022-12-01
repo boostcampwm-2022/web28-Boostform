@@ -13,33 +13,12 @@ import ToggleButton from "components/ToggleButton";
 import QuestionRead from "components/QuestionRead";
 import TitleDropdown from "components/CategoryDropdown";
 import ShareFormModal from "components/Modal/ShareFormModal";
-import writeReducer from "reducer/formEdit/formEditReducer";
-import { FormState, FormDataApi } from "types/form.type";
+import writeReducer from "reducer/formEdit";
+import { FormState, FormDataApi } from "types/form";
 import formApi from "api/formApi";
 import { fromApiToForm, fromFormToApi } from "utils/form";
-import useModal from "hooks/useModal/useModal";
-import {
-  Container,
-  TitleContainer,
-  QuestionContainer,
-  TitleInput,
-  DescriptionInput,
-  TitleRead,
-  DescriptionRead,
-  QuestionHead,
-  QuestionTitleInput,
-  QuestionBody,
-  HorizontalRule,
-  QuestionTail,
-  QuestionTailButton,
-  EssentialWrapper,
-  EssentialText,
-  TitleCategoryWrapper,
-  TitleCategoryText,
-  BottomContainer,
-  ShareButton,
-  DragIndicator,
-} from "./Edit.style";
+import useModal from "hooks/useModal";
+import * as S from "./style";
 
 const initialState: FormState = {
   form: {
@@ -51,6 +30,7 @@ const initialState: FormState = {
     acceptResponse: false,
     onBoard: false,
     loginRequired: false,
+    responseModifiable: false,
     currentQuestionId: 1,
   },
   question: [],
@@ -145,6 +125,18 @@ function Edit() {
     dispatch({ type: "CHANGE_ON_BOARD_SHARED" });
   };
 
+  const onClickChangeAcceptResponse = () => {
+    dispatch({ type: "CHANGE_ACCEPT_RESPONSE" });
+  };
+
+  const onClickChangeResponseModifiable = () => {
+    dispatch({ type: "CHANGE_RESPONSE_MODIFIABLE" });
+  };
+
+  const onClickCopyLink = () => {
+    navigator.clipboard.writeText(`${process.env.REACT_APP_CLIENT_ORIGIN_URL}/forms/${id}/view`);
+  };
+
   const onClickSaveForm = () => {
     if (!id) return;
     const apiData = fromFormToApi(state);
@@ -176,27 +168,27 @@ function Edit() {
 
   return (
     <FormLayout backgroundColor="blue">
-      <Container>
-        <TitleContainer onClick={() => onClickTitle()}>
+      <S.Container>
+        <S.TitleContainer onClick={() => onClickTitle()}>
           {focus !== "title" && (
             <>
-              <TitleRead>{form.title}</TitleRead>
-              <DescriptionRead isEmpty={!form.description}>
+              <S.TitleRead>{form.title}</S.TitleRead>
+              <S.DescriptionRead isEmpty={!form.description}>
                 {form.description ? form.description : "설문지 설명"}
-              </DescriptionRead>
-              <TitleCategoryWrapper>
-                <TitleCategoryText>{form.category}</TitleCategoryText>
-              </TitleCategoryWrapper>
+              </S.DescriptionRead>
+              <S.TitleCategoryWrapper>
+                <S.TitleCategoryText>{form.category}</S.TitleCategoryText>
+              </S.TitleCategoryWrapper>
             </>
           )}
           {focus === "title" && (
             <>
-              <TitleInput onInput={onInputTitle} value={form.title} />
-              <DescriptionInput onInput={onInputDescription} value={form.description} placeholder="설문지 설명" />
+              <S.TitleInput onInput={onInputTitle} value={form.title} />
+              <S.DescriptionInput onInput={onInputDescription} value={form.description} placeholder="설문지 설명" />
               <TitleDropdown state={form.category} setState={onClickSelectCategory} />
             </>
           )}
-        </TitleContainer>
+        </S.TitleContainer>
         <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
           <Droppable droppableId="formQuestions">
             {(droppable) => (
@@ -215,20 +207,20 @@ function Edit() {
                       }
 
                       return (
-                        <QuestionContainer
+                        <S.QuestionContainer
                           onClick={() => onClickQuestion(questionIndex)}
                           onMouseOver={() => onMouseOverQuestion(questionIndex)}
                           onMouseOut={() => onMouseOutQuestion()}
                           {...draggable.draggableProps}
                           ref={draggable.innerRef}
                         >
-                          <DragIndicator {...draggable.dragHandleProps}>
+                          <S.DragIndicator {...draggable.dragHandleProps}>
                             {showDragIndicator(questionIndex) ? <Icon type="dragIndicator" size="16px" /> : null}
-                          </DragIndicator>
+                          </S.DragIndicator>
                           {focus === `q${questionIndex}` && (
                             <>
-                              <QuestionHead>
-                                <QuestionTitleInput
+                              <S.QuestionHead>
+                                <S.QuestionTitleInput
                                   onInput={(e) => onInputQuestionTitle(e.currentTarget.value, questionIndex)}
                                   value={question[questionIndex].title}
                                   placeholder="질문"
@@ -239,8 +231,8 @@ function Edit() {
                                     onClickSetQuestionType(questionType, questionIndex);
                                   }}
                                 />
-                              </QuestionHead>
-                              <QuestionBody>
+                              </S.QuestionHead>
+                              <S.QuestionBody>
                                 <Question
                                   index={questionIndex}
                                   questionState={question[questionIndex]}
@@ -248,26 +240,29 @@ function Edit() {
                                   modifyChoice={onInputModifyQuestionChoice}
                                   deleteChoice={onClickDeleteQuestionChoice}
                                 />
-                              </QuestionBody>
-                              <HorizontalRule />
-                              <QuestionTail>
-                                <QuestionTailButton type="button" onClick={() => onClickAddQuestion(questionIndex)}>
+                              </S.QuestionBody>
+                              <S.HorizontalRule />
+                              <S.QuestionTail>
+                                <S.QuestionTailButton type="button" onClick={() => onClickAddQuestion(questionIndex)}>
                                   <Icon type="add" size="21px" />
-                                </QuestionTailButton>
-                                <QuestionTailButton type="button" onClick={() => onClickCopyQuestion(questionIndex)}>
+                                </S.QuestionTailButton>
+                                <S.QuestionTailButton type="button" onClick={() => onClickCopyQuestion(questionIndex)}>
                                   <Icon type="copy" size="18px" />
-                                </QuestionTailButton>
-                                <QuestionTailButton type="button" onClick={() => onClickDeleteQuestion(questionIndex)}>
+                                </S.QuestionTailButton>
+                                <S.QuestionTailButton
+                                  type="button"
+                                  onClick={() => onClickDeleteQuestion(questionIndex)}
+                                >
                                   <Icon type="trashcan" size="18px" />
-                                </QuestionTailButton>
-                                <EssentialWrapper>
-                                  <EssentialText>필수</EssentialText>
+                                </S.QuestionTailButton>
+                                <S.EssentialWrapper>
+                                  <S.EssentialText>필수</S.EssentialText>
                                   <ToggleButton
                                     state={essential}
                                     onClick={() => onClickChangeQuestionEssential(questionIndex)}
                                   />
-                                </EssentialWrapper>
-                              </QuestionTail>
+                                </S.EssentialWrapper>
+                              </S.QuestionTail>
                             </>
                           )}
                           {focus !== `q${questionIndex}` && (
@@ -276,7 +271,7 @@ function Edit() {
                               <QuestionRead questionState={question[questionIndex]} />
                             </>
                           )}
-                        </QuestionContainer>
+                        </S.QuestionContainer>
                       );
                     }}
                   </Draggable>
@@ -286,12 +281,12 @@ function Edit() {
             )}
           </Droppable>
         </DragDropContext>
-        <BottomContainer>
-          <ShareButton type="button" onClick={() => openModal()}>
+        <S.BottomContainer>
+          <S.ShareButton type="button" onClick={() => openModal()}>
             저장
-          </ShareButton>
-        </BottomContainer>
-      </Container>
+          </S.ShareButton>
+        </S.BottomContainer>
+      </S.Container>
 
       <ModalPortal>
         <ShareFormModal
@@ -299,7 +294,10 @@ function Edit() {
           closeModal={closeModal}
           changeLoginRequired={onClickChangeLoginRequired}
           changeOnBoardShare={onClickChangeOnBoardShare}
+          changeAcceptResponse={onClickChangeAcceptResponse}
+          changeResponseModifiable={onClickChangeResponseModifiable}
           saveForm={onClickSaveForm}
+          copyLink={onClickCopyLink}
         />
       </ModalPortal>
     </FormLayout>
