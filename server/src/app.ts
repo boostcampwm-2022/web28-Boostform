@@ -57,7 +57,7 @@ connectDB();
 
 // redis 연결
 const redisClient = redis.createClient({
-  url: `redis://@49.50.161.193:6379/0`,
+  url: `redis://@${process.env.REDIS_HOST}:${process.env.REDIS_PORT}/0`,
   legacyMode: true,
 });
 
