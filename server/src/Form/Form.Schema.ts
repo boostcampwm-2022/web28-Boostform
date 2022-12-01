@@ -51,7 +51,7 @@ const FormSchema = new mongoose.Schema(
     },
     accept_response: {
       type: Boolean,
-      default: true,
+      default: false,
     },
     on_board: {
       type: Boolean,
