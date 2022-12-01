@@ -31,7 +31,7 @@ function Result() {
         <S.HeadContainer>
           <S.HeadTitle>설문지 제목</S.HeadTitle>
           <S.ResponseCountWrapper>
-            <S.ResponseCount>응답 10개</S.ResponseCount>
+            <S.OverallResponseCount>응답 {formResult?.totalResponseCount}개</S.OverallResponseCount>
             <S.ToggleWrapper>
               <S.ToggleText>응답 받기</S.ToggleText>
               <ToggleButton state={!!"dd"} onClick={() => console.log("딸깍")} />
@@ -44,9 +44,9 @@ function Result() {
               <span>{questionTitle}</span>
             </div>
             {responseCount ? (
-              <div>
-                <span>{responseCount}</span>
-              </div>
+              <S.QuestionResponseCount>
+                <span>응답 {responseCount}개</span>
+              </S.QuestionResponseCount>
             ) : null}
             {responseCount ? (
               <QuestionResult type={type} answerTotal={answerTotal} />

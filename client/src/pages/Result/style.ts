@@ -38,7 +38,7 @@ const ResponseCountWrapper = styled.div`
   margin-bottom: 8px;
 `;
 
-const ResponseCount = styled.span`
+const OverallResponseCount = styled.span`
   font-size: 20px;
 `;
 
@@ -47,6 +47,17 @@ const QuestionContainer = styled.div`
   background-color: white;
   border-radius: 3px;
   padding: 20px;
+
+  &:last-child {
+    margin-bottom: 24px;
+  }
+`;
+
+const QuestionResponseCount = styled.div`
+  margin-top: 8px;
+  margin-bottom: 16px;
+  font-size: 12px;
+  font-weight: 400;
 `;
 
 export {
@@ -56,6 +67,7 @@ export {
   ToggleWrapper,
   ToggleText,
   ResponseCountWrapper,
-  ResponseCount,
+  OverallResponseCount,
   QuestionContainer,
+  QuestionResponseCount,
 };
