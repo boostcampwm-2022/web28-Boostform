@@ -14,7 +14,7 @@ interface QuestionSummary {
 interface ResultApi {
   formTitle: string;
   totalResponseCount: number;
-  acceptResponse: "on" | "off";
+  acceptResponse: boolean;
   questionResultDict: {
     [key: number]: QuestionSummary;
   };

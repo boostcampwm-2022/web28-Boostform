@@ -30,13 +30,7 @@ function Result() {
       <S.Container>
         <S.HeadContainer>
           <S.HeadTitle>설문지 제목</S.HeadTitle>
-          <S.ResponseCountWrapper>
-            <S.OverallResponseCount>응답 {formResult?.totalResponseCount}개</S.OverallResponseCount>
-            <S.ToggleWrapper>
-              <S.ToggleText>응답 받기</S.ToggleText>
-              <ToggleButton state={!!"dd"} onClick={() => console.log("딸깍")} />
-            </S.ToggleWrapper>
-          </S.ResponseCountWrapper>
+          <S.OverallResponseCount>응답 {formResult?.totalResponseCount}개</S.OverallResponseCount>
         </S.HeadContainer>
         {questionResult.map(({ type, questionTitle, responseCount, answerTotal }) => (
           <S.QuestionContainer key={questionTitle}>

@@ -30,15 +30,9 @@ const ToggleText = styled.span`
   margin-right: 12px;
 `;
 
-const ResponseCountWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+const OverallResponseCount = styled.div`
   margin-top: 8px;
   margin-bottom: 8px;
-`;
-
-const OverallResponseCount = styled.span`
   font-size: 20px;
 `;
 
@@ -66,7 +60,6 @@ export {
   HeadTitle,
   ToggleWrapper,
   ToggleText,
-  ResponseCountWrapper,
   OverallResponseCount,
   QuestionContainer,
   QuestionResponseCount,
