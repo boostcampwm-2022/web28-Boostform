@@ -56,6 +56,11 @@ const divFormList = styled.div`
 const divFormItem = styled.div`
   padding: 24px 19px 19px;
   border: 1px solid #c8c8c8;
+  margin-top: 7px;
+
+  &:first-child {
+    margin-top: 0;
+  }
 `;
 
 const h3ItemTitle = styled.h3`

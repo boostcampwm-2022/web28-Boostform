@@ -7,6 +7,7 @@ const API = {
   LOGIN: `${BASE_URL}/api/users/redirect`,
   LOGOUT: `${BASE_URL}/api/users/logout`,
   USER_INFO: `${BASE_URL}/api/users`,
+  BOARD: `${BASE_URL}/api/board`,
 };
 
 export default API;
