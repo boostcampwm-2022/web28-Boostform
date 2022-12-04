@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { AuthContext } from "contexts/authProvider";
 import { useNavigate, Link } from "react-router-dom";
 import authApi from "api/authApi";
-import Logo from "assets/Images/Logo.png";
+import Logo from "assets/Icon/logo.svg";
 import * as S from "./style";
 
 function Header() {
@@ -24,10 +24,10 @@ function Header() {
     <S.HeaderContainer>
       <S.Layout>
         <Link to="/">
-          <img src={Logo} alt="logo" width="120px" draggable={false} />
+          <img src={Logo} alt="logo" width="120px" height="36px" draggable={false} />
         </Link>
         {auth?.userID && <Link to="/manage">내 설문조사</Link>}
-        {auth?.userID && <Link to="/#">설문조사 게시판</Link>}
+        {auth?.userID && <Link to="/forum">설문조사 게시판</Link>}
         {auth?.userID && (
           <S.LogoutButton type="button" onClick={onClickLogout}>
             로그아웃
