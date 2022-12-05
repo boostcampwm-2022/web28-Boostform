@@ -12,6 +12,7 @@ const responseSchedule = () => {
     const responseLength = await redisCli.hLen("response");
     if (responseLength !== 0) {
       const responseList = await redisCli.hGetAll("response");
+      let saveCount = 0;
 
       for (const responseId in responseList) {
         const responseObj = JSON.parse(responseList[responseId]);
@@ -20,6 +21,11 @@ const responseSchedule = () => {
         await response.save();
 
         await redisCli.hDel("response", responseId);
+
+        saveCount += 1;
+        if (saveCount >= 1500) {
+          break;
+        }
       }
 
       console.log("save job done");
