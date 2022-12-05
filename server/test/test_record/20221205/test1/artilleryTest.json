@@ -1,11 +1,11 @@
 {
   "config": {
-    "target": "http://http://101.101.208.135/:8080",
+    "target": "http://101.101.208.135:8080",
     "phases": [
       {
         "name": "phase1",
         "duration": 10,
-        "arrivalRate": 100
+        "arrivalRate": 200
       }
     ],
     "payload": {
@@ -13,7 +13,7 @@
       "fields": ["question1", "question2", "question3"]
     },
     "variables": {
-      "formId": "637e2d875d07882cfce8a076"
+      "formId": "637e2d988defe2cc0404ff2c"
     }
   },
   "scenarios": [
@@ -22,7 +22,7 @@
       "flow": [
         {
           "get": {
-            "url": "/api/responses/{{formId}}/response-page"
+            "url": "/api/forms/{{formId}}"
           }
         }
       ]
