@@ -1,6 +1,8 @@
 import Form from "./Board.Model";
 import { FormSortQuery, RegExOption, FormSearchQuery, SetToQueryFn, EqualTypeReturnFn } from "./@types/query";
 
+const categoryList = ["개발 및 학습", "취업 및 채용", "취미 및 여가", "기타"];
+
 class BoardService {
   static setOnBoardToQuery(query: FormSearchQuery) {
     return { ...query, on_board: false };
@@ -8,6 +10,13 @@ class BoardService {
 
   static setAcceptabilityToQuery(query: FormSearchQuery) {
     return { ...query, accept_response: true };
+  }
+
+  static setCategoryFilterToQuery(query: FormSearchQuery) {
+    if ("category" in query && !categoryList.includes(query.category as string))
+      // eslint-disable-next-line no-param-reassign
+      delete query.category;
+    return { ...query };
   }
 
   static setTitleRegExToQuery(query: FormSearchQuery) {
@@ -25,7 +34,7 @@ class BoardService {
 
   static setSortingToQuery(query: FormSortQuery) {
     if (!("order_by" in query) || !("order" in query)) return ``;
-    if (!["title", "category", "response_count"].includes(query.order_by as string)) return ``;
+    if (!["title", "response_count"].includes(query.order_by as string)) return ``;
     if (!["asc", "desc"].includes(query.order as string)) return ``;
 
     const order = query.order === "desc" ? "-" : "";
@@ -38,6 +47,7 @@ class BoardService {
     const updatedSearchQuery = this.pipe<SetToQueryFn, FormSearchQuery>(
       this.setOnBoardToQuery,
       this.setAcceptabilityToQuery,
+      this.setCategoryFilterToQuery,
       this.setTitleRegExToQuery
     )(searchQuery);
 
