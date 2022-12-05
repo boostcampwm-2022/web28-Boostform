@@ -11,15 +11,15 @@ class BoardController {
 
   static async getFormList(req: Request, res: Response, next: NextFunction) {
     const searchKeys = ["title", "category"];
-    const sortKeys = ["order_by", "order"];
+    const sortKeys = ["orderBy"];
     const searchQuery = BoardController.filterByKeys(req.query, searchKeys);
     const sortQuery = BoardController.filterByKeys(req.query, sortKeys);
 
     const cacheKey = `board:${JSON.stringify(req.query)}`;
 
-    let searchResult = await (req.query.title
-      ? BoardService.searchByQuery(searchQuery, sortQuery)
-      : JSON.parse(redisCli.get(cacheKey)));
+    let searchResult = req.query.title
+      ? await BoardService.searchByQuery(searchQuery, sortQuery)
+      : JSON.parse(await redisCli.get(cacheKey));
 
     if (!searchResult) {
       searchResult = await BoardService.searchByQuery(searchQuery, sortQuery);

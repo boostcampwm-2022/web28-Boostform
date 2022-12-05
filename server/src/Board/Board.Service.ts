@@ -1,31 +1,27 @@
 import Form from "./Board.Model";
+import { FormSortQuery, RegExOption, FormSearchQuery, SetToQueryFn, EqualTypeReturnFn } from "./@types/query";
 
-interface FormSortQuery {
-  order?: "asc" | "desc";
-  order_by?: "title" | "category" | "response_count";
-}
-
-interface RegExOption {
-  $regex: string;
-  $options: string;
-}
-
-interface FormSearchQuery {
-  title?: string | RegExOption;
-  category?: string;
-}
-
-type SetToQueryFn = (query: FormSearchQuery) => FormSearchQuery;
-
-type EqualTypeReturnFn<T> = (arg: T) => T;
+const categoryList = ["개발 및 학습", "취업 및 채용", "취미 및 여가", "기타"];
 
 class BoardService {
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  static pipe<F extends Function, V>(...fns: F[]): EqualTypeReturnFn<V> {
+    return (initial: V) => fns.reduce((acc, currentFn) => currentFn(acc), initial);
+  }
+
   static setOnBoardToQuery(query: FormSearchQuery) {
     return { ...query, on_board: false };
   }
 
   static setAcceptabilityToQuery(query: FormSearchQuery) {
     return { ...query, accept_response: true };
+  }
+
+  static setCategoryFilterToQuery(query: FormSearchQuery) {
+    if ("category" in query && !categoryList.includes(query.category as string))
+      // eslint-disable-next-line no-param-reassign
+      delete query.category;
+    return { ...query };
   }
 
   static setTitleRegExToQuery(query: FormSearchQuery) {
@@ -36,19 +32,13 @@ class BoardService {
     return { ...query, title: titleRegex };
   }
 
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  static pipe<F extends Function, V>(...fns: F[]): EqualTypeReturnFn<V> {
-    return (initial: V) => fns.reduce((acc, currentFn) => currentFn(acc), initial);
-  }
-
   static setSortingToQuery(query: FormSortQuery) {
-    if (!("order_by" in query) || !("order" in query)) return ``;
-    if (!["title", "category", "response_count"].includes(query.order_by as string)) return ``;
-    if (!["asc", "desc"].includes(query.order as string)) return ``;
-
-    const order = query.order === "desc" ? "-" : "";
-    const orderBy = query.order_by;
-    return `${order}${orderBy}`;
+    const { orderBy } = query;
+    if (!orderBy) return ``;
+    if (orderBy === "latestAsc") return `-createdAt`;
+    if (orderBy === "responseAsc") return `-response_count`;
+    if (orderBy === "responseDesc") return `response_count`;
+    return ``;
   }
 
   static async searchByQuery(searchQuery: FormSearchQuery, sortQuery: FormSortQuery) {
@@ -56,6 +46,7 @@ class BoardService {
     const updatedSearchQuery = this.pipe<SetToQueryFn, FormSearchQuery>(
       this.setOnBoardToQuery,
       this.setAcceptabilityToQuery,
+      this.setCategoryFilterToQuery,
       this.setTitleRegExToQuery
     )(searchQuery);
 
@@ -64,10 +55,12 @@ class BoardService {
     const searchResults = await Form.find(updatedSearchQuery, select).sort(updatedSortQuery); // .skip(<number>).limit(<number>)
 
     const updatedSearchResults = searchResults.map((result) => {
-      const resultObject = Object.entries(result.toObject()).map(([k, v]) => [k === "_id" ? "formId" : k, v]);
+      const resultObject = Object.entries(result.toObject()).map(([k, v]) => {
+        if (k === "_id") return ["formId", v];
+        if (k === "response_count") return ["responseCount", v];
+        return [k, v];
+      });
       return Object.fromEntries(resultObject);
-      // eslint-disable-next-line no-underscore-dangle
-      // return { ...result.toObject(), formId: result._id };
     });
 
     return updatedSearchResults;
