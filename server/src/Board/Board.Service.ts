@@ -1,23 +1,5 @@
 import Form from "./Board.Model";
-
-interface FormSortQuery {
-  order?: "asc" | "desc";
-  order_by?: "title" | "category" | "response_count";
-}
-
-interface RegExOption {
-  $regex: string;
-  $options: string;
-}
-
-interface FormSearchQuery {
-  title?: string | RegExOption;
-  category?: string;
-}
-
-type SetToQueryFn = (query: FormSearchQuery) => FormSearchQuery;
-
-type EqualTypeReturnFn<T> = (arg: T) => T;
+import { FormSortQuery, RegExOption, FormSearchQuery, SetToQueryFn, EqualTypeReturnFn } from "./@types/query";
 
 class BoardService {
   static setOnBoardToQuery(query: FormSearchQuery) {
