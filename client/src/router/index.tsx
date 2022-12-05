@@ -7,6 +7,7 @@ import Login from "pages/Login";
 import View from "pages/View";
 import Response from "pages/Response";
 import Result from "pages/Result";
+import Forum from "pages/Forum";
 
 const router = createBrowserRouter([
   {
@@ -36,6 +37,10 @@ const router = createBrowserRouter([
   {
     path: "/forms/:id/result",
     element: <Result />,
+  },
+  {
+    path: "/forum",
+    element: <Forum />,
   },
 ]);
 

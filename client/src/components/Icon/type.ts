@@ -18,7 +18,8 @@ interface IconProps {
     | "dragIndicator"
     | "add"
     | "error"
-    | "chain";
+    | "chain"
+    | "logo";
   size: string;
   fill?: string;
 }
