@@ -17,14 +17,14 @@ class ResponseController {
     }
   }
 
-  static saveResponse(req: Request, res: Response, next: NextFunction) {
+  static async saveResponse(req: Request, res: Response, next: NextFunction) {
     try {
       const { formId } = req.params;
       const { userID } = req;
       const answerListFromRequest = req.body.answerList;
 
       const answerList = ResponseService.getAnswerListForDB(answerListFromRequest);
-      const responseId = ResponseService.saveResponse(formId, userID, answerList);
+      const responseId = await ResponseService.saveResponse(formId, userID, answerList);
 
       res.status(201).json({ responseId });
     } catch (err: any) {

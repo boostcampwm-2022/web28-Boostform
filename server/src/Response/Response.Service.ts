@@ -10,15 +10,15 @@ class ResponseService {
     return !(isExist === null);
   }
 
-  static saveResponse(formId: string, userID: number | undefined, answerList: Array<AnswerInterface>) {
+  static async saveResponse(formId: string, userID: number | undefined, answerList: Array<AnswerInterface>) {
     const newResponse = new FormResponse({
       user_id: userID,
       form_id: formId,
       answer_list: answerList,
     });
 
-    newResponse.save();
-    Form.findOneAndUpdate({ _id: formId }, { $inc: { response_count: 1 } }).exec();
+    await newResponse.save();
+    await Form.findOneAndUpdate({ _id: formId }, { $inc: { response_count: 1 } }).exec();
 
     return newResponse.id;
   }
