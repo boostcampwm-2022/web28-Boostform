@@ -23,7 +23,8 @@ const pDescription = styled.p`
 `;
 
 const divSearchBox = styled.div`
-  margin: 35px 0 25px;
+  margin-top: 36px;
+  margin-bottom: 8px;
 `;
 
 const inputSearch = styled.input`
@@ -92,6 +93,34 @@ const buttonFormItem = styled.button`
   cursor: pointer;
 `;
 
+const divSortWrapper = styled.div`
+  width: 100%;
+  height: 32px;
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const divSortList = styled.div``;
+
+const inputRadio = styled.input`
+  visibility: hidden;
+  &:checked + label {
+    color: #0073e9;
+    font-weight: bold;
+  }
+`;
+const labelRadio = styled.label`
+  font-size: 12px;
+  color: #555;
+  cursor: pointer;
+`;
+
+const divCategoryWrapper = styled.div`
+  padding-right: 24px;
+`;
+
 export {
   divContainer,
   divWrapper,
@@ -106,4 +135,9 @@ export {
   spanItemDate,
   divItemButtonWrapper,
   buttonFormItem,
+  divSortWrapper,
+  divSortList,
+  inputRadio,
+  labelRadio,
+  divCategoryWrapper,
 };

@@ -14,7 +14,7 @@ import QuestionRead from "components/QuestionRead";
 import TitleDropdown from "components/CategoryDropdown";
 import ShareFormModal from "components/Modal/ShareFormModal";
 import writeReducer from "reducer/formEdit";
-import { FormState, FormDataApi } from "types/form";
+import { FormState, FormDataApi, QuestionType } from "types/form";
 import formApi from "api/formApi";
 import { fromApiToForm, fromFormToApi } from "utils/form";
 import useModal from "hooks/useModal";
@@ -81,7 +81,7 @@ function Edit() {
     dispatch({ type: "CHANGE_QUESTION_TITLE", questionIndex, value });
   };
 
-  const onClickSetQuestionType = (value: "checkbox" | "multiple" | "paragraph", questionIndex: number) => {
+  const onClickSetQuestionType = (value: QuestionType, questionIndex: number) => {
     dispatch({ type: "CHANGE_QUESTION_TYPE", questionIndex, value });
   };
 
@@ -227,7 +227,7 @@ function Edit() {
                                 />
                                 <Dropdown
                                   state={type}
-                                  setState={(questionType) => {
+                                  setState={(questionType: QuestionType) => {
                                     onClickSetQuestionType(questionType, questionIndex);
                                   }}
                                 />
