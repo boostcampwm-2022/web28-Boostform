@@ -5,7 +5,7 @@
       {
         "name": "phase1",
         "duration": 10,
-        "arrivalRate": 150
+        "arrivalRate": 200
       }
     ],
     "payload": {
