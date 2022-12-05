@@ -1,6 +1,7 @@
 import FormResponse from "./Response.Model";
 import Form from "../Form/Form.Model";
 import FormService from "../Form/Form.Service";
+import { redisCli } from "../app";
 import { AnswerInterface, AnswerFromRequest } from "./Response.Interface";
 
 class ResponseService {
@@ -17,8 +18,10 @@ class ResponseService {
       answer_list: answerList,
     });
 
-    await newResponse.save();
-    await Form.findOneAndUpdate({ _id: formId }, { $inc: { response_count: 1 } }).exec();
+    await redisCli.hSet("response", newResponse.id, JSON.stringify(newResponse));
+    await redisCli.hIncrBy("count", formId, 1);
+    // await newResponse.save();
+    // await Form.findOneAndUpdate({ _id: formId }, { $inc: { response_count: 1 } }).exec();
 
     return newResponse.id;
   }
