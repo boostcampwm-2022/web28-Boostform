@@ -7,7 +7,7 @@ const Container = styled.section`
   align-items: center;
   justify-content: center;
 
-  background-color: #3c64b1;
+  background-color: ${({ theme }) => theme.colors.blue3};
 `;
 
 const LoginContainer = styled.div`
@@ -19,9 +19,9 @@ const LoginContainer = styled.div`
   width: 600px;
   padding-top: 80px;
   padding-bottom: 60px;
-  border: 1px solid #afafaf;
+  border: 1px solid ${({ theme }) => theme.colors.grey3};
   border-radius: 9px;
-  background-color: #ffffff;
+  background-color: ${({ theme }) => theme.colors.white};
 `;
 
 const OAuthButton = styled.button`
@@ -32,7 +32,7 @@ const OAuthButton = styled.button`
 
   background-color: black;
   border: none;
-  color: white;
+  color: ${({ theme }) => theme.colors.white};
   margin-top: 36px;
   padding: 8px 16px;
   font-size: 16px;
@@ -43,9 +43,9 @@ const OAuthButton = styled.button`
 const HomeButton = styled.button`
   width: 460px;
 
-  background-color: #ddd;
+  background-color: ${({ theme }) => theme.colors.grey2};
   border: none;
-  color: black;
+  color: ${({ theme }) => theme.colors.black};
   margin-top: 16px;
   padding: 8px 16px;
   font-size: 16px;

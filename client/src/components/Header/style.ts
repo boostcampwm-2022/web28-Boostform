@@ -10,7 +10,7 @@ const Layout = styled.div`
 
   a {
     text-decoration: none;
-    color: #000000;
+    color: ${({ theme }) => theme.colors.black};
 
     &:active {
       text-decoration: none;
@@ -27,9 +27,9 @@ const HeaderContainer = styled.header`
 `;
 
 const LoginButton = styled.button`
-  background-color: #0066cc;
+  background-color: ${({ theme }) => theme.colors.blue2};
   font-weight: 400;
-  color: #ffffff;
+  color: ${({ theme }) => theme.colors.white};
   font-size: 15px;
   padding: 8px 16px;
   border: none;
@@ -38,9 +38,9 @@ const LoginButton = styled.button`
 `;
 
 const LogoutButton = styled.button`
-  border: 1px solid #0066cc;
+  border: 1px solid ${({ theme }) => theme.colors.blue2};
   font-weight: 400;
-  color: #0066cc;
+  color: ${({ theme }) => theme.colors.blue2};
   font-size: 15px;
   padding: 5px 10px;
   border-radius: 2px;

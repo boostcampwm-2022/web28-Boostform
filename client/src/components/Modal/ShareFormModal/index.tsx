@@ -1,6 +1,7 @@
 import React from "react";
 import ToggleButton from "components/ToggleButton";
 import Icon from "components/Icon";
+import theme from "styles/theme";
 import * as S from "./style";
 import ShareFormModalProps from "./type";
 
@@ -44,7 +45,7 @@ function ShareFormModal({
         <S.ToggleWrapper>
           <span>링크</span>
           <S.CopyLinkButton type="button" onClick={copyLink}>
-            <Icon type="chain" fill="#3c64b1" size="24px" />
+            <Icon type="chain" fill={theme.colors.blue3} size="24px" />
             <S.CopyLinkText>링크 복사하기</S.CopyLinkText>
           </S.CopyLinkButton>
         </S.ToggleWrapper>

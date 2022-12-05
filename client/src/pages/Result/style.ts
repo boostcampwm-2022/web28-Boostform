@@ -6,7 +6,7 @@ const Container = styled.div`
 
 const HeadContainer = styled.div`
   margin-top: 12px;
-  background-color: white;
+  background-color: ${({ theme }) => theme.colors.white};
   border-radius: 3px;
   padding: 10px 20px;
 `;
@@ -38,7 +38,7 @@ const OverallResponseCount = styled.div`
 
 const QuestionContainer = styled.div`
   margin-top: 16px;
-  background-color: white;
+  background-color: ${({ theme }) => theme.colors.white};
   border-radius: 3px;
   padding: 20px;
 

@@ -6,7 +6,7 @@ const Container = styled.div`
 
 const TitleContainer = styled.div`
   margin-top: 12px;
-  background-color: white;
+  background-color: ${({ theme }) => theme.colors.white};
   border-radius: 3px;
   padding: 20px;
 `;
@@ -17,13 +17,13 @@ const TitleInput = styled.input`
   font-size: 32px;
   padding: 5px 0;
   border: none;
-  border-bottom: 1px solid #afafaf;
+  border-bottom: 1px solid ${({ theme }) => theme.colors.grey3};
   font-family: Arial, Helvetica, sans-serif;
   line-height: 48px;
 
   &:focus {
     outline: none;
-    border-bottom: 1px solid #000000;
+    border-bottom: 1px solid ${({ theme }) => theme.colors.black};
   }
 `;
 
@@ -34,13 +34,13 @@ const DescriptionInput = styled.input`
   font-size: 16px;
   padding: 5px 0;
   border: none;
-  border-bottom: 1px solid #afafaf;
+  border-bottom: 1px solid ${({ theme }) => theme.colors.grey3};
   font-family: Arial, Helvetica, sans-serif;
   line-height: 29px;
 
   &:focus {
     outline: none;
-    border-bottom: 1px solid #000000;
+    border-bottom: 1px solid ${({ theme }) => theme.colors.black};
   }
 `;
 
@@ -50,7 +50,7 @@ const TitleRead = styled.div`
   font-size: 32px;
   padding: 5px 0;
   border: none;
-  border-bottom: 1px solid #afafaf;
+  border-bottom: 1px solid ${({ theme }) => theme.colors.grey3};
   font-family: Arial, Helvetica, sans-serif;
   line-height: 48px;
 `;
@@ -62,18 +62,18 @@ const DescriptionRead = styled.div<{ isEmpty: boolean }>`
   font-size: 16px;
   padding: 5px 0;
   border: none;
-  color: ${({ isEmpty }) => (isEmpty ? "#afafaf" : "black")};
-  border-bottom: 1px solid #afafaf;
+  color: ${({ isEmpty, theme }) => (isEmpty ? theme.colors.grey5 : theme.colors.black)};
+  border-bottom: 1px solid ${({ theme }) => theme.colors.grey3};
   font-family: Arial, Helvetica, sans-serif;
   line-height: 29px;
 `;
 
 const QuestionContainer = styled.div`
   margin-top: 16px;
-  background-color: white;
+  background-color: ${({ theme }) => theme.colors.white};
   border-radius: 3px;
   padding: 0 20px 20px;
-  border: solid 1px #d2d2d2;
+  border: solid 1px ${({ theme }) => theme.colors.grey3};
 `;
 
 const QuestionHead = styled.div`
@@ -87,15 +87,15 @@ const QuestionTitleInput = styled.input`
   font-size: 16px;
   padding: 8px 10px;
   border: none;
-  border-bottom: 1px solid #afafaf;
+  border-bottom: 1px solid ${({ theme }) => theme.colors.grey3};
   font-family: Arial, Helvetica, sans-serif;
-  background-color: #ececec;
+  background-color: ${({ theme }) => theme.colors.grey1};
   border-radius: 3px;
   line-height: 29px;
 
   &:focus {
     outline: none;
-    border-bottom: 1px solid #000000;
+    border-bottom: 1px solid ${({ theme }) => theme.colors.black};
   }
 `;
 
@@ -106,7 +106,7 @@ const QuestionBody = styled.div`
 const HorizontalRule = styled.hr`
   height: 1px;
   border: 0;
-  background-color: #dfdfdf;
+  background-color: ${({ theme }) => theme.colors.grey2};
 `;
 
 const QuestionTail = styled.div`
@@ -130,7 +130,7 @@ const QuestionTailButton = styled.button`
 const EssentialWrapper = styled.div`
   display: flex;
   align-items: center;
-  border-left: 1px solid #aeaeae;
+  border-left: 1px solid ${({ theme }) => theme.colors.grey3};
   padding: 8px 12px;
 `;
 
@@ -146,7 +146,7 @@ const TitleCategoryWrapper = styled.div`
   align-items: center;
   margin-top: 16px;
   padding: 10px;
-  border: 1px solid #afafaf;
+  border: 1px solid ${({ theme }) => theme.colors.grey3};
   border-radius: 3px;
   background-color: transparent;
   cursor: pointer;
@@ -165,16 +165,16 @@ const BottomContainer = styled.div`
   display: flex;
   justify-content: right;
   margin: 16px 0 32px;
-  background-color: #ffffff;
+  background-color: ${({ theme }) => theme.colors.white};
   border-radius: 3px;
   padding: 20px;
 `;
 
 const ShareButton = styled.button`
-  background-color: #284b8f;
-  color: #ffffff;
+  background-color: ${({ theme }) => theme.colors.blue5};
+  color: ${({ theme }) => theme.colors.white};
   padding: 8px 16px;
-  border: 1px solid #aeaeae;
+  border: 1px solid ${({ theme }) => theme.colors.grey3};
   border-radius: 8px;
   cursor: pointer;
 `;

@@ -19,18 +19,19 @@ const pDescription = styled.p`
   text-align: center;
   font-size: 14px;
   font-weight: 400;
-  color: #666;
+  color: ${({ theme }) => theme.colors.grey5};
 `;
 
 const divSearchBox = styled.div`
-  margin: 35px 0 25px;
+  margin-top: 36px;
+  margin-bottom: 8px;
 `;
 
 const inputSearch = styled.input`
   width: 900px;
   height: 37px;
   padding: 0 10px;
-  border: 1px solid #c8c8c8;
+  border: 1px solid ${({ theme }) => theme.colors.grey3};
   border-radius: 3px;
   font-size: 12px;
   vertical-align: top;
@@ -41,21 +42,21 @@ const buttonSearch = styled.button`
   height: 37px;
   margin-left: 2px;
   font-size: 12px;
-  background-color: #7d7d7d;
+  background-color: ${({ theme }) => theme.colors.grey4};
   border-radius: 3px;
   border: 0;
-  color: #fff;
+  color: ${({ theme }) => theme.colors.white};
   cursor: pointer;
 `;
 
 const divFormList = styled.div`
   padding-top: 17px;
-  border-top: 2px solid #555;
+  border-top: 2px solid ${({ theme }) => theme.colors.grey8};
 `;
 
 const divFormItem = styled.div`
   padding: 24px 19px 19px;
-  border: 1px solid #c8c8c8;
+  border: 1px solid ${({ theme }) => theme.colors.grey3};
   margin-top: 7px;
 
   &:first-child {
@@ -86,10 +87,38 @@ const buttonFormItem = styled.button`
   text-align: center;
   font-size: 13px;
   font-weight: 400;
-  color: #fff;
-  border: 1px solid #7d7d7d;
-  background-color: #7d7d7d;
+  color: ${({ theme }) => theme.colors.white};
+  border: 1px solid ${({ theme }) => theme.colors.grey3};
+  background-color: ${({ theme }) => theme.colors.grey4};
   cursor: pointer;
+`;
+
+const divSortWrapper = styled.div`
+  width: 100%;
+  height: 32px;
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const divSortList = styled.div``;
+
+const inputRadio = styled.input`
+  visibility: hidden;
+  &:checked + label {
+    color: ${({ theme }) => theme.colors.blue3};
+    font-weight: bold;
+  }
+`;
+const labelRadio = styled.label`
+  font-size: 12px;
+  color: ${({ theme }) => theme.colors.grey8};
+  cursor: pointer;
+`;
+
+const divCategoryWrapper = styled.div`
+  padding-right: 24px;
 `;
 
 export {
@@ -106,4 +135,9 @@ export {
   spanItemDate,
   divItemButtonWrapper,
   buttonFormItem,
+  divSortWrapper,
+  divSortList,
+  inputRadio,
+  labelRadio,
+  divCategoryWrapper,
 };

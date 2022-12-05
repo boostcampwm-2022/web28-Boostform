@@ -2,8 +2,10 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { RouterProvider } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ThemeProvider } from "styled-components";
 import router from "router";
 import GlobalStyle from "styles/GlobalStyle";
+import theme from "styles/theme";
 import { AuthProvider } from "contexts/authProvider";
 import reportWebVitals from "./reportWebVitals";
 
@@ -13,11 +15,13 @@ const queryClient = new QueryClient();
 root.render(
   <>
     <GlobalStyle />
-    <AuthProvider>
-      <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
-      </QueryClientProvider>
-    </AuthProvider>
+    <ThemeProvider theme={theme}>
+      <AuthProvider>
+        <QueryClientProvider client={queryClient}>
+          <RouterProvider router={router} />
+        </QueryClientProvider>
+      </AuthProvider>
+    </ThemeProvider>
   </>
 );
 

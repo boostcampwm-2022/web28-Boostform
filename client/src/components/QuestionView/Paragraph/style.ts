@@ -6,13 +6,13 @@ const ParagraphInput = styled.input`
   display: block;
   padding: 5px 0;
   border: none;
-  border-bottom: 1px solid #afafaf;
+  border-bottom: 1px solid ${({ theme }) => theme.colors.grey3};
   font-family: Arial, Helvetica, sans-serif;
   line-height: 29px;
 
   &:focus {
     outline: none;
-    border-bottom: 1px solid #000000;
+    border-bottom: 1px solid ${({ theme }) => theme.colors.black};
   }
 `;
 
@@ -21,7 +21,7 @@ const VaidationWrapper = styled.div`
   align-items: center;
   margin-top: 8px;
   font-size: 12px;
-  color: #d93025;
+  color: ${({ theme }) => theme.colors.red1};
 `;
 
 const ValidationText = styled.span`
