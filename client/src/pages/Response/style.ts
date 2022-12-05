@@ -6,7 +6,7 @@ const Container = styled.div`
 
 const HeadContainer = styled.div`
   margin-top: 12px;
-  background-color: white;
+  background-color: ${({ theme }) => theme.colors.white};
   border-radius: 3px;
   padding: 10px 20px;
 `;
@@ -38,7 +38,7 @@ const Link = styled.a`
   padding-top: 5px;
   font-size: 14px;
   font-weight: 400;
-  color: #1a73e8;
+  color: ${({ theme }) => theme.colors.blue4};
   text-decoration: underline;
   cursor: pointer;
 `;

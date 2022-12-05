@@ -11,7 +11,7 @@ const Container = styled.div`
   padding: 24px;
 
   z-index: 2;
-  background-color: white;
+  background-color: ${({ theme }) => theme.colors.white};
 `;
 
 const Title = styled.h2`
@@ -28,7 +28,7 @@ const Text = styled.div`
 const Input = styled.input`
   width: 100%;
   padding: 5px 10px;
-  border: 1px solid #afafaf;
+  border: 1px solid ${({ theme }) => theme.colors.grey3};
   border-radius: 9px;
   margin-bottom: 24px;
 `;
@@ -41,14 +41,14 @@ const ButtonContainer = styled.div`
 const Button = styled.button`
   font-size: 12px;
   margin-left: 12px;
-  border: 1px solid #afafaf;
-  background-color: #ffffff;
+  border: 1px solid ${({ theme }) => theme.colors.grey3};
+  background-color: ${({ theme }) => theme.colors.white};
   border-radius: 12px;
   padding: 5px 15px;
   cursor: pointer;
 
   &:hover {
-    background-color: #eaeaea;
+    background-color: ${({ theme }) => theme.colors.grey1};
   }
 
   &:active {

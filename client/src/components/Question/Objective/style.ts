@@ -13,17 +13,17 @@ const Input = styled.input`
   border: none;
 
   font-family: Arial, Helvetica, sans-serif;
-  border-bottom: 1px solid #ffffff;
+  border-bottom: 1px solid ${({ theme }) => theme.colors.white};
   line-height: 29px;
   margin-left: 8px;
 
   &:hover {
-    border-bottom: 1px solid #afafaf;
+    border-bottom: 1px solid ${({ theme }) => theme.colors.grey3};
   }
 
   &:focus {
     outline: none;
-    border-bottom: 1px solid #000000;
+    border-bottom: 1px solid ${({ theme }) => theme.colors.black};
   }
 `;
 
@@ -43,7 +43,7 @@ const AddOptionButton = styled.button`
   padding: 5px 0;
   background-color: transparent;
   cursor: pointer;
-  color: #828282;
+  color: ${({ theme }) => theme.colors.grey5};
 `;
 
 export { Container, ChoiceWrapper, Input, DeleteButton, AddOptionWrapper, AddOptionButton };

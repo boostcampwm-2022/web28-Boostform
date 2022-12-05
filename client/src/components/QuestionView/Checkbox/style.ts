@@ -28,7 +28,7 @@ const VaidationWrapper = styled.div`
   align-items: center;
   margin-top: 8px;
   font-size: 12px;
-  color: #d93025;
+  color: ${({ theme }) => theme.colors.red1};
 `;
 
 const ValidationText = styled.span`

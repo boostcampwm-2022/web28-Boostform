@@ -10,7 +10,7 @@ const Container = styled.div<{ scroll: boolean }>`
 `;
 
 const ListElement = styled.div`
-  background-color: #f8f9fa;
+  background-color: ${({ theme }) => theme.colors.grey0};
   margin-top: 4px;
   font-size: 14px;
   font-weight: 400;

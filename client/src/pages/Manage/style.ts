@@ -16,15 +16,15 @@ const Header = styled.ul`
   margin-bottom: 20px;
 
   border-radius: 9px;
-  background-color: #ffffff;
-  border: 1px solid #afafaf;
+  background-color: ${({ theme }) => theme.colors.white};
+  border: 1px solid ${({ theme }) => theme.colors.grey3};
 
   font-size: 14px;
 `;
 
 const FormListContainer = styled.div`
-  background-color: #ffffff;
-  border: 1px solid #afafaf;
+  background-color: ${({ theme }) => theme.colors.white};
+  border: 1px solid ${({ theme }) => theme.colors.grey3};
   border-radius: 9px;
 `;
 
@@ -33,7 +33,7 @@ const FormList = styled.ul`
   align-items: center;
   justify-content: space-around;
 
-  background-color: #ffffff;
+  background-color: ${({ theme }) => theme.colors.white};
   padding: 20px 20px;
   font-size: 14px;
 
@@ -43,7 +43,7 @@ const FormList = styled.ul`
   }
 
   &:hover {
-    background-color: #eaeaea;
+    background-color: ${({ theme }) => theme.colors.grey1};
     cursor: pointer;
   }
 `;
@@ -97,7 +97,7 @@ const Button = styled.button`
 const NewFormButton = styled.button`
   display: flex;
   align-items: center;
-  border: 1px solid #afafaf;
+  border: 1px solid ${({ theme }) => theme.colors.grey3};
   border-radius: 9px;
   margin-bottom: 10px;
   padding: 5px 15px;
@@ -122,17 +122,17 @@ const Dropdown = styled.ul`
   top: 40px;
   right: -10px;
   z-index: 1;
-  background-color: white;
+  background-color: ${({ theme }) => theme.colors.white};
   padding: 10px 0;
   border-radius: 9px;
-  border: 1px solid #afafaf;
+  border: 1px solid ${({ theme }) => theme.colors.grey3};
 
   li {
     width: 180px;
     text-align: left;
 
     &:hover {
-      background-color: #eaeaea;
+      background-color: ${({ theme }) => theme.colors.grey1};
     }
   }
 `;

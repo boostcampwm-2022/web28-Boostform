@@ -1,5 +1,6 @@
 import Icon from "components/Icon";
 import React from "react";
+import theme from "styles/theme";
 import { QuestionViewProps } from "../type";
 import * as S from "./style";
 
@@ -45,7 +46,7 @@ function Paragraph({
       <S.ParagraphInput placeholder="내 답변" defaultValue={selection || ""} onInput={onInputEditAnswer} />
       {validationMode && !validation[questionId] && essential && (
         <S.VaidationWrapper>
-          <Icon type="error" size="16px" fill="#d93025" />
+          <Icon type="error" size="16px" fill={theme.colors.red1} />
           <S.ValidationText>필수 질문입니다!</S.ValidationText>
         </S.VaidationWrapper>
       )}

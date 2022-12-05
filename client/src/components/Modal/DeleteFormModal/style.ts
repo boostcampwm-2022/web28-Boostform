@@ -32,14 +32,14 @@ const ButtonContainer = styled.div`
 const Button = styled.button`
   font-size: 12px;
   margin: 0 12px;
-  border: 1px solid #afafaf;
-  background-color: #ffffff;
+  border: 1px solid ${({ theme }) => theme.colors.grey3};
+  background-color: ${({ theme }) => theme.colors.white};
   border-radius: 12px;
   padding: 5px 15px;
   cursor: pointer;
 
   &:hover {
-    background-color: #eaeaea;
+    background-color: ${({ theme }) => theme.colors.grey1};
   }
 
   &:active {

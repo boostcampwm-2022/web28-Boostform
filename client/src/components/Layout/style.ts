@@ -1,10 +1,11 @@
 import styled from "styled-components";
+import theme from "styles/theme";
 
 type BackgroundColor = "white" | "blue";
 
 const getBackgroundColor = (backgroundColor: BackgroundColor) => {
-  if (backgroundColor === "white") return "#ffffff";
-  if (backgroundColor === "blue") return "#3c64b1";
+  if (backgroundColor === "white") return theme.colors.white;
+  if (backgroundColor === "blue") return theme.colors.blue3;
   return "#ffffff";
 };
 

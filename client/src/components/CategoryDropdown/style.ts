@@ -12,7 +12,7 @@ const Button = styled.button`
   align-items: center;
   width: 100%;
   height: 100%;
-  border: 1px solid #afafaf;
+  border: 1px solid ${({ theme }) => theme.colors.grey3};
   border-radius: 3px;
   background-color: transparent;
   cursor: pointer;
@@ -22,16 +22,16 @@ const Content = styled.ul`
   width: 100%;
   position: absolute;
   z-index: 1;
-  background-color: white;
+  background-color: ${({ theme }) => theme.colors.white};
   padding: 10px 0;
   border-radius: 3px;
-  border: 1px solid #afafaf;
+  border: 1px solid ${({ theme }) => theme.colors.grey3};
 
   li {
     text-align: left;
 
     &:hover {
-      background-color: #eaeaea;
+      background-color: ${({ theme }) => theme.colors.grey1};
     }
   }
 `;

@@ -6,7 +6,7 @@ const Container = styled.div`
 
 const HeadContainer = styled.div`
   margin-top: 12px;
-  background-color: white;
+  background-color: ${({ theme }) => theme.colors.white};
   border-radius: 3px;
   padding: 10px 20px;
 `;
@@ -33,13 +33,13 @@ const HeadDescription = styled.div`
 
 const QuestionContainer = styled.div<{ isEssential: boolean }>`
   margin-top: 16px;
-  background-color: white;
+  background-color: ${({ theme }) => theme.colors.white};
   border-radius: 3px;
   padding: 20px;
   ${({ isEssential }) =>
     isEssential &&
     css`
-      border: 1px solid #d93025;
+      border: 1px solid ${({ theme }) => theme.colors.red1};
     `}
 `;
 
@@ -47,16 +47,16 @@ const BottomContainer = styled.div`
   display: flex;
   justify-content: right;
   margin: 16px 0 32px;
-  background-color: #ffffff;
+  background-color: ${({ theme }) => theme.colors.white};
   border-radius: 3px;
   padding: 20px;
 `;
 
 const SubmitButton = styled.button`
-  background-color: #284b8f;
-  color: #ffffff;
+  background-color: ${({ theme }) => theme.colors.blue5};
+  color: ${({ theme }) => theme.colors.white};
   padding: 8px 16px;
-  border: 1px solid #aeaeae;
+  border: 1px solid ${({ theme }) => theme.colors.grey3};
   border-radius: 8px;
   cursor: pointer;
 `;

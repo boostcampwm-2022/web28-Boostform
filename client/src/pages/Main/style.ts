@@ -23,7 +23,7 @@ const H1 = styled.h1`
 const Text = styled.p`
   margin-top: 36px;
   font-size: 20px;
-  color: #5f6368;
+  color: ${({ theme }) => theme.colors.grey5};
   line-height: 28px;
   user-select: none;
 `;
@@ -35,9 +35,9 @@ const ImageContainer = styled.div`
 `;
 
 const Button = styled.button`
-  background-color: #0066cc;
+  background-color: ${({ theme }) => theme.colors.blue2};
   font-weight: 400;
-  color: #ffffff;
+  color: ${({ theme }) => theme.colors.white};
   font-size: 15px;
   padding: 8px 16px;
   border: none;

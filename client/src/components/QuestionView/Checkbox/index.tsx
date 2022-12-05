@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Icon from "components/Icon";
+import theme from "styles/theme";
 import { QuestionViewProps } from "../type";
 import * as S from "./style";
 
@@ -52,7 +53,7 @@ function Checkbox({
           )}
           {selected === value && (
             <S.CheckIconButton type="button" onClick={() => onClickDeselectOption()}>
-              <Icon type="checkboxFull" size="20px" fill="#3c64b1" />
+              <Icon type="checkboxFull" size="20px" fill={theme.colors.blue3} />
             </S.CheckIconButton>
           )}
           <S.Option>{value}</S.Option>
@@ -60,7 +61,7 @@ function Checkbox({
       ))}
       {validationMode && !validation[questionId] && essential && (
         <S.VaidationWrapper>
-          <Icon type="error" size="16px" fill="#d93025" />
+          <Icon type="error" size="16px" fill={theme.colors.red1} />
           <S.ValidationText>필수 질문입니다!</S.ValidationText>
         </S.VaidationWrapper>
       )}

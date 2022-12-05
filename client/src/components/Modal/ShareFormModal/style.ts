@@ -11,7 +11,7 @@ const Container = styled.div`
   padding: 36px;
 
   z-index: 2;
-  background-color: white;
+  background-color: ${({ theme }) => theme.colors.white};
 `;
 
 const Title = styled.div`
@@ -32,10 +32,10 @@ const ButtonContainer = styled.div`
 `;
 
 const Button = styled.button`
-  background-color: #284b8f;
-  color: #ffffff;
+  background-color: ${({ theme }) => theme.colors.blue5};
+  color: ${({ theme }) => theme.colors.white};
   padding: 8px 16px;
-  border: 1px solid #aeaeae;
+  border: 1px solid ${({ theme }) => theme.colors.grey3};
   border-radius: 8px;
   cursor: pointer;
   margin-left: 16px;
@@ -50,7 +50,7 @@ const CopyLinkButton = styled.button`
 `;
 
 const CopyLinkText = styled.span`
-  color: #3e57cb;
+  color: ${({ theme }) => theme.colors.blue4};
   margin-left: 6px;
 `;
 
