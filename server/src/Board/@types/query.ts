@@ -1,6 +1,5 @@
 export interface FormSortQuery {
-  order?: "asc" | "desc";
-  order_by?: "title" | "category" | "response_count";
+  orderBy?: "latestAsc" | "responseAsc" | "responseDesc";
 }
 
 export interface RegExOption {

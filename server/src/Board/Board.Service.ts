@@ -4,6 +4,11 @@ import { FormSortQuery, RegExOption, FormSearchQuery, SetToQueryFn, EqualTypeRet
 const categoryList = ["개발 및 학습", "취업 및 채용", "취미 및 여가", "기타"];
 
 class BoardService {
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  static pipe<F extends Function, V>(...fns: F[]): EqualTypeReturnFn<V> {
+    return (initial: V) => fns.reduce((acc, currentFn) => currentFn(acc), initial);
+  }
+
   static setOnBoardToQuery(query: FormSearchQuery) {
     return { ...query, on_board: false };
   }
@@ -27,19 +32,13 @@ class BoardService {
     return { ...query, title: titleRegex };
   }
 
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  static pipe<F extends Function, V>(...fns: F[]): EqualTypeReturnFn<V> {
-    return (initial: V) => fns.reduce((acc, currentFn) => currentFn(acc), initial);
-  }
-
   static setSortingToQuery(query: FormSortQuery) {
-    if (!("order_by" in query) || !("order" in query)) return ``;
-    if (!["title", "response_count"].includes(query.order_by as string)) return ``;
-    if (!["asc", "desc"].includes(query.order as string)) return ``;
-
-    const order = query.order === "desc" ? "-" : "";
-    const orderBy = query.order_by;
-    return `${order}${orderBy}`;
+    const { orderBy } = query;
+    if (!orderBy) return ``;
+    if (orderBy === "latestAsc") return `-createdAt`;
+    if (orderBy === "responseAsc") return `-response_count`;
+    if (orderBy === "responseDesc") return `response_count`;
+    return ``;
   }
 
   static async searchByQuery(searchQuery: FormSearchQuery, sortQuery: FormSortQuery) {
@@ -56,10 +55,12 @@ class BoardService {
     const searchResults = await Form.find(updatedSearchQuery, select).sort(updatedSortQuery); // .skip(<number>).limit(<number>)
 
     const updatedSearchResults = searchResults.map((result) => {
-      const resultObject = Object.entries(result.toObject()).map(([k, v]) => [k === "_id" ? "formId" : k, v]);
+      const resultObject = Object.entries(result.toObject()).map(([k, v]) => {
+        if (k === "_id") return ["formId", v];
+        if (k === "response_count") return ["responseCount", v];
+        return [k, v];
+      });
       return Object.fromEntries(resultObject);
-      // eslint-disable-next-line no-underscore-dangle
-      // return { ...result.toObject(), formId: result._id };
     });
 
     return updatedSearchResults;

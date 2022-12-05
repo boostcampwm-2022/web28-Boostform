@@ -11,7 +11,7 @@ class BoardController {
 
   static async getFormList(req: Request, res: Response, next: NextFunction) {
     const searchKeys = ["title", "category"];
-    const sortKeys = ["order_by", "order"];
+    const sortKeys = ["orderBy"];
     const searchQuery = BoardController.filterByKeys(req.query, searchKeys);
     const sortQuery = BoardController.filterByKeys(req.query, sortKeys);
 
