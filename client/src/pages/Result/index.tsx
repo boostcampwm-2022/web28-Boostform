@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import FormLayout from "components/Layout";
+import FormLayout from "components/organisms/Layout";
 import { useQuery } from "@tanstack/react-query";
 import resultApi from "api/resultApi";
 import { ResultApi, QuestionSummary } from "types/result";
-import QuestionResult from "components/QuestionResult";
+import QuestionResult from "components/organisms/Result/QuestionResult";
 import * as S from "./style";
 
 function Result() {

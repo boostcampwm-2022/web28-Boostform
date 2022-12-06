@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Layout from "components/Layout";
+import Layout from "components/organisms/Layout";
 import Header from "components/organisms/Header";
 import Button from "components/atoms/Button";
 import theme from "styles/theme";
 import boardApi from "api/forumApi";
 import { useQuery } from "@tanstack/react-query";
-import CategoryDropdown from "components/CategoryDropdown";
 import TextDropdown from "components/molecules/Dropdown/TextDropdown";
 import { ForumCategory, OrderBy } from "types/forum";
 import { CATEGORY_FORUM_LIST } from "store/form";

@@ -11,7 +11,7 @@ const getBackgroundColor = (backgroundColor: BackgroundColor) => {
 
 const Main = styled.main<{ backgroundColor: BackgroundColor }>`
   background-color: ${({ backgroundColor }) => getBackgroundColor(backgroundColor)};
-  min-height: 100vh;
+  min-height: calc(100vh - 60px);
   margin-left: auto;
   margin-right: auto;
   display: flex;

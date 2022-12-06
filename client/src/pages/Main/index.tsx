@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "components/organisms/Header";
-import FormLayout from "components/Layout";
+import FormLayout from "components/organisms/Layout";
 import Button from "components/atoms/Button";
 import theme from "styles/theme";
 import { AuthContext } from "contexts/authProvider";

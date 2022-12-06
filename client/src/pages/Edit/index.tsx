@@ -5,12 +5,12 @@ import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { DragDropContext, Droppable, Draggable, DropResult, DragStart } from "react-beautiful-dnd";
 
-import FormLayout from "components/Layout";
+import FormLayout from "components/organisms/Layout";
 import IconDropdown from "components/molecules/Dropdown/IconDropdown";
-import Question from "components/Question";
+import Question from "components/organisms/Edit/QuestionEdit";
 import Icon from "components/atoms/Icon";
 import ToggleButton from "components/molecules/ToggleButton";
-import QuestionRead from "components/QuestionRead";
+import QuestionRead from "components/organisms/Edit/QuestionRead";
 import TextDropdown from "components/molecules/Dropdown/TextDropdown";
 
 import ShareFormModal from "components/organisms/Modal/ShareFormModal";

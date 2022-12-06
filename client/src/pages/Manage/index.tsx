@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import formApi from "api/formApi";
 import Head from "components/organisms/Header";
 import Icon from "components/atoms/Icon";
-import FormLayout from "components/Layout";
+import FormLayout from "components/organisms/Layout";
 import Button from "components/atoms/Button";
 import IconButton from "components/atoms/IconButton";
 import theme from "styles/theme";

@@ -13,7 +13,6 @@ const Header = styled.ul`
   justify-content: space-around;
 
   padding: 20px;
-  margin-top: 10px;
   margin-bottom: 20px;
 
   border-radius: 9px;
@@ -95,6 +94,25 @@ const Button = styled.button`
   }
 `;
 
+const NewFormButton = styled.button`
+  display: flex;
+  align-items: center;
+  border: 1px solid ${({ theme }) => theme.colors.grey3};
+  border-radius: 9px;
+  margin-bottom: 10px;
+  padding: 5px 15px;
+
+  background-color: transparent;
+  cursor: pointer;
+
+  font-size: 16px;
+  font-weight: 400;
+
+  &:active {
+    transform: translateY(1px);
+  }
+`;
+
 const NewFormText = styled.span`
   margin-left: 4px;
 `;
@@ -148,6 +166,7 @@ export {
   More,
   ButtonContainer,
   Button,
+  NewFormButton,
   NewFormText,
   Dropdown,
   DropdownButton,

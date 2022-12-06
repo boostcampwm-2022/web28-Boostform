@@ -21,7 +21,7 @@ const Layout = styled.div`
 const HeaderContainer = styled.header`
   box-sizing: content-box;
   margin: 0 32px;
-  padding: 20px 0;
+  padding: 10px 0;
   display: flex;
   background-color: white;
 `;

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Icon from "components/atoms/Icon";
 import OutsideDetecter from "hooks/useOutsideDetecter";
-import * as S from "../style";
+import * as S from "./style";
 import { IconDropdownProps } from "./type";
 
 function IconDropdown({ state, setState, items, defaultValue }: IconDropdownProps) {
