@@ -1,6 +1,7 @@
 import React from "react";
-import Icon from "components/Icon";
+import Icon from "components/atoms/Icon";
 import IconButton from "components/atoms/IconButton";
+import TextButton from "components/atoms/TextButton";
 import theme from "styles/theme";
 import * as S from "./style";
 import ObjectiveProps from "./type";
@@ -24,9 +25,15 @@ function Objective({ index, questionState, addQuestionChoice, modifyChoice, dele
         {type === "checkbox" && <Icon type="checkboxEmpty" size="20px" fill={theme.colors.grey3} />}
         {type === "multiple" && <Icon type="multipleEmpty" size="20px" fill={theme.colors.grey3} />}
         <S.AddOptionWrapper>
-          <S.AddOptionButton type="button" onClick={() => addQuestionChoice(index)}>
+          <TextButton
+            type="button"
+            color={theme.colors.grey5}
+            fontSize={theme.fontSize.sz14}
+            onClick={() => addQuestionChoice(index)}
+            custom="padding-left: 2px;"
+          >
             옵션 추가
-          </S.AddOptionButton>
+          </TextButton>
         </S.AddOptionWrapper>
       </S.ChoiceWrapper>
     </div>

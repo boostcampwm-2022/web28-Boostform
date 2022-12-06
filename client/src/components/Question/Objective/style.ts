@@ -31,12 +31,4 @@ const AddOptionWrapper = styled.div`
   margin-left: 8px;
 `;
 
-const AddOptionButton = styled.button`
-  border: 0;
-  padding: 5px 0;
-  background-color: transparent;
-  cursor: pointer;
-  color: ${({ theme }) => theme.colors.grey5};
-`;
-
-export { Container, ChoiceWrapper, Input, AddOptionWrapper, AddOptionButton };
+export { Container, ChoiceWrapper, Input, AddOptionWrapper };
