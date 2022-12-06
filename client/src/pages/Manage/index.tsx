@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import formApi from "api/formApi";
 import Icon from "components/atoms/Icon";
-import FormLayout from "components/organisms/Layout";
+import ManageLayout from "components/template/Manage";
 import Button from "components/atoms/Button";
 import IconButton from "components/atoms/IconButton";
 import theme from "styles/theme";
@@ -103,7 +103,7 @@ function Manage() {
   };
 
   return (
-    <FormLayout backgroundColor="white">
+    <ManageLayout backgroundColor="white">
       <S.Container>
         <S.HeaderContainer>
           <Button
@@ -206,7 +206,7 @@ function Manage() {
           </ModalPortal>
         )}
       </S.Container>
-    </FormLayout>
+    </ManageLayout>
   );
 }
 
