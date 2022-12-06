@@ -6,16 +6,16 @@ import { useQuery } from "@tanstack/react-query";
 import { DragDropContext, Droppable, Draggable, DropResult, DragStart } from "react-beautiful-dnd";
 
 import FormLayout from "components/template/Layout";
-import IconDropdown from "components/molecules/Dropdown/IconDropdown";
-import Question from "components/organisms/Edit/QuestionEdit";
-import Icon from "components/atoms/Icon";
-import ToggleButton from "components/molecules/ToggleButton";
-import QuestionRead from "components/organisms/Edit/QuestionRead";
-import TextDropdown from "components/molecules/Dropdown/TextDropdown";
+import IconDropdown from "components/common/Dropdown/IconDropdown";
+import Question from "components/Edit/QuestionEdit";
+import Icon from "components/common/Icon";
+import ToggleButton from "components/common/ToggleButton";
+import QuestionRead from "components/Edit/QuestionRead";
+import TextDropdown from "components/common/Dropdown/TextDropdown";
 
-import ShareFormModal from "components/organisms/Modal/ShareFormModal";
-import Button from "components/atoms/Button";
-import IconButton from "components/atoms/IconButton";
+import ShareFormModal from "components/Modal/ShareFormModal";
+import Button from "components/common/Button";
+import IconButton from "components/common/IconButton";
 import theme from "styles/theme";
 import writeReducer from "reducer/formEdit";
 import { FormState, FormDataApi, QuestionType } from "types/form";

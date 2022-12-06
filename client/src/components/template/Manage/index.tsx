@@ -1,6 +1,6 @@
 import React from "react";
 import Banner from "assets/Images/Banner.png";
-import Header from "components/organisms/Header";
+import Header from "components/Header";
 import * as S from "./style";
 import ManageLayoutProps from "./type";
 

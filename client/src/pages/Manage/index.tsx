@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import formApi from "api/formApi";
-import Icon from "components/atoms/Icon";
+import Icon from "components/common/Icon";
 import ManageLayout from "components/template/Manage";
-import Button from "components/atoms/Button";
-import IconButton from "components/atoms/IconButton";
+import Button from "components/common/Button";
+import IconButton from "components/common/IconButton";
 import theme from "styles/theme";
 import useModal from "hooks/useModal";
 import OutsideDetecter from "hooks/useOutsideDetecter";
-import EditNameModal from "../../components/organisms/Modal/EditFormNameModal";
-import DeleteSurveyModal from "../../components/organisms/Modal/DeleteFormModal";
+import EditNameModal from "../../components/Modal/EditFormNameModal";
+import DeleteSurveyModal from "../../components/Modal/DeleteFormModal";
 import * as S from "./style";
 import { FormItems, SelectedForm } from "./type";
 

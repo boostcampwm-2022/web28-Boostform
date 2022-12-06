@@ -1,5 +1,5 @@
 import React from "react";
-import Header from "components/organisms/Header";
+import Header from "components/Header";
 import Main from "./style";
 import LayoutProps from "./type";
 

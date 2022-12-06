@@ -4,7 +4,7 @@ import FormLayout from "components/template/Layout";
 import { useQuery } from "@tanstack/react-query";
 import resultApi from "api/resultApi";
 import { ResultApi, QuestionSummary } from "types/result";
-import QuestionResult from "components/organisms/Result/QuestionResult";
+import QuestionResult from "components/Result/QuestionResult";
 import * as S from "./style";
 
 function Result() {
