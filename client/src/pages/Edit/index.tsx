@@ -12,7 +12,7 @@ import Icon from "components/atoms/Icon";
 import ToggleButton from "components/molecules/ToggleButton";
 import QuestionRead from "components/QuestionRead";
 import TitleDropdown from "components/CategoryDropdown";
-import ShareFormModal from "components/Modal/ShareFormModal";
+import ShareFormModal from "components/organisms/Modal/ShareFormModal";
 import Button from "components/atoms/Button";
 import IconButton from "components/atoms/IconButton";
 import theme from "styles/theme";

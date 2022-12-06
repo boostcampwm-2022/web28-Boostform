@@ -9,8 +9,8 @@ import IconButton from "components/atoms/IconButton";
 import theme from "styles/theme";
 import useModal from "hooks/useModal";
 import OutsideDetecter from "hooks/useOutsideDetecter";
-import EditNameModal from "../../components/Modal/EditFormNameModal";
-import DeleteSurveyModal from "../../components/Modal/DeleteFormModal";
+import EditNameModal from "../../components/organisms/Modal/EditFormNameModal";
+import DeleteSurveyModal from "../../components/organisms/Modal/DeleteFormModal";
 import * as S from "./style";
 import { FormItems, SelectedForm } from "./type";
 
