@@ -8,16 +8,16 @@ const divContainer = styled.div`
 const divWrapper = styled.div``;
 
 const h1Title = styled.h1`
-  margin-top: 60px;
-  font-size: 24px;
+  margin-top: 50px;
+  font-size: ${({ theme }) => theme.fontSize.sz32};
   font-weight: 500;
   text-align: center;
 `;
 
 const pDescription = styled.p`
-  margin-top: 12px;
+  margin-top: 16px;
   text-align: center;
-  font-size: 14px;
+  font-size: ${({ theme }) => theme.fontSize.sz16};
   font-weight: 400;
   color: ${({ theme }) => theme.colors.grey5};
 `;
