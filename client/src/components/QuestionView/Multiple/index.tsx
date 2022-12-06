@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Icon from "components/Icon";
+import IconButton from "components/atoms/IconButton";
 import theme from "styles/theme";
 import { QuestionViewProps } from "../type";
 import * as S from "./style";
@@ -53,14 +54,16 @@ function Multiple({
       {option.map(({ choiceId, value }) => (
         <S.MultipleWrapper key={choiceId}>
           {!selected.includes(value) && (
-            <S.MultipleIconButton type="button" onClick={() => onClickSelectOption(value)}>
-              <Icon type="multipleEmpty" size="20px" />
-            </S.MultipleIconButton>
+            <IconButton type="button" onClick={() => onClickSelectOption(value)} icon="multipleEmpty" size="20px" />
           )}
           {selected.includes(value) && (
-            <S.MultipleIconButton type="button" onClick={() => onClickDeselectOption(value)}>
-              <Icon type="multipleFull" size="20px" fill={theme.colors.blue3} />
-            </S.MultipleIconButton>
+            <IconButton
+              type="button"
+              onClick={() => onClickDeselectOption(value)}
+              icon="multipleFull"
+              size="20px"
+              fill={theme.colors.blue3}
+            />
           )}
           <S.Option>{value}</S.Option>
         </S.MultipleWrapper>

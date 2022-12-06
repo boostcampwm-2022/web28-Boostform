@@ -14,6 +14,7 @@ import QuestionRead from "components/QuestionRead";
 import TitleDropdown from "components/CategoryDropdown";
 import ShareFormModal from "components/Modal/ShareFormModal";
 import Button from "components/atoms/Button";
+import IconButton from "components/atoms/IconButton";
 import theme from "styles/theme";
 import writeReducer from "reducer/formEdit";
 import { FormState, FormDataApi, QuestionType } from "types/form";
@@ -245,18 +246,27 @@ function Edit() {
                               </S.QuestionBody>
                               <S.HorizontalRule />
                               <S.QuestionTail>
-                                <S.QuestionTailButton type="button" onClick={() => onClickAddQuestion(questionIndex)}>
-                                  <Icon type="add" size="21px" />
-                                </S.QuestionTailButton>
-                                <S.QuestionTailButton type="button" onClick={() => onClickCopyQuestion(questionIndex)}>
-                                  <Icon type="copy" size="18px" />
-                                </S.QuestionTailButton>
-                                <S.QuestionTailButton
+                                <IconButton
+                                  type="button"
+                                  onClick={() => onClickAddQuestion(questionIndex)}
+                                  icon="add"
+                                  size="21px"
+                                  custom="margin-right: 12px;"
+                                />
+                                <IconButton
+                                  type="button"
+                                  onClick={() => onClickCopyQuestion(questionIndex)}
+                                  icon="copy"
+                                  size="18px"
+                                  custom="margin-right: 12px;"
+                                />
+                                <IconButton
                                   type="button"
                                   onClick={() => onClickDeleteQuestion(questionIndex)}
-                                >
-                                  <Icon type="trashcan" size="18px" />
-                                </S.QuestionTailButton>
+                                  icon="trashcan"
+                                  size="18px"
+                                  custom="margin-right: 12px;"
+                                />
                                 <S.EssentialWrapper>
                                   <S.EssentialText>필수</S.EssentialText>
                                   <ToggleButton

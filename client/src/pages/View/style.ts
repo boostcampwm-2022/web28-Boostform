@@ -52,27 +52,9 @@ const BottomContainer = styled.div`
   padding: 20px;
 `;
 
-const SubmitButton = styled.button`
-  background-color: ${({ theme }) => theme.colors.blue5};
-  color: ${({ theme }) => theme.colors.white};
-  padding: 8px 16px;
-  border: 1px solid ${({ theme }) => theme.colors.grey3};
-  border-radius: 8px;
-  cursor: pointer;
-`;
-
 const Essential = styled.span`
   color: red;
   margin-left: 8px;
 `;
 
-export {
-  Container,
-  HeadContainer,
-  HeadTitle,
-  HeadDescription,
-  QuestionContainer,
-  BottomContainer,
-  SubmitButton,
-  Essential,
-};
+export { Container, HeadContainer, HeadTitle, HeadDescription, QuestionContainer, BottomContainer, Essential };

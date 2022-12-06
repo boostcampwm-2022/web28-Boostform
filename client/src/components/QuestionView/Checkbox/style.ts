@@ -16,13 +16,6 @@ const Option = styled.div`
   margin-left: 8px;
 `;
 
-const CheckIconButton = styled.button`
-  margin: 0;
-  padding: 0;
-  background-color: transparent;
-  border: 0;
-`;
-
 const VaidationWrapper = styled.div`
   display: flex;
   align-items: center;
@@ -35,4 +28,4 @@ const ValidationText = styled.span`
   margin-left: 5px;
 `;
 
-export { Container, ObjectiveWrapper, Option, CheckIconButton, VaidationWrapper, ValidationText };
+export { Container, ObjectiveWrapper, Option, VaidationWrapper, ValidationText };

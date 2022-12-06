@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Icon from "components/Icon";
+import IconButton from "components/atoms/IconButton";
 import theme from "styles/theme";
 import { QuestionViewProps } from "../type";
 import * as S from "./style";
@@ -47,14 +48,16 @@ function Checkbox({
       {option.map(({ choiceId, value }) => (
         <S.ObjectiveWrapper key={choiceId}>
           {selected !== value && (
-            <S.CheckIconButton type="button" onClick={() => onClickSelectOption(value)}>
-              <Icon type="checkboxEmpty" size="20px" />
-            </S.CheckIconButton>
+            <IconButton type="button" onClick={() => onClickSelectOption(value)} icon="checkboxEmpty" size="20px" />
           )}
           {selected === value && (
-            <S.CheckIconButton type="button" onClick={() => onClickDeselectOption()}>
-              <Icon type="checkboxFull" size="20px" fill={theme.colors.blue3} />
-            </S.CheckIconButton>
+            <IconButton
+              type="button"
+              onClick={() => onClickDeselectOption()}
+              icon="checkboxFull"
+              size="20px"
+              fill={theme.colors.blue3}
+            />
           )}
           <S.Option>{value}</S.Option>
         </S.ObjectiveWrapper>

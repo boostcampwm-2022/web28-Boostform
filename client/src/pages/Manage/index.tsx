@@ -5,6 +5,7 @@ import Head from "components/Header";
 import Icon from "components/Icon";
 import FormLayout from "components/Layout";
 import Button from "components/atoms/Button";
+import IconButton from "components/atoms/IconButton";
 import theme from "styles/theme";
 import useModal from "hooks/useModal";
 import OutsideDetecter from "hooks/useOutsideDetecter";
@@ -45,7 +46,7 @@ function Manage() {
     navigate(`/forms/${formId}/edit`);
   };
 
-  const onClickFetchForms: React.MouseEventHandler<HTMLButtonElement> = () => {
+  const onClickFetchForms = () => {
     setSize(fetchedForms.length);
   };
 
@@ -185,9 +186,7 @@ function Manage() {
               ))}
             </>
             <S.ButtonContainer>
-              <S.Button type="button" onClick={onClickFetchForms}>
-                <Icon type="plus" size="24px" />
-              </S.Button>
+              <IconButton type="button" onClick={onClickFetchForms} icon="plus" size="24px" />
             </S.ButtonContainer>
           </S.FormListContainer>
 

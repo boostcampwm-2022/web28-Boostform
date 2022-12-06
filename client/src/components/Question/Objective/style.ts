@@ -27,13 +27,6 @@ const Input = styled.input`
   }
 `;
 
-const DeleteButton = styled.button`
-  background-color: transparent;
-  border: 0;
-  cursor: pointer;
-  margin-left: 12px;
-`;
-
 const AddOptionWrapper = styled.div`
   margin-left: 8px;
 `;
@@ -46,4 +39,4 @@ const AddOptionButton = styled.button`
   color: ${({ theme }) => theme.colors.grey5};
 `;
 
-export { Container, ChoiceWrapper, Input, DeleteButton, AddOptionWrapper, AddOptionButton };
+export { Container, ChoiceWrapper, Input, AddOptionWrapper, AddOptionButton };

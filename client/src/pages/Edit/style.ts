@@ -116,17 +116,6 @@ const QuestionTail = styled.div`
   margin-top: 18px;
 `;
 
-const QuestionTailButton = styled.button`
-  border: 0;
-  background-color: transparent;
-  cursor: pointer;
-  margin-right: 5px;
-
-  &:active {
-    transform: translateY(1px);
-  }
-`;
-
 const EssentialWrapper = styled.div`
   display: flex;
   align-items: center;
@@ -190,7 +179,6 @@ export {
   QuestionBody,
   HorizontalRule,
   QuestionTail,
-  QuestionTailButton,
   EssentialWrapper,
   EssentialText,
   TitleCategoryWrapper,
