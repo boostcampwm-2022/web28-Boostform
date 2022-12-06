@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Layout from "components/Layout";
-import Header from "components/Header";
+import Header from "components/organisms/Header";
 import Button from "components/atoms/Button";
 import theme from "styles/theme";
 import boardApi from "api/forumApi";

@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import Header from "components/Header";
+import Header from "components/organisms/Header";
 import FormLayout from "components/Layout";
 import Button from "components/atoms/Button";
 import theme from "styles/theme";
