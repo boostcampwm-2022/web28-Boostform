@@ -2,23 +2,24 @@ import styled from "styled-components";
 
 const Container = styled.div`
   position: relative;
-  width: 220px;
-  margin-top: 16px;
+  width: 150px;
 `;
 
-const Button = styled.button`
+const Button = styled.button<{ fontSize: string; border: string; padding: string; color: string; bold: boolean }>`
   display: flex;
-  padding: 10px;
+  padding: ${({ padding }) => padding};
   align-items: center;
   width: 100%;
-  height: 100%;
-  border: 1px solid ${({ theme }) => theme.colors.grey3};
+  border: ${({ border }) => (border === "none" ? "none" : `1px solid ${border}`)};
+  font-size: ${({ fontSize }) => fontSize};
+  color: ${({ color }) => color};
+  font-weight: ${({ bold }) => (bold ? 700 : 400)};
   border-radius: 3px;
   background-color: transparent;
   cursor: pointer;
 `;
 
-const Content = styled.ul`
+const Content = styled.ul<{ custom: string }>`
   width: 100%;
   position: absolute;
   z-index: 1;
@@ -26,6 +27,8 @@ const Content = styled.ul`
   padding: 10px 0;
   border-radius: 3px;
   border: 1px solid ${({ theme }) => theme.colors.grey3};
+
+  ${({ custom }) => custom}
 
   li {
     text-align: left;
@@ -36,13 +39,14 @@ const Content = styled.ul`
   }
 `;
 
-const DropdownButton = styled.button`
+const DropdownButton = styled.button<{ fontSize: string }>`
   display: flex;
   align-items: center;
   padding: 10px;
   width: 100%;
   border: 0;
   background-color: transparent;
+  font-size: ${({ fontSize }) => fontSize};
   cursor: pointer;
 `;
 
