@@ -8,7 +8,7 @@ import { DragDropContext, Droppable, Draggable, DropResult, DragStart } from "re
 import FormLayout from "components/Layout";
 import Dropdown from "components/QuestionTypeDropdown";
 import Question from "components/Question";
-import Icon from "components/Icon";
+import Icon from "components/atoms/Icon";
 import ToggleButton from "components/ToggleButton";
 import QuestionRead from "components/QuestionRead";
 import TitleDropdown from "components/CategoryDropdown";

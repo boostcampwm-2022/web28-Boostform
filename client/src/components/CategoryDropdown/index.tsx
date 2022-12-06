@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Icon from "components/Icon";
+import Icon from "components/atoms/Icon";
 import OutsideDetecter from "hooks/useOutsideDetecter";
 import * as S from "./style";
 import CategoryDropdownProps from "./type";

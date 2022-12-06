@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Icon from "components/Icon";
+import Icon from "components/atoms/Icon";
 import IconButton from "components/atoms/IconButton";
 import theme from "styles/theme";
 import { QuestionViewProps } from "../type";

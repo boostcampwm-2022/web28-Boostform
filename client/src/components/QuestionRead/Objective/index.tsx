@@ -1,5 +1,5 @@
 import React from "react";
-import Icon from "components/Icon";
+import Icon from "components/atoms/Icon";
 import { QuestionState } from "types/form";
 import theme from "styles/theme";
 import * as S from "./style";

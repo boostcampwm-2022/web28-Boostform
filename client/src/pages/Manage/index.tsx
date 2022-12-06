@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import formApi from "api/formApi";
 import Head from "components/Header";
-import Icon from "components/Icon";
+import Icon from "components/atoms/Icon";
 import FormLayout from "components/Layout";
 import Button from "components/atoms/Button";
 import IconButton from "components/atoms/IconButton";

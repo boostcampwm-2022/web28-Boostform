@@ -1,6 +1,6 @@
 import React from "react";
-import Icon from "components/Icon";
-import { IconType } from "components/Icon/type";
+import Icon from "components/atoms/Icon";
+import { IconType } from "components/atoms/Icon/type";
 import IconButtonComponent from "./style";
 
 interface IconButtonProps {

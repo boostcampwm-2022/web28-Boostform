@@ -1,4 +1,4 @@
-import Icon from "components/Icon";
+import Icon from "components/atoms/Icon";
 import React from "react";
 import theme from "styles/theme";
 import { QuestionViewProps } from "../type";
