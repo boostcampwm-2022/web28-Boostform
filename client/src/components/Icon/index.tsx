@@ -20,7 +20,7 @@ import { ReactComponent as Error } from "assets/Icon/error.svg";
 import { ReactComponent as Chain } from "assets/Icon/chain.svg";
 import { ReactComponent as Logo } from "assets/Icon/logo.svg";
 import Container from "./style";
-import IconProps from "./type";
+import { IconProps } from "./type";
 
 function Icon({ type, size, fill }: IconProps) {
   return (
