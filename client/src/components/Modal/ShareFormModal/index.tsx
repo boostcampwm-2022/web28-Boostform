@@ -1,5 +1,5 @@
 import React from "react";
-import ToggleButton from "components/ToggleButton";
+import ToggleButton from "components/molecules/ToggleButton";
 import Icon from "components/atoms/Icon";
 import Button from "components/atoms/Button";
 import theme from "styles/theme";

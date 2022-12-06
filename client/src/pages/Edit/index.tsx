@@ -9,7 +9,7 @@ import FormLayout from "components/Layout";
 import Dropdown from "components/QuestionTypeDropdown";
 import Question from "components/Question";
 import Icon from "components/atoms/Icon";
-import ToggleButton from "components/ToggleButton";
+import ToggleButton from "components/molecules/ToggleButton";
 import QuestionRead from "components/QuestionRead";
 import TitleDropdown from "components/CategoryDropdown";
 import ShareFormModal from "components/Modal/ShareFormModal";
