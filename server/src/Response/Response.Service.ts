@@ -54,7 +54,7 @@ class ResponseService {
   }
 
   static async updateResponse(responseId: string, answerList: Array<AnswerInterface>) {
-    await FormResponse.findOneAndUpdate({ _id: responseId }, { answer_list: answerList });
+    await redisCli.hSet("response_update", responseId, JSON.stringify(answerList));
   }
 
   static getAnswerListForDB(answerListFromRequest: Array<AnswerFromRequest>) {
