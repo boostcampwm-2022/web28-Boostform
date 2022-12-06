@@ -1,33 +1,25 @@
 {
   "config": {
-    "target": "http://101.101.208.135:8080",
+    "target": "http://localhost:8080",
     "phases": [
       {
         "name": "phase1",
         "duration": 10,
-        "arrivalRate": 100
+        "arrivalRate": 80
       }
     ],
     "payload": {
-      "path": "../../options.csv",
+      "path": "options.csv",
       "fields": ["question1", "question2", "question3"]
     },
     "variables": {
-      "formId": "637e2d875d07882cfce8a076"
+      "formId": "637e2d988defe2cc0404ff2c"
     }
   },
   "scenarios": [
     {
-      "name": "Get Form And Post Response",
+      "name": "Response and update",
       "flow": [
-        {
-          "get": {
-            "url": "/api/responses/{{formId}}/response-page"
-          }
-        },
-        {
-          "think": 10
-        },
         {
           "post": {
             "url": "/api/responses/{{formId}}",
@@ -46,13 +38,7 @@
                   "answer": ["{{question3}}"]
                 }
               ]
-            },
-            "capture": [
-              {
-                "json": "$.responseId",
-                "as": "responseId"
-              }
-            ]
+            }
           }
         }
       ]

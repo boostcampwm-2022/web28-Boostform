@@ -18,7 +18,7 @@
   },
   "scenarios": [
     {
-      "name": "Response and update",
+      "name": "Post Response",
       "flow": [
         {
           "post": {
