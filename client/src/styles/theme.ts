@@ -19,6 +19,17 @@ const colors = {
   red1: "#d93025",
 };
 
+const fontSize = {
+  sz48: "48px",
+  sz32: "32px",
+  sz24: "24px",
+  sz20: "20px",
+  sz16: "16px",
+  sz14: "14px",
+  sz12: "12px",
+  sz10: "10px",
+};
+
 const common = {
   flexCenter: `
     display: flex;
@@ -35,6 +46,7 @@ const common = {
 
 const theme = {
   colors,
+  fontSize,
   common,
 };
 
