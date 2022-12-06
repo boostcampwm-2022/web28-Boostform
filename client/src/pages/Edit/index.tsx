@@ -6,12 +6,12 @@ import { useQuery } from "@tanstack/react-query";
 import { DragDropContext, Droppable, Draggable, DropResult, DragStart } from "react-beautiful-dnd";
 
 import FormLayout from "components/Layout";
-import Dropdown from "components/QuestionTypeDropdown";
+import IconDropdown from "components/molecules/Dropdown/IconDropdown";
 import Question from "components/Question";
 import Icon from "components/atoms/Icon";
 import ToggleButton from "components/molecules/ToggleButton";
 import QuestionRead from "components/QuestionRead";
-import TitleDropdown from "components/CategoryDropdown";
+import TextDropdown from "components/molecules/Dropdown/TextDropdown";
 import ShareFormModal from "components/organisms/Modal/ShareFormModal";
 import Button from "components/atoms/Button";
 import IconButton from "components/atoms/IconButton";
@@ -21,6 +21,7 @@ import { FormState, FormDataApi, QuestionType } from "types/form";
 import formApi from "api/formApi";
 import { fromApiToForm, fromFormToApi } from "utils/form";
 import useModal from "hooks/useModal";
+import { CATEGORY_LIST, QUESTION_TYPE_LIST } from "store/form";
 import * as S from "./style";
 
 const initialState: FormState = {
@@ -180,7 +181,7 @@ function Edit() {
                 {form.description ? form.description : "설문지 설명"}
               </S.DescriptionRead>
               <S.TitleCategoryWrapper>
-                <S.TitleCategoryText>{form.category}</S.TitleCategoryText>
+                <S.TitleCategoryText>{form.category || "카테고리를 선택해주세요"}</S.TitleCategoryText>
               </S.TitleCategoryWrapper>
             </>
           )}
@@ -188,7 +189,12 @@ function Edit() {
             <>
               <S.TitleInput onInput={onInputTitle} value={form.title} />
               <S.DescriptionInput onInput={onInputDescription} value={form.description} placeholder="설문지 설명" />
-              <TitleDropdown state={form.category} setState={onClickSelectCategory} />
+              <TextDropdown
+                state={form.category}
+                setState={onClickSelectCategory}
+                items={CATEGORY_LIST}
+                defaultState="카테고리를 선택해주세요"
+              />
             </>
           )}
         </S.TitleContainer>
@@ -228,11 +234,17 @@ function Edit() {
                                   value={question[questionIndex].title}
                                   placeholder="질문"
                                 />
-                                <Dropdown
+                                <IconDropdown
                                   state={type}
-                                  setState={(questionType: QuestionType) => {
-                                    onClickSetQuestionType(questionType, questionIndex);
+                                  setState={(questionType: string) => {
+                                    const isQuestionType = (str: string): str is QuestionType =>
+                                      str === "checkbox" || str === "multiple" || str === "paragraph";
+
+                                    if (isQuestionType(questionType))
+                                      onClickSetQuestionType(questionType, questionIndex);
                                   }}
+                                  items={QUESTION_TYPE_LIST}
+                                  defaultValue="선택해주세요"
                                 />
                               </S.QuestionHead>
                               <S.QuestionBody>
