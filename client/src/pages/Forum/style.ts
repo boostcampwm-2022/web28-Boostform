@@ -93,8 +93,18 @@ const labelRadio = styled.label`
   cursor: pointer;
 `;
 
+const spanCategoryText = styled.span`
+  font-size: 12px;
+  margin-right: 8px;
+  line-height: 15px;
+  vertical-align: center;
+  color: ${({ theme }) => theme.colors.grey8};
+`;
+
 const divCategoryWrapper = styled.div`
-  padding-right: 24px;
+  display: flex;
+  align-items: center;
+  padding-top: 6px;
 `;
 
 export {
@@ -113,5 +123,6 @@ export {
   divSortList,
   inputRadio,
   labelRadio,
+  spanCategoryText,
   divCategoryWrapper,
 };

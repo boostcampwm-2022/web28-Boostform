@@ -7,7 +7,9 @@ import theme from "styles/theme";
 import boardApi from "api/forumApi";
 import { useQuery } from "@tanstack/react-query";
 import CategoryDropdown from "components/CategoryDropdown";
+import TextDropdown from "components/molecules/Dropdown/TextDropdown";
 import { ForumCategory, OrderBy } from "types/forum";
+import { CATEGORY_FORUM_LIST } from "store/form";
 import * as S from "./style";
 
 interface FormListApi {
@@ -82,7 +84,15 @@ function Forum() {
               <S.labelRadio htmlFor="responseDesc">응답 낮은순</S.labelRadio>
             </S.divSortList>
             <S.divCategoryWrapper>
-              <CategoryDropdown state={category} setState={() => setCategory("전체")} />
+              <S.spanCategoryText>카테고리</S.spanCategoryText>
+              <TextDropdown state={category} defaultState="카테고리를 선택해주세요" fontSize={theme.fontSize.sz12}>
+                <TextDropdown.Head border="none" padding="0px" color={theme.colors.blue3} bold />
+                <TextDropdown.ItemList custom="top 26px;">
+                  {CATEGORY_FORUM_LIST.map((value) => (
+                    <TextDropdown.Item key={value} value={value} onClick={() => setCategory("전체")} />
+                  ))}
+                </TextDropdown.ItemList>
+              </TextDropdown>
             </S.divCategoryWrapper>
           </S.divSortWrapper>
           <S.divFormList>

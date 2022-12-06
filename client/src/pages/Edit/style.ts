@@ -30,6 +30,7 @@ const TitleInput = styled.input`
 const DescriptionInput = styled.input`
   width: 100%;
   margin-top: 10px;
+  margin-bottom: 16px;
   display: block;
   font-size: 16px;
   padding: 5px 0;
@@ -129,7 +130,7 @@ const EssentialText = styled.span`
 `;
 
 const TitleCategoryWrapper = styled.div`
-  width: 220px;
+  width: 150px;
   height: 41px;
   display: flex;
   align-items: center;

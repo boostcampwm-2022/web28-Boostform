@@ -12,6 +12,7 @@ import Icon from "components/atoms/Icon";
 import ToggleButton from "components/molecules/ToggleButton";
 import QuestionRead from "components/QuestionRead";
 import TextDropdown from "components/molecules/Dropdown/TextDropdown";
+
 import ShareFormModal from "components/organisms/Modal/ShareFormModal";
 import Button from "components/atoms/Button";
 import IconButton from "components/atoms/IconButton";
@@ -189,12 +190,14 @@ function Edit() {
             <>
               <S.TitleInput onInput={onInputTitle} value={form.title} />
               <S.DescriptionInput onInput={onInputDescription} value={form.description} placeholder="설문지 설명" />
-              <TextDropdown
-                state={form.category}
-                setState={onClickSelectCategory}
-                items={CATEGORY_LIST}
-                defaultState="카테고리를 선택해주세요"
-              />
+              <TextDropdown state={form.category} defaultState="카테고리를 선택해주세요">
+                <TextDropdown.Head />
+                <TextDropdown.ItemList>
+                  {CATEGORY_LIST.map((value) => (
+                    <TextDropdown.Item key={value} value={value} onClick={() => onClickSelectCategory(value)} />
+                  ))}
+                </TextDropdown.ItemList>
+              </TextDropdown>
             </>
           )}
         </S.TitleContainer>
