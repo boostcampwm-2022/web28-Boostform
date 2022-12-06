@@ -14,12 +14,12 @@ const TitleContainer = styled.div`
 const TitleInput = styled.input`
   width: 100%;
   display: block;
-  font-size: 32px;
+  font-size: ${({ theme }) => theme.fontSize.sz24};
   padding: 5px 0;
   border: none;
   border-bottom: 1px solid ${({ theme }) => theme.colors.grey3};
   font-family: Arial, Helvetica, sans-serif;
-  line-height: 48px;
+  line-height: 36px;
 
   &:focus {
     outline: none;
@@ -32,7 +32,7 @@ const DescriptionInput = styled.input`
   margin-top: 10px;
   margin-bottom: 16px;
   display: block;
-  font-size: 16px;
+  font-size: ${({ theme }) => theme.fontSize.sz16};
   padding: 5px 0;
   border: none;
   border-bottom: 1px solid ${({ theme }) => theme.colors.grey3};
@@ -48,19 +48,19 @@ const DescriptionInput = styled.input`
 const TitleRead = styled.div`
   width: 100%;
   display: block;
-  font-size: 32px;
+  font-size: ${({ theme }) => theme.fontSize.sz24};
   padding: 5px 0;
   border: none;
   border-bottom: 1px solid ${({ theme }) => theme.colors.grey3};
   font-family: Arial, Helvetica, sans-serif;
-  line-height: 48px;
+  line-height: 36px;
 `;
 
 const DescriptionRead = styled.div<{ isEmpty: boolean }>`
   width: 100%;
   margin-top: 10px;
   display: block;
-  font-size: 16px;
+  font-size: ${({ theme }) => theme.fontSize.sz16};
   padding: 5px 0;
   border: none;
   color: ${({ isEmpty, theme }) => (isEmpty ? theme.colors.grey5 : theme.colors.black)};

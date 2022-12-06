@@ -182,7 +182,7 @@ function Edit() {
                 {form.description ? form.description : "설문지 설명"}
               </S.DescriptionRead>
               <S.TitleCategoryWrapper>
-                <S.TitleCategoryText>{form.category || "카테고리를 선택해주세요"}</S.TitleCategoryText>
+                <S.TitleCategoryText>{form.category || "카테고리"}</S.TitleCategoryText>
               </S.TitleCategoryWrapper>
             </>
           )}
@@ -190,7 +190,7 @@ function Edit() {
             <>
               <S.TitleInput onInput={onInputTitle} value={form.title} />
               <S.DescriptionInput onInput={onInputDescription} value={form.description} placeholder="설문지 설명" />
-              <TextDropdown state={form.category} defaultState="카테고리를 선택해주세요">
+              <TextDropdown state={form.category} defaultState="카테고리">
                 <TextDropdown.Head />
                 <TextDropdown.ItemList>
                   {CATEGORY_LIST.map((value) => (

@@ -14,7 +14,7 @@ const HeadContainer = styled.div`
 const HeadTitle = styled.div`
   width: 100%;
   display: block;
-  font-size: 32px;
+  font-size: ${({ theme }) => theme.fontSize.sz24};
   padding: 5px 0;
   border: none;
   font-family: Arial, Helvetica, sans-serif;
