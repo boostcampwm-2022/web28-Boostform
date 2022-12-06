@@ -1,6 +1,4 @@
 import FormResponse from "./Response.Model";
-import Form from "../Form/Form.Model";
-import FormService from "../Form/Form.Service";
 import { redisCli } from "../app";
 import { AnswerInterface, AnswerFromRequest } from "./Response.Interface";
 
@@ -20,16 +18,26 @@ class ResponseService {
 
     await redisCli.hSet("response", newResponse.id, JSON.stringify(newResponse));
     await redisCli.hIncrBy("count", formId, 1);
-    // await newResponse.save();
-    // await Form.findOneAndUpdate({ _id: formId }, { $inc: { response_count: 1 } }).exec();
 
     return newResponse.id;
   }
 
-  static async getResponse(responseId: string): Promise<any> {
-    const rawResponse = await FormResponse.findOne({ _id: responseId });
+  static async getResponse(responseId: string) {
+    // redis에서 이전에 제출한 응답 찾기
+    let rawResponse = await redisCli.hGet("response", responseId);
+    if (!rawResponse) {
+      rawResponse = await redisCli.hGet("response_update", responseId);
+    }
 
-    const answerList = rawResponse?.answer_list.map((rawAnswer) => {
+    // redis에서 이전에 제출한 응답을 찾았다면, JSON형태로 변환해준다
+    // redis에서 이전에 제출한 응답을 찾지 못했다면, DB에 접근하여 이전에 제출한 응답을 찾는다
+    if (rawResponse) {
+      rawResponse = JSON.parse(rawResponse);
+    } else {
+      rawResponse = await FormResponse.findById(responseId);
+    }
+
+    const answerList = rawResponse?.answer_list.map((rawAnswer: AnswerInterface) => {
       return {
         questionId: rawAnswer.question_id,
         answer: rawAnswer.answer,
