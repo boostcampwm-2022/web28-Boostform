@@ -5,7 +5,9 @@ const Container = styled.section`
   margin: 0 32px;
 `;
 
-const HeaderContainer = styled.div``;
+const HeaderContainer = styled.div`
+  margin-top: 24px;
+`;
 
 const Header = styled.ul`
   display: flex;
@@ -13,6 +15,7 @@ const Header = styled.ul`
   justify-content: space-around;
 
   padding: 20px;
+  margin-top: 20px;
   margin-bottom: 20px;
 
   border-radius: 9px;

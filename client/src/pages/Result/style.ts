@@ -5,7 +5,7 @@ const Container = styled.div`
 `;
 
 const HeadContainer = styled.div`
-  margin-top: 12px;
+  margin-top: 36px;
   background-color: ${({ theme }) => theme.colors.white};
   border-radius: 3px;
   padding: 10px 20px;
