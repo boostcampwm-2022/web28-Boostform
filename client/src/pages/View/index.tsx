@@ -6,7 +6,7 @@ import formViewReducer from "reducer/formView";
 import formApi from "api/formApi";
 import { fromApiToForm } from "utils/form";
 import { checkPrevResponseUpdateValidateCheckList, fromApiToValidateCheckList, validationCheck } from "utils/response";
-import FormLayout from "components/organisms/Layout";
+import FormLayout from "components/template/Layout";
 import QuestionView from "components/organisms/View/QuestionView";
 import Button from "components/atoms/Button";
 import theme from "styles/theme";

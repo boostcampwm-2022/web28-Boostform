@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import FormLayout from "components/organisms/Layout";
+import FormLayout from "components/template/Layout";
 import { useQuery } from "@tanstack/react-query";
 import resultApi from "api/resultApi";
 import { ResultApi, QuestionSummary } from "types/result";

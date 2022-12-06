@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { DragDropContext, Droppable, Draggable, DropResult, DragStart } from "react-beautiful-dnd";
 
-import FormLayout from "components/organisms/Layout";
+import FormLayout from "components/template/Layout";
 import IconDropdown from "components/molecules/Dropdown/IconDropdown";
 import Question from "components/organisms/Edit/QuestionEdit";
 import Icon from "components/atoms/Icon";
