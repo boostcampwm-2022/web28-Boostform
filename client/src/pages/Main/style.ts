@@ -22,6 +22,7 @@ const H1 = styled.h1`
 
 const Text = styled.p`
   margin-top: 36px;
+  margin-bottom: 24px;
   font-size: 20px;
   color: ${({ theme }) => theme.colors.grey5};
   line-height: 28px;
@@ -34,24 +35,10 @@ const ImageContainer = styled.div`
   user-select: none;
 `;
 
-const Button = styled.button`
-  background-color: ${({ theme }) => theme.colors.blue2};
-  font-weight: 400;
-  color: ${({ theme }) => theme.colors.white};
-  font-size: 15px;
-  padding: 8px 16px;
-  border: none;
-  font-size: 18px;
-  border-radius: 2px;
-  margin-top: 24px;
-  cursor: pointer;
-  user-select: none;
-`;
-
 const Image = styled.img`
   width: 100%;
   min-width: 400px;
   max-width: 600px;
 `;
 
-export { Container, TextContainer, ImageContainer, H1, Image, Button, Text };
+export { Container, TextContainer, ImageContainer, H1, Image, Text };

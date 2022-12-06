@@ -170,15 +170,6 @@ const BottomContainer = styled.div`
   padding: 20px;
 `;
 
-const ShareButton = styled.button`
-  background-color: ${({ theme }) => theme.colors.blue5};
-  color: ${({ theme }) => theme.colors.white};
-  padding: 8px 16px;
-  border: 1px solid ${({ theme }) => theme.colors.grey3};
-  border-radius: 8px;
-  cursor: pointer;
-`;
-
 const DragIndicator = styled.div`
   height: 30px;
   display: flex;
@@ -205,6 +196,5 @@ export {
   TitleCategoryWrapper,
   TitleCategoryText,
   BottomContainer,
-  ShareButton,
   DragIndicator,
 };

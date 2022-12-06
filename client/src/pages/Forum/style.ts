@@ -25,6 +25,7 @@ const pDescription = styled.p`
 const divSearchBox = styled.div`
   margin-top: 36px;
   margin-bottom: 8px;
+  display: flex;
 `;
 
 const inputSearch = styled.input`
@@ -35,18 +36,6 @@ const inputSearch = styled.input`
   border-radius: 3px;
   font-size: 12px;
   vertical-align: top;
-`;
-
-const buttonSearch = styled.button`
-  width: 65px;
-  height: 37px;
-  margin-left: 2px;
-  font-size: 12px;
-  background-color: ${({ theme }) => theme.colors.grey4};
-  border-radius: 3px;
-  border: 0;
-  color: ${({ theme }) => theme.colors.white};
-  cursor: pointer;
 `;
 
 const divFormList = styled.div`
@@ -78,19 +67,6 @@ const spanItemDate = styled.span`
 const divItemButtonWrapper = styled.div`
   display: flex;
   margin-top: 16px;
-`;
-
-const buttonFormItem = styled.button`
-  padding: 9px 14px 10px;
-  margin-bottom: 5px;
-  margin-right: 8px;
-  text-align: center;
-  font-size: 13px;
-  font-weight: 400;
-  color: ${({ theme }) => theme.colors.white};
-  border: 1px solid ${({ theme }) => theme.colors.grey3};
-  background-color: ${({ theme }) => theme.colors.grey4};
-  cursor: pointer;
 `;
 
 const divSortWrapper = styled.div`
@@ -128,13 +104,11 @@ export {
   pDescription,
   divSearchBox,
   inputSearch,
-  buttonSearch,
   divFormList,
   divFormItem,
   h3ItemTitle,
   spanItemDate,
   divItemButtonWrapper,
-  buttonFormItem,
   divSortWrapper,
   divSortList,
   inputRadio,

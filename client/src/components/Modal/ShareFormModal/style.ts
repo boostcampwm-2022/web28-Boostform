@@ -31,27 +31,9 @@ const ButtonContainer = styled.div`
   justify-content: right;
 `;
 
-const Button = styled.button`
-  background-color: ${({ theme }) => theme.colors.blue5};
-  color: ${({ theme }) => theme.colors.white};
-  padding: 8px 16px;
-  border: 1px solid ${({ theme }) => theme.colors.grey3};
-  border-radius: 8px;
-  cursor: pointer;
-  margin-left: 16px;
-`;
-
-const CopyLinkButton = styled.button`
-  display: flex;
-  align-items: center;
-  border: 0;
-  background-color: transparent;
-  cursor: pointer;
-`;
-
 const CopyLinkText = styled.span`
   color: ${({ theme }) => theme.colors.blue4};
   margin-left: 6px;
 `;
 
-export { Container, ToggleWrapper, Title, ButtonContainer, Button, CopyLinkButton, CopyLinkText };
+export { Container, ToggleWrapper, Title, ButtonContainer, CopyLinkText };

@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Layout from "components/Layout";
 import Header from "components/Header";
+import Button from "components/atoms/Button";
+import theme from "styles/theme";
 import boardApi from "api/forumApi";
 import { useQuery } from "@tanstack/react-query";
 import CategoryDropdown from "components/CategoryDropdown";
@@ -39,9 +41,16 @@ function Forum() {
               placeholder="검색어를 입력해주세요"
               onInput={(e) => setKeyword(e.currentTarget.value)}
             />
-            <S.buttonSearch type="button" onClick={() => refetch()}>
+            <Button
+              type="button"
+              onClick={() => refetch()}
+              fontSize={theme.fontSize.sz12}
+              backgroundColor={theme.colors.blue3}
+              color={theme.colors.white}
+              custom="margin-left: 2px;"
+            >
               검색
-            </S.buttonSearch>
+            </Button>
           </S.divSearchBox>
           <S.divSortWrapper>
             <S.divSortList>
@@ -87,12 +96,24 @@ function Forum() {
                   <S.spanItemDate>응답 수: {responseCount}</S.spanItemDate>
                 </div>
                 <S.divItemButtonWrapper>
-                  <S.buttonFormItem onClick={() => navigate(`/forms/${formId}/view`)}>
+                  <Button
+                    type="button"
+                    onClick={() => navigate(`/forms/${formId}/view`)}
+                    backgroundColor={theme.colors.blue3}
+                    color={theme.colors.white}
+                    custom="margin-right: 8px;"
+                  >
                     설문조사 참여하기
-                  </S.buttonFormItem>
-                  <S.buttonFormItem onClick={() => navigate(`/forms/${formId}/result`)}>
+                  </Button>
+                  <Button
+                    type="button"
+                    onClick={() => navigate(`/forms/${formId}/result`)}
+                    border={theme.colors.blue3}
+                    backgroundColor={theme.colors.white}
+                    color={theme.colors.blue3}
+                  >
                     설문조사 결과보기
-                  </S.buttonFormItem>
+                  </Button>
                 </S.divItemButtonWrapper>
               </S.divFormItem>
             ))}

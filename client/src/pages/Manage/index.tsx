@@ -4,6 +4,8 @@ import formApi from "api/formApi";
 import Head from "components/Header";
 import Icon from "components/Icon";
 import FormLayout from "components/Layout";
+import Button from "components/atoms/Button";
+import theme from "styles/theme";
 import useModal from "hooks/useModal";
 import OutsideDetecter from "hooks/useOutsideDetecter";
 import EditNameModal from "../../components/Modal/EditFormNameModal";
@@ -34,7 +36,7 @@ function Manage() {
       });
   }, [size, navigate]);
 
-  const onClickCreateForm: React.MouseEventHandler<HTMLButtonElement> = async () => {
+  const onClickCreateForm = async () => {
     const { formId } = await formApi.createForm();
     navigate(`/forms/${formId}/edit`);
   };
@@ -106,10 +108,16 @@ function Manage() {
       <FormLayout backgroundColor="white">
         <S.Container>
           <S.HeaderContainer>
-            <S.NewFormButton type="button" onClick={onClickCreateForm}>
-              <Icon type="plus" size="24px" />
+            <Button
+              type="button"
+              onClick={onClickCreateForm}
+              backgroundColor={theme.colors.blue3}
+              color={theme.colors.white}
+              fontSize={theme.fontSize.sz16}
+            >
+              <Icon type="plus" size="24px" fill="white" />
               <S.NewFormText>새 설문지</S.NewFormText>
-            </S.NewFormButton>
+            </Button>
             <S.Header>
               <S.Title>제목</S.Title>
               <S.Status>상태</S.Status>

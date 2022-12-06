@@ -25,7 +25,7 @@ import IconProps from "./type";
 function Icon({ type, size, fill }: IconProps) {
   return (
     <Container>
-      {type === "plus" && <Plus height={size} width={size} />}
+      {type === "plus" && <Plus height={size} width={size} fill={fill} />}
       {type === "kebab" && <Kebab height={size} width={size} />}
       {type === "trashcan" && <TrashCan height={size} width={size} />}
       {type === "text" && <Text height={size} width={size} />}

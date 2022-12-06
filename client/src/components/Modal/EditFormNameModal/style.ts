@@ -38,22 +38,4 @@ const ButtonContainer = styled.div`
   justify-content: right;
 `;
 
-const Button = styled.button`
-  font-size: 12px;
-  margin-left: 12px;
-  border: 1px solid ${({ theme }) => theme.colors.grey3};
-  background-color: ${({ theme }) => theme.colors.white};
-  border-radius: 12px;
-  padding: 5px 15px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: ${({ theme }) => theme.colors.grey1};
-  }
-
-  &:active {
-    transform: translateY(1px);
-  }
-`;
-
-export { Container, ButtonContainer, Button, Input, Title, Text };
+export { Container, ButtonContainer, Input, Title, Text };

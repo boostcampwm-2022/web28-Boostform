@@ -13,6 +13,8 @@ import ToggleButton from "components/ToggleButton";
 import QuestionRead from "components/QuestionRead";
 import TitleDropdown from "components/CategoryDropdown";
 import ShareFormModal from "components/Modal/ShareFormModal";
+import Button from "components/atoms/Button";
+import theme from "styles/theme";
 import writeReducer from "reducer/formEdit";
 import { FormState, FormDataApi, QuestionType } from "types/form";
 import formApi from "api/formApi";
@@ -282,9 +284,15 @@ function Edit() {
           </Droppable>
         </DragDropContext>
         <S.BottomContainer>
-          <S.ShareButton type="button" onClick={() => openModal()}>
+          <Button
+            type="button"
+            onClick={() => openModal()}
+            backgroundColor={theme.colors.blue5}
+            border={theme.colors.grey3}
+            color={theme.colors.white}
+          >
             저장
-          </S.ShareButton>
+          </Button>
         </S.BottomContainer>
       </S.Container>
 
