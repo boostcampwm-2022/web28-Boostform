@@ -27,7 +27,11 @@ function Forum() {
   const [page, setPage] = useState(1);
 
   const fetchFormList = (): Promise<FormListApi[]> => boardApi.getFormList({ title: keyword, category, orderBy, page });
-  const { data, refetch } = useQuery({ queryKey: ["ddd"], queryFn: fetchFormList, keepPreviousData: true });
+  const { data, refetch } = useQuery({
+    queryKey: [keyword, category, orderBy, page],
+    queryFn: fetchFormList,
+    keepPreviousData: true,
+  });
 
   return (
     <Layout backgroundColor="white" title="설문조사 게시판" description="다양한 설문조사를 만나보세요">
@@ -84,7 +88,7 @@ function Forum() {
               <TextDropdown.Head border="none" padding="0px" color={theme.colors.blue3} bold />
               <TextDropdown.ItemList custom="top 26px;">
                 {CATEGORY_FORUM_LIST.map((value) => (
-                  <TextDropdown.Item key={value} value={value} onClick={() => setCategory("전체")} />
+                  <TextDropdown.Item key={value} value={value} onClick={() => setCategory(value)} />
                 ))}
               </TextDropdown.ItemList>
             </TextDropdown>
