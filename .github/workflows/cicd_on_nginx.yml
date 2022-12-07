@@ -3,7 +3,7 @@ run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on:
   push:
     branches:
-      - main
+      - DevOps/NginX/CICD
 jobs:
   Running-Web-Server:
     runs-on: ubuntu-latest
