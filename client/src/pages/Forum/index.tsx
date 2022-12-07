@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Layout from "components/template/Layout";
+import Layout from "components/template/BannerLayout";
 import Button from "components/common/Button";
 import theme from "styles/theme";
 import boardApi from "api/forumApi";
@@ -29,10 +29,8 @@ function Forum() {
   const { data, refetch } = useQuery({ queryKey: ["ddd"], queryFn: fetchFormList, keepPreviousData: true });
 
   return (
-    <Layout backgroundColor="white">
+    <Layout backgroundColor="white" title="설문조사 게시판" description="다양한 설문조사를 만나보세요">
       <S.divContainer>
-        <S.h1Title>설문조사 게시판</S.h1Title>
-        <S.pDescription>다양한 설문조사를 만나보세요</S.pDescription>
         <S.divSearchBox>
           <S.inputSearch
             type="text"

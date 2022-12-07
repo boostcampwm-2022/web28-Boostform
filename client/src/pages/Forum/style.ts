@@ -7,21 +7,6 @@ const divContainer = styled.div`
 
 const divWrapper = styled.div``;
 
-const h1Title = styled.h1`
-  margin-top: 50px;
-  font-size: ${({ theme }) => theme.fontSize.sz32};
-  font-weight: 500;
-  text-align: center;
-`;
-
-const pDescription = styled.p`
-  margin-top: 16px;
-  text-align: center;
-  font-size: ${({ theme }) => theme.fontSize.sz16};
-  font-weight: 400;
-  color: ${({ theme }) => theme.colors.grey5};
-`;
-
 const divSearchBox = styled.div`
   margin-top: 36px;
   margin-bottom: 8px;
@@ -110,10 +95,8 @@ const divCategoryWrapper = styled.div`
 export {
   divContainer,
   divWrapper,
-  h1Title,
   divSearchBox,
   inputSearch,
-  pDescription,
   divFormList,
   divFormItem,
   h3ItemTitle,

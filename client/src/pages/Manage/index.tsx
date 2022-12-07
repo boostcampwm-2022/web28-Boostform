@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import formApi from "api/formApi";
-import ManageLayout from "components/template/Manage";
+import ManageLayout from "components/template/BannerLayout";
 import IconButton from "components/common/IconButton";
 import ManageHead from "components/Manage/Head";
 import ManageFormItem from "components/Manage/FormItem";
@@ -63,7 +63,7 @@ function Manage() {
   };
 
   return (
-    <ManageLayout backgroundColor="white">
+    <ManageLayout backgroundColor="white" title="내 설문조사" description="내가 만든 설문조사 확인하기">
       <S.Container>
         <ManageHead />
         <S.FormListContainer>
