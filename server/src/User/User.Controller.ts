@@ -63,11 +63,7 @@ class UserController {
     userService
       .logout(userID)
       .then(() => {
-        res
-          .status(204)
-          .clearCookie("accessToken")
-          .clearCookie("refreshToken")
-          .redirect(`${process.env.ORIGIN_URL as string}/login`);
+        res.status(204).clearCookie("accessToken").clearCookie("refreshToken");
       })
       .catch((err) => {
         next(err);
