@@ -6,6 +6,7 @@ import theme from "styles/theme";
 import boardApi from "api/forumApi";
 import { useQuery } from "@tanstack/react-query";
 import TextDropdown from "components/common/Dropdown/TextDropdown";
+import Card from "components/common/Card";
 import { ForumCategory, OrderBy } from "types/forum";
 import { CATEGORY_FORUM_LIST } from "store/form";
 import * as S from "./style";
@@ -89,17 +90,16 @@ function Forum() {
             </TextDropdown>
           </S.divCategoryWrapper>
         </S.divSortWrapper>
-        <S.divFormList>
+        <Card>
           {data?.map(({ formId, title, category: formCategory, responseCount }) => (
-            <S.divFormItem key={formId}>
-              <S.h3ItemTitle>{title}</S.h3ItemTitle>
+            <Card.Item key={formId} title={title}>
               <div>
-                <S.spanItemDate>카테고리: {formCategory}</S.spanItemDate>
+                <Card.ItemText>카테고리: {formCategory}</Card.ItemText>
               </div>
               <div>
-                <S.spanItemDate>응답 수: {responseCount}</S.spanItemDate>
+                <Card.ItemText>응답 수: {responseCount}</Card.ItemText>
               </div>
-              <S.divItemButtonWrapper>
+              <Card.ButtonWrapper>
                 <Button
                   type="button"
                   onClick={() => navigate(`/forms/${formId}/view`)}
@@ -118,10 +118,10 @@ function Forum() {
                 >
                   설문조사 결과보기
                 </Button>
-              </S.divItemButtonWrapper>
-            </S.divFormItem>
+              </Card.ButtonWrapper>
+            </Card.Item>
           ))}
-        </S.divFormList>
+        </Card>
       </S.divContainer>
     </Layout>
   );
