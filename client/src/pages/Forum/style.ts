@@ -7,21 +7,6 @@ const divContainer = styled.div`
 
 const divWrapper = styled.div``;
 
-const h1Title = styled.h1`
-  margin-top: 50px;
-  font-size: ${({ theme }) => theme.fontSize.sz32};
-  font-weight: 500;
-  text-align: center;
-`;
-
-const pDescription = styled.p`
-  margin-top: 16px;
-  text-align: center;
-  font-size: ${({ theme }) => theme.fontSize.sz16};
-  font-weight: 400;
-  color: ${({ theme }) => theme.colors.grey5};
-`;
-
 const divSearchBox = styled.div`
   margin-top: 36px;
   margin-bottom: 8px;
@@ -36,37 +21,6 @@ const inputSearch = styled.input`
   border-radius: 3px;
   font-size: 12px;
   vertical-align: top;
-`;
-
-const divFormList = styled.div`
-  padding-top: 17px;
-  border-top: 2px solid ${({ theme }) => theme.colors.grey8};
-`;
-
-const divFormItem = styled.div`
-  padding: 24px 19px 19px;
-  border: 1px solid ${({ theme }) => theme.colors.grey3};
-  margin-top: 7px;
-
-  &:first-child {
-    margin-top: 0;
-  }
-`;
-
-const h3ItemTitle = styled.h3`
-  margin-bottom: 6px;
-  font-size: 16px;
-  font-weight: 600;
-`;
-
-const spanItemDate = styled.span`
-  font-size: 14px;
-  color: #777;
-`;
-
-const divItemButtonWrapper = styled.div`
-  display: flex;
-  margin-top: 16px;
 `;
 
 const divSortWrapper = styled.div`
@@ -110,15 +64,8 @@ const divCategoryWrapper = styled.div`
 export {
   divContainer,
   divWrapper,
-  h1Title,
   divSearchBox,
   inputSearch,
-  pDescription,
-  divFormList,
-  divFormItem,
-  h3ItemTitle,
-  spanItemDate,
-  divItemButtonWrapper,
   divSortWrapper,
   divSortList,
   inputRadio,

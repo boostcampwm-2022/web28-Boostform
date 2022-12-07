@@ -7,7 +7,7 @@ const Container = styled.div`
   transform: translate(-50%, -50%);
 
   width: 400px;
-  border-radius: 9px;
+  border-radius: 3px;
   padding: 24px;
 
   z-index: 2;
@@ -29,7 +29,7 @@ const Input = styled.input`
   width: 100%;
   padding: 5px 10px;
   border: 1px solid ${({ theme }) => theme.colors.grey3};
-  border-radius: 9px;
+  border-radius: 3px;
   margin-bottom: 24px;
 `;
 

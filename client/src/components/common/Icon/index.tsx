@@ -19,12 +19,14 @@ import { ReactComponent as Add } from "assets/Icon/add.svg";
 import { ReactComponent as Error } from "assets/Icon/error.svg";
 import { ReactComponent as Chain } from "assets/Icon/chain.svg";
 import { ReactComponent as Logo } from "assets/Icon/logo.svg";
+import { ReactComponent as Left } from "assets/Icon/left.svg";
+import { ReactComponent as Right } from "assets/Icon/right.svg";
 import Container from "./style";
 import { IconProps } from "./type";
 
 function Icon({ type, size, fill }: IconProps) {
   return (
-    <Container>
+    <Container size={size}>
       {type === "plus" && <Plus height={size} width={size} fill={fill} />}
       {type === "kebab" && <Kebab height={size} width={size} />}
       {type === "trashcan" && <TrashCan height={size} width={size} />}
@@ -45,6 +47,8 @@ function Icon({ type, size, fill }: IconProps) {
       {type === "error" && <Error height={size} width={size} fill={fill} />}
       {type === "chain" && <Chain height={size} width={size} fill={fill} />}
       {type === "logo" && <Logo height={size} width={size} fill={fill} />}
+      {type === "left" && <Left height={size} width={size} fill={fill} />}
+      {type === "right" && <Right height={size} width={size} fill={fill} />}
     </Container>
   );
 }

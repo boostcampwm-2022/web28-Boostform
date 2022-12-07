@@ -1,47 +1,60 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Layout from "components/template/Layout";
+import Layout from "components/template/BannerLayout";
 import Button from "components/common/Button";
 import theme from "styles/theme";
 import boardApi from "api/forumApi";
 import { useQuery } from "@tanstack/react-query";
 import TextDropdown from "components/common/Dropdown/TextDropdown";
+import Card from "components/common/Card";
+import Pagination from "components/common/Pagination";
 import { ForumCategory, OrderBy } from "types/forum";
 import { CATEGORY_FORUM_LIST } from "store/form";
 import * as S from "./style";
 
-interface FormListApi {
+interface FormList {
   formId: string;
   title: string;
   category: string;
   responseCount: number;
 }
 
+interface ForumApi {
+  form: FormList[];
+  lastPage: number;
+}
+
 function Forum() {
   const navigate = useNavigate();
 
-  const [keyword, setKeyword] = useState("t");
+  const [inputSearch, setInputSearch] = useState("");
+  const [keyword, setKeyword] = useState("");
   const [category, setCategory] = useState<ForumCategory>("전체");
   const [orderBy, setOrderBy] = useState<OrderBy>("latestAsc");
   const [page, setPage] = useState(1);
 
-  const fetchFormList = (): Promise<FormListApi[]> => boardApi.getFormList({ title: keyword, category, orderBy, page });
-  const { data, refetch } = useQuery({ queryKey: ["ddd"], queryFn: fetchFormList, keepPreviousData: true });
+  const fetchFormList = (): Promise<ForumApi> => boardApi.getFormList({ title: keyword, category, orderBy, page });
+  const { data, isLoading, isSuccess } = useQuery({
+    queryKey: [keyword, category, orderBy, page],
+    queryFn: fetchFormList,
+  });
 
   return (
-    <Layout backgroundColor="white">
+    <Layout backgroundColor="white" title="설문조사 게시판" description="다양한 설문조사를 만나보세요">
       <S.divContainer>
-        <S.h1Title>설문조사 게시판</S.h1Title>
-        <S.pDescription>다양한 설문조사를 만나보세요</S.pDescription>
         <S.divSearchBox>
           <S.inputSearch
             type="text"
             placeholder="검색어를 입력해주세요"
-            onInput={(e) => setKeyword(e.currentTarget.value)}
+            onInput={(e) => setInputSearch(e.currentTarget.value)}
+            value={inputSearch}
           />
           <Button
             type="button"
-            onClick={() => refetch()}
+            onClick={() => {
+              setKeyword(inputSearch);
+              setPage(1);
+            }}
             fontSize={theme.fontSize.sz12}
             backgroundColor={theme.colors.blue3}
             color={theme.colors.white}
@@ -57,7 +70,10 @@ function Forum() {
               id="latestAsc"
               value="latestAsc"
               checked={orderBy === "latestAsc"}
-              onChange={() => setOrderBy("latestAsc")}
+              onChange={() => {
+                setOrderBy("latestAsc");
+                setPage(1);
+              }}
             />
             <S.labelRadio htmlFor="latestAsc">최신순</S.labelRadio>
 
@@ -66,7 +82,10 @@ function Forum() {
               id="responseAsc"
               value="responseAsc"
               checked={orderBy === "responseAsc"}
-              onChange={() => setOrderBy("responseAsc")}
+              onChange={() => {
+                setOrderBy("responseAsc");
+                setPage(1);
+              }}
             />
             <S.labelRadio htmlFor="responseAsc">응답 높은순</S.labelRadio>
 
@@ -75,7 +94,10 @@ function Forum() {
               id="responseDesc"
               value="responseDesc"
               checked={orderBy === "responseDesc"}
-              onChange={() => setOrderBy("responseDesc")}
+              onChange={() => {
+                setOrderBy("responseDesc");
+                setPage(1);
+              }}
             />
             <S.labelRadio htmlFor="responseDesc">응답 낮은순</S.labelRadio>
           </S.divSortList>
@@ -85,45 +107,59 @@ function Forum() {
               <TextDropdown.Head border="none" padding="0px" color={theme.colors.blue3} bold />
               <TextDropdown.ItemList custom="top 26px;">
                 {CATEGORY_FORUM_LIST.map((value) => (
-                  <TextDropdown.Item key={value} value={value} onClick={() => setCategory("전체")} />
+                  <TextDropdown.Item
+                    key={value}
+                    value={value}
+                    onClick={() => {
+                      setCategory(value);
+                      setPage(1);
+                    }}
+                  />
                 ))}
               </TextDropdown.ItemList>
             </TextDropdown>
           </S.divCategoryWrapper>
         </S.divSortWrapper>
-        <S.divFormList>
-          {data?.map(({ formId, title, category: formCategory, responseCount }) => (
-            <S.divFormItem key={formId}>
-              <S.h3ItemTitle>{title}</S.h3ItemTitle>
-              <div>
-                <S.spanItemDate>카테고리: {formCategory}</S.spanItemDate>
-              </div>
-              <div>
-                <S.spanItemDate>응답 수: {responseCount}</S.spanItemDate>
-              </div>
-              <S.divItemButtonWrapper>
-                <Button
-                  type="button"
-                  onClick={() => navigate(`/forms/${formId}/view`)}
-                  backgroundColor={theme.colors.blue3}
-                  color={theme.colors.white}
-                  custom="margin-right: 8px;"
-                >
-                  설문조사 참여하기
-                </Button>
-                <Button
-                  type="button"
-                  onClick={() => navigate(`/forms/${formId}/result`)}
-                  border={theme.colors.blue3}
-                  backgroundColor={theme.colors.white}
-                  color={theme.colors.blue3}
-                >
-                  설문조사 결과보기
-                </Button>
-              </S.divItemButtonWrapper>
-            </S.divFormItem>
-          ))}
-        </S.divFormList>
+        {data?.form.length ? (
+          <>
+            <Card>
+              {data?.form.map(({ formId, title, category: formCategory, responseCount }) => (
+                <Card.Item key={formId} title={title}>
+                  <div>
+                    <Card.ItemText>카테고리: {formCategory}</Card.ItemText>
+                  </div>
+                  <div>
+                    <Card.ItemText>응답 수: {responseCount}</Card.ItemText>
+                  </div>
+                  <Card.ButtonWrapper>
+                    <Button
+                      type="button"
+                      onClick={() => navigate(`/forms/${formId}/view`)}
+                      backgroundColor={theme.colors.blue3}
+                      color={theme.colors.white}
+                      custom="margin-right: 8px;"
+                    >
+                      설문조사 참여하기
+                    </Button>
+                    <Button
+                      type="button"
+                      onClick={() => navigate(`/forms/${formId}/result`)}
+                      border={theme.colors.blue3}
+                      backgroundColor={theme.colors.white}
+                      color={theme.colors.blue3}
+                    >
+                      설문조사 결과보기
+                    </Button>
+                  </Card.ButtonWrapper>
+                </Card.Item>
+              ))}
+            </Card>
+            <Pagination currentPage={page} lastPage={Number(data?.lastPage)} setPage={setPage} />
+          </>
+        ) : null}
+
+        {isLoading ? <div>loading</div> : null}
+        {isSuccess && !data.form.length ? <div>값이 없음</div> : null}
       </S.divContainer>
     </Layout>
   );
