@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import formApi from "api/formApi";
+import Button from "components/common/Button";
+import theme from "styles/theme";
 import * as S from "./style";
 import EditFormNameModalProps from "./type";
 
@@ -24,12 +26,31 @@ function EditFormNameModal({ closeModal, selectedForm, renderByNameChange }: Edi
       <S.Text>항목의 새 제목을 입력하세요</S.Text>
       <S.Input onInput={onInputChangeName} placeholder="제목 없음" />
       <S.ButtonContainer>
-        <S.Button type="button" onClick={onClickChangeName}>
+        <Button
+          type="button"
+          onClick={onClickChangeName}
+          backgroundColor={theme.colors.white}
+          border={theme.colors.blue2}
+          color={theme.colors.blue2}
+          fontSize={theme.fontSize.sz12}
+          custom="margin-right: 12px;"
+          hover={theme.colors.grey2}
+          active
+        >
           확인
-        </S.Button>
-        <S.Button type="button" onClick={onClickCancelChangeName}>
+        </Button>
+        <Button
+          type="button"
+          onClick={onClickCancelChangeName}
+          backgroundColor={theme.colors.white}
+          border={theme.colors.blue2}
+          color={theme.colors.blue2}
+          fontSize={theme.fontSize.sz12}
+          hover={theme.colors.grey2}
+          active
+        >
           취소
-        </S.Button>
+        </Button>
       </S.ButtonContainer>
     </S.Container>
   );

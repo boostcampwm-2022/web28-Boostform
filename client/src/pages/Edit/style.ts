@@ -5,7 +5,7 @@ const Container = styled.div`
 `;
 
 const TitleContainer = styled.div`
-  margin-top: 12px;
+  margin-top: 36px;
   background-color: ${({ theme }) => theme.colors.white};
   border-radius: 3px;
   padding: 20px;
@@ -14,12 +14,12 @@ const TitleContainer = styled.div`
 const TitleInput = styled.input`
   width: 100%;
   display: block;
-  font-size: 32px;
+  font-size: ${({ theme }) => theme.fontSize.sz24};
   padding: 5px 0;
   border: none;
   border-bottom: 1px solid ${({ theme }) => theme.colors.grey3};
   font-family: Arial, Helvetica, sans-serif;
-  line-height: 48px;
+  line-height: 36px;
 
   &:focus {
     outline: none;
@@ -30,8 +30,9 @@ const TitleInput = styled.input`
 const DescriptionInput = styled.input`
   width: 100%;
   margin-top: 10px;
+  margin-bottom: 16px;
   display: block;
-  font-size: 16px;
+  font-size: ${({ theme }) => theme.fontSize.sz16};
   padding: 5px 0;
   border: none;
   border-bottom: 1px solid ${({ theme }) => theme.colors.grey3};
@@ -47,19 +48,19 @@ const DescriptionInput = styled.input`
 const TitleRead = styled.div`
   width: 100%;
   display: block;
-  font-size: 32px;
+  font-size: ${({ theme }) => theme.fontSize.sz24};
   padding: 5px 0;
   border: none;
   border-bottom: 1px solid ${({ theme }) => theme.colors.grey3};
   font-family: Arial, Helvetica, sans-serif;
-  line-height: 48px;
+  line-height: 36px;
 `;
 
 const DescriptionRead = styled.div<{ isEmpty: boolean }>`
   width: 100%;
   margin-top: 10px;
   display: block;
-  font-size: 16px;
+  font-size: ${({ theme }) => theme.fontSize.sz16};
   padding: 5px 0;
   border: none;
   color: ${({ isEmpty, theme }) => (isEmpty ? theme.colors.grey5 : theme.colors.black)};
@@ -116,17 +117,6 @@ const QuestionTail = styled.div`
   margin-top: 18px;
 `;
 
-const QuestionTailButton = styled.button`
-  border: 0;
-  background-color: transparent;
-  cursor: pointer;
-  margin-right: 5px;
-
-  &:active {
-    transform: translateY(1px);
-  }
-`;
-
 const EssentialWrapper = styled.div`
   display: flex;
   align-items: center;
@@ -140,7 +130,7 @@ const EssentialText = styled.span`
 `;
 
 const TitleCategoryWrapper = styled.div`
-  width: 220px;
+  width: 150px;
   height: 41px;
   display: flex;
   align-items: center;
@@ -170,15 +160,6 @@ const BottomContainer = styled.div`
   padding: 20px;
 `;
 
-const ShareButton = styled.button`
-  background-color: ${({ theme }) => theme.colors.blue5};
-  color: ${({ theme }) => theme.colors.white};
-  padding: 8px 16px;
-  border: 1px solid ${({ theme }) => theme.colors.grey3};
-  border-radius: 8px;
-  cursor: pointer;
-`;
-
 const DragIndicator = styled.div`
   height: 30px;
   display: flex;
@@ -199,12 +180,10 @@ export {
   QuestionBody,
   HorizontalRule,
   QuestionTail,
-  QuestionTailButton,
   EssentialWrapper,
   EssentialText,
   TitleCategoryWrapper,
   TitleCategoryText,
   BottomContainer,
-  ShareButton,
   DragIndicator,
 };

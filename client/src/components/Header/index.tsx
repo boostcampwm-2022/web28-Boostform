@@ -2,7 +2,9 @@ import React, { useContext } from "react";
 import { AuthContext } from "contexts/authProvider";
 import { useNavigate, Link } from "react-router-dom";
 import authApi from "api/authApi";
+import Button from "components/common/Button";
 import Logo from "assets/Icon/logo.svg";
+import theme from "styles/theme";
 import * as S from "./style";
 
 function Header() {
@@ -29,14 +31,29 @@ function Header() {
         {auth?.userID && <Link to="/manage">내 설문조사</Link>}
         {auth?.userID && <Link to="/forum">설문조사 게시판</Link>}
         {auth?.userID && (
-          <S.LogoutButton type="button" onClick={onClickLogout}>
+          <Button
+            type="button"
+            onClick={onClickLogout}
+            backgroundColor={theme.colors.white}
+            border={theme.colors.blue3}
+            color={theme.colors.blue3}
+            fontSize={theme.fontSize.sz14}
+            active={false}
+          >
             로그아웃
-          </S.LogoutButton>
+          </Button>
         )}
         {!auth?.userID && (
-          <S.LoginButton type="button" onClick={onClickLogin}>
+          <Button
+            type="button"
+            onClick={onClickLogin}
+            backgroundColor={theme.colors.blue3}
+            border="none"
+            color={theme.colors.white}
+            fontSize={theme.fontSize.sz16}
+          >
             로그인
-          </S.LoginButton>
+          </Button>
         )}
       </S.Layout>
     </S.HeaderContainer>

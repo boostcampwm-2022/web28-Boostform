@@ -29,22 +29,4 @@ const ButtonContainer = styled.div`
   justify-content: space-evenly;
 `;
 
-const Button = styled.button`
-  font-size: 12px;
-  margin: 0 12px;
-  border: 1px solid ${({ theme }) => theme.colors.grey3};
-  background-color: ${({ theme }) => theme.colors.white};
-  border-radius: 12px;
-  padding: 5px 15px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: ${({ theme }) => theme.colors.grey1};
-  }
-
-  &:active {
-    transform: translateY(1px);
-  }
-`;
-
-export { Container, Text, ButtonContainer, Button };
+export { Container, Text, ButtonContainer };

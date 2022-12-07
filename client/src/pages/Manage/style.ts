@@ -5,7 +5,9 @@ const Container = styled.section`
   margin: 0 32px;
 `;
 
-const HeaderContainer = styled.div``;
+const HeaderContainer = styled.div`
+  margin-top: 24px;
+`;
 
 const Header = styled.ul`
   display: flex;
@@ -13,9 +15,10 @@ const Header = styled.ul`
   justify-content: space-around;
 
   padding: 20px;
+  margin-top: 20px;
   margin-bottom: 20px;
 
-  border-radius: 9px;
+  border-radius: 3px;
   background-color: ${({ theme }) => theme.colors.white};
   border: 1px solid ${({ theme }) => theme.colors.grey3};
 
@@ -25,7 +28,7 @@ const Header = styled.ul`
 const FormListContainer = styled.div`
   background-color: ${({ theme }) => theme.colors.white};
   border: 1px solid ${({ theme }) => theme.colors.grey3};
-  border-radius: 9px;
+  border-radius: 3px;
 `;
 
 const FormList = styled.ul`
@@ -38,8 +41,8 @@ const FormList = styled.ul`
   font-size: 14px;
 
   &:first-child {
-    border-top-left-radius: 9px;
-    border-top-right-radius: 9px;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
   }
 
   &:hover {
@@ -98,7 +101,7 @@ const NewFormButton = styled.button`
   display: flex;
   align-items: center;
   border: 1px solid ${({ theme }) => theme.colors.grey3};
-  border-radius: 9px;
+  border-radius: 3px;
   margin-bottom: 10px;
   padding: 5px 15px;
 
@@ -124,7 +127,7 @@ const Dropdown = styled.ul`
   z-index: 1;
   background-color: ${({ theme }) => theme.colors.white};
   padding: 10px 0;
-  border-radius: 9px;
+  border-radius: 3px;
   border: 1px solid ${({ theme }) => theme.colors.grey3};
 
   li {

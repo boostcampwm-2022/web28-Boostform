@@ -1,5 +1,7 @@
 import React from "react";
 import formApi from "api/formApi";
+import Button from "components/common/Button";
+import theme from "styles/theme";
 import * as S from "./style";
 import DeleteFormModalProps from "./type";
 
@@ -16,12 +18,31 @@ function DeleteFormModal({ closeModal, renderByDeleteForm, selectedForm }: Delet
     <S.Container>
       <S.Text>삭제하시겠습니까?</S.Text>
       <S.ButtonContainer>
-        <S.Button type="button" onClick={onClickDeleteSurvey}>
+        <Button
+          type="button"
+          onClick={onClickDeleteSurvey}
+          backgroundColor={theme.colors.white}
+          border={theme.colors.red1}
+          color={theme.colors.red1}
+          fontSize={theme.fontSize.sz12}
+          custom="margin-right: 12px;"
+          hover={theme.colors.grey2}
+          active
+        >
           확인
-        </S.Button>
-        <S.Button type="button" onClick={onClickCancelDelete}>
+        </Button>
+        <Button
+          type="button"
+          onClick={onClickCancelDelete}
+          backgroundColor={theme.colors.white}
+          border={theme.colors.blue2}
+          color={theme.colors.blue2}
+          fontSize={theme.fontSize.sz12}
+          hover={theme.colors.grey2}
+          active
+        >
           취소
-        </S.Button>
+        </Button>
       </S.ButtonContainer>
     </S.Container>
   );

@@ -1,6 +1,7 @@
 import React from "react";
-import ToggleButton from "components/ToggleButton";
-import Icon from "components/Icon";
+import ToggleButton from "components/common/ToggleButton";
+import Icon from "components/common/Icon";
+import Button from "components/common/Button";
 import theme from "styles/theme";
 import * as S from "./style";
 import ShareFormModalProps from "./type";
@@ -44,19 +45,39 @@ function ShareFormModal({
         </S.ToggleWrapper>
         <S.ToggleWrapper>
           <span>링크</span>
-          <S.CopyLinkButton type="button" onClick={copyLink}>
+          <Button
+            type="button"
+            onClick={copyLink}
+            border="none"
+            backgroundColor="transparent"
+            fontSize={theme.fontSize.sz12}
+          >
             <Icon type="chain" fill={theme.colors.blue3} size="24px" />
             <S.CopyLinkText>링크 복사하기</S.CopyLinkText>
-          </S.CopyLinkButton>
+          </Button>
         </S.ToggleWrapper>
       </div>
       <S.ButtonContainer>
-        <S.Button type="button" onClick={onClickSave}>
+        <Button
+          type="button"
+          onClick={onClickSave}
+          backgroundColor={theme.colors.blue5}
+          border={theme.colors.grey2}
+          color={theme.colors.white}
+          custom="margin-right: 12px;"
+        >
           저장
-        </S.Button>
-        <S.Button type="button" onClick={onClickCancel}>
+        </Button>
+        <Button
+          type="button"
+          onClick={onClickCancel}
+          backgroundColor={theme.colors.blue5}
+          border={theme.colors.grey2}
+          color={theme.colors.white}
+          active={false}
+        >
           취소
-        </S.Button>
+        </Button>
       </S.ButtonContainer>
     </S.Container>
   );

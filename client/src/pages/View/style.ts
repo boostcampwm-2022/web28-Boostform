@@ -5,7 +5,7 @@ const Container = styled.div`
 `;
 
 const HeadContainer = styled.div`
-  margin-top: 12px;
+  margin-top: 36px;
   background-color: ${({ theme }) => theme.colors.white};
   border-radius: 3px;
   padding: 10px 20px;
@@ -14,7 +14,7 @@ const HeadContainer = styled.div`
 const HeadTitle = styled.div`
   width: 100%;
   display: block;
-  font-size: 32px;
+  font-size: ${({ theme }) => theme.fontSize.sz24};
   padding: 5px 0;
   border: none;
   font-family: Arial, Helvetica, sans-serif;
@@ -52,27 +52,9 @@ const BottomContainer = styled.div`
   padding: 20px;
 `;
 
-const SubmitButton = styled.button`
-  background-color: ${({ theme }) => theme.colors.blue5};
-  color: ${({ theme }) => theme.colors.white};
-  padding: 8px 16px;
-  border: 1px solid ${({ theme }) => theme.colors.grey3};
-  border-radius: 8px;
-  cursor: pointer;
-`;
-
 const Essential = styled.span`
   color: red;
   margin-left: 8px;
 `;
 
-export {
-  Container,
-  HeadContainer,
-  HeadTitle,
-  HeadDescription,
-  QuestionContainer,
-  BottomContainer,
-  SubmitButton,
-  Essential,
-};
+export { Container, HeadContainer, HeadTitle, HeadDescription, QuestionContainer, BottomContainer, Essential };

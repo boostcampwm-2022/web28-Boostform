@@ -5,19 +5,24 @@ import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { DragDropContext, Droppable, Draggable, DropResult, DragStart } from "react-beautiful-dnd";
 
-import FormLayout from "components/Layout";
-import Dropdown from "components/QuestionTypeDropdown";
-import Question from "components/Question";
-import Icon from "components/Icon";
-import ToggleButton from "components/ToggleButton";
-import QuestionRead from "components/QuestionRead";
-import TitleDropdown from "components/CategoryDropdown";
+import FormLayout from "components/template/Layout";
+import IconDropdown from "components/common/Dropdown/IconDropdown";
+import Question from "components/Edit/QuestionEdit";
+import Icon from "components/common/Icon";
+import ToggleButton from "components/common/ToggleButton";
+import QuestionRead from "components/Edit/QuestionRead";
+import TextDropdown from "components/common/Dropdown/TextDropdown";
+
 import ShareFormModal from "components/Modal/ShareFormModal";
+import Button from "components/common/Button";
+import IconButton from "components/common/IconButton";
+import theme from "styles/theme";
 import writeReducer from "reducer/formEdit";
 import { FormState, FormDataApi, QuestionType } from "types/form";
 import formApi from "api/formApi";
 import { fromApiToForm, fromFormToApi } from "utils/form";
 import useModal from "hooks/useModal";
+import { CATEGORY_LIST, QUESTION_TYPE_LIST } from "store/form";
 import * as S from "./style";
 
 const initialState: FormState = {
@@ -177,7 +182,7 @@ function Edit() {
                 {form.description ? form.description : "설문지 설명"}
               </S.DescriptionRead>
               <S.TitleCategoryWrapper>
-                <S.TitleCategoryText>{form.category}</S.TitleCategoryText>
+                <S.TitleCategoryText>{form.category || "카테고리"}</S.TitleCategoryText>
               </S.TitleCategoryWrapper>
             </>
           )}
@@ -185,7 +190,14 @@ function Edit() {
             <>
               <S.TitleInput onInput={onInputTitle} value={form.title} />
               <S.DescriptionInput onInput={onInputDescription} value={form.description} placeholder="설문지 설명" />
-              <TitleDropdown state={form.category} setState={onClickSelectCategory} />
+              <TextDropdown state={form.category} defaultState="카테고리">
+                <TextDropdown.Head />
+                <TextDropdown.ItemList>
+                  {CATEGORY_LIST.map((value) => (
+                    <TextDropdown.Item key={value} value={value} onClick={() => onClickSelectCategory(value)} />
+                  ))}
+                </TextDropdown.ItemList>
+              </TextDropdown>
             </>
           )}
         </S.TitleContainer>
@@ -225,11 +237,17 @@ function Edit() {
                                   value={question[questionIndex].title}
                                   placeholder="질문"
                                 />
-                                <Dropdown
+                                <IconDropdown
                                   state={type}
-                                  setState={(questionType: QuestionType) => {
-                                    onClickSetQuestionType(questionType, questionIndex);
+                                  setState={(questionType: string) => {
+                                    const isQuestionType = (str: string): str is QuestionType =>
+                                      str === "checkbox" || str === "multiple" || str === "paragraph";
+
+                                    if (isQuestionType(questionType))
+                                      onClickSetQuestionType(questionType, questionIndex);
                                   }}
+                                  items={QUESTION_TYPE_LIST}
+                                  defaultValue="선택해주세요"
                                 />
                               </S.QuestionHead>
                               <S.QuestionBody>
@@ -243,18 +261,27 @@ function Edit() {
                               </S.QuestionBody>
                               <S.HorizontalRule />
                               <S.QuestionTail>
-                                <S.QuestionTailButton type="button" onClick={() => onClickAddQuestion(questionIndex)}>
-                                  <Icon type="add" size="21px" />
-                                </S.QuestionTailButton>
-                                <S.QuestionTailButton type="button" onClick={() => onClickCopyQuestion(questionIndex)}>
-                                  <Icon type="copy" size="18px" />
-                                </S.QuestionTailButton>
-                                <S.QuestionTailButton
+                                <IconButton
+                                  type="button"
+                                  onClick={() => onClickAddQuestion(questionIndex)}
+                                  icon="add"
+                                  size="21px"
+                                  custom="margin-right: 12px;"
+                                />
+                                <IconButton
+                                  type="button"
+                                  onClick={() => onClickCopyQuestion(questionIndex)}
+                                  icon="copy"
+                                  size="18px"
+                                  custom="margin-right: 12px;"
+                                />
+                                <IconButton
                                   type="button"
                                   onClick={() => onClickDeleteQuestion(questionIndex)}
-                                >
-                                  <Icon type="trashcan" size="18px" />
-                                </S.QuestionTailButton>
+                                  icon="trashcan"
+                                  size="18px"
+                                  custom="margin-right: 12px;"
+                                />
                                 <S.EssentialWrapper>
                                   <S.EssentialText>필수</S.EssentialText>
                                   <ToggleButton
@@ -282,9 +309,15 @@ function Edit() {
           </Droppable>
         </DragDropContext>
         <S.BottomContainer>
-          <S.ShareButton type="button" onClick={() => openModal()}>
+          <Button
+            type="button"
+            onClick={() => openModal()}
+            backgroundColor={theme.colors.blue5}
+            border={theme.colors.grey3}
+            color={theme.colors.white}
+          >
             저장
-          </S.ShareButton>
+          </Button>
         </S.BottomContainer>
       </S.Container>
 

@@ -6,8 +6,10 @@ import formViewReducer from "reducer/formView";
 import formApi from "api/formApi";
 import { fromApiToForm } from "utils/form";
 import { checkPrevResponseUpdateValidateCheckList, fromApiToValidateCheckList, validationCheck } from "utils/response";
-import FormLayout from "components/Layout";
-import QuestionView from "components/QuestionView";
+import FormLayout from "components/template/Layout";
+import QuestionView from "components/View/QuestionView";
+import Button from "components/common/Button";
+import theme from "styles/theme";
 import responseApi from "api/responseApi";
 import { ResponseElement, Validation } from "types/response";
 import * as S from "./style";
@@ -110,9 +112,15 @@ function View() {
           </S.QuestionContainer>
         ))}
         <S.BottomContainer>
-          <S.SubmitButton type="button" onClick={onClickSubmitForm}>
+          <Button
+            type="button"
+            onClick={onClickSubmitForm}
+            backgroundColor={theme.colors.blue5}
+            border={theme.colors.grey3}
+            color={theme.colors.white}
+          >
             제출
-          </S.SubmitButton>
+          </Button>
         </S.BottomContainer>
       </S.Container>
     </FormLayout>

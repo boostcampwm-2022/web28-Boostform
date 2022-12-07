@@ -61,7 +61,7 @@ const fromApiToForm = (api: FormDataApi): FormState => {
       userId: userID,
       title,
       description: description || "",
-      category: category || "기타",
+      category,
       acceptResponse,
       onBoard,
       currentQuestionId,
