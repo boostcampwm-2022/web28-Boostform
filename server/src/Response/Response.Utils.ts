@@ -20,7 +20,7 @@ const responseSchedule = () => {
       const responseList = await redisCli.hGetAll("response");
 
       const deletePromises = Object.keys(responseList).map((responseId) => deleteFromRedis("response", responseId));
-      await Promise.all(deletePromises);
+      await Promise.all(deletePromises).catch((err) => console.log(err));
 
       const savePromises = Object.keys(responseList).map((responseId) => {
         return new Promise((res, rej) => {
@@ -30,7 +30,7 @@ const responseSchedule = () => {
           res(response.save());
         });
       });
-      await Promise.all(savePromises);
+      await Promise.all(savePromises).catch((err) => console.log(err));
 
       console.log("save job done");
     }
@@ -41,7 +41,7 @@ const responseSchedule = () => {
       const countList = await redisCli.hGetAll("count");
 
       const deletePromises = Object.keys(countList).map((formId) => deleteFromRedis("count", formId));
-      await Promise.all(deletePromises);
+      await Promise.all(deletePromises).catch((err) => console.log(err));
 
       const updatePromises = Object.keys(countList).map((formId) => {
         return new Promise((res, rej) => {
@@ -50,7 +50,7 @@ const responseSchedule = () => {
           res(Form.findOneAndUpdate({ _id: formId }, { $inc: { response_count: count } }).exec());
         });
       });
-      await Promise.all(updatePromises);
+      await Promise.all(updatePromises).catch((err) => console.log(err));
 
       console.log("count job done");
     }

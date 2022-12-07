@@ -14,7 +14,9 @@ import * as redis from "redis";
 import indexRouter from "./routes/index";
 import errorMiddleware from "./Middlewares/Error.Middleware";
 import NotFoundException from "./Common/Exceptions/NotFound.Exception";
-import responseSchedule from "./Response/Response.Utils";
+import ResponseSaveScheduler from "./Response/Utils/ResponseSaveScheduler";
+import CountIncreaseScheduler from "./Response/Utils/CountIncreaseScheduler";
+import ResponseUpdateScheduler from "./Response/Utils/ResponseUpdateScheduler";
 
 dotenv.config();
 const app = express();
@@ -73,7 +75,9 @@ redisClient.connect();
 
 export const redisCli = redisClient.v4;
 
-responseSchedule();
+ResponseSaveScheduler.init();
+CountIncreaseScheduler.init();
+ResponseUpdateScheduler.init();
 
 // view engine setup
 app.use(logger("dev"));
