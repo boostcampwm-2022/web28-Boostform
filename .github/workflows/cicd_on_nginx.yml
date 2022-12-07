@@ -9,15 +9,58 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: deploy client
-        uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@v0.1.4
         with:
           host: ${{ secrets.SIMULB }}
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.SIMULB_PORT }}
           script: |
+            export NVM_DIR=~/.nvm
+            source ~/.nvm/nvm.sh
+            npm --help
             cd /home/boostForm
             git pull
             cd /home/boostForm/client
             npm i
             npm run build
+  deploy-server01:
+    runs-on: ubuntu-latest
+    steps:
+      - name: deploy server01
+        uses: appleboy/ssh-action@v0.1.4
+        with:
+          host: ${{ secrets.SIMU01 }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.SIMU01_PORT }}
+          script: |
+            export NVM_DIR=~/.nvm
+            source ~/.nvm/nvm.sh
+            npm --help
+            cd /root/boostform
+            git pull
+            cd /root/boostform/server
+            npm i
+            pm2 reload all
+  deploy-server02:
+    runs-on: ubuntu-latest
+    steps:
+      - name: deploy server02
+        uses: appleboy/ssh-action@v0.1.4
+        with:
+          host: ${{ secrets.SIMU02 }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.SIMU02_PORT }}
+          script: |
+            export NVM_DIR=~/.nvm
+            source ~/.nvm/nvm.sh
+            npm --help
+            cd /root/boostform
+            git pull
+            cd /root/boostform/server
+            npm i
+            pm2 reload all
+          # pm2 start npm --name "client" -- start
+          # pm2 start npm --name "server" -- start
