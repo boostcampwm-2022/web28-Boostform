@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Layout from "components/template/Layout";
+import Layout from "components/template/BannerLayout";
 import Button from "components/common/Button";
 import theme from "styles/theme";
 import boardApi from "api/forumApi";
 import { useQuery } from "@tanstack/react-query";
 import TextDropdown from "components/common/Dropdown/TextDropdown";
+import Card from "components/common/Card";
 import { ForumCategory, OrderBy } from "types/forum";
 import { CATEGORY_FORUM_LIST } from "store/form";
 import * as S from "./style";
@@ -26,13 +27,15 @@ function Forum() {
   const [page, setPage] = useState(1);
 
   const fetchFormList = (): Promise<FormListApi[]> => boardApi.getFormList({ title: keyword, category, orderBy, page });
-  const { data, refetch } = useQuery({ queryKey: ["ddd"], queryFn: fetchFormList, keepPreviousData: true });
+  const { data, refetch } = useQuery({
+    queryKey: [keyword, category, orderBy, page],
+    queryFn: fetchFormList,
+    keepPreviousData: true,
+  });
 
   return (
-    <Layout backgroundColor="white">
+    <Layout backgroundColor="white" title="설문조사 게시판" description="다양한 설문조사를 만나보세요">
       <S.divContainer>
-        <S.h1Title>설문조사 게시판</S.h1Title>
-        <S.pDescription>다양한 설문조사를 만나보세요</S.pDescription>
         <S.divSearchBox>
           <S.inputSearch
             type="text"
@@ -85,23 +88,22 @@ function Forum() {
               <TextDropdown.Head border="none" padding="0px" color={theme.colors.blue3} bold />
               <TextDropdown.ItemList custom="top 26px;">
                 {CATEGORY_FORUM_LIST.map((value) => (
-                  <TextDropdown.Item key={value} value={value} onClick={() => setCategory("전체")} />
+                  <TextDropdown.Item key={value} value={value} onClick={() => setCategory(value)} />
                 ))}
               </TextDropdown.ItemList>
             </TextDropdown>
           </S.divCategoryWrapper>
         </S.divSortWrapper>
-        <S.divFormList>
+        <Card>
           {data?.map(({ formId, title, category: formCategory, responseCount }) => (
-            <S.divFormItem key={formId}>
-              <S.h3ItemTitle>{title}</S.h3ItemTitle>
+            <Card.Item key={formId} title={title}>
               <div>
-                <S.spanItemDate>카테고리: {formCategory}</S.spanItemDate>
+                <Card.ItemText>카테고리: {formCategory}</Card.ItemText>
               </div>
               <div>
-                <S.spanItemDate>응답 수: {responseCount}</S.spanItemDate>
+                <Card.ItemText>응답 수: {responseCount}</Card.ItemText>
               </div>
-              <S.divItemButtonWrapper>
+              <Card.ButtonWrapper>
                 <Button
                   type="button"
                   onClick={() => navigate(`/forms/${formId}/view`)}
@@ -120,10 +122,10 @@ function Forum() {
                 >
                   설문조사 결과보기
                 </Button>
-              </S.divItemButtonWrapper>
-            </S.divFormItem>
+              </Card.ButtonWrapper>
+            </Card.Item>
           ))}
-        </S.divFormList>
+        </Card>
       </S.divContainer>
     </Layout>
   );

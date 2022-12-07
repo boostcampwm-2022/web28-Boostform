@@ -11,7 +11,7 @@ const Container = styled.div`
   transform: translate(-50%, -50%);
 
   width: 400px;
-  border-radius: 9px;
+  border-radius: 3px;
   padding: 36px;
 
   z-index: 2;

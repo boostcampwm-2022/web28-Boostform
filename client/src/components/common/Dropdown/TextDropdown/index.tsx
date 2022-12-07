@@ -1,28 +1,12 @@
-import React, { createContext, useContext, useMemo, useState } from "react";
+import React, { useContext, useMemo, useState } from "react";
 import Icon from "components/common/Icon";
 import OutsideDetecter from "hooks/useOutsideDetecter";
 import theme from "styles/theme";
+import TextDropdownContext from "contexts/textDropdownContext";
+import { DropdownProps, HeadProps, ItemProps, ItemListProps } from "./type";
 import * as S from "./style";
 
-const TextDropdownContext = createContext<{
-  open: boolean;
-  setOpen?: React.Dispatch<React.SetStateAction<boolean>>;
-  selected?: string;
-  setSelected?: React.Dispatch<React.SetStateAction<string>>;
-  fontSize: string;
-}>({ open: false, fontSize: "" });
-
-function Dropdown({
-  children,
-  state,
-  defaultState,
-  fontSize = "",
-}: {
-  state: string;
-  defaultState: string;
-  fontSize?: string;
-  children: React.ReactNode;
-}) {
+function Dropdown({ children, state, defaultState, fontSize = "" }: DropdownProps) {
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState<string>(state || defaultState);
 
@@ -42,17 +26,7 @@ Dropdown.defaultProps = {
   fontSize: "",
 };
 
-function Head({
-  border = theme.colors.grey3,
-  padding = "10px",
-  color = theme.colors.black,
-  bold = false,
-}: {
-  border?: string;
-  padding?: string;
-  color?: string;
-  bold?: boolean;
-}) {
+function Head({ border = theme.colors.grey3, padding = "10px", color = theme.colors.black, bold = false }: HeadProps) {
   const { setOpen, selected, fontSize } = useContext(TextDropdownContext);
 
   return (
@@ -81,7 +55,7 @@ Head.defaultProps = {
   bold: false,
 };
 
-function ItemList({ children, custom = "" }: { children: React.ReactNode; custom?: string }) {
+function ItemList({ children, custom = "" }: ItemListProps) {
   const { open, setOpen } = useContext(TextDropdownContext);
 
   return open ? (
@@ -95,7 +69,7 @@ ItemList.defaultProps = {
   custom: "",
 };
 
-function Item({ value, onClick }: { value: string; onClick: () => void }) {
+function Item({ value, onClick }: ItemProps) {
   const { setSelected, setOpen, fontSize } = useContext(TextDropdownContext);
 
   return (

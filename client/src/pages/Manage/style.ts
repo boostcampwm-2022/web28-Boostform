@@ -5,9 +5,18 @@ const Container = styled.section`
   margin: 0 32px;
 `;
 
+const HeaderContainer = styled.div`
+  margin-top: 24px;
+  margin-bottom: 15px;
+`;
+
+const NewFormText = styled.span`
+  margin-left: 4px;
+`;
+
 const FormListContainer = styled.div`
   background-color: ${({ theme }) => theme.colors.white};
-  border: 1px solid ${({ theme }) => theme.colors.grey3};
+  border: none;
   border-radius: 3px;
 `;
 
@@ -17,4 +26,14 @@ const ButtonContainer = styled.div`
   padding: 10px;
 `;
 
-export { Container, FormListContainer, ButtonContainer };
+const GridBox = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(0, 20px));
+`;
+
+const Flicker = styled.span`
+  font-size: ${({ theme }) => theme.fontSize.sz14};
+`;
+
+export { Container, FormListContainer, ButtonContainer, GridBox, Flicker, HeaderContainer, NewFormText };

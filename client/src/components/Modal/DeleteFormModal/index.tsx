@@ -26,10 +26,10 @@ function DeleteFormModal({ closeModal, renderByDeleteForm, selectedForm }: Delet
           color={theme.colors.red1}
           fontSize={theme.fontSize.sz12}
           custom="margin-right: 12px;"
-          hover={theme.colors.grey2}
+          hover={theme.colors.red0}
           active
         >
-          확인
+          삭제
         </Button>
         <Button
           type="button"
@@ -38,7 +38,7 @@ function DeleteFormModal({ closeModal, renderByDeleteForm, selectedForm }: Delet
           border={theme.colors.blue2}
           color={theme.colors.blue2}
           fontSize={theme.fontSize.sz12}
-          hover={theme.colors.grey2}
+          hover={theme.colors.blue0}
           active
         >
           취소
