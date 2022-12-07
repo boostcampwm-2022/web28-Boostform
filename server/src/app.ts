@@ -26,6 +26,8 @@ app.use(
   })
 );
 
+console.log("hello");
+
 const myDataSource = new DataSource({
   type: "mysql",
   host: process.env.TYPEORM_HOST || "",
