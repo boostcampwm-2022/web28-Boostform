@@ -15,24 +15,46 @@ class ResponseUpdateScheduler extends Scheduler {
 
         const responseUpdateList = await redisCli.hGetAll("response_update");
 
-        const promises = Object.keys(responseUpdateList).map((responseId) => {
-          return new Promise(async (res, rej) => {
-            const answerListString = responseUpdateList[responseId];
-            const isExist = await FormResponse.exists({ _id: responseId }).exec();
+        await Promise.all(
+          Object.keys(responseUpdateList).map((responseId) => {
+            return new Promise((res, rej) => {
+              const answerListString = responseUpdateList[responseId];
 
-            if (isExist) {
-              const answerList = JSON.parse(answerListString);
-              await FormResponse.findOneAndUpdate({ _id: responseId }, { answer_list: answerList }).exec();
-            } else if (!(await redisCli.hExists("response_update", responseId))) {
-              await redisCli.hSet("reponse_update", responseId, answerListString);
-            }
+              FormResponse.exists({ _id: responseId }).then(async (result) => {
+                if (result) {
+                  const answerList = JSON.parse(answerListString);
+                  await FormResponse.findOneAndUpdate({ _id: responseId }, { answer_list: answerList }).exec();
 
-            await redisCli.hDel("reponse_update", responseId);
-            res("success");
-          });
-        });
+                  if (answerListString === (await redisCli.hGet("response_update", responseId))) {
+                    await redisCli.hDel("response_update", responseId);
+                  }
+                } else {
+                  await redisCli.hSet("response_update", responseId, answerListString);
+                }
+                res(true);
+              });
+            });
+          })
+        );
 
-        await Promise.all(promises).catch((err) => console.log(err));
+        // const promises = Object.keys(responseUpdateList).map((responseId) => {
+        //   return new Promise(async (res, rej) => {
+        //     const answerListString = responseUpdateList[responseId];
+        //     const isExist = await FormResponse.exists({ _id: responseId }).exec();
+
+        //     if (isExist) {
+        //       const answerList = JSON.parse(answerListString);
+        //       await FormResponse.findOneAndUpdate({ _id: responseId }, { answer_list: answerList }).exec();
+        //     } else if (!(await redisCli.hExists("response_update", responseId))) {
+        //       await redisCli.hSet("reponse_update", responseId, answerListString);
+        //     }
+
+        //     await redisCli.hDel("reponse_update", responseId);
+        //     res("success");
+        //   });
+        // });
+
+        // await Promise.all(promises).catch((err) => console.log(err));
 
         this.isWorking = false;
         console.log("update job done");

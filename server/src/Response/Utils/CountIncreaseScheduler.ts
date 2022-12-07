@@ -33,20 +33,6 @@ class CountIncreaseScheduler extends Scheduler {
           })
         );
 
-        // const promises = Object.keys(countList).map((formId) => {
-        //   return new Promise(async (res, rej) => {
-        //     const count = Number(countList[formId]);
-        //     await Form.findOneAndUpdate({ _id: formId }, { $inc: { response_count: count } }).exec();
-        //     await redisCli.hIncrBy("count", formId, -count);
-        //     if ((await redisCli.hGet("count", formId)) === "0") {
-        //       await redisCli.hDel("count", formId);
-        //     }
-        //     res("success");
-        //   });
-        // });
-
-        // await Promise.all(promises).catch((err) => console.log(err));
-
         this.isWorking = false;
         console.log("count job done");
       }
