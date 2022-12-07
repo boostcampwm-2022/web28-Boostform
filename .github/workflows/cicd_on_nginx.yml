@@ -16,9 +16,6 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.SIMULB_PORT }}
           script: |
-            export NVM_DIR=~/.nvm
-            source ~/.nvm/nvm.sh
-            npm --help
             cd /home/boostForm
             git pull
             cd /home/boostForm/client
@@ -35,9 +32,6 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.SIMU01_PORT }}
           script: |
-            export NVM_DIR=~/.nvm
-            source ~/.nvm/nvm.sh
-            npm --help
             cd /root/boostform
             git pull
             cd /root/boostform/server
@@ -54,9 +48,6 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.SIMU02_PORT }}
           script: |
-            export NVM_DIR=~/.nvm
-            source ~/.nvm/nvm.sh
-            npm --help
             cd /root/boostform
             git pull
             cd /root/boostform/server
