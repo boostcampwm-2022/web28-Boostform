@@ -10,7 +10,6 @@ class UserController {
   redirect(req: Request, res: Response, next: NextFunction) {
     try {
       res.status(301).redirect(userService.redirectURL);
-      next();
     } catch (err) {
       next(err);
     }
@@ -31,7 +30,6 @@ class UserController {
           .cookie("accessToken", tokens.accessToken)
           .cookie("refreshToken", tokens.refreshToken, { httpOnly: true })
           .redirect(`${process.env.ORIGIN_URL as string}/manage`);
-        next();
       })
       .catch((err) => {
         next(err);
