@@ -1,22 +1,10 @@
 /* eslint-disable no-async-promise-executor */
 import schedule from "node-schedule";
+import * as fs from "fs";
 import Scheduler from "./Scheduler";
 import { redisCli } from "../../app";
 import FormResponse from "../Response.Model";
-
-const savePromise = (response: any, responseId: string): Promise<string> => {
-  return new Promise((res, rej) => {
-    response.save().then();
-  });
-};
-
-const deletePromise = (responseId: string) => {
-  return new Promise((res, rej) => {
-    redisCli.hDel("response", responseId, () => {
-      res("success");
-    });
-  });
-};
+import getDateString from "../../Common/Utils/GetDateString";
 
 class ResponseSaveScheduler extends Scheduler {
   static isWorking = false;
@@ -37,7 +25,7 @@ class ResponseSaveScheduler extends Scheduler {
 
               response.save().then(redisCli.hDel("response", responseId)).then(res);
             }).catch((err) => {
-              console.log(err);
+              fs.writeFileSync(`./log/${new Date().getTime()}`, String(err));
             });
           })
         );

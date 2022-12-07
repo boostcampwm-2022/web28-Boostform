@@ -15,19 +15,37 @@ class CountIncreaseScheduler extends Scheduler {
 
         const countList = await redisCli.hGetAll("count");
 
-        const promises = Object.keys(countList).map((formId) => {
-          return new Promise(async (res, rej) => {
-            const count = Number(countList[formId]);
-            await Form.findOneAndUpdate({ _id: formId }, { $inc: { response_count: count } }).exec();
-            await redisCli.hIncrBy("count", formId, -count);
-            if ((await redisCli.hGet("count", formId)) === "0") {
-              await redisCli.hDel("count", formId);
-            }
-            res("success");
-          });
-        });
+        await Promise.all(
+          Object.keys(countList).map((formId) => {
+            return new Promise((res, rej) => {
+              const count = Number(countList[formId]);
 
-        await Promise.all(promises).catch((err) => console.log(err));
+              Form.findOneAndUpdate({ _id: formId }, { $inc: { response_count: count } })
+                .exec()
+                .then(redisCli.hIncrBy("count", formId, -count))
+                .then(async () => {
+                  if ((await redisCli.hGet("count", formId)) === "0") {
+                    await redisCli.hDel("count", formId);
+                  }
+                  res(true);
+                });
+            });
+          })
+        );
+
+        // const promises = Object.keys(countList).map((formId) => {
+        //   return new Promise(async (res, rej) => {
+        //     const count = Number(countList[formId]);
+        //     await Form.findOneAndUpdate({ _id: formId }, { $inc: { response_count: count } }).exec();
+        //     await redisCli.hIncrBy("count", formId, -count);
+        //     if ((await redisCli.hGet("count", formId)) === "0") {
+        //       await redisCli.hDel("count", formId);
+        //     }
+        //     res("success");
+        //   });
+        // });
+
+        // await Promise.all(promises).catch((err) => console.log(err));
 
         this.isWorking = false;
         console.log("count job done");
