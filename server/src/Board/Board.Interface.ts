@@ -12,6 +12,6 @@ export interface FormSearchQuery {
   category?: string;
 }
 
-export type SetToQueryFn = (query: FormSearchQuery) => FormSearchQuery;
+export type SetQueryFn = (query: FormSearchQuery) => FormSearchQuery;
 
-export type EqualTypeReturnFn<T> = (arg: T) => T;
+export type TypeToTypeFn<T> = (arg: T) => T;

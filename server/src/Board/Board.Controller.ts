@@ -1,38 +1,29 @@
 import { Request, Response, NextFunction } from "express";
-import BoardService from "./Board.Service";
 import { redisCli } from "../app";
 
-class BoardController {
-  static filterByKeys(reqQuery: any, keys: string[]) {
-    const queryList = Object.entries(reqQuery).filter(([k, v]) => keys.includes(k));
-    const query = Object.fromEntries(queryList);
-    return query;
-  }
+import BoardService from "./Board.Service";
+import { searchKeyList, sortKeyList } from "./Board.Constants";
+import { filterByObjectKeys } from "./Board.Utils";
 
+class BoardController {
   static async getFormList(req: Request, res: Response, next: NextFunction) {
-    const searchKeys = ["title", "category"];
-    const sortKeys = ["orderBy"];
-    const searchQuery = BoardController.filterByKeys(req.query, searchKeys);
-    const sortQuery = BoardController.filterByKeys(req.query, sortKeys);
+    const cacheKey = `board:${JSON.stringify(req.query)}`;
+    const searchQuery = filterByObjectKeys(req.query, searchKeyList);
+    const sortQuery = filterByObjectKeys(req.query, sortKeyList);
     const pageNum = req.query.page ? Number(req.query.page) : 1;
 
-    const cacheKey = `board:${JSON.stringify(req.query)}`;
-
-    let searchResult = req.query.title
-      ? await BoardService.searchByQuery(searchQuery, sortQuery, pageNum)
-      : JSON.parse(await redisCli.get(cacheKey));
-
+    let searchResult = JSON.parse(await redisCli.get(cacheKey));
     if (!searchResult) {
       searchResult = await BoardService.searchByQuery(searchQuery, sortQuery, pageNum);
-      redisCli.set(cacheKey, JSON.stringify(searchResult));
-      redisCli.expire(cacheKey, 120);
+      if (!req.query.title) {
+        redisCli.set(cacheKey, JSON.stringify(searchResult));
+        redisCli.expire(cacheKey, 120);
+      }
     }
 
-    res.status(200).send(searchResult);
+    const lastPage = await BoardService.countByQuery(searchQuery);
 
-    // 캐싱 안하는 실험 코드
-    // const searchResult = await BoardService.searchByQuery(searchQuery, sortQuery, pageNum);
-    // res.status(200).json(searchResult);
+    res.status(200).send({ form: searchResult, lastPage });
   }
 }
 

@@ -1,76 +1,60 @@
 import Form from "./Board.Model";
-import { FormSortQuery, RegExOption, FormSearchQuery, SetToQueryFn, EqualTypeReturnFn } from "./@types/query";
-
-const categoryList = ["개발 및 학습", "취업 및 채용", "취미 및 여가", "기타"];
+import { FormSortQuery, FormSearchQuery, SetQueryFn } from "./Board.Interface";
+import { pageSize } from "./Board.Constants";
+import { pipe } from "./Board.Utils";
 
 class BoardService {
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  static pipe<F extends Function, V>(...fns: F[]): EqualTypeReturnFn<V> {
-    return (initial: V) => fns.reduce((acc, currentFn) => currentFn(acc), initial);
-  }
+  static setOnBoard = (query: FormSearchQuery) => ({ ...query, on_board: true });
 
-  static setOnBoardToQuery(query: FormSearchQuery) {
-    return { ...query, on_board: false };
-  }
+  static setAccept = (query: FormSearchQuery) => ({ ...query, accept_response: true });
 
-  static setAcceptabilityToQuery(query: FormSearchQuery) {
-    return { ...query, accept_response: true };
-  }
-
-  static setCategoryFilterToQuery(query: FormSearchQuery) {
-    if ("category" in query && !categoryList.includes(query.category as string))
-      // eslint-disable-next-line no-param-reassign
-      delete query.category;
-    return { ...query };
-  }
-
-  static setTitleRegExToQuery(query: FormSearchQuery) {
+  static setTitleRegEx(query: FormSearchQuery) {
     if (!("title" in query)) return query;
-
     const { title } = query;
     const titleRegex = { $regex: `${title}`, $options: "i" };
     return { ...query, title: titleRegex };
   }
 
-  static setSortingToQuery(query: FormSortQuery) {
+  static setSorting(query: FormSortQuery) {
     const { orderBy } = query;
-    if (!orderBy) return ``;
-    if (orderBy === "latestAsc") return `-createdAt`;
-    if (orderBy === "responseAsc") return `-response_count`;
-    if (orderBy === "responseDesc") return `response_count`;
-    return ``;
+    if (orderBy === "latestAsc") return "-createdAt";
+    if (orderBy === "responseAsc") return "-response_count";
+    if (orderBy === "responseDesc") return "response_count";
+    return "";
   }
+
+  static setOptionFn = pipe<SetQueryFn, FormSearchQuery>(this.setOnBoard, this.setAccept, this.setTitleRegEx);
 
   static async searchByQuery(searchQuery: FormSearchQuery, sortQuery: FormSortQuery, pageNum: number) {
     const select = "_id title category response_count";
-    const updatedSearchQuery = this.pipe<SetToQueryFn, FormSearchQuery>(
-      this.setOnBoardToQuery,
-      this.setAcceptabilityToQuery,
-      this.setCategoryFilterToQuery,
-      this.setTitleRegExToQuery
-    )(searchQuery);
+    const updatedSearchQuery = this.setOptionFn(searchQuery);
+    const updatedSortQuery = this.setSorting(sortQuery);
 
-    const updatedSortQuery = this.setSortingToQuery(sortQuery);
-
-    const pageSize = 5;
     const searchResults = await Form.find(updatedSearchQuery, select)
       .sort(updatedSortQuery)
       .skip((pageNum - 1) * pageSize)
-      .limit(pageSize);
+      .limit(pageSize)
+      .lean()
+      .exec();
 
     const updatedSearchResults = searchResults.map((result) => {
-      const resultObject = Object.entries(result.toObject()).map(([k, v]) => {
-        if (k === "_id") return ["formId", v];
-        if (k === "response_count") return ["responseCount", v];
-        return [k, v];
-      });
-      return Object.fromEntries(resultObject);
+      return {
+        // eslint-disable-next-line no-underscore-dangle
+        formId: result._id,
+        title: result.title,
+        category: result.category,
+        responseCount: result.response_count,
+      };
     });
 
-    const searchResultsLength = await Form.count(updatedSearchQuery);
-    const lastPage = Math.ceil(searchResultsLength / pageSize);
+    return updatedSearchResults;
+  }
 
-    return { form: updatedSearchResults, lastPage };
+  static async countByQuery(searchQuery: FormSearchQuery) {
+    const updatedSearchQuery = this.setOptionFn(searchQuery);
+    const searchResultsLength = await Form.count(updatedSearchQuery).exec();
+    const lastPage = Math.ceil(searchResultsLength / pageSize);
+    return lastPage;
   }
 }
 
