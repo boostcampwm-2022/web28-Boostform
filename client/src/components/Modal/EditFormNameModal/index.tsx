@@ -34,7 +34,7 @@ function EditFormNameModal({ closeModal, selectedForm, renderByNameChange }: Edi
           color={theme.colors.blue2}
           fontSize={theme.fontSize.sz12}
           custom="margin-right: 12px;"
-          hover={theme.colors.grey2}
+          hover={theme.colors.blue0}
           active
         >
           확인
@@ -46,7 +46,7 @@ function EditFormNameModal({ closeModal, selectedForm, renderByNameChange }: Edi
           border={theme.colors.blue2}
           color={theme.colors.blue2}
           fontSize={theme.fontSize.sz12}
-          hover={theme.colors.grey2}
+          hover={theme.colors.blue0}
           active
         >
           취소
