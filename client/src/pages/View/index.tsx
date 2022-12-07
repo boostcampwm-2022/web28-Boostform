@@ -36,11 +36,11 @@ function View() {
   const { state: prevResponseId } = useLocation();
 
   const fetchForm = (): Promise<FormDataApi> => formApi.getForm(id);
-  const { data: formData, isSuccess: formIsSuccess } = useQuery({ queryKey: [id], queryFn: fetchForm });
+  const { data: formData, isSuccess: formIsSuccess } = useQuery({ queryKey: [id, "form"], queryFn: fetchForm });
 
   const fetchResponse = (): Promise<ResponseElement[]> => responseApi.getResponse(id, prevResponseId);
   const { data: responseData, isSuccess: responseIsSuccess } = useQuery({
-    queryKey: [prevResponseId],
+    queryKey: [prevResponseId, "response"],
     queryFn: fetchResponse,
   });
 
@@ -63,6 +63,7 @@ function View() {
   useEffect(() => {
     if (!id) return;
     if (formIsSuccess) {
+      console.log(formData);
       setState(fromApiToForm(formData));
       const checkList = fromApiToValidateCheckList(formData);
       setValidation(checkList);

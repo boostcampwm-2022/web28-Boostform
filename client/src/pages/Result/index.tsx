@@ -11,7 +11,7 @@ function Result() {
   const { id } = useParams();
 
   const fetchForm = (): Promise<ResultApi> => resultApi.getResult(id);
-  const { data, isSuccess } = useQuery({ queryKey: [id], queryFn: fetchForm });
+  const { data, isSuccess } = useQuery({ queryKey: [id, "result"], queryFn: fetchForm });
 
   const [formResult, setFormResult] = useState<ResultApi>();
   const [questionResult, setQuestionResult] = useState<QuestionSummary[]>([]);
@@ -20,6 +20,7 @@ function Result() {
     if (!id) return;
     if (isSuccess) {
       setFormResult(data);
+      console.log(data);
       setQuestionResult(Object.values(data.questionResultDict));
     }
   }, [id, isSuccess, data]);
