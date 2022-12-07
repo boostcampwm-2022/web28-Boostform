@@ -10,7 +10,6 @@ class UserController {
   redirect(req: Request, res: Response, next: NextFunction) {
     try {
       res.status(301).redirect(userService.redirectURL);
-      next();
     } catch (err) {
       next(err);
     }
@@ -31,7 +30,6 @@ class UserController {
           .cookie("accessToken", tokens.accessToken)
           .cookie("refreshToken", tokens.refreshToken, { httpOnly: true })
           .redirect(`${process.env.ORIGIN_URL as string}/manage`);
-        next();
       })
       .catch((err) => {
         next(err);
@@ -63,11 +61,7 @@ class UserController {
     userService
       .logout(userID)
       .then(() => {
-        res
-          .status(204)
-          .clearCookie("accessToken")
-          .clearCookie("refreshToken")
-          .redirect(`${process.env.ORIGIN_URL as string}/login`);
+        res.status(204).clearCookie("accessToken").clearCookie("refreshToken");
       })
       .catch((err) => {
         next(err);

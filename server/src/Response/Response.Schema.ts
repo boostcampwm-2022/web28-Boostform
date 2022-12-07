@@ -15,6 +15,7 @@ const ResponseSchema = new mongoose.Schema({
   },
   form_id: {
     type: String,
+    index: true,
   },
   answer_list: {
     type: [AnswerSchema],

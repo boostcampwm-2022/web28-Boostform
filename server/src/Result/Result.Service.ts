@@ -1,3 +1,4 @@
+import { format } from "path";
 import { Response, FormResult, Answer } from "./types/Result.Interface";
 import Form from "../Form/Form.Model";
 import FormResponse from "../Response/Response.Model";
@@ -6,13 +7,13 @@ import BadRequestException from "../Common/Exceptions/BadRequest.Exception";
 export default class ResultService {
   form: any;
 
-  responses: Array<any>;
+  responseList: Array<any>;
 
   result: FormResult;
 
   constructor() {
     this.form = undefined;
-    this.responses = [];
+    this.responseList = [];
     this.result = {
       formTitle: "",
       totalResponseCount: 0,
@@ -23,14 +24,18 @@ export default class ResultService {
 
   public async init(formId: string) {
     this.form = undefined;
-    this.responses = [];
-    this.form = await Form.findOne({ _id: formId })
+    this.responseList = [];
+    const asyncForm = Form.findOne({ _id: formId })
+      .lean()
       .exec()
       .catch(() => {
         throw new BadRequestException("Invalid formId");
       });
+    const asyncResponseList = FormResponse.find({ form_id: formId }).lean().exec();
+    const [form, responseList] = await Promise.all([asyncForm, asyncResponseList]);
+    this.form = form;
+    this.responseList = responseList;
     if (!this.form) throw new BadRequestException("Invalid formId");
-    this.responses = await FormResponse.find({ form_id: formId });
     this.result = {
       formTitle: this.form.title,
       totalResponseCount: this.form.response_count,
@@ -61,7 +66,7 @@ export default class ResultService {
   }
 
   formResult(): FormResult {
-    this.responses.forEach((response) => this.aggregateResponse(response));
+    this.responseList.forEach((response) => this.aggregateResponse(response));
     return this.result;
   }
 
