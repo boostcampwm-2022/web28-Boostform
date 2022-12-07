@@ -18,7 +18,9 @@ type IconType =
   | "add"
   | "error"
   | "chain"
-  | "logo";
+  | "logo"
+  | "left"
+  | "right";
 
 interface IconProps {
   type: IconType;
