@@ -1,11 +1,11 @@
 {
   "config": {
-    "target": "http://101.101.208.135:8080",
+    "target": "http://localhost:8080",
     "phases": [
       {
         "name": "phase1",
         "duration": 10,
-        "arrivalRate": 200
+        "arrivalRate": 180
       }
     ],
     "payload": {
