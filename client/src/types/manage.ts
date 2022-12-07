@@ -1,3 +1,8 @@
+interface SelectedForm {
+  id: string;
+  index: number;
+}
+
 interface FormItems {
   _id: string;
   title: string;
@@ -9,13 +14,4 @@ interface FormItems {
   category: string;
 }
 
-type CreateFormResponse = {
-  formId: string;
-};
-
-interface SelectedForm {
-  id: string;
-  index: number;
-}
-
-export type { FormItems, CreateFormResponse, SelectedForm };
+export type { SelectedForm, FormItems };

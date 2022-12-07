@@ -12,7 +12,7 @@ function Result() {
   const navigate = useNavigate();
 
   const fetchForm = (): Promise<FormDataApi> => formApi.getForm(id);
-  const { data, isSuccess } = useQuery({ queryKey: [id], queryFn: fetchForm });
+  const { data, isSuccess } = useQuery({ queryKey: [id, "form"], queryFn: fetchForm });
 
   const [form, setForm] = useState<FormDataApi>();
 

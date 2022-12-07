@@ -37,47 +37,4 @@ const IconButton = styled.button<StyledIconButtonProps>`
   ${({ custom }) => custom}
 `;
 
-const DeleteButton = styled.button`
-  background-color: transparent;
-  border: 0;
-  cursor: pointer;
-  margin-left: 12px;
-`;
-
-const AddOptionButton = styled.button`
-  border: 0;
-  padding: 5px 0;
-  background-color: transparent;
-  cursor: pointer;
-  color: ${({ theme }) => theme.colors.grey5};
-`;
-
-const CheckIconButton = styled.button`
-  margin: 0;
-  padding: 0;
-  background-color: transparent;
-  border: 0;
-`;
-
-const QuestionTailButton = styled.button`
-  border: 0;
-  background-color: transparent;
-  cursor: pointer;
-  margin-right: 5px;
-
-  &:active {
-    transform: translateY(1px);
-  }
-`;
-
-const Button = styled.button`
-  border: 0;
-  background-color: transparent;
-  cursor: pointer;
-
-  &:active {
-    transform: translateY(1px);
-  }
-`;
-
 export default IconButton;

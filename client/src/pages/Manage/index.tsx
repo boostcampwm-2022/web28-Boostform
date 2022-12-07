@@ -1,17 +1,16 @@
+/* eslint-disable no-underscore-dangle */
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import formApi from "api/formApi";
-import Icon from "components/common/Icon";
 import ManageLayout from "components/template/Manage";
-import Button from "components/common/Button";
 import IconButton from "components/common/IconButton";
-import theme from "styles/theme";
+import ManageHead from "components/Manage/Head";
+import ManageFormItem from "components/Manage/FormItem";
+import EditNameModal from "components/Modal/EditFormNameModal";
+import DeleteSurveyModal from "components/Modal/DeleteFormModal";
 import useModal from "hooks/useModal";
-import OutsideDetecter from "hooks/useOutsideDetecter";
-import EditNameModal from "../../components/Modal/EditFormNameModal";
-import DeleteSurveyModal from "../../components/Modal/DeleteFormModal";
+import { FormItems, SelectedForm } from "types/manage";
 import * as S from "./style";
-import { FormItems, SelectedForm } from "./type";
 
 function Manage() {
   const [size, setSize] = useState(0);
@@ -22,6 +21,7 @@ function Manage() {
 
   const navigate = useNavigate();
   const { openModal, closeModal, ModalPortal } = useModal();
+
   useEffect(() => {
     formApi
       .getFormLists(size)
@@ -36,48 +36,8 @@ function Manage() {
       });
   }, [size, navigate]);
 
-  const onClickCreateForm = async () => {
-    const { formId } = await formApi.createForm();
-    navigate(`/forms/${formId}/edit`);
-  };
-
-  const onClickNavigateForm = (formId: string) => {
-    navigate(`/forms/${formId}/edit`);
-  };
-
   const onClickFetchForms = () => {
     setSize(fetchedForms.length);
-  };
-
-  const onClickOpenDropdown = (index: number) => {
-    setDropdowns((prev) => {
-      const value = prev[index];
-      const { length } = prev;
-
-      const curr = Array(length).fill(false);
-
-      curr[index] = !value;
-      return curr;
-    });
-  };
-
-  const closeAllDropDown = () => {
-    const { length } = dropdowns;
-    setDropdowns(Array(length).fill(false));
-  };
-
-  const onClickOpenNameChangeModal = (formId: string, index: number) => {
-    closeAllDropDown();
-    setModalType("change");
-    setSelectedForm({ id: formId, index });
-    openModal();
-  };
-
-  const onClickOpenDeleteFormModal = (formId: string, index: number) => {
-    closeAllDropDown();
-    setModalType("delete");
-    setSelectedForm({ id: formId, index });
-    openModal();
   };
 
   const renderByDeleteForm = (index: number) => {
@@ -105,107 +65,40 @@ function Manage() {
   return (
     <ManageLayout backgroundColor="white">
       <S.Container>
-        <S.HeaderContainer>
-          <Button
-            type="button"
-            onClick={onClickCreateForm}
-            backgroundColor={theme.colors.blue3}
-            color={theme.colors.white}
-            fontSize={theme.fontSize.sz16}
-          >
-            <Icon type="plus" size="24px" fill="white" />
-            <S.NewFormText>새 설문지</S.NewFormText>
-          </Button>
-          <S.Header>
-            <S.Title>제목</S.Title>
-            <S.Status>상태</S.Status>
-            <S.ResponseCount>응답수</S.ResponseCount>
-            <S.Date>수정 날짜</S.Date>
-            <S.Share>게시판 공유</S.Share>
-            <S.Category>카테고리</S.Category>
-            <S.More>더보기</S.More>
-          </S.Header>
-        </S.HeaderContainer>
+        <ManageHead />
         <S.FormListContainer>
-          <>
-            {fetchedForms.map(({ category, _id, onBoard, response, title, updatedAt, acceptResponse }, index) => (
-              <S.FormList key={_id} onClick={() => onClickNavigateForm(_id)}>
-                <S.Title key={`${_id}Title`}>{title}</S.Title>
-                <S.Status key={`${_id}AcceptResponse`}>{acceptResponse ? "Open" : "Close"}</S.Status>
-                <S.ResponseCount key={`${_id}Response`}>{response}</S.ResponseCount>
-                <S.Date key={`${_id}UpdatedAt`}>{updatedAt}</S.Date>
-                <S.Share key={`${_id}onBoard`}>{onBoard ? "On" : "Off"}</S.Share>
-                <S.Category key={`${_id}Category`}>{category}</S.Category>
-                <S.More key={`${_id}More`}>
-                  <span>
-                    <S.Button
-                      type="button"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        onClickOpenDropdown(index);
-                      }}
-                    >
-                      <Icon type="kebab" size="16px" />
-                    </S.Button>
-                    {dropdowns[index] && (
-                      <OutsideDetecter callback={closeAllDropDown}>
-                        <S.Dropdown>
-                          <li key={`${_id}EditName`}>
-                            <S.DropdownButton
-                              type="button"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                onClickOpenNameChangeModal(_id, index);
-                              }}
-                            >
-                              <Icon type="text" size="16px" />
-                              <S.DropdownText>제목 바꾸기</S.DropdownText>
-                            </S.DropdownButton>
-                          </li>
-                          <li key={`${_id}DeleteSurvey`}>
-                            <S.DropdownButton
-                              type="button"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                onClickOpenDeleteFormModal(_id, index);
-                              }}
-                            >
-                              <Icon type="trashcan" size="16px" />
-                              <S.DropdownText>삭제</S.DropdownText>
-                            </S.DropdownButton>
-                          </li>
-                        </S.Dropdown>
-                      </OutsideDetecter>
-                    )}
-                  </span>
-                </S.More>
-              </S.FormList>
-            ))}
-          </>
+          {fetchedForms.map((formItem, index) => (
+            <ManageFormItem
+              key={formItem._id}
+              formItem={formItem}
+              index={index}
+              dropdowns={dropdowns}
+              setDropdowns={setDropdowns}
+              setModalType={setModalType}
+              setSelectedForm={setSelectedForm}
+              openModal={openModal}
+            />
+          ))}
           <S.ButtonContainer>
             <IconButton type="button" onClick={onClickFetchForms} icon="plus" size="24px" />
           </S.ButtonContainer>
         </S.FormListContainer>
-
-        {modalType === "change" && (
-          <ModalPortal>
-            <EditNameModal
-              closeModal={closeModal}
-              selectedForm={selectedForm}
-              renderByNameChange={renderByNameChange}
-            />
-          </ModalPortal>
-        )}
-        {modalType === "delete" && (
-          <ModalPortal>
-            <DeleteSurveyModal
-              closeModal={closeModal}
-              selectedForm={selectedForm}
-              renderByDeleteForm={renderByDeleteForm}
-            />
-          </ModalPortal>
-        )}
       </S.Container>
+
+      {modalType === "change" ? (
+        <ModalPortal>
+          <EditNameModal closeModal={closeModal} selectedForm={selectedForm} renderByNameChange={renderByNameChange} />
+        </ModalPortal>
+      ) : null}
+      {modalType === "delete" ? (
+        <ModalPortal>
+          <DeleteSurveyModal
+            closeModal={closeModal}
+            selectedForm={selectedForm}
+            renderByDeleteForm={renderByDeleteForm}
+          />
+        </ModalPortal>
+      ) : null}
     </ManageLayout>
   );
 }
