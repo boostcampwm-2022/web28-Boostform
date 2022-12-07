@@ -5,7 +5,7 @@ on:
     branches:
       - DevOps/NginX/CICD
 jobs:
-  Running-Web-Server:
+  deploy client:
     runs-on: ubuntu-latest
     steps:
       - name: deploy client
@@ -24,6 +24,8 @@ jobs:
             cd /home/boostForm/client
             npm i
             npm start
+  deploy server01:
+    runs-on: ubuntu-latest
     steps:
       - name: deploy server01
         uses: appleboy/ssh-action@master
@@ -41,6 +43,8 @@ jobs:
             cd /root/boostform/server
             npm i
             pm2 reload all
+  deploy server02:
+    runs-on: ubuntu-latest
     steps:
       - name: deploy server02
         uses: appleboy/ssh-action@master
