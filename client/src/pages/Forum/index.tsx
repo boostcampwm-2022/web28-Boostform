@@ -34,7 +34,7 @@ function Forum() {
   const [page, setPage] = useState(1);
 
   const fetchFormList = (): Promise<ForumApi> => boardApi.getFormList({ title: keyword, category, orderBy, page });
-  const { data } = useQuery({
+  const { data, isLoading, isSuccess } = useQuery({
     queryKey: [keyword, category, orderBy, page],
     queryFn: fetchFormList,
   });
@@ -157,6 +157,9 @@ function Forum() {
             <Pagination currentPage={page} lastPage={Number(data?.lastPage)} setPage={setPage} />
           </>
         ) : null}
+
+        {isLoading ? <div>loading</div> : null}
+        {isSuccess && !data.form.length ? <div>값이 없음</div> : null}
       </S.divContainer>
     </Layout>
   );
