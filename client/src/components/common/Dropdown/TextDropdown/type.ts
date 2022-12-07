@@ -1,8 +1,25 @@
-interface TextDropdownProps {
+interface DropdownProps {
   state: string;
-  setState: (value: string) => void;
-  items: string[];
   defaultState: string;
+  fontSize?: string;
+  children: React.ReactNode;
 }
 
-export default TextDropdownProps;
+interface HeadProps {
+  border?: string;
+  padding?: string;
+  color?: string;
+  bold?: boolean;
+}
+
+interface ItemProps {
+  value: string;
+  onClick: () => void;
+}
+
+interface ItemListProps {
+  children: React.ReactNode;
+  custom?: string;
+}
+
+export type { DropdownProps, HeadProps, ItemProps, ItemListProps };
