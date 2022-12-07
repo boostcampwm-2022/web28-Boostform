@@ -41,7 +41,7 @@ class BoardService {
     return ``;
   }
 
-  static async searchByQuery(searchQuery: FormSearchQuery, sortQuery: FormSortQuery) {
+  static async searchByQuery(searchQuery: FormSearchQuery, sortQuery: FormSortQuery, pageNum: number) {
     const select = "_id title category response_count";
     const updatedSearchQuery = this.pipe<SetToQueryFn, FormSearchQuery>(
       this.setOnBoardToQuery,
@@ -52,7 +52,11 @@ class BoardService {
 
     const updatedSortQuery = this.setSortingToQuery(sortQuery);
 
-    const searchResults = await Form.find(updatedSearchQuery, select).sort(updatedSortQuery); // .skip(<number>).limit(<number>)
+    const pageSize = 5;
+    const searchResults = await Form.find(updatedSearchQuery, select)
+      .sort(updatedSortQuery)
+      .skip((pageNum - 1) * pageSize)
+      .limit(pageSize);
 
     const updatedSearchResults = searchResults.map((result) => {
       const resultObject = Object.entries(result.toObject()).map(([k, v]) => {
@@ -63,7 +67,10 @@ class BoardService {
       return Object.fromEntries(resultObject);
     });
 
-    return updatedSearchResults;
+    const searchResultsLength = await Form.count(updatedSearchQuery);
+    const lastPage = Math.ceil(searchResultsLength / pageSize);
+
+    return { form: updatedSearchResults, lastPage };
   }
 }
 

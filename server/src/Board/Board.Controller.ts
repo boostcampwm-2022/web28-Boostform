@@ -14,22 +14,24 @@ class BoardController {
     const sortKeys = ["orderBy"];
     const searchQuery = BoardController.filterByKeys(req.query, searchKeys);
     const sortQuery = BoardController.filterByKeys(req.query, sortKeys);
+    const pageNum = req.query.page ? Number(req.query.page) : 1;
 
     const cacheKey = `board:${JSON.stringify(req.query)}`;
 
     let searchResult = req.query.title
-      ? await BoardService.searchByQuery(searchQuery, sortQuery)
+      ? await BoardService.searchByQuery(searchQuery, sortQuery, pageNum)
       : JSON.parse(await redisCli.get(cacheKey));
 
     if (!searchResult) {
-      searchResult = await BoardService.searchByQuery(searchQuery, sortQuery);
+      searchResult = await BoardService.searchByQuery(searchQuery, sortQuery, pageNum);
       redisCli.set(cacheKey, JSON.stringify(searchResult));
       redisCli.expire(cacheKey, 120);
     }
-    res.status(200).json(searchResult);
+
+    res.status(200).send(searchResult);
 
     // 캐싱 안하는 실험 코드
-    // const searchResult = await BoardService.searchByQuery(searchQuery, sortQuery);
+    // const searchResult = await BoardService.searchByQuery(searchQuery, sortQuery, pageNum);
     // res.status(200).json(searchResult);
   }
 }
