@@ -20,7 +20,6 @@ function Result() {
     if (!id) return;
     if (isSuccess) {
       setFormResult(data);
-      console.log(data);
       setQuestionResult(Object.values(data.questionResultDict));
     }
   }, [id, isSuccess, data]);
@@ -29,7 +28,7 @@ function Result() {
     <FormLayout backgroundColor="blue">
       <S.Container>
         <S.HeadContainer>
-          <S.HeadTitle>설문지 제목</S.HeadTitle>
+          <S.HeadTitle>{formResult?.formTitle}</S.HeadTitle>
           <S.OverallResponseCount>응답 {formResult?.totalResponseCount}개</S.OverallResponseCount>
         </S.HeadContainer>
         {questionResult.map(({ type, questionTitle, responseCount, answerTotal }) => (

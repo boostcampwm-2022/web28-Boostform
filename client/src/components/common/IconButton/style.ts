@@ -22,8 +22,7 @@ const IconButton = styled.button<StyledIconButtonProps>`
 
   &:disabled {
     cursor: not-allowed;
-    background-color: ${({ theme }) => theme.colors.grey1};
-    filter: brightness(90%);
+    filter: brightness(180%);
   }
 
   ${({ active }) =>

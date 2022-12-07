@@ -10,7 +10,7 @@ class BoardService {
   }
 
   static setOnBoardToQuery(query: FormSearchQuery) {
-    return { ...query, on_board: false };
+    return { ...query, on_board: true };
   }
 
   static setAcceptabilityToQuery(query: FormSearchQuery) {
