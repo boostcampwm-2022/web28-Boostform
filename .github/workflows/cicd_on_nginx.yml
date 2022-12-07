@@ -5,7 +5,7 @@ on:
     branches:
       - DevOps/NginX/CICD
 jobs:
-  deploy client:
+  deploy-client:
     runs-on: ubuntu-latest
     steps:
       - name: deploy client
@@ -24,7 +24,7 @@ jobs:
             cd /home/boostForm/client
             npm i
             npm start
-  deploy server01:
+  deploy-server01:
     runs-on: ubuntu-latest
     steps:
       - name: deploy server01
@@ -43,7 +43,7 @@ jobs:
             cd /root/boostform/server
             npm i
             pm2 reload all
-  deploy server02:
+  deploy-server02:
     runs-on: ubuntu-latest
     steps:
       - name: deploy server02
