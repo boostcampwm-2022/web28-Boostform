@@ -24,6 +24,7 @@ jobs:
             cd /home/boostForm/client
             npm i
             npm start
+    steps:
       - name: deploy server01
         uses: appleboy/ssh-action@master
         with:
@@ -40,6 +41,7 @@ jobs:
             cd /root/boostform/server
             npm i
             pm2 reload all
+    steps:
       - name: deploy server02
         uses: appleboy/ssh-action@master
         with:
