@@ -21,7 +21,7 @@ connectDB();
 
 (async () => {
   try {
-    await FormResponse.deleteMany({ form_id: "637e2d875d07882cfce8a076" });
+    await FormResponse.deleteMany({ form_id: "6390546972ed73337b4936ec" });
     console.log("delete success");
   } catch (err) {
     console.log(err);

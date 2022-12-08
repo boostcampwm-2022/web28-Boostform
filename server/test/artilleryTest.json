@@ -13,12 +13,12 @@
       "fields": ["question1", "question2", "question3"]
     },
     "variables": {
-      "formId": "637e2d988defe2cc0404ff2c"
+      "formId": "6390546972ed73337b4936ec"
     }
   },
   "scenarios": [
     {
-      "name": "Response and update",
+      "name": "Post Response",
       "flow": [
         {
           "post": {

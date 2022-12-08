@@ -24,9 +24,9 @@ class ResponseService {
 
   static async getResponse(responseId: string) {
     // redis에서 이전에 제출한 응답 찾기
-    let rawResponse = await redisCli.hGet("response", responseId);
+    let rawResponse = await redisCli.hGet("response_update", responseId);
     if (!rawResponse) {
-      rawResponse = await redisCli.hGet("response_update", responseId);
+      rawResponse = await redisCli.hGet("response", responseId);
     }
 
     // redis에서 이전에 제출한 응답을 찾았다면, JSON형태로 변환해준다
@@ -43,18 +43,20 @@ class ResponseService {
         answer: rawAnswer.answer,
       };
     });
+    console.log("answerList is made");
 
     const response = {
       userId: rawResponse?.user_id,
       formId: rawResponse?.form_id,
       answerList,
     };
+    console.log("response is made");
 
     return response;
   }
 
   static async updateResponse(responseId: string, answerList: Array<AnswerInterface>) {
-    await redisCli.hSet("response_update", responseId, JSON.stringify(answerList));
+    await redisCli.hSet("response_update", responseId, JSON.stringify({ answer_list: answerList }));
   }
 
   static getAnswerListForDB(answerListFromRequest: Array<AnswerFromRequest>) {
