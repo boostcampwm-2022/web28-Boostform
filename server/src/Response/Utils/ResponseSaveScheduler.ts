@@ -4,7 +4,6 @@ import * as fs from "fs";
 import Scheduler from "./Scheduler";
 import { redisCli } from "../../app";
 import FormResponse from "../Response.Model";
-import getDateString from "../../Common/Utils/GetDateString";
 
 class ResponseSaveScheduler extends Scheduler {
   static isWorking = false;
