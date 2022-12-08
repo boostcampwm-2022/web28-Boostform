@@ -8,6 +8,12 @@ class BoardService {
 
   static setAccept = (query: FormSearchQuery) => ({ ...query, accept_response: true });
 
+  static setCategory = (query: FormSearchQuery) => {
+    const q = { ...query };
+    if (q.category === "전체") delete q.category;
+    return { ...q };
+  };
+
   static setTitleRegEx(query: FormSearchQuery) {
     if (!("title" in query)) return query;
     const { title } = query;
@@ -23,7 +29,12 @@ class BoardService {
     return "";
   }
 
-  static setOptionFn = pipe<SetQueryFn, FormSearchQuery>(this.setOnBoard, this.setAccept, this.setTitleRegEx);
+  static setOptionFn = pipe<SetQueryFn, FormSearchQuery>(
+    this.setOnBoard,
+    this.setAccept,
+    this.setCategory,
+    this.setTitleRegEx
+  );
 
   static async searchByQuery(searchQuery: FormSearchQuery, sortQuery: FormSortQuery, pageNum: number) {
     const select = "_id title category response_count";
