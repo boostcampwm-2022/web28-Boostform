@@ -1,17 +1,17 @@
-/* eslint-disable no-underscore-dangle */
-import React, { useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import formApi from "api/formApi";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import ManageLayout from "components/template/BannerLayout";
-import IconButton from "components/common/IconButton";
 import EditNameModal from "components/Modal/EditFormNameModal";
 import DeleteSurveyModal from "components/Modal/DeleteFormModal";
 import useModal from "hooks/useModal";
+import useIntersectionObserver from "hooks/useIntersectionObserver";
 import { FormList } from "types/manage";
 import Card from "components/common/Card";
 import Button from "components/common/Button";
 import Icon from "components/common/Icon";
+import Notice from "components/common/Notice";
 import theme from "styles/theme";
 import * as S from "./style";
 
@@ -24,12 +24,20 @@ function Manage() {
 
   const fetchFormLists = (cursor: string): Promise<FormList> => formApi.getFormLists(cursor);
   const { data, isLoading, isSuccess, fetchNextPage, hasNextPage, refetch } = useInfiniteQuery({
-    queryKey: ["a"],
+    queryKey: ["myForm"],
     queryFn: ({ pageParam = "empty" }) => fetchFormLists(pageParam),
     getNextPageParam: (lastItem) => lastItem.lastId,
   });
 
   const refetchData = () => refetch();
+
+  const fetchNextPageAndUpdate = useCallback(async () => {
+    await fetchNextPage();
+    await refetch();
+  }, [fetchNextPage, refetch]);
+
+  const intersectionObserver = useRef<HTMLDivElement>(null);
+  useIntersectionObserver(intersectionObserver, fetchNextPageAndUpdate);
 
   const onClickCreateForm = async () => {
     const { formId } = await formApi.createForm();
@@ -73,10 +81,11 @@ function Manage() {
         </S.HeaderContainer>
 
         <S.FormListContainer>
-          <Card>
-            {isSuccess
-              ? data?.pages.map((page) =>
-                  page.form.map(({ category, _id, onBoard, response, title, updatedAt, acceptResponse }, index) => (
+          {isSuccess && data.pages[0].form.length ? (
+            <>
+              <Card>
+                {data.pages.map((page) =>
+                  page.form.map(({ category, _id, onBoard, response, title, updatedAt, acceptResponse }) => (
                     <Card.Item title={title} key={_id}>
                       <S.GridBox>
                         <div>
@@ -138,14 +147,14 @@ function Manage() {
                       </Card.ButtonWrapper>
                     </Card.Item>
                   ))
-                )
-              : null}
-          </Card>
-          <S.ButtonContainer>
-            <IconButton type="button" onClick={() => fetchNextPage()} icon="plus" size="24px" />
-          </S.ButtonContainer>
-          {isLoading ? <div>로딩중</div> : null}
-          {!hasNextPage && !isLoading ? <div>끝</div> : null}
+                )}
+              </Card>
+              {!hasNextPage && !isLoading ? <Notice text="페이지의 끝입니다" /> : null}
+            </>
+          ) : null}
+          <div ref={intersectionObserver} />
+          {isSuccess && !data.pages[0].form.length ? <Notice text="설문지가 존재하지 않습니다" /> : null}
+          {isLoading ? <div>loading</div> : null}
         </S.FormListContainer>
       </S.Container>
 
