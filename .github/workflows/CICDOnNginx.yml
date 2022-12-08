@@ -38,9 +38,9 @@ jobs:
             export NVM_DIR=~/.nvm
             source ~/.nvm/nvm.sh
             npm --help
-            cd /root/boostform
+            cd /root/boostForm
             git pull
-            cd /root/boostform/server
+            cd /root/boostForm/server
             npm i
             pm2 reload all
   deploy-server02:
@@ -57,9 +57,9 @@ jobs:
             export NVM_DIR=~/.nvm
             source ~/.nvm/nvm.sh
             npm --help
-            cd /root/boostform
+            cd /root/boostForm
             git pull
-            cd /root/boostform/server
+            cd /root/boostForm/server
             npm i
             pm2 reload all
           # pm2 start npm --name "client" -- start
