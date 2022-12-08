@@ -5,13 +5,12 @@ import theme from "styles/theme";
 import * as S from "./style";
 import EditFormNameModalProps from "./type";
 
-function EditFormNameModal({ closeModal, selectedForm, renderByNameChange }: EditFormNameModalProps) {
+function EditFormNameModal({ closeModal, selectedFormId, refetchData }: EditFormNameModalProps) {
   const [title, setTitle] = useState("");
 
   const onClickChangeName = async () => {
-    const chageTitle = !title ? "제목 없음" : title;
-    await formApi.editName(selectedForm.id, chageTitle);
-    renderByNameChange(selectedForm.index, chageTitle);
+    await formApi.editName(selectedFormId, title || "제목 없음");
+    refetchData();
     closeModal();
   };
   const onClickCancelChangeName = () => closeModal();

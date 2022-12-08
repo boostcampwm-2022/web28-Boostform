@@ -1,8 +1,3 @@
-interface SelectedForm {
-  id: string;
-  index: number;
-}
-
 interface FormItems {
   _id: string;
   title: string;
@@ -14,4 +9,9 @@ interface FormItems {
   category: string;
 }
 
-export type { SelectedForm, FormItems };
+interface FormList {
+  form: FormItems[];
+  lastId: string;
+}
+
+export type { FormItems, FormList };
