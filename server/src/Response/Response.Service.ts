@@ -56,7 +56,7 @@ class ResponseService {
   }
 
   static async updateResponse(responseId: string, answerList: Array<AnswerInterface>) {
-    await redisCli.hSet("response_update", responseId, JSON.stringify(answerList));
+    await redisCli.hSet("response_update", responseId, JSON.stringify({ answer_list: answerList }));
   }
 
   static getAnswerListForDB(answerListFromRequest: Array<AnswerFromRequest>) {
