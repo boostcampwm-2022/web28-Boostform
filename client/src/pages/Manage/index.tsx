@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import formApi from "api/formApi";
 import { useInfiniteQuery } from "@tanstack/react-query";
@@ -12,6 +12,8 @@ import Card from "components/common/Card";
 import Button from "components/common/Button";
 import Icon from "components/common/Icon";
 import Notice from "components/common/Notice";
+import Skeleton from "components/common/Skeleton";
+import useLoadingDelay from "hooks/useLoadingDelay";
 import theme from "styles/theme";
 import * as S from "./style";
 
@@ -23,11 +25,13 @@ function Manage() {
   const { openModal, closeModal, ModalPortal } = useModal();
 
   const fetchFormLists = (cursor: string): Promise<FormList> => formApi.getFormLists(cursor);
-  const { data, isLoading, isSuccess, fetchNextPage, hasNextPage, refetch } = useInfiniteQuery({
+  const { data, isLoading, isSuccess, fetchNextPage, hasNextPage, refetch, isError } = useInfiniteQuery({
     queryKey: ["myForm"],
     queryFn: ({ pageParam = "empty" }) => fetchFormLists(pageParam),
     getNextPageParam: (lastItem) => lastItem.lastId,
   });
+
+  const loadingDelay = useLoadingDelay(isLoading);
 
   const refetchData = () => refetch();
 
@@ -81,7 +85,7 @@ function Manage() {
         </S.HeaderContainer>
 
         <S.FormListContainer>
-          {isSuccess && data.pages[0].form.length ? (
+          {!loadingDelay && isSuccess && data.pages[0].form.length ? (
             <>
               <Card>
                 {data.pages.map((page) =>
@@ -154,7 +158,18 @@ function Manage() {
           ) : null}
           <div ref={intersectionObserver} />
           {isSuccess && !data.pages[0].form.length ? <Notice text="설문지가 존재하지 않습니다" /> : null}
-          {isLoading ? <div>loading</div> : null}
+          {isLoading || loadingDelay || isError
+            ? Array.from({ length: 3 }, (_, index) => index).map((value) => (
+                <Skeleton key={value} custom="margin-top: 41px;">
+                  <Skeleton.Element type="title" />
+                  <Skeleton.Element type="text" />
+                  <Skeleton.Element type="text" />
+                  <Skeleton.Element type="text" />
+                  <Skeleton.Element type="text" />
+                  <Skeleton.Shimmer />
+                </Skeleton>
+              ))
+            : null}
         </S.FormListContainer>
       </S.Container>
 

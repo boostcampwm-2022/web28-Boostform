@@ -9,6 +9,8 @@ import TextDropdown from "components/common/Dropdown/TextDropdown";
 import Card from "components/common/Card";
 import Pagination from "components/common/Pagination";
 import Notice from "components/common/Notice";
+import Skeleton from "components/common/Skeleton";
+import useLoadingDelay from "hooks/useLoadingDelay";
 import { ForumCategory, OrderBy } from "types/forum";
 import { CATEGORY_FORUM_LIST } from "store/form";
 import * as S from "./style";
@@ -33,12 +35,15 @@ function Forum() {
   const [category, setCategory] = useState<ForumCategory>("전체");
   const [orderBy, setOrderBy] = useState<OrderBy>("latestAsc");
   const [page, setPage] = useState(1);
+  // const [loadingDelay, setLoadingDelay] = useState(false);
 
   const fetchFormList = (): Promise<ForumApi> => boardApi.getFormList({ title: keyword, category, orderBy, page });
-  const { data, isLoading, isSuccess } = useQuery({
+  const { data, isLoading, isSuccess, isError } = useQuery({
     queryKey: [keyword, category, orderBy, page],
     queryFn: fetchFormList,
   });
+
+  const loadingDelay = useLoadingDelay(isLoading);
 
   return (
     <Layout backgroundColor="white" title="설문조사 게시판" description="다양한 설문조사를 만나보세요">
@@ -121,7 +126,7 @@ function Forum() {
             </TextDropdown>
           </S.divCategoryWrapper>
         </S.divSortWrapper>
-        {data?.form.length ? (
+        {!loadingDelay && data?.form.length ? (
           <>
             <Card>
               {data?.form.map(({ formId, title, category: formCategory, responseCount }) => (
@@ -159,7 +164,18 @@ function Forum() {
           </>
         ) : null}
 
-        {isLoading ? <div>loading</div> : null}
+        {isLoading || isError || loadingDelay
+          ? Array.from({ length: 3 }, (_, index) => index).map((value) => (
+              <Skeleton key={value}>
+                <Skeleton.Element type="title" />
+                <Skeleton.Element type="text" />
+                <Skeleton.Element type="text" />
+                <Skeleton.Element type="text" />
+                <Skeleton.Element type="text" />
+                <Skeleton.Shimmer />
+              </Skeleton>
+            ))
+          : null}
         {isSuccess && !data.form.length ? <Notice text="설문지가 존재하지 않습니다" /> : null}
       </S.divContainer>
     </Layout>
