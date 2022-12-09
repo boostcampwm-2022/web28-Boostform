@@ -17,8 +17,6 @@ const fromApiToForm = (api: FormDataApi): FormState => {
   let formQuestionList: QuestionState[];
   let currentQuestionId = 1;
 
-  console.log(api);
-
   if (!questionList.length)
     formQuestionList = [
       {
