@@ -54,8 +54,7 @@ class UserService {
     const userName = await this.getGithubUserName(githubAccessToken);
     let user = await UserModel.findOneByName(userName);
     if (!user) {
-      await this.signUp(userName);
-      user = await UserModel.findOneByName(userName);
+      user = await this.signUp(userName);
     }
     if (!user || typeof user.id !== "number") {
       throw new InternalServerException();
@@ -67,10 +66,10 @@ class UserService {
     return { accessToken, refreshToken };
   }
 
-  async signUp(userName: string): Promise<void> {
+  signUp(userName: string): Promise<UserModel> {
     const newUser = new UserModel();
     newUser.name = userName;
-    newUser.save();
+    return newUser.save();
   }
 
   generateToken(userID: number, expiresIn: string) {
