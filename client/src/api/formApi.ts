@@ -20,8 +20,9 @@ const formApi = {
 
     return data;
   },
-  getFormLists: async (size: number) => {
-    return axios(`${API.FORM}?size=${size}`, { withCredentials: true });
+  getFormLists: async (cursor: string) => {
+    const { data } = await axios(`${API.FORM}?cursor=${cursor}`, { withCredentials: true });
+    return data;
   },
   getForm: async (id: string | undefined) => {
     const { data } = await axios.get(`${API.FORM}/${id}`, { withCredentials: true });

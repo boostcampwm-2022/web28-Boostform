@@ -1,7 +1,7 @@
 interface EditFormNameModalProps {
   closeModal: () => void;
-  selectedForm: { id: string; index: number };
-  renderByNameChange: (index: number, title: string) => void;
+  selectedFormId: string;
+  refetchData: () => void;
 }
 
 export default EditFormNameModalProps;

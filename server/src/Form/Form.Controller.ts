@@ -28,11 +28,12 @@ class FormController {
 
   static async getFormList(req: Request, res: Response, next: NextFunction) {
     try {
-      const size = Number(req.query.size);
+      const { cursor } = req.query;
       const userID = Number(req.userID);
-      const formList = await FormService.getFormList(userID, size);
+      const [formList, lastId] = await FormService.getFormList(userID, cursor);
       res.status(200).json({
         form: formList,
+        lastId,
       });
     } catch (err) {
       next(err);

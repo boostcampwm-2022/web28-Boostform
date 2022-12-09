@@ -5,10 +5,10 @@ import theme from "styles/theme";
 import * as S from "./style";
 import DeleteFormModalProps from "./type";
 
-function DeleteFormModal({ closeModal, renderByDeleteForm, selectedForm }: DeleteFormModalProps) {
+function DeleteFormModal({ closeModal, refetchData, selectedFormId }: DeleteFormModalProps) {
   const onClickDeleteSurvey = async () => {
-    await formApi.deleteForm(selectedForm.id);
-    renderByDeleteForm(selectedForm.index);
+    await formApi.deleteForm(selectedFormId);
+    refetchData();
     closeModal();
   };
 
