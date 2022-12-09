@@ -1,0 +1,26 @@
+name: CI/CD on Redis
+run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+on:
+  push:
+    branches:
+      - main
+jobs:
+  deploy-client:
+    runs-on: ubuntu-latest
+    steps:
+      - name: deploy redis scheduler
+        uses: appleboy/ssh-action@v0.1.4
+        with:
+          host: ${{ secrets.REDIS }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.REDIS_PORT }}
+          script: |
+            export NVM_DIR=~/.nvm
+            source ~/.nvm/nvm.sh
+            npm --help
+            cd /home/web28-Boostform
+            git pull
+            cd /root/boostForm/redis
+            npm i
+            pm2 reload all

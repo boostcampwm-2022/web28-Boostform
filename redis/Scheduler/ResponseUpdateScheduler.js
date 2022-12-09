@@ -3,8 +3,6 @@ import Scheduler from "./Scheduler.js";
 import { redisCli } from "../connect.js";
 import FormResponse from "../Response/Response.Model.js";
 
-console.log(schedule);
-
 class ResponseUpdateScheduler extends Scheduler {
   static isWorking = false;
 

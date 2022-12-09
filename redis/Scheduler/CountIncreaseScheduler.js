@@ -1,7 +1,7 @@
 import schedule from "node-schedule";
 import Scheduler from "./Scheduler.js";
-import { redisCli } from "../../app.js";
-import Form from "../../Form/Form.Model.js";
+import { redisCli } from "../connect.js";
+import Form from "../Form/Form.Model.js";
 
 class CountIncreaseScheduler extends Scheduler {
   static isWorking = false;

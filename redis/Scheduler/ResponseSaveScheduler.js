@@ -1,7 +1,7 @@
 import schedule from "node-schedule";
 import Scheduler from "./Scheduler.js";
 import { redisCli } from "../connect.js";
-import FormResponse from "../Response.Model.js";
+import FormResponse from "../Response/Response.Model.js";
 
 class ResponseSaveScheduler extends Scheduler {
   static isWorking = false;
