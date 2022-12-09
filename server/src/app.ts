@@ -14,9 +14,6 @@ import * as redis from "redis";
 import indexRouter from "./routes/index";
 import errorMiddleware from "./Middlewares/Error.Middleware";
 import NotFoundException from "./Common/Exceptions/NotFound.Exception";
-import ResponseSaveScheduler from "./Response/Utils/ResponseSaveScheduler";
-import CountIncreaseScheduler from "./Response/Utils/CountIncreaseScheduler";
-import ResponseUpdateScheduler from "./Response/Utils/ResponseUpdateScheduler";
 
 dotenv.config();
 const app = express();
