@@ -8,6 +8,7 @@ import { useQuery } from "@tanstack/react-query";
 import TextDropdown from "components/common/Dropdown/TextDropdown";
 import Card from "components/common/Card";
 import Pagination from "components/common/Pagination";
+import Notice from "components/common/Notice";
 import { ForumCategory, OrderBy } from "types/forum";
 import { CATEGORY_FORUM_LIST } from "store/form";
 import * as S from "./style";
@@ -159,7 +160,7 @@ function Forum() {
         ) : null}
 
         {isLoading ? <div>loading</div> : null}
-        {isSuccess && !data.form.length ? <div>값이 없음</div> : null}
+        {isSuccess && !data.form.length ? <Notice text="설문지가 존재하지 않습니다" /> : null}
       </S.divContainer>
     </Layout>
   );

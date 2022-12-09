@@ -36,4 +36,23 @@ const Flicker = styled.span`
   font-size: ${({ theme }) => theme.fontSize.sz14};
 `;
 
-export { Container, FormListContainer, ButtonContainer, GridBox, Flicker, HeaderContainer, NewFormText };
+const LastItemNotice = styled.p`
+  margin: 16px 0;
+  padding: 16px 0;
+  text-align: center;
+  font-weight: 500;
+  font-size: ${({ theme }) => theme.fontSize.sz14};
+  color: ${({ theme }) => theme.colors.white};
+  background-color: ${({ theme }) => theme.colors.blue3};
+`;
+
+export {
+  Container,
+  FormListContainer,
+  ButtonContainer,
+  GridBox,
+  Flicker,
+  HeaderContainer,
+  NewFormText,
+  LastItemNotice,
+};

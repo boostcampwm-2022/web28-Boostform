@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import Form from "./Form.Model";
 import { UpdateFormRequestBody, QuestionInRequestBody, QuestionInDB, FormInDB } from "./Form.Interface";
 import getDateString from "../Common/Utils/GetDateString";
@@ -10,11 +11,18 @@ class FormService {
     return newForm.id;
   }
 
-  static async getFormList(userID: number, size: number) {
-    const rawFormList = await Form.find({ user_id: userID }).sort({ createdAt: -1 }).skip(size).limit(5);
+  static async getFormList(userID: number, cursor: string | any) {
+    const rawFormList =
+      cursor === "empty"
+        ? await Form.find({ user_id: userID }).sort({ _id: -1 }).limit(5).lean().exec()
+        : await Form.find({ user_id: userID, _id: { $lt: cursor } })
+            .sort({ _id: -1 })
+            .limit(5)
+            .lean()
+            .exec();
     const formList = rawFormList.map((form: any) => {
       return {
-        _id: form.id,
+        _id: `${form._id}`,
         title: form.title,
         acceptResponse: form.accept_response,
         updatedAt: getDateString(form.updatedAt),
@@ -23,7 +31,8 @@ class FormService {
         response: form.response_count,
       };
     });
-    return formList;
+    const lastId = formList.at(-1)?._id;
+    return [formList, lastId];
   }
 
   static async updateForm(formId: string, body: UpdateFormRequestBody) {
