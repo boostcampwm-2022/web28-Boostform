@@ -1,5 +1,4 @@
 import schedule from "node-schedule";
-import * as fs from "fs";
 import Scheduler from "./Scheduler.js";
 import { redisCli } from "../connect.js";
 import FormResponse from "../Response.Model.js";
