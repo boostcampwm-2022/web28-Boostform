@@ -75,10 +75,6 @@ redisClient.connect();
 
 export const redisCli = redisClient.v4;
 
-ResponseSaveScheduler.init();
-CountIncreaseScheduler.init();
-ResponseUpdateScheduler.init();
-
 // view engine setup
 app.use(logger("dev"));
 app.use(express.json());

@@ -1,8 +1,7 @@
-/* eslint-disable no-async-promise-executor */
 import schedule from "node-schedule";
-import Scheduler from "./Scheduler";
-import { redisCli } from "../../app";
-import Form from "../../Form/Form.Model";
+import Scheduler from "./Scheduler.js";
+import { redisCli } from "../connect.js";
+import Form from "../Form/Form.Model.js";
 
 class CountIncreaseScheduler extends Scheduler {
   static isWorking = false;
@@ -20,7 +19,10 @@ class CountIncreaseScheduler extends Scheduler {
             return new Promise((res, rej) => {
               const count = Number(countList[formId]);
 
-              Form.findOneAndUpdate({ _id: formId }, { $inc: { response_count: count } })
+              Form.findOneAndUpdate(
+                { _id: formId },
+                { $inc: { response_count: count } }
+              )
                 .exec()
                 .then(redisCli.hIncrBy("count", formId, -count))
                 .then(async () => {
