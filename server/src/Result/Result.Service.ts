@@ -75,6 +75,7 @@ export default class ResultService {
   }
 
   aggregateAnswer(answer: Answer) {
+    if (!((answer.question_id as number) in this.result.questionResultDict)) return;
     this.result.questionResultDict[answer.question_id].responseCount += 1;
     answer.answer.forEach((option: string) => this.countOptionSelected(option, answer.question_id));
   }
