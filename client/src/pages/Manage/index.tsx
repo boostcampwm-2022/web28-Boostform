@@ -157,7 +157,9 @@ function Manage() {
             </>
           ) : null}
           <div ref={intersectionObserver} />
-          {isSuccess && !data.pages[0].form.length ? <Notice text="설문지가 존재하지 않습니다" /> : null}
+          {!loadingDelay && isSuccess && !data.pages[0].form.length ? (
+            <Notice text="설문지가 존재하지 않습니다" />
+          ) : null}
           {isLoading || loadingDelay || isError
             ? Array.from({ length: 3 }, (_, index) => index).map((value) => (
                 <Skeleton key={value} custom="margin-top: 41px;">

@@ -35,7 +35,6 @@ function Forum() {
   const [category, setCategory] = useState<ForumCategory>("전체");
   const [orderBy, setOrderBy] = useState<OrderBy>("latestAsc");
   const [page, setPage] = useState(1);
-  // const [loadingDelay, setLoadingDelay] = useState(false);
 
   const fetchFormList = (): Promise<ForumApi> => boardApi.getFormList({ title: keyword, category, orderBy, page });
   const { data, isLoading, isSuccess, isError } = useQuery({
@@ -176,7 +175,7 @@ function Forum() {
               </Skeleton>
             ))
           : null}
-        {isSuccess && !data.form.length ? <Notice text="설문지가 존재하지 않습니다" /> : null}
+        {!loadingDelay && isSuccess && !data.form.length ? <Notice text="설문지가 존재하지 않습니다" /> : null}
       </S.divContainer>
     </Layout>
   );
