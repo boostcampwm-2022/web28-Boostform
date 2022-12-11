@@ -68,6 +68,11 @@ function Manage() {
     openModal();
   };
 
+  const checkApiLoadingOrError = () => {
+    if (isLoading || loadingDelay || isError) return true;
+    return false;
+  };
+
   return (
     <ManageLayout backgroundColor="white" title="내 설문조사" description="내가 만든 설문조사 확인하기">
       <S.Container>
@@ -160,7 +165,7 @@ function Manage() {
           {!loadingDelay && isSuccess && !data.pages[0].form.length ? (
             <Notice text="설문지가 존재하지 않습니다" />
           ) : null}
-          {isLoading || loadingDelay || isError
+          {checkApiLoadingOrError()
             ? Array.from({ length: 3 }, (_, index) => index).map((value) => (
                 <Skeleton key={value} custom="margin-top: 41px;">
                   <Skeleton.Element type="title" />

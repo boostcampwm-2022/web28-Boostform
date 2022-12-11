@@ -9,12 +9,14 @@ const HeadContainer = styled.div`
   background-color: ${({ theme }) => theme.colors.white};
   border-radius: 3px;
   padding: 10px 20px;
+  position: relative;
+  overflow: hidden;
 `;
 
 const HeadTitle = styled.div`
   width: 100%;
   display: block;
-  font-size: 32px;
+  font-size: 28px;
   padding: 5px 0;
   border: none;
   font-family: Arial, Helvetica, sans-serif;
@@ -33,7 +35,7 @@ const ToggleText = styled.span`
 const OverallResponseCount = styled.div`
   margin-top: 8px;
   margin-bottom: 8px;
-  font-size: 20px;
+  font-size: 16px;
 `;
 
 const QuestionContainer = styled.div`
@@ -41,6 +43,9 @@ const QuestionContainer = styled.div`
   background-color: ${({ theme }) => theme.colors.white};
   border-radius: 3px;
   padding: 20px;
+
+  position: relative;
+  overflow: hidden;
 
   &:last-child {
     margin-bottom: 24px;
@@ -54,7 +59,12 @@ const QuestionResponseCount = styled.div`
   font-weight: 400;
 `;
 
-const NoResponse = styled.div`
+const NoResponseForm = styled.div`
+  font-size: 14px;
+  font-weight: 400;
+`;
+
+const NoResponseQuestion = styled.div`
   margin-top: 24px;
   font-size: 14px;
   font-weight: 400;
@@ -69,5 +79,6 @@ export {
   OverallResponseCount,
   QuestionContainer,
   QuestionResponseCount,
-  NoResponse,
+  NoResponseForm,
+  NoResponseQuestion,
 };

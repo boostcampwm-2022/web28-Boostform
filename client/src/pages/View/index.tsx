@@ -9,8 +9,10 @@ import { checkPrevResponseUpdateValidateCheckList, fromApiToValidateCheckList, v
 import FormLayout from "components/template/Layout";
 import QuestionView from "components/View/QuestionView";
 import Button from "components/common/Button";
+import Skeleton from "components/common/Skeleton";
 import theme from "styles/theme";
 import responseApi from "api/responseApi";
+import useLoadingDelay from "hooks/useLoadingDelay";
 import { ResponseElement, Validation } from "types/response";
 import * as S from "./style";
 
@@ -36,13 +38,25 @@ function View() {
   const { state: prevResponseId } = useLocation();
 
   const fetchForm = (): Promise<FormDataApi> => formApi.getForm(id);
-  const { data: formData, isSuccess: formIsSuccess } = useQuery({ queryKey: [id, "form"], queryFn: fetchForm });
+  const {
+    data: formData,
+    isSuccess: formIsSuccess,
+    isLoading: formIsLoading,
+    isError: formIsError,
+  } = useQuery({ queryKey: [id, "form"], queryFn: fetchForm });
 
   const fetchResponse = (): Promise<ResponseElement[]> => responseApi.getResponse(id, prevResponseId);
-  const { data: responseData, isSuccess: responseIsSuccess } = useQuery({
+  const {
+    data: responseData,
+    isSuccess: responseIsSuccess,
+    isLoading: responseIsLoading,
+    isError: resposneIsError,
+  } = useQuery({
     queryKey: [prevResponseId, "response"],
     queryFn: fetchResponse,
   });
+
+  const loadingDelay = useLoadingDelay(formIsLoading || responseIsLoading);
 
   const [state, setState] = useState(initialState);
   const { form, question } = state;
@@ -63,7 +77,6 @@ function View() {
   useEffect(() => {
     if (!id) return;
     if (formIsSuccess) {
-      console.log(formData);
       setState(fromApiToForm(formData));
       const checkList = fromApiToValidateCheckList(formData);
       setValidation(checkList);
@@ -87,41 +100,84 @@ function View() {
     }
   };
 
+  const checkApiSuccess = () => {
+    if (!loadingDelay && formIsSuccess && responseIsSuccess) return true;
+    return false;
+  };
+  const checkApiLoadingOrError = () => {
+    if (formIsLoading || responseIsLoading || loadingDelay || formIsError || resposneIsError) return true;
+    return false;
+  };
+
   return (
     <FormLayout backgroundColor="blue">
       <S.Container>
         <S.HeadContainer>
-          <S.HeadTitle>{form.title}</S.HeadTitle>
-          {form.description ? <S.HeadDescription>{form.description}</S.HeadDescription> : null}
+          {checkApiSuccess() && (
+            <>
+              <S.HeadTitle>{form.title}</S.HeadTitle>
+              {form.description ? <S.HeadDescription>{form.description}</S.HeadDescription> : null}
+            </>
+          )}
+          {formIsLoading || responseIsLoading || loadingDelay || formIsError || resposneIsError ? (
+            <>
+              <Skeleton.Element type="formTitle" />
+              <Skeleton.Element type="text" />
+              <Skeleton.Element type="text" />
+              <Skeleton.Element type="text" />
+              <Skeleton.Shimmer />
+            </>
+          ) : null}
         </S.HeadContainer>
-        {question.map(({ questionId, title, essential }, questionIndex) => (
-          <S.QuestionContainer key={questionId} isEssential={validationMode && !validation[questionId] && essential}>
-            <div>
-              <span>{title}</span>
-              {essential ? <S.Essential>*</S.Essential> : null}
-            </div>
-            <QuestionView
-              questionState={question[questionIndex]}
-              addResponse={onClickAddResponse}
-              deleteResponse={onClickDeleteResponse}
-              editResponse={onClickEditResponse}
-              responseState={responseState}
-              validationMode={validationMode}
-              validation={validation}
-              setValidation={setValidation}
-            />
-          </S.QuestionContainer>
-        ))}
+        {checkApiSuccess() &&
+          question.map(({ questionId, title, essential }, questionIndex) => (
+            <S.QuestionContainer key={questionId} isEssential={validationMode && !validation[questionId] && essential}>
+              <div>
+                <span>{title}</span>
+                {essential ? <S.Essential>*</S.Essential> : null}
+              </div>
+              <QuestionView
+                questionState={question[questionIndex]}
+                addResponse={onClickAddResponse}
+                deleteResponse={onClickDeleteResponse}
+                editResponse={onClickEditResponse}
+                responseState={responseState}
+                validationMode={validationMode}
+                validation={validation}
+                setValidation={setValidation}
+              />
+            </S.QuestionContainer>
+          ))}
+        {checkApiLoadingOrError()
+          ? Array.from({ length: 2 }, (_, index) => index).map((value) => (
+              <S.QuestionContainer key={value} isEssential={false}>
+                <Skeleton.Element type="formQuestionTitle" />
+                <Skeleton.Element type="text" />
+                <Skeleton.Element type="text" />
+                <Skeleton.Element type="text" />
+                <Skeleton.Element type="text" />
+                <Skeleton.Shimmer />
+              </S.QuestionContainer>
+            ))
+          : null}
         <S.BottomContainer>
-          <Button
-            type="button"
-            onClick={onClickSubmitForm}
-            backgroundColor={theme.colors.blue5}
-            border={theme.colors.grey3}
-            color={theme.colors.white}
-          >
-            제출
-          </Button>
+          {checkApiSuccess() && (
+            <Button
+              type="button"
+              onClick={onClickSubmitForm}
+              backgroundColor={theme.colors.blue5}
+              border={theme.colors.grey3}
+              color={theme.colors.white}
+            >
+              제출
+            </Button>
+          )}
+          {checkApiLoadingOrError() ? (
+            <>
+              <Skeleton.Element type="button" />
+              <Skeleton.Shimmer />
+            </>
+          ) : null}
         </S.BottomContainer>
       </S.Container>
     </FormLayout>

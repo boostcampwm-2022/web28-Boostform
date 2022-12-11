@@ -44,6 +44,11 @@ function Forum() {
 
   const loadingDelay = useLoadingDelay(isLoading);
 
+  const checkApiLoadingOrError = () => {
+    if (isLoading || loadingDelay || isError) return true;
+    return false;
+  };
+
   return (
     <Layout backgroundColor="white" title="설문조사 게시판" description="다양한 설문조사를 만나보세요">
       <S.divContainer>
@@ -163,7 +168,7 @@ function Forum() {
           </>
         ) : null}
 
-        {isLoading || isError || loadingDelay
+        {checkApiLoadingOrError()
           ? Array.from({ length: 3 }, (_, index) => index).map((value) => (
               <Skeleton key={value}>
                 <Skeleton.Element type="title" />
