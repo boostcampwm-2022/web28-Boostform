@@ -1,6 +1,6 @@
 import FormResponse from "./Response.Model";
 import { redisCli } from "../app";
-import { AnswerInterface, AnswerFromRequest } from "./Response.Interface";
+import { AnswerInterface, AnswerDTOInterface } from "./Response.Interface";
 
 class ResponseService {
   static async checkAnswerExistence(formId: string, userID: number) {
@@ -57,7 +57,7 @@ class ResponseService {
     await redisCli.hSet("response_update", responseId, JSON.stringify({ answer_list: answerList }));
   }
 
-  static getAnswerListForDB(answerListFromRequest: Array<AnswerFromRequest>) {
+  static getAnswerListForDB(answerListFromRequest: Array<AnswerDTOInterface>) {
     const answerList = answerListFromRequest.map((a) => {
       return {
         question_id: a.questionId,
