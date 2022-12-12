@@ -136,7 +136,7 @@ function Forum() {
               {data?.form.map(({ formId, title, category: formCategory, responseCount }) => (
                 <Card.Item key={formId} title={title}>
                   <div>
-                    <Card.ItemText>카테고리: {formCategory}</Card.ItemText>
+                    <Card.ItemText>카테고리: {formCategory || "미정"}</Card.ItemText>
                   </div>
                   <div>
                     <Card.ItemText>응답 수: {responseCount}</Card.ItemText>
