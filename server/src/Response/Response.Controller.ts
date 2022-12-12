@@ -9,9 +9,9 @@ class ResponseController {
       const userID = Number(req.userID);
       const { formId } = req.params;
 
-      const responsed = await ResponseService.checkAnswerExistence(formId, userID);
+      const responseId = await ResponseService.checkAnswerExistence(formId, userID);
 
-      res.status(200).json({ responsed });
+      res.status(200).json({ responseId });
     } catch (err) {
       next(err);
     }

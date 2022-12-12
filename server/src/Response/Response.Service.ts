@@ -4,9 +4,13 @@ import { AnswerInterface, AnswerFromRequest } from "./Response.Interface";
 
 class ResponseService {
   static async checkAnswerExistence(formId: string, userID: number) {
-    const isExist = await FormResponse.findOne({ form_id: formId, user_id: userID });
+    const response = await FormResponse.findOne({ form_id: formId, user_id: userID });
 
-    return !(isExist === null);
+    if (response !== null) {
+      return response.id;
+    }
+
+    return null;
   }
 
   static async saveResponse(formId: string, userID: number | undefined, answerList: Array<AnswerInterface>) {
