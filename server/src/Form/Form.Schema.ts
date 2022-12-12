@@ -46,7 +46,6 @@ const FormSchema = new Schema<FormInterface>(
     },
     category: {
       type: String,
-      required: true,
     },
     question_list: {
       type: [QuestionSchema],
