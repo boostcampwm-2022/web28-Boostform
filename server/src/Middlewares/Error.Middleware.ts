@@ -4,7 +4,9 @@ import HttpException from "../Common/Exceptions/Http.Exception";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const errorMiddleware = (err: HttpException, req: Request, res: Response, next: NextFunction) => {
   // render the error page
-  console.log(err);
+  if (!err.status) {
+    console.log(err);
+  }
   const { status, message } = err;
   res.status(err.status).send({
     status,
