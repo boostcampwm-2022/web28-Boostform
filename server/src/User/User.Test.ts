@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable import/no-extraneous-dependencies */
 import request from "supertest";
 import * as dotenv from "dotenv";

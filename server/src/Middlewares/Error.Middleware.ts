@@ -5,6 +5,7 @@ import HttpException from "../Common/Exceptions/Http.Exception";
 const errorMiddleware = (err: HttpException, req: Request, res: Response, next: NextFunction) => {
   // render the error page
   if (!err.status) {
+    // eslint-disable-next-line no-console
     console.log(err);
   }
   const { status, message } = err;

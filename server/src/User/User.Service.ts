@@ -28,7 +28,7 @@ class UserService {
         return res.data.access_token;
       })
       .catch((err) => {
-        throw UnauthorizedException;
+        throw new UnauthorizedException();
       });
     return githubAccessToken;
   }
