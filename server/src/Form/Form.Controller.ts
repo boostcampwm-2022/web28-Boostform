@@ -2,7 +2,6 @@ import { Request, Response, NextFunction } from "express";
 import InteranServerException from "../Common/Exceptions/InternalServer.Exception";
 import BadRequestException from "../Common/Exceptions/BadRequest.Exception";
 import FormService from "./Form.Service";
-import { FormInterface } from "./Form.Interface";
 import { redisCli } from "../app";
 
 class FormController {
@@ -43,7 +42,7 @@ class FormController {
   static async getForm(req: Request, res: Response, next: NextFunction) {
     try {
       const { formId } = req.params;
-      const form = (await FormService.getForm(formId)) as FormInterface;
+      const form = await FormService.getForm(formId);
 
       res.status(200).json(form);
       redisCli.set(`form:${formId}`, JSON.stringify(form), { EX: 300 });
@@ -62,7 +61,7 @@ class FormController {
       await FormService.updateForm(formId, body);
       res.status(200).end();
 
-      const form = (await FormService.getForm(formId)) as FormInterface;
+      const form = await FormService.getForm(formId);
       redisCli.set(`form:${formId}`, JSON.stringify(form), { EX: 300 });
     } catch (err) {
       console.log(err);

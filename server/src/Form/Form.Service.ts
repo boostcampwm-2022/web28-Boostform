@@ -1,7 +1,8 @@
 /* eslint-disable no-underscore-dangle */
 import Form from "./Form.Model";
-import { FormDTOInterface, QuestionDTOInterface, QuestionInterface, FormInterface } from "./Form.Interface";
+import { FormDTOInterface, QuestionDTOInterface, QuestionInterface } from "./Form.Interface";
 import getDateString from "../Common/Utils/GetDateString";
+import NotFoundException from "../Common/Exceptions/NotFound.Exception";
 
 class FormService {
   static createNewForm(userID: number) {
@@ -70,7 +71,11 @@ class FormService {
   }
 
   static async getForm(formId: string): Promise<any> {
-    const rawForm = (await Form.findOne({ _id: formId })) as FormInterface;
+    const rawForm = await Form.findOne({ _id: formId });
+    if (rawForm === null) {
+      throw NotFoundException;
+    }
+
     const questionList = FormService.getQuestionListForResponse(rawForm.question_list);
     const form = {
       // eslint-disable-next-line no-underscore-dangle
