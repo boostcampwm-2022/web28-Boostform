@@ -14,6 +14,8 @@ import theme from "styles/theme";
 import responseApi from "api/responseApi";
 import useLoadingDelay from "hooks/useLoadingDelay";
 import { ResponseElement, Validation } from "types/response";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import * as S from "./style";
 
 const initialState: FormState = {
@@ -92,6 +94,17 @@ function View() {
   const onClickSubmitForm = async () => {
     setValidationMode(true);
     const checkResult = validationCheck(validation);
+    if (!checkResult)
+      toast.error("필수 질문을 작성해주세요!", {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     if (checkResult) {
       let responseId;
       if (!prevResponseId) responseId = await responseApi.sendResponse(id, responseState);
@@ -179,6 +192,18 @@ function View() {
             </>
           ) : null}
         </S.BottomContainer>
+        <ToastContainer
+          position="bottom-center"
+          autoClose={2000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss={false}
+          draggable
+          pauseOnHover={false}
+          theme="light"
+        />
       </S.Container>
     </FormLayout>
   );
