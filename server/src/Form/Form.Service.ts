@@ -73,7 +73,7 @@ class FormService {
   static async getForm(formId: string): Promise<any> {
     const rawForm = await Form.findOne({ _id: formId });
     if (rawForm === null) {
-      throw NotFoundException;
+      throw new NotFoundException("해당 설문지를 찾을 수 없습니다.");
     }
 
     const questionList = FormService.getQuestionListForResponse(rawForm.question_list);

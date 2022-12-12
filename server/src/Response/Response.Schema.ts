@@ -1,6 +1,7 @@
-import mongoose from "mongoose";
+import { Schema } from "mongoose";
+import { AnswerInterface, ResponseInterface } from "./Response.Interface";
 
-const AnswerSchema = new mongoose.Schema({
+const AnswerSchema = new Schema<AnswerInterface>({
   question_id: {
     type: Number,
   },
@@ -9,7 +10,7 @@ const AnswerSchema = new mongoose.Schema({
   },
 });
 
-const ResponseSchema = new mongoose.Schema({
+const ResponseSchema = new Schema<ResponseInterface>({
   user_id: {
     type: Number,
   },
