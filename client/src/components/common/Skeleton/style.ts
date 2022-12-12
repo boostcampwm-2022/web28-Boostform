@@ -1,11 +1,13 @@
 import styled, { css } from "styled-components";
+import SkeletonType from "./type";
 
-const getSkeletonTypeCss = (type: string) => {
+const getSkeletonTypeCss = (type: SkeletonType) => {
   switch (type) {
     case "text":
       return css`
         width: 100%;
         height: 12px;
+        margin: 10px 0;
       `;
 
     case "title":
@@ -13,6 +15,41 @@ const getSkeletonTypeCss = (type: string) => {
         width: 50%;
         height: 20px;
         margin-bottom: 15px;
+        margin-top: 10px;
+      `;
+
+    case "formTitle":
+      return css`
+        width: 33%;
+        height: 27px;
+        padding: 5px 0;
+        margin: 10px 0 20px;
+      `;
+
+    case "formCategoryBox":
+      return css`
+        width: 150px;
+        height: 38px;
+      `;
+
+    case "formQuestionTitleEdit":
+      return css`
+        width: 33%;
+        height: 16px;
+        margin: 30px 0 20px;
+      `;
+
+    case "formQuestionTitle":
+      return css`
+        width: 33%;
+        height: 16px;
+        margin-bottom: 20px;
+      `;
+
+    case "button":
+      return css`
+        width: 55px;
+        height: 30px;
       `;
 
     default:
@@ -31,9 +68,8 @@ const Container = styled.div<{ custom: string }>`
   ${({ custom }) => custom}
 `;
 
-const Element = styled.div<{ type: string }>`
+const Element = styled.div<{ type: SkeletonType }>`
   background-color: #ddd;
-  margin: 10px 0;
   border-radius: 3px;
 
   ${({ type }) => getSkeletonTypeCss(type)}

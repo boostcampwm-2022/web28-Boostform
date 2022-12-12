@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import Layout from "components/template/BannerLayout";
 import Button from "components/common/Button";
 import theme from "styles/theme";
@@ -29,13 +29,34 @@ interface ForumApi {
 
 function Forum() {
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const initPage = Number(searchParams.get("page")) || 1;
+  const initCategory = searchParams.get("category") || "";
+  const initKeyword = searchParams.get("keyword") || "";
+  const initOrderBy = searchParams.get("orderBy") || "";
 
-  const [inputSearch, setInputSearch] = useState("");
-  const [keyword, setKeyword] = useState("");
-  const [category, setCategory] = useState<ForumCategory>("전체");
-  const [orderBy, setOrderBy] = useState<OrderBy>("latestAsc");
-  const [page, setPage] = useState(1);
-  // const [loadingDelay, setLoadingDelay] = useState(false);
+  function isTypeOfCategory(categoryParam: string): categoryParam is ForumCategory {
+    const Category = CATEGORY_FORUM_LIST as string[];
+    return Category.includes(categoryParam);
+  }
+  function isTypeOfOrderBy(orderByParam: string): orderByParam is OrderBy {
+    const ORDER_BY = ["latestAsc", "responseAsc", "responseDesc"];
+    return ORDER_BY.includes(orderByParam);
+  }
+
+  const [inputSearch, setInputSearch] = useState(initKeyword);
+  const [keyword, setKeyword] = useState(initKeyword);
+  const [category, setCategory] = useState<ForumCategory>(isTypeOfCategory(initCategory) ? initCategory : "전체");
+  const [orderBy, setOrderBy] = useState<OrderBy>(isTypeOfOrderBy(initOrderBy) ? initOrderBy : "latestAsc");
+  const [page, setPage] = useState(Number(initPage));
+
+  useEffect(() => {
+    setInputSearch(initKeyword);
+    setKeyword(initKeyword);
+    setCategory(isTypeOfCategory(initCategory) ? initCategory : "전체");
+    setOrderBy(isTypeOfOrderBy(initOrderBy) ? initOrderBy : "latestAsc");
+    setPage(Number(initPage));
+  }, [initCategory, initKeyword, initOrderBy, initPage]);
 
   const fetchFormList = (): Promise<ForumApi> => boardApi.getFormList({ title: keyword, category, orderBy, page });
   const { data, isLoading, isSuccess, isError } = useQuery({
@@ -45,10 +66,20 @@ function Forum() {
 
   const loadingDelay = useLoadingDelay(isLoading);
 
+  const checkApiLoadingOrError = () => {
+    if (isLoading || loadingDelay || isError) return true;
+    return false;
+  };
+
+  const onSubmitSearchKeyword: React.FormEventHandler<HTMLElement> = (e) => {
+    e.preventDefault();
+    setSearchParams({ page: "1", category, keyword: inputSearch, orderBy });
+  };
+
   return (
     <Layout backgroundColor="white" title="설문조사 게시판" description="다양한 설문조사를 만나보세요">
       <S.divContainer>
-        <S.divSearchBox>
+        <S.divSearchBox onSubmit={onSubmitSearchKeyword}>
           <S.inputSearch
             type="text"
             placeholder="검색어를 입력해주세요"
@@ -56,11 +87,8 @@ function Forum() {
             value={inputSearch}
           />
           <Button
-            type="button"
-            onClick={() => {
-              setKeyword(inputSearch);
-              setPage(1);
-            }}
+            type="submit"
+            onSubmit={onSubmitSearchKeyword}
             fontSize={theme.fontSize.sz12}
             backgroundColor={theme.colors.blue3}
             color={theme.colors.white}
@@ -77,8 +105,7 @@ function Forum() {
               value="latestAsc"
               checked={orderBy === "latestAsc"}
               onChange={() => {
-                setOrderBy("latestAsc");
-                setPage(1);
+                setSearchParams({ page: "1", category, keyword, orderBy: "latestAsc" });
               }}
             />
             <S.labelRadio htmlFor="latestAsc">최신순</S.labelRadio>
@@ -89,8 +116,7 @@ function Forum() {
               value="responseAsc"
               checked={orderBy === "responseAsc"}
               onChange={() => {
-                setOrderBy("responseAsc");
-                setPage(1);
+                setSearchParams({ page: page.toString(), category, keyword, orderBy: "responseAsc" });
               }}
             />
             <S.labelRadio htmlFor="responseAsc">응답 높은순</S.labelRadio>
@@ -101,8 +127,7 @@ function Forum() {
               value="responseDesc"
               checked={orderBy === "responseDesc"}
               onChange={() => {
-                setOrderBy("responseDesc");
-                setPage(1);
+                setSearchParams({ page: "1", category, keyword, orderBy: "responseDesc" });
               }}
             />
             <S.labelRadio htmlFor="responseDesc">응답 낮은순</S.labelRadio>
@@ -117,8 +142,7 @@ function Forum() {
                     key={value}
                     value={value}
                     onClick={() => {
-                      setCategory(value);
-                      setPage(1);
+                      setSearchParams({ page: "1", category: value, keyword, orderBy });
                     }}
                   />
                 ))}
@@ -132,7 +156,7 @@ function Forum() {
               {data?.form.map(({ formId, title, category: formCategory, responseCount }) => (
                 <Card.Item key={formId} title={title}>
                   <div>
-                    <Card.ItemText>카테고리: {formCategory}</Card.ItemText>
+                    <Card.ItemText>카테고리: {formCategory || "미정"}</Card.ItemText>
                   </div>
                   <div>
                     <Card.ItemText>응답 수: {responseCount}</Card.ItemText>
@@ -160,11 +184,17 @@ function Forum() {
                 </Card.Item>
               ))}
             </Card>
-            <Pagination currentPage={page} lastPage={Number(data?.lastPage)} setPage={setPage} />
+            <Pagination
+              currentPage={page}
+              lastPage={Number(data?.lastPage)}
+              callback={(pageNumber: number) => {
+                setSearchParams({ page: pageNumber.toString(), category, keyword, orderBy: "responseDesc" });
+              }}
+            />
           </>
         ) : null}
 
-        {isLoading || isError || loadingDelay
+        {checkApiLoadingOrError()
           ? Array.from({ length: 3 }, (_, index) => index).map((value) => (
               <Skeleton key={value}>
                 <Skeleton.Element type="title" />
@@ -176,7 +206,7 @@ function Forum() {
               </Skeleton>
             ))
           : null}
-        {isSuccess && !data.form.length ? <Notice text="설문지가 존재하지 않습니다" /> : null}
+        {!loadingDelay && isSuccess && !data.form.length ? <Notice text="설문지가 존재하지 않습니다" /> : null}
       </S.divContainer>
     </Layout>
   );

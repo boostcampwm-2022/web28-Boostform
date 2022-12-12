@@ -8,7 +8,9 @@ import * as S from "./style";
 
 function Result() {
   const { id } = useParams();
-  const { state } = useLocation();
+  const { state } = useLocation() as {
+    state: { responseId: string; type: "submitResponse" | "duplicateResponse" | "endResponse" };
+  };
   const navigate = useNavigate();
 
   const fetchForm = (): Promise<FormDataApi> => formApi.getForm(id);
@@ -24,24 +26,34 @@ function Result() {
   }, [isSuccess, data, id]);
 
   const onClickModifyPreviousResponse = () => {
-    navigate(`/forms/${id}/view`, { state });
+    navigate(`/forms/${id}/view`, { state: state.responseId });
   };
 
   const onClickNavigateOtherResponse = () => {
     navigate(`/forms/${id}/view`);
   };
 
+  const getTitle = () => {
+    if (state && state.type === "submitResponse") return "응답이 기록되었습니다.";
+    if (state && state.type === "duplicateResponse") return "이미 응답했습니다.";
+    if (state && state.type === "endResponse") return "더 이상 응답을 받지 않습니다.";
+    navigate("/");
+    return "";
+  };
+
   return (
     <FormLayout backgroundColor="blue">
       <S.Container>
-        <S.HeadContainer>
+        <S.ResponseWrapper>
           <S.Title>{form?.title}</S.Title>
-          <S.Description>응답이 기록되었습니다.</S.Description>
-          <S.LinkWrapper>
-            {form?.responseModifiable ? <S.Link onClick={onClickModifyPreviousResponse}>응답 수정</S.Link> : null}
-            {!form?.loginRequired ? <S.Link onClick={onClickNavigateOtherResponse}>다른 응답 제출</S.Link> : null}
-          </S.LinkWrapper>
-        </S.HeadContainer>
+          <S.Description>{getTitle()}</S.Description>
+          {form?.acceptResponse ? (
+            <S.LinkWrapper>
+              {form?.responseModifiable ? <S.Link onClick={onClickModifyPreviousResponse}>응답 수정</S.Link> : null}
+              {!form?.loginRequired ? <S.Link onClick={onClickNavigateOtherResponse}>다른 응답 제출</S.Link> : null}
+            </S.LinkWrapper>
+          ) : null}
+        </S.ResponseWrapper>
       </S.Container>
     </FormLayout>
   );

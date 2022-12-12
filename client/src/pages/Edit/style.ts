@@ -75,6 +75,8 @@ const QuestionContainer = styled.div`
   border-radius: 3px;
   padding: 0 20px 20px;
   border: solid 1px ${({ theme }) => theme.colors.grey3};
+  position: relative;
+  overflow: hidden;
 `;
 
 const QuestionHead = styled.div`
@@ -158,6 +160,8 @@ const BottomContainer = styled.div`
   background-color: ${({ theme }) => theme.colors.white};
   border-radius: 3px;
   padding: 20px;
+  position: relative;
+  overflow: hidden;
 `;
 
 const DragIndicator = styled.div`

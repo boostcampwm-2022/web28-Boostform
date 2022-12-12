@@ -20,6 +20,10 @@ const responseApi = {
     const { data } = await axios.get(`${API.RESPONSE}/${formId}/${responseId}`, { withCredentials: true });
     return data.answerList;
   },
+  checkDuplicateResponse: async (formId: string | undefined) => {
+    const { data } = await axios.get(`${API.RESPONSE}/isSubmitted/${formId}`, { withCredentials: true });
+    return data;
+  },
 };
 
 export default responseApi;

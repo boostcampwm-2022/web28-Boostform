@@ -1,6 +1,6 @@
 import { FormState, QuestionState, FormDataApi } from "types/form";
 
-const fromApiToForm = (api: FormDataApi): FormState => {
+const fromApiToForm = (api: FormDataApi, pageType: string): FormState => {
   const {
     id,
     userID,
@@ -17,7 +17,7 @@ const fromApiToForm = (api: FormDataApi): FormState => {
   let formQuestionList: QuestionState[];
   let currentQuestionId = 1;
 
-  if (!questionList.length)
+  if (pageType === "edit" && !questionList.length)
     formQuestionList = [
       {
         questionId: 1,

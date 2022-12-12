@@ -9,6 +9,8 @@ const HeadContainer = styled.div`
   background-color: ${({ theme }) => theme.colors.white};
   border-radius: 3px;
   padding: 10px 20px;
+  position: relative;
+  overflow: hidden;
 `;
 
 const HeadTitle = styled.div`
@@ -41,6 +43,9 @@ const QuestionContainer = styled.div<{ isEssential: boolean }>`
     css`
       border: 1px solid ${({ theme }) => theme.colors.red1};
     `}
+
+  position: relative;
+  overflow: hidden;
 `;
 
 const BottomContainer = styled.div`
@@ -50,6 +55,8 @@ const BottomContainer = styled.div`
   background-color: ${({ theme }) => theme.colors.white};
   border-radius: 3px;
   padding: 20px;
+  position: relative;
+  overflow: hidden;
 `;
 
 const Essential = styled.span`
@@ -57,4 +64,18 @@ const Essential = styled.span`
   margin-left: 8px;
 `;
 
-export { Container, HeadContainer, HeadTitle, HeadDescription, QuestionContainer, BottomContainer, Essential };
+const NoResponseForm = styled.div`
+  font-size: 14px;
+  font-weight: 400;
+`;
+
+export {
+  Container,
+  HeadContainer,
+  HeadTitle,
+  HeadDescription,
+  QuestionContainer,
+  BottomContainer,
+  Essential,
+  NoResponseForm,
+};

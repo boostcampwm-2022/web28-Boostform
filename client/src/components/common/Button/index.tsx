@@ -2,9 +2,8 @@ import React from "react";
 import theme from "styles/theme";
 import ButtonComponent from "./style";
 
-interface ButtonProps {
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
-  type: "button" | "submit" | "reset";
   color?: string;
   backgroundColor?: string;
   hover?: string;
@@ -12,7 +11,6 @@ interface ButtonProps {
   active?: boolean;
   border?: string;
   custom?: string;
-  onClick: () => void;
 }
 
 function Button({

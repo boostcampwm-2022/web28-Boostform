@@ -3,7 +3,7 @@ import { createPortal } from "react-dom";
 import * as S from "./style";
 import ModalPortalProps from "./type";
 
-const useModal = () => {
+const useModal = (option?: { setBackgroundClickClose: boolean }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const modalRoot = document.getElementById("modal-root") as HTMLElement;
   const [windowOffsetY, setWindowOffsetY] = useState(0);
@@ -25,12 +25,17 @@ const useModal = () => {
     setModalOpen(false);
   };
 
+  const onClickBackgroundCloseModal = () => {
+    if (option && !option.setBackgroundClickClose) setModalOpen(false);
+    if (!option) setModalOpen(false);
+  };
+
   function ModalPortal({ children }: ModalPortalProps) {
     if (modalOpen)
       return createPortal(
         <S.ModalContainer>
           {children}
-          <S.ModalBackground onClick={closeModal} />
+          <S.ModalBackground onClick={onClickBackgroundCloseModal} />
         </S.ModalContainer>,
         modalRoot
       );

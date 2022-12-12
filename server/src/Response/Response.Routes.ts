@@ -4,7 +4,7 @@ import { authMiddleware, checkAccessTokenExistence } from "../Middlewares/Auth.M
 
 const responseRouter = express.Router();
 
-responseRouter.get("/:formId", authMiddleware, ResponseController.checkResponseExistence);
+responseRouter.get("/isSubmitted/:formId", authMiddleware, ResponseController.checkResponseExistence);
 
 responseRouter.post("/:formId", checkAccessTokenExistence, ResponseController.saveResponse);
 
