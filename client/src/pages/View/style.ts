@@ -64,4 +64,18 @@ const Essential = styled.span`
   margin-left: 8px;
 `;
 
-export { Container, HeadContainer, HeadTitle, HeadDescription, QuestionContainer, BottomContainer, Essential };
+const NoResponseForm = styled.div`
+  font-size: 14px;
+  font-weight: 400;
+`;
+
+export {
+  Container,
+  HeadContainer,
+  HeadTitle,
+  HeadDescription,
+  QuestionContainer,
+  BottomContainer,
+  Essential,
+  NoResponseForm,
+};

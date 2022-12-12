@@ -59,7 +59,7 @@ function Edit() {
 
   useEffect(() => {
     if (!id) return;
-    if (isSuccess) dispatch({ type: "FETCH_DATA", init: fromApiToForm(data) });
+    if (isSuccess) dispatch({ type: "FETCH_DATA", init: fromApiToForm(data, "edit") });
   }, [data, id, isSuccess]);
 
   const onClickTitle = () => {

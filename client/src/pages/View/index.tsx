@@ -79,7 +79,7 @@ function View() {
   useEffect(() => {
     if (!id) return;
     if (formIsSuccess) {
-      setState(fromApiToForm(formData));
+      setState(fromApiToForm(formData, "view"));
       const checkList = fromApiToValidateCheckList(formData);
       setValidation(checkList);
     }
@@ -132,7 +132,7 @@ function View() {
               {form.description ? <S.HeadDescription>{form.description}</S.HeadDescription> : null}
             </>
           )}
-          {formIsLoading || responseIsLoading || loadingDelay || formIsError || resposneIsError ? (
+          {checkApiLoadingOrError() ? (
             <>
               <Skeleton.Element type="formTitle" />
               <Skeleton.Element type="text" />
@@ -142,7 +142,7 @@ function View() {
             </>
           ) : null}
         </S.HeadContainer>
-        {checkApiSuccess() &&
+        {checkApiSuccess() && question.length ? (
           question.map(({ questionId, title, essential }, questionIndex) => (
             <S.QuestionContainer key={questionId} isEssential={validationMode && !validation[questionId] && essential}>
               <div>
@@ -160,7 +160,12 @@ function View() {
                 setValidation={setValidation}
               />
             </S.QuestionContainer>
-          ))}
+          ))
+        ) : (
+          <S.QuestionContainer isEssential={false}>
+            <S.NoResponseForm>설문지 문항이 존재하지 않습니다.</S.NoResponseForm>
+          </S.QuestionContainer>
+        )}
         {checkApiLoadingOrError()
           ? Array.from({ length: 2 }, (_, index) => index).map((value) => (
               <S.QuestionContainer key={value} isEssential={false}>
@@ -173,25 +178,28 @@ function View() {
               </S.QuestionContainer>
             ))
           : null}
-        <S.BottomContainer>
-          {checkApiSuccess() && (
-            <Button
-              type="button"
-              onClick={onClickSubmitForm}
-              backgroundColor={theme.colors.blue5}
-              border={theme.colors.grey3}
-              color={theme.colors.white}
-            >
-              제출
-            </Button>
-          )}
-          {checkApiLoadingOrError() ? (
-            <>
-              <Skeleton.Element type="button" />
-              <Skeleton.Shimmer />
-            </>
-          ) : null}
-        </S.BottomContainer>
+        {question.length ? (
+          <S.BottomContainer>
+            {checkApiSuccess() && (
+              <Button
+                type="button"
+                onClick={onClickSubmitForm}
+                backgroundColor={theme.colors.blue5}
+                border={theme.colors.grey3}
+                color={theme.colors.white}
+              >
+                제출
+              </Button>
+            )}
+            {checkApiLoadingOrError() ? (
+              <>
+                <Skeleton.Element type="button" />
+                <Skeleton.Shimmer />
+              </>
+            ) : null}
+          </S.BottomContainer>
+        ) : null}
+
         <ToastContainer
           position="bottom-center"
           autoClose={2000}
