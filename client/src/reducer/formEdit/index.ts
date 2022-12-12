@@ -139,7 +139,12 @@ function formEditReducer(state: FormState, action: FormEditAction) {
     };
   }
   if (type === "DELETE_QUESTION") {
-    const { questionIndex } = action;
+    const { questionIndex, callback } = action;
+    const { length } = state.question;
+    if (length === 1) {
+      callback();
+      return { ...state };
+    }
 
     const leftQuestion = state.question.slice(0, questionIndex);
     const rightQuestion = state.question.slice(questionIndex + 1);

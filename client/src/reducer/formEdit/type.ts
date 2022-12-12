@@ -8,7 +8,7 @@ type FormEditAction =
   | { type: "ADD_QUESTION_CHOICE"; questionIndex: number }
   | { type: "MODIFY_QUESTION_CHOICE"; questionIndex: number; choiceIndex: number; value: string }
   | { type: "DELETE_QUESTION_CHOICE"; questionIndex: number; choiceIndex: number }
-  | { type: "DELETE_QUESTION"; questionIndex: number }
+  | { type: "DELETE_QUESTION"; questionIndex: number; callback: () => void }
   | { type: "COPY_QUESTION"; questionIndex: number }
   | { type: "ADD_QUESTION"; questionIndex: number }
   | { type: "CHANGE_QUESTION_ESSENTIAL"; questionIndex: number }

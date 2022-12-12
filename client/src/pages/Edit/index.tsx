@@ -24,6 +24,8 @@ import { fromApiToForm, fromFormToApi } from "utils/form";
 import useModal from "hooks/useModal";
 import { CATEGORY_LIST, QUESTION_TYPE_LIST } from "store/form";
 import useLoadingDelay from "hooks/useLoadingDelay";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import * as S from "./style";
 
 const initialState: FormState = {
@@ -46,7 +48,11 @@ function Edit() {
   const { id } = useParams();
 
   const fetchForm = (): Promise<FormDataApi> => formApi.getForm(id);
-  const { data, isSuccess, isLoading, isError } = useQuery({ queryKey: [id], queryFn: fetchForm });
+  const { data, isSuccess, isLoading, isError } = useQuery({
+    queryKey: [id],
+    queryFn: fetchForm,
+    refetchOnWindowFocus: false,
+  });
 
   const [state, dispatch] = useReducer(writeReducer, initialState);
   const { form, question } = state;
@@ -113,7 +119,19 @@ function Edit() {
   };
 
   const onClickDeleteQuestion = (questionIndex: number) => {
-    dispatch({ type: "DELETE_QUESTION", questionIndex });
+    const toastCallback = () => {
+      toast.error("삭제가 불가능합니다!", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    };
+    dispatch({ type: "DELETE_QUESTION", questionIndex, callback: toastCallback });
   };
 
   const onClickChangeQuestionEssential = (questionIndex: number) => {
@@ -142,12 +160,58 @@ function Edit() {
 
   const onClickCopyLink = () => {
     window.navigator.clipboard.writeText(`${process.env.REACT_APP_CLIENT_ORIGIN_URL}/forms/${id}/view`);
+    toast.success("링크가 복사되었습니다!", {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
   };
 
   const onClickSaveForm = () => {
     if (!id) return;
+    if (!form.title) {
+      toast.error("제목을 작성해주세요!", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      return;
+    }
+    if (!form.category) {
+      toast.error("카테고리를 정해주세요!", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      return;
+    }
     const apiData = fromFormToApi(state);
     formApi.saveForm(id, apiData);
+    toast.success("저장이 완료되었습니다.!", {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
   };
 
   const onDragStart = (initial: DragStart) => {
@@ -188,8 +252,12 @@ function Edit() {
         <S.TitleContainer onClick={() => onClickTitle()}>
           {checkApiSuccess() && (
             <>
-              <S.TitleInput onInput={onInputTitle} value={form.title} />
-              <S.DescriptionInput onInput={onInputDescription} value={form.description} placeholder="설문지 설명" />
+              <S.TitleInput onInput={onInputTitle} value={form.title} placeholder="제목을 작성해주세요" />
+              <S.DescriptionInput
+                onInput={onInputDescription}
+                value={form.description}
+                placeholder="설문지에 대한 간단한 설명을 작성해주세요"
+              />
               <TextDropdown state={form.category} defaultState="카테고리">
                 <TextDropdown.Head />
                 <TextDropdown.ItemList>
@@ -205,7 +273,6 @@ function Edit() {
               <Skeleton.Element type="formTitle" />
               <Skeleton.Element type="text" />
               <Skeleton.Element type="text" />
-              <Skeleton.Shimmer />
             </>
           ) : null}
         </S.TitleContainer>
@@ -363,6 +430,19 @@ function Edit() {
           copyLink={onClickCopyLink}
         />
       </ModalPortal>
+
+      <ToastContainer
+        position="bottom-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss={false}
+        draggable
+        pauseOnHover={false}
+        theme="light"
+      />
     </FormLayout>
   );
 }

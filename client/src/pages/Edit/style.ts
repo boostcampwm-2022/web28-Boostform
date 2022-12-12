@@ -9,8 +9,6 @@ const TitleContainer = styled.div`
   background-color: ${({ theme }) => theme.colors.white};
   border-radius: 3px;
   padding: 20px;
-  position: relative;
-  overflow: hidden;
 `;
 
 const TitleInput = styled.input`
