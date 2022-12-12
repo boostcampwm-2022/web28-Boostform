@@ -1,6 +1,7 @@
-import mongoose from "mongoose";
+import { Schema } from "mongoose";
+import { QuestionInterface, FormInterface } from "./Form.Interface";
 
-const QuestionSchema = new mongoose.Schema({
+const QuestionSchema = new Schema<QuestionInterface>({
   question_id: {
     type: Number,
     required: true,
@@ -30,7 +31,7 @@ const QuestionSchema = new mongoose.Schema({
   },
 });
 
-const FormSchema = new mongoose.Schema(
+const FormSchema = new Schema<FormInterface>(
   {
     user_id: {
       type: Number,

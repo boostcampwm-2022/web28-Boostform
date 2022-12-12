@@ -1,6 +1,6 @@
 import FormResponse from "./Response.Model";
 import redisCli from "../Loader/Redis.Loader";
-import { AnswerInterface, AnswerFromRequest } from "./Response.Interface";
+import { AnswerInterface, AnswerDTOInterface } from "./Response.Interface";
 
 class ResponseService {
   static async checkAnswerExistence(formId: string, userID: number) {
@@ -43,14 +43,12 @@ class ResponseService {
         answer: rawAnswer.answer,
       };
     });
-    console.log("answerList is made");
 
     const response = {
       userId: rawResponse?.user_id,
       formId: rawResponse?.form_id,
       answerList,
     };
-    console.log("response is made");
 
     return response;
   }
@@ -59,7 +57,7 @@ class ResponseService {
     await redisCli.hSet("response_update", responseId, JSON.stringify({ answer_list: answerList }));
   }
 
-  static getAnswerListForDB(answerListFromRequest: Array<AnswerFromRequest>) {
+  static getAnswerListForDB(answerListFromRequest: Array<AnswerDTOInterface>) {
     const answerList = answerListFromRequest.map((a) => {
       return {
         question_id: a.questionId,

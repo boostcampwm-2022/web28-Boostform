@@ -9,9 +9,9 @@ interface ResponseInterface {
   answer_list: Array<AnswerInterface>;
 }
 
-interface AnswerFromRequest {
+interface AnswerDTOInterface {
   questionId: number;
   answer: Array<string>;
 }
 
-export { AnswerInterface, ResponseInterface, AnswerFromRequest };
+export { AnswerInterface, ResponseInterface, AnswerDTOInterface };
