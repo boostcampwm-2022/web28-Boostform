@@ -6,11 +6,11 @@ import * as S from "./style";
 function Pagination({
   currentPage,
   lastPage,
-  setPage,
+  callback,
 }: {
   currentPage: number;
   lastPage: number;
-  setPage: React.Dispatch<React.SetStateAction<number>>;
+  callback: (pageNumber: number) => void;
 }) {
   const [pageNumbers, setPageNumbers] = useState<number[]>([]);
 
@@ -30,7 +30,7 @@ function Pagination({
       <IconButton
         size="24px"
         type="button"
-        onClick={() => setPage((prev) => prev - 1)}
+        onClick={() => callback(currentPage - 1)}
         disabled={currentPage === 1}
         icon="left"
         fill={theme.colors.grey5}
@@ -38,7 +38,7 @@ function Pagination({
       />
       <S.PageNumberWrapper>
         {pageNumbers.map((number) => (
-          <S.PageText key={number} current={currentPage === number} onClick={() => setPage(number)}>
+          <S.PageText key={number} current={currentPage === number} onClick={() => callback(number)}>
             {number}
           </S.PageText>
         ))}
@@ -46,7 +46,7 @@ function Pagination({
       <IconButton
         size="24px"
         type="button"
-        onClick={() => setPage((prev) => prev + 1)}
+        onClick={() => callback(currentPage + 1)}
         disabled={currentPage === lastPage}
         icon="right"
         fill={theme.colors.grey5}

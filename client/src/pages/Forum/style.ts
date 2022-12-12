@@ -7,14 +7,14 @@ const divContainer = styled.div`
 
 const divWrapper = styled.div``;
 
-const divSearchBox = styled.div`
+const divSearchBox = styled.form`
   margin-top: 36px;
   margin-bottom: 8px;
   display: flex;
 `;
 
 const inputSearch = styled.input`
-  width: 900px;
+  width: calc(100% - 55px);
   height: 37px;
   padding: 0 10px;
   border: 1px solid ${({ theme }) => theme.colors.grey3};
