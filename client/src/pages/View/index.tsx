@@ -80,7 +80,9 @@ function View() {
 
   useEffect(() => {
     if (formIsSuccess && !formData.acceptResponse) {
-      navigate("/");
+      navigate(`/forms/${id}/response`, {
+        state: { responseId: "", type: "endResponse" },
+      });
       return;
     }
     if (

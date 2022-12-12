@@ -4,11 +4,11 @@ const Container = styled.div`
   width: 760px;
 `;
 
-const HeadContainer = styled.div`
+const ResponseWrapper = styled.div`
   margin-top: 36px;
   background-color: ${({ theme }) => theme.colors.white};
   border-radius: 3px;
-  padding: 10px 20px;
+  padding: 10px 20px 30px;
 `;
 
 const Title = styled.div`
@@ -29,7 +29,6 @@ const Description = styled.p`
 
 const LinkWrapper = styled.div`
   margin-top: 24px;
-  margin-bottom: 18px;
   display: flex;
   flex-direction: column;
 `;
@@ -43,4 +42,4 @@ const Link = styled.a`
   cursor: pointer;
 `;
 
-export { Container, HeadContainer, Title, Description, LinkWrapper, Link };
+export { Container, ResponseWrapper, Title, Description, LinkWrapper, Link };
