@@ -1,6 +1,8 @@
-import React, { useEffect, useReducer, useState } from "react";
+import React, { useContext, useEffect, useReducer, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { FormState, FormDataApi } from "types/form";
 import formViewReducer from "reducer/formView";
 import formApi from "api/formApi";
@@ -10,12 +12,14 @@ import FormLayout from "components/template/Layout";
 import QuestionView from "components/View/QuestionView";
 import Button from "components/common/Button";
 import Skeleton from "components/common/Skeleton";
+import LoginModal from "components/Modal/LoginModal";
 import theme from "styles/theme";
 import responseApi from "api/responseApi";
 import useLoadingDelay from "hooks/useLoadingDelay";
+import useModal from "hooks/useModal";
 import { ResponseElement, Validation } from "types/response";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+
+import { AuthContext } from "contexts/authProvider";
 import * as S from "./style";
 
 const initialState: FormState = {
@@ -36,8 +40,10 @@ const initialState: FormState = {
 
 function View() {
   const { id } = useParams();
+  const { auth } = useContext(AuthContext);
   const navigate = useNavigate();
   const { state: prevResponseId } = useLocation();
+  const { openModal, closeModal, ModalPortal } = useModal({ setBackgroundClickClose: true });
 
   const fetchForm = (): Promise<FormDataApi> => formApi.getForm(id);
   const {
@@ -58,6 +64,12 @@ function View() {
     queryFn: fetchResponse,
   });
 
+  const checkDuplicateResponse = (): Promise<{ responseId: string | null }> => responseApi.checkDuplicateResponse(id);
+  const { data: isDuplicateResponse } = useQuery({
+    queryKey: [id, "duplicateResponse"],
+    queryFn: checkDuplicateResponse,
+  });
+
   const loadingDelay = useLoadingDelay(formIsLoading || responseIsLoading);
 
   const [state, setState] = useState(initialState);
@@ -66,15 +78,33 @@ function View() {
   const [validationMode, setValidationMode] = useState(false);
   const [validation, setValidation] = useState<Validation>({});
 
-  const onClickAddResponse = (value: ResponseElement) => {
-    dispatch({ type: "ADD_RESPONSE", value });
-  };
-  const onClickDeleteResponse = (questionId: number) => {
-    dispatch({ type: "DELETE_RESPONSE", questionId });
-  };
-  const onClickEditResponse = (questionId: number, value: string[]) => {
-    dispatch({ type: "EDIT_RESPONSE", value, questionId });
-  };
+  useEffect(() => {
+    if (formIsSuccess && !formData.acceptResponse) {
+      navigate("/");
+      return;
+    }
+    if (
+      formIsSuccess &&
+      formData.loginRequired &&
+      isDuplicateResponse?.responseId &&
+      formData.responseModifiable &&
+      prevResponseId
+    ) {
+      // 중복 응답이 불가능(로그인 필수)하지만 재수정하는 경우
+      return;
+    }
+
+    if (formIsSuccess && formData.loginRequired && isDuplicateResponse?.responseId) {
+      // 중복 응답이 불가능(로그인 필수)하고 재수정이 아닌 경우
+      navigate(`/forms/${id}/response`, {
+        state: { responseId: isDuplicateResponse.responseId, type: "duplicateResponse" },
+      });
+      return;
+    }
+    if (formIsSuccess && formData.loginRequired && !auth?.userID) {
+      openModal();
+    }
+  }, [auth?.userID, formData, formIsSuccess, navigate, openModal, isDuplicateResponse, prevResponseId, id]);
 
   useEffect(() => {
     if (!id) return;
@@ -90,6 +120,16 @@ function View() {
       setValidation(checkPrevResponseUpdateValidateCheckList(checkList, responseData));
     }
   }, [formData, id, formIsSuccess, responseData, responseIsSuccess]);
+
+  const onClickAddResponse = (value: ResponseElement) => {
+    dispatch({ type: "ADD_RESPONSE", value });
+  };
+  const onClickDeleteResponse = (questionId: number) => {
+    dispatch({ type: "DELETE_RESPONSE", questionId });
+  };
+  const onClickEditResponse = (questionId: number, value: string[]) => {
+    dispatch({ type: "EDIT_RESPONSE", value, questionId });
+  };
 
   const onClickSubmitForm = async () => {
     setValidationMode(true);
@@ -109,7 +149,7 @@ function View() {
       let responseId;
       if (!prevResponseId) responseId = await responseApi.sendResponse(id, responseState);
       if (prevResponseId) responseId = await responseApi.patchResponse(id, prevResponseId, responseState);
-      navigate(`/forms/${id}/response`, { state: responseId });
+      navigate(`/forms/${id}/response`, { state: { responseId, type: "submitResponse" } });
     }
   };
 
@@ -216,6 +256,9 @@ function View() {
           pauseOnHover={false}
           theme="light"
         />
+        <ModalPortal>
+          <LoginModal closeModal={closeModal} />
+        </ModalPortal>
       </S.Container>
     </FormLayout>
   );
