@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { redisCli } from "../app";
+import redisCli from "../Loader/Redis.Loader";
 
 import BoardService from "./Board.Service";
 import { searchKeyList, sortKeyList } from "./Board.Constants";
