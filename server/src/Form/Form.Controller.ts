@@ -1,9 +1,8 @@
 import { Request, Response, NextFunction } from "express";
-import InteranServerException from "../Common/Exceptions/InternalServer.Exception";
 import BadRequestException from "../Common/Exceptions/BadRequest.Exception";
 import UnauthorizedException from "../Common/Exceptions/Unauthorized.Exception";
 import FormService from "./Form.Service";
-import { redisCli } from "../app";
+import redisCli from "../Loader/Redis.Loader";
 
 class FormController {
   static async createNewForm(req: Request, res: Response, next: NextFunction) {

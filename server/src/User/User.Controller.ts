@@ -61,7 +61,7 @@ class UserController {
     userService
       .logout(userID)
       .then(() => {
-        res.status(204).clearCookie("accessToken").clearCookie("refreshToken");
+        res.status(204).clearCookie("accessToken").clearCookie("refreshToken").end();
       })
       .catch((err) => {
         next(err);
