@@ -86,7 +86,7 @@ class FormService {
   }
 
   static async getForm(formId: string): Promise<any> {
-    const rawForm = await Form.findOne({ _id: formId });
+    const rawForm = await Form.findOne({ _id: formId }).lean().exec();
     if (rawForm === null) {
       throw new NotFoundException("해당 설문지를 찾을 수 없습니다.");
     }
@@ -94,7 +94,7 @@ class FormService {
     const questionList = FormService.getQuestionListForResponse(rawForm.question_list);
     const form = {
       // eslint-disable-next-line no-underscore-dangle
-      id: rawForm._id,
+      id: `${rawForm._id}`,
       userID: rawForm.user_id,
       title: rawForm.title,
       description: rawForm.description,
