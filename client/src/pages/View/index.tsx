@@ -142,30 +142,34 @@ function View() {
             </>
           ) : null}
         </S.HeadContainer>
-        {checkApiSuccess() && question.length ? (
-          question.map(({ questionId, title, essential }, questionIndex) => (
-            <S.QuestionContainer key={questionId} isEssential={validationMode && !validation[questionId] && essential}>
-              <div>
-                <span>{title}</span>
-                {essential ? <S.Essential>*</S.Essential> : null}
-              </div>
-              <QuestionView
-                questionState={question[questionIndex]}
-                addResponse={onClickAddResponse}
-                deleteResponse={onClickDeleteResponse}
-                editResponse={onClickEditResponse}
-                responseState={responseState}
-                validationMode={validationMode}
-                validation={validation}
-                setValidation={setValidation}
-              />
+        {checkApiSuccess() &&
+          (question.length ? (
+            question.map(({ questionId, title, essential }, questionIndex) => (
+              <S.QuestionContainer
+                key={questionId}
+                isEssential={validationMode && !validation[questionId] && essential}
+              >
+                <div>
+                  <span>{title}</span>
+                  {essential ? <S.Essential>*</S.Essential> : null}
+                </div>
+                <QuestionView
+                  questionState={question[questionIndex]}
+                  addResponse={onClickAddResponse}
+                  deleteResponse={onClickDeleteResponse}
+                  editResponse={onClickEditResponse}
+                  responseState={responseState}
+                  validationMode={validationMode}
+                  validation={validation}
+                  setValidation={setValidation}
+                />
+              </S.QuestionContainer>
+            ))
+          ) : (
+            <S.QuestionContainer isEssential={false}>
+              <S.NoResponseForm>설문지 문항이 존재하지 않습니다.</S.NoResponseForm>
             </S.QuestionContainer>
-          ))
-        ) : (
-          <S.QuestionContainer isEssential={false}>
-            <S.NoResponseForm>설문지 문항이 존재하지 않습니다.</S.NoResponseForm>
-          </S.QuestionContainer>
-        )}
+          ))}
         {checkApiLoadingOrError()
           ? Array.from({ length: 2 }, (_, index) => index).map((value) => (
               <S.QuestionContainer key={value} isEssential={false}>
