@@ -1,5 +1,5 @@
 import FormResponse from "./Response.Model";
-import { redisCli } from "../app";
+import redisCli from "../Loader/Redis.Loader";
 import { AnswerInterface, AnswerFromRequest } from "./Response.Interface";
 
 class ResponseService {

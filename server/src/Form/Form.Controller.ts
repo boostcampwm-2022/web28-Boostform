@@ -3,7 +3,7 @@ import InteranServerException from "../Common/Exceptions/InternalServer.Exceptio
 import BadRequestException from "../Common/Exceptions/BadRequest.Exception";
 import FormService from "./Form.Service";
 import { FormInDB } from "./Form.Interface";
-import { redisCli } from "../app";
+import redisCli from "../Loader/Redis.Loader";
 
 class FormController {
   static async createNewForm(req: Request, res: Response, next: NextFunction) {
