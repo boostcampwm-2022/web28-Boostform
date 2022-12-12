@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import InteranServerException from "../Common/Exceptions/InternalServer.Exception";
 import BadRequestException from "../Common/Exceptions/BadRequest.Exception";
+import UnauthorizedException from "../Common/Exceptions/Unauthorized.Exception";
 import FormService from "./Form.Service";
 import { redisCli } from "../app";
 
@@ -8,9 +9,11 @@ class FormController {
   static async createNewForm(req: Request, res: Response, next: NextFunction) {
     try {
       if (!req.userID) {
-        throw new InteranServerException();
+        throw new UnauthorizedException("로그인 후 설문지를 생성할 수 있습니다.");
       }
+
       const formId = await FormService.createNewForm(req.userID);
+
       res.status(201).json({
         formId,
       });
@@ -28,8 +31,16 @@ class FormController {
   static async getFormList(req: Request, res: Response, next: NextFunction) {
     try {
       const { cursor } = req.query;
-      const userID = Number(req.userID);
+      if (typeof cursor !== "string") {
+        throw new BadRequestException("cursor가 없습니다.");
+      }
+      const { userID } = req;
+      if (!userID) {
+        throw new BadRequestException("로그인 후 설문지 리스트를 받을 수 있습니다.");
+      }
+
       const [formList, lastId] = await FormService.getFormList(userID, cursor);
+
       res.status(200).json({
         form: formList,
         lastId,

@@ -3,24 +3,37 @@ import Form from "./Form.Model";
 import { FormDTOInterface, QuestionDTOInterface, QuestionInterface } from "./Form.Interface";
 import getDateString from "../Common/Utils/GetDateString";
 import NotFoundException from "../Common/Exceptions/NotFound.Exception";
+import BadRequestException from "../Common/Exceptions/BadRequest.Exception";
 
 class FormService {
   static createNewForm(userID: number) {
     const newForm = new Form({ user_id: userID });
-    newForm.save();
+    newForm.save().catch(() => {
+      throw new BadRequestException();
+    });
 
     return newForm.id;
   }
 
-  static async getFormList(userID: number, cursor: string | any) {
+  static async getFormList(userID: number, cursor: string) {
     const rawFormList =
       cursor === "empty"
-        ? await Form.find({ user_id: userID }).sort({ _id: -1 }).limit(5).lean().exec()
+        ? await Form.find({ user_id: userID })
+            .sort({ _id: -1 })
+            .limit(5)
+            .lean()
+            .exec()
+            .catch(() => {
+              throw new NotFoundException();
+            })
         : await Form.find({ user_id: userID, _id: { $lt: cursor } })
             .sort({ _id: -1 })
             .limit(5)
             .lean()
-            .exec();
+            .exec()
+            .catch(() => {
+              throw new NotFoundException();
+            });
     const formList = rawFormList.map((form: any) => {
       return {
         _id: `${form._id}`,
@@ -63,7 +76,9 @@ class FormService {
       response_modifiable: body.responseModifiable,
     };
 
-    await Form.findOneAndUpdate({ _id: formId }, updated);
+    await Form.findOneAndUpdate({ _id: formId }, updated).catch((err) => {
+      throw new BadRequestException();
+    });
   }
 
   static async deleteForm(formId: string) {
