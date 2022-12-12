@@ -1,4 +1,4 @@
-interface QuestionInRequestBody {
+interface QuestionDTOInterface {
   questionId: number;
   page: number;
   type: string;
@@ -8,23 +8,34 @@ interface QuestionInRequestBody {
   etcAdded: boolean;
 }
 
-interface QuestionInDB {
+interface QuestionInterface {
   question_id: number;
-  page: number;
+  page?: number;
   type: string;
   title: string;
-  option: Array<string>;
+  option?: Array<string>;
   essential: boolean;
   etc_added: boolean;
 }
 
-interface FormInDB {
-  _id: string;
-  user_id: number;
+interface FormDTOInterface {
   title: string;
   description: string;
   category: string;
-  question_list: Array<QuestionInDB>;
+  questionList: Array<QuestionDTOInterface>;
+  acceptResponse: boolean;
+  onBoard: boolean;
+  loginRequired: boolean;
+  responseModifiable: boolean;
+}
+
+interface FormInterface {
+  _id: string;
+  user_id: number;
+  title: string;
+  description?: string;
+  category: string;
+  question_list: Array<QuestionInterface>;
   accept_response: boolean;
   on_board: boolean;
   login_required: boolean;
@@ -34,15 +45,4 @@ interface FormInDB {
   updatedAt: Date;
 }
 
-interface UpdateFormRequestBody {
-  title: string;
-  description: string;
-  category: string;
-  questionList: Array<QuestionInRequestBody>;
-  acceptResponse: boolean;
-  onBoard: boolean;
-  loginRequired: boolean;
-  responseModifiable: boolean;
-}
-
-export { UpdateFormRequestBody, QuestionInRequestBody, QuestionInDB, FormInDB };
+export { QuestionDTOInterface, QuestionInterface, FormDTOInterface, FormInterface };

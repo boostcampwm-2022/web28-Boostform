@@ -45,6 +45,7 @@ const FormSchema = new mongoose.Schema(
     },
     category: {
       type: String,
+      required: true,
     },
     question_list: {
       type: [QuestionSchema],

@@ -43,14 +43,12 @@ class ResponseService {
         answer: rawAnswer.answer,
       };
     });
-    console.log("answerList is made");
 
     const response = {
       userId: rawResponse?.user_id,
       formId: rawResponse?.form_id,
       answerList,
     };
-    console.log("response is made");
 
     return response;
   }

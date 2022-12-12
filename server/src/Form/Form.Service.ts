@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import Form from "./Form.Model";
-import { UpdateFormRequestBody, QuestionInRequestBody, QuestionInDB, FormInDB } from "./Form.Interface";
+import { FormDTOInterface, QuestionDTOInterface, QuestionInterface, FormInterface } from "./Form.Interface";
 import getDateString from "../Common/Utils/GetDateString";
 
 class FormService {
@@ -35,10 +35,10 @@ class FormService {
     return [formList, lastId];
   }
 
-  static async updateForm(formId: string, body: UpdateFormRequestBody) {
+  static async updateForm(formId: string, body: FormDTOInterface) {
     let questionList;
     if (body.questionList) {
-      questionList = body.questionList.map((q: QuestionInRequestBody) => {
+      questionList = body.questionList.map((q: QuestionDTOInterface) => {
         return {
           question_id: q.questionId,
           page: q.page,
@@ -70,7 +70,7 @@ class FormService {
   }
 
   static async getForm(formId: string): Promise<any> {
-    const rawForm = (await Form.findOne({ _id: formId })) as FormInDB;
+    const rawForm = (await Form.findOne({ _id: formId })) as FormInterface;
     const questionList = FormService.getQuestionListForResponse(rawForm.question_list);
     const form = {
       // eslint-disable-next-line no-underscore-dangle
@@ -91,7 +91,7 @@ class FormService {
     return form;
   }
 
-  static getQuestionListForResponse(rawQuestionList: Array<QuestionInDB>) {
+  static getQuestionListForResponse(rawQuestionList: Array<QuestionInterface>) {
     const questionList = rawQuestionList.map((question) => {
       return {
         questionId: question.question_id,
