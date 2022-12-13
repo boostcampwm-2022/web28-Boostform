@@ -17,12 +17,12 @@ root.render(
   <>
     <GlobalStyle />
     <ThemeProvider theme={theme}>
-      <AuthProvider>
-        <QueryClientProvider client={queryClient}>
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider>
           <RouterProvider router={router} />
-          <ReactQueryDevtools initialIsOpen={false} />
-        </QueryClientProvider>
-      </AuthProvider>
+          {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+        </AuthProvider>
+      </QueryClientProvider>
     </ThemeProvider>
   </>
 );
