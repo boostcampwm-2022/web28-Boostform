@@ -1,13 +1,15 @@
 import React from "react";
 
 interface AuthProps {
-  userID: string;
+  userId: string;
   userName: string;
+  isSuccess?: boolean;
 }
 
 interface AuthContextProps {
   auth?: AuthProps;
   setAuth?: React.Dispatch<React.SetStateAction<AuthProps>>;
+  isSuccess?: boolean;
 }
 
-export default AuthContextProps;
+export type { AuthContextProps, AuthProps };

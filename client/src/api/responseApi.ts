@@ -20,7 +20,8 @@ const responseApi = {
     const { data } = await axios.get(`${API.RESPONSE}/${formId}/${responseId}`, { withCredentials: true });
     return data.answerList;
   },
-  checkDuplicateResponse: async (formId: string | undefined) => {
+  checkDuplicateResponse: async (formId: string | undefined, userId: string | undefined) => {
+    if (!userId) return null;
     const { data } = await axios.get(`${API.RESPONSE}/isSubmitted/${formId}`, { withCredentials: true });
     return data;
   },

@@ -18,7 +18,7 @@ function Header() {
   const onClickLogout = () => {
     if (!setAuth) return;
     authApi.logout();
-    setAuth({ userID: "", userName: "" });
+    setAuth({ userId: "", userName: "" });
     navigate("/");
   };
 
@@ -28,9 +28,9 @@ function Header() {
         <Link to="/">
           <img src={Logo} alt="logo" width="120px" height="36px" draggable={false} />
         </Link>
-        {auth?.userID && <Link to="/manage">내 설문조사</Link>}
-        {auth?.userID && <Link to="/forum">설문조사 게시판</Link>}
-        {auth?.userID && (
+        {auth?.userId && <Link to="/manage">내 설문조사</Link>}
+        {auth?.userId && <Link to="/forum">설문조사 게시판</Link>}
+        {auth?.userId && (
           <Button
             type="button"
             onClick={onClickLogout}
@@ -43,7 +43,7 @@ function Header() {
             로그아웃
           </Button>
         )}
-        {!auth?.userID && (
+        {!auth?.userId && (
           <Button
             type="button"
             onClick={onClickLogin}

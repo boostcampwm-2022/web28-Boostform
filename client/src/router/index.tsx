@@ -8,6 +8,7 @@ import View from "pages/View";
 import Response from "pages/Response";
 import Result from "pages/Result";
 import Forum from "pages/Forum";
+import Error from "pages/Error";
 
 const router = createBrowserRouter([
   {
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
   {
     path: "/forum",
     element: <Forum />,
+  },
+  {
+    path: "/error",
+    element: <Error />,
   },
 ]);
 

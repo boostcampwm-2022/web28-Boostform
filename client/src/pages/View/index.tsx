@@ -64,9 +64,10 @@ function View() {
     queryFn: fetchResponse,
   });
 
-  const checkDuplicateResponse = (): Promise<{ responseId: string | null }> => responseApi.checkDuplicateResponse(id);
+  const checkDuplicateResponse = (): Promise<{ responseId: string | null }> =>
+    responseApi.checkDuplicateResponse(id, auth?.userId);
   const { data: isDuplicateResponse } = useQuery({
-    queryKey: [id, "duplicateResponse"],
+    queryKey: [id, "duplicateResponse", auth?.userId],
     queryFn: checkDuplicateResponse,
   });
 
@@ -103,10 +104,10 @@ function View() {
       });
       return;
     }
-    if (formIsSuccess && formData.loginRequired && !auth?.userID) {
+    if (formIsSuccess && formData.loginRequired && auth?.isSuccess && !auth?.userId) {
       openModal();
     }
-  }, [auth?.userID, formData, formIsSuccess, navigate, openModal, isDuplicateResponse, prevResponseId, id]);
+  }, [auth, formData, formIsSuccess, navigate, openModal, isDuplicateResponse, prevResponseId, id, closeModal]);
 
   useEffect(() => {
     if (!id) return;

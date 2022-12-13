@@ -12,7 +12,7 @@ function Main() {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    const path = auth?.userID ? "/manage" : "/login";
+    const path = auth?.userId ? "/manage" : "/login";
     navigate(path);
   };
 
