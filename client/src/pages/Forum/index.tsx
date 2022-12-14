@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+
+import boardApi from "api/forumApi";
 import Layout from "components/template/BannerLayout";
 import Button from "components/common/Button";
-import theme from "styles/theme";
-import boardApi from "api/forumApi";
-import { useQuery } from "@tanstack/react-query";
 import TextDropdown from "components/common/Dropdown/TextDropdown";
 import Card from "components/common/Card";
 import Pagination from "components/common/Pagination";
 import Notice from "components/common/Notice";
 import Skeleton from "components/common/Skeleton";
 import useLoadingDelay from "hooks/useLoadingDelay";
-import { ForumCategory, OrderBy } from "types/forum";
 import { CATEGORY_FORUM_LIST } from "store/form";
+import theme from "styles/theme";
+import { ForumCategory, OrderBy } from "types/forum";
 import * as S from "./style";
 
 interface FormList {

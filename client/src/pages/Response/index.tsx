@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+
+import formApi from "api/formApi";
 import FormLayout from "components/template/Layout";
 import { FormDataApi } from "types/form";
-import { useQuery } from "@tanstack/react-query";
-import formApi from "api/formApi";
 import * as S from "./style";
 
 function Result() {

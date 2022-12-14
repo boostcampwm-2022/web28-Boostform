@@ -3,40 +3,25 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { FormState, FormDataApi } from "types/form";
-import formViewReducer from "reducer/formView";
+
 import formApi from "api/formApi";
-import { fromApiToForm } from "utils/form";
-import { checkPrevResponseUpdateValidateCheckList, fromApiToValidateCheckList, validationCheck } from "utils/response";
+import responseApi from "api/responseApi";
+import { AuthContext } from "contexts/authProvider";
 import FormLayout from "components/template/Layout";
 import QuestionView from "components/View/QuestionView";
 import Button from "components/common/Button";
 import Skeleton from "components/common/Skeleton";
 import LoginModal from "components/Modal/LoginModal";
-import theme from "styles/theme";
-import responseApi from "api/responseApi";
 import useLoadingDelay from "hooks/useLoadingDelay";
 import useModal from "hooks/useModal";
+import formViewReducer from "reducer/formView";
+import theme from "styles/theme";
+import { INITIAL_FORM } from "store/form";
 import { ResponseElement, Validation } from "types/response";
-
-import { AuthContext } from "contexts/authProvider";
+import { FormDataApi } from "types/form";
+import { fromApiToForm } from "utils/form";
+import { checkPrevResponseUpdateValidateCheckList, fromApiToValidateCheckList, validationCheck } from "utils/response";
 import * as S from "./style";
-
-const initialState: FormState = {
-  form: {
-    id: "example",
-    userId: 3,
-    title: "",
-    description: "",
-    category: "기타",
-    acceptResponse: false,
-    onBoard: false,
-    loginRequired: false,
-    responseModifiable: false,
-    currentQuestionId: 1,
-  },
-  question: [],
-};
 
 function View() {
   const { id } = useParams();
@@ -91,7 +76,7 @@ function View() {
 
   const loadingDelay = useLoadingDelay(formIsLoading || responseIsLoading);
 
-  const [state, setState] = useState(initialState);
+  const [state, setState] = useState(INITIAL_FORM);
   const { form, question } = state;
   const [responseState, dispatch] = useReducer(formViewReducer, []);
   const [validationMode, setValidationMode] = useState(false);
@@ -186,53 +171,16 @@ function View() {
   return (
     <FormLayout backgroundColor="blue">
       <S.Container>
-        <S.HeadContainer>
-          {checkApiSuccess() && (
-            <>
-              <S.HeadTitle>{form.title}</S.HeadTitle>
-              {form.description ? <S.HeadDescription>{form.description}</S.HeadDescription> : null}
-            </>
-          )}
-          {checkApiLoadingOrError() ? (
-            <>
+        {checkApiLoadingOrError() ? (
+          <>
+            <S.HeadContainer>
               <Skeleton.Element type="formTitle" />
               <Skeleton.Element type="text" />
               <Skeleton.Element type="text" />
               <Skeleton.Element type="text" />
               <Skeleton.Shimmer />
-            </>
-          ) : null}
-        </S.HeadContainer>
-        {checkApiSuccess() &&
-          (question.length ? (
-            question.map(({ questionId, title, essential }, questionIndex) => (
-              <S.QuestionContainer
-                key={questionId}
-                isEssential={validationMode && !validation[questionId] && essential}
-              >
-                <div>
-                  <span>{title}</span>
-                  {essential ? <S.Essential>*</S.Essential> : null}
-                </div>
-                <QuestionView
-                  questionState={question[questionIndex]}
-                  addResponse={onClickAddResponse}
-                  deleteResponse={onClickDeleteResponse}
-                  editResponse={onClickEditResponse}
-                  responseState={responseState}
-                  validationMode={validationMode}
-                  validation={validation}
-                  setValidation={setValidation}
-                />
-              </S.QuestionContainer>
-            ))
-          ) : (
-            <S.QuestionContainer isEssential={false}>
-              <S.NoResponseForm>설문지 문항이 존재하지 않습니다.</S.NoResponseForm>
-            </S.QuestionContainer>
-          ))}
-        {checkApiLoadingOrError()
-          ? Array.from({ length: 2 }, (_, index) => index).map((value) => (
+            </S.HeadContainer>
+            {Array.from({ length: 2 }, (_, index) => index).map((value) => (
               <S.QuestionContainer key={value} isEssential={false}>
                 <Skeleton.Element type="formQuestionTitle" />
                 <Skeleton.Element type="text" />
@@ -241,28 +189,60 @@ function View() {
                 <Skeleton.Element type="text" />
                 <Skeleton.Shimmer />
               </S.QuestionContainer>
-            ))
-          : null}
-        {question.length ? (
-          <S.BottomContainer>
-            {checkApiSuccess() && (
-              <Button
-                type="button"
-                onClick={onClickSubmitForm}
-                backgroundColor={theme.colors.blue5}
-                border={theme.colors.grey3}
-                color={theme.colors.white}
-              >
-                제출
-              </Button>
+            ))}
+            <S.BottomContainer>
+              <Skeleton.Element type="button" />
+              <Skeleton.Shimmer />
+            </S.BottomContainer>
+          </>
+        ) : null}
+        {checkApiSuccess() ? (
+          <>
+            <S.HeadContainer>
+              <S.HeadTitle>{form.title}</S.HeadTitle>
+              {form.description ? <S.HeadDescription>{form.description}</S.HeadDescription> : null}
+            </S.HeadContainer>
+            {question.length ? (
+              question.map(({ questionId, title, essential }, questionIndex) => (
+                <S.QuestionContainer
+                  key={questionId}
+                  isEssential={validationMode && !validation[questionId] && essential}
+                >
+                  <div>
+                    <span>{title}</span>
+                    {essential ? <S.Essential>*</S.Essential> : null}
+                  </div>
+                  <QuestionView
+                    questionState={question[questionIndex]}
+                    addResponse={onClickAddResponse}
+                    deleteResponse={onClickDeleteResponse}
+                    editResponse={onClickEditResponse}
+                    responseState={responseState}
+                    validationMode={validationMode}
+                    validation={validation}
+                    setValidation={setValidation}
+                  />
+                </S.QuestionContainer>
+              ))
+            ) : (
+              <S.QuestionContainer isEssential={false}>
+                <S.NoResponseForm>설문지 문항이 존재하지 않습니다.</S.NoResponseForm>
+              </S.QuestionContainer>
             )}
-            {checkApiLoadingOrError() ? (
-              <>
-                <Skeleton.Element type="button" />
-                <Skeleton.Shimmer />
-              </>
+            {question.length ? (
+              <S.BottomContainer>
+                <Button
+                  type="button"
+                  onClick={onClickSubmitForm}
+                  backgroundColor={theme.colors.blue5}
+                  border={theme.colors.grey3}
+                  color={theme.colors.white}
+                >
+                  제출
+                </Button>
+              </S.BottomContainer>
             ) : null}
-          </S.BottomContainer>
+          </>
         ) : null}
 
         <ToastContainer
