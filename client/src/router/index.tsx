@@ -1,6 +1,6 @@
 import React from "react";
 import { createBrowserRouter } from "react-router-dom";
-import Manage from "pages/Manage";
+import MyForms from "pages/MyForms";
 import Edit from "pages/Edit";
 import Main from "pages/Main";
 import Login from "pages/Login";
@@ -28,8 +28,8 @@ const router = createBrowserRouter([
     element: <Login />,
   },
   {
-    path: "/manage",
-    element: <Manage />,
+    path: "/myForms",
+    element: <MyForms />,
   },
   {
     path: "/forms/:id/response",

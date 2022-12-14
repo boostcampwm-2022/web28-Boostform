@@ -1,13 +1,13 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import formApi from "api/formApi";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import ManageLayout from "components/template/BannerLayout";
+import BannerLayout from "components/template/BannerLayout";
 import EditNameModal from "components/Modal/EditFormNameModal";
 import DeleteSurveyModal from "components/Modal/DeleteFormModal";
 import useModal from "hooks/useModal";
 import useIntersectionObserver from "hooks/useIntersectionObserver";
-import { FormList } from "types/manage";
+import { FormList } from "types/myForms";
 import Card from "components/common/Card";
 import Button from "components/common/Button";
 import Icon from "components/common/Icon";
@@ -17,7 +17,7 @@ import useLoadingDelay from "hooks/useLoadingDelay";
 import theme from "styles/theme";
 import * as S from "./style";
 
-function Manage() {
+function MyForms() {
   const [modalType, setModalType] = useState("delete");
   const [selectedFormId, setSelectedFormId] = useState("");
 
@@ -74,7 +74,7 @@ function Manage() {
   };
 
   return (
-    <ManageLayout backgroundColor="white" title="내 설문조사" description="내가 만든 설문조사 확인하기">
+    <BannerLayout backgroundColor="white" title="내 설문조사" description="내가 만든 설문조사 확인하기">
       <S.Container>
         <S.HeaderContainer>
           <Button
@@ -190,8 +190,8 @@ function Manage() {
           <DeleteSurveyModal closeModal={closeModal} selectedFormId={selectedFormId} refetchData={refetchData} />
         </ModalPortal>
       ) : null}
-    </ManageLayout>
+    </BannerLayout>
   );
 }
 
-export default Manage;
+export default MyForms;

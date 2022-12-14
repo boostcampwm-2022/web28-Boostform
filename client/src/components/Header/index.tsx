@@ -28,7 +28,7 @@ function Header() {
         <Link to="/">
           <img src={Logo} alt="logo" width="120px" height="36px" draggable={false} />
         </Link>
-        {auth?.userId && <Link to="/manage">내 설문조사</Link>}
+        {auth?.userId && <Link to="/myForms">내 설문조사</Link>}
         {auth?.userId && <Link to="/forum">설문조사 게시판</Link>}
         {auth?.userId && (
           <Button

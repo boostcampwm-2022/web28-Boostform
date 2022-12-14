@@ -29,7 +29,7 @@ class UserController {
           .status(200)
           .cookie("accessToken", tokens.accessToken)
           .cookie("refreshToken", tokens.refreshToken, { httpOnly: true })
-          .redirect(`${process.env.ORIGIN_URL as string}/manage`);
+          .redirect(`${process.env.ORIGIN_URL as string}/myForms`);
       })
       .catch((err) => {
         next(err);
