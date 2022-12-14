@@ -62,6 +62,11 @@ function Forum() {
   const { data, isLoading, isSuccess, isError } = useQuery({
     queryKey: [keyword, category, orderBy, page],
     queryFn: fetchFormList,
+    onError: (error: { response: { status: number } }) => {
+      const { status } = error.response;
+      if (status === 400 || status === 404 || status === 404 || status === 500) navigate("/error", { state: status });
+      if (status === 401) navigate("/login");
+    },
   });
 
   const loadingDelay = useLoadingDelay(isLoading);

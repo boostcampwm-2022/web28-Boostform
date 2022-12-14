@@ -6,8 +6,14 @@ const Container = styled.section`
   display: flex;
   align-items: center;
   justify-content: center;
+  user-select: none;
 
   background-color: ${({ theme }) => theme.colors.blue3};
+`;
+
+const Img = styled.img`
+  width: 50%;
+  border-radius: 3px;
 `;
 
 const LoginContainer = styled.div`
@@ -57,4 +63,4 @@ const ButtonText = styled.span`
   margin-left: 8px;
 `;
 
-export { Container, LoginContainer, OAuthButton, HomeButton, ButtonText };
+export { Container, LoginContainer, OAuthButton, HomeButton, ButtonText, Img };

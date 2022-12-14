@@ -14,7 +14,15 @@ function Result() {
   const navigate = useNavigate();
 
   const fetchForm = (): Promise<FormDataApi> => formApi.getForm(id);
-  const { data, isSuccess } = useQuery({ queryKey: [id, "form"], queryFn: fetchForm });
+  const { data, isSuccess } = useQuery({
+    queryKey: [id, "form"],
+    queryFn: fetchForm,
+    onError: (error: { response: { status: number } }) => {
+      const { status } = error.response;
+      if (status === 400 || status === 404 || status === 404 || status === 500) navigate("/error", { state: status });
+      if (status === 401) navigate("/login");
+    },
+  });
 
   const [form, setForm] = useState<FormDataApi>();
 

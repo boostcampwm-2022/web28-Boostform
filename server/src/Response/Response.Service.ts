@@ -1,3 +1,5 @@
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable guard-for-in */
 import FormResponse from "./Response.Model";
 import redisCli from "../Loader/Redis.Loader";
 import { AnswerInterface, AnswerDTOInterface } from "./Response.Interface";
@@ -5,6 +7,17 @@ import { AnswerInterface, AnswerDTOInterface } from "./Response.Interface";
 class ResponseService {
   static async checkAnswerExistence(formId: string, userID: number) {
     const response = await FormResponse.findOne({ form_id: formId, user_id: userID });
+
+    if (!response) {
+      const responseInRedis = await redisCli.hGetAll("response");
+
+      for (const responseId in responseInRedis) {
+        const tmpResponse = JSON.parse(responseInRedis[responseId]);
+        if (tmpResponse.form_id === formId && tmpResponse.user_id === userID) {
+          return responseId;
+        }
+      }
+    }
 
     if (response !== null) {
       return response.id;

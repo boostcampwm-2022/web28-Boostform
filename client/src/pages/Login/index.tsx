@@ -19,7 +19,7 @@ function Login() {
     <S.Container>
       <S.LoginContainer>
         <Icon type="github" size="16px" />
-        <img src={Logo} alt="logo" />
+        <S.Img src={Logo} alt="logo" draggable={false} />
         <S.OAuthButton onClick={handleClickOAuth}>
           <Icon type="github" size="16px" />
           <S.ButtonText>깃허브 로그인</S.ButtonText>

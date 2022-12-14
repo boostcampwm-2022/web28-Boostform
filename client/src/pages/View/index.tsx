@@ -51,7 +51,15 @@ function View() {
     isSuccess: formIsSuccess,
     isLoading: formIsLoading,
     isError: formIsError,
-  } = useQuery({ queryKey: [id, "form"], queryFn: fetchForm });
+  } = useQuery({
+    queryKey: [id, "form"],
+    queryFn: fetchForm,
+    onError: (error: { response: { status: number } }) => {
+      const { status } = error.response;
+      if (status === 400 || status === 404 || status === 404 || status === 500) navigate("/error", { state: status });
+      if (status === 401) navigate("/login");
+    },
+  });
 
   const fetchResponse = (): Promise<ResponseElement[]> => responseApi.getResponse(id, prevResponseId);
   const {
@@ -62,12 +70,23 @@ function View() {
   } = useQuery({
     queryKey: [prevResponseId, "response"],
     queryFn: fetchResponse,
+    onError: (error: { response: { status: number } }) => {
+      const { status } = error.response;
+      if (status === 400 || status === 404 || status === 404 || status === 500) navigate("/error", { state: status });
+      if (status === 401) navigate("/login");
+    },
   });
 
-  const checkDuplicateResponse = (): Promise<{ responseId: string | null }> => responseApi.checkDuplicateResponse(id);
+  const checkDuplicateResponse = (): Promise<{ responseId: string | null }> =>
+    responseApi.checkDuplicateResponse(id, auth?.userId);
   const { data: isDuplicateResponse } = useQuery({
-    queryKey: [id, "duplicateResponse"],
+    queryKey: [id, "duplicateResponse", auth?.userId],
     queryFn: checkDuplicateResponse,
+    onError: (error: { response: { status: number } }) => {
+      const { status } = error.response;
+      if (status === 400 || status === 404 || status === 404 || status === 500) navigate("/error", { state: status });
+      if (status === 401) navigate("/login");
+    },
   });
 
   const loadingDelay = useLoadingDelay(formIsLoading || responseIsLoading);
@@ -103,10 +122,10 @@ function View() {
       });
       return;
     }
-    if (formIsSuccess && formData.loginRequired && !auth?.userID) {
+    if (formIsSuccess && formData.loginRequired && auth?.isSuccess && !auth?.userId) {
       openModal();
     }
-  }, [auth?.userID, formData, formIsSuccess, navigate, openModal, isDuplicateResponse, prevResponseId, id]);
+  }, [auth, formData, formIsSuccess, navigate, openModal, isDuplicateResponse, prevResponseId, id, closeModal]);
 
   useEffect(() => {
     if (!id) return;
