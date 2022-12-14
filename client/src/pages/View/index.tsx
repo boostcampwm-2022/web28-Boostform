@@ -51,7 +51,15 @@ function View() {
     isSuccess: formIsSuccess,
     isLoading: formIsLoading,
     isError: formIsError,
-  } = useQuery({ queryKey: [id, "form"], queryFn: fetchForm });
+  } = useQuery({
+    queryKey: [id, "form"],
+    queryFn: fetchForm,
+    onError: (error: { response: { status: number } }) => {
+      const { status } = error.response;
+      if (status === 400 || status === 404 || status === 404 || status === 500) navigate("/error", { state: status });
+      if (status === 401) navigate("/login");
+    },
+  });
 
   const fetchResponse = (): Promise<ResponseElement[]> => responseApi.getResponse(id, prevResponseId);
   const {
@@ -62,6 +70,11 @@ function View() {
   } = useQuery({
     queryKey: [prevResponseId, "response"],
     queryFn: fetchResponse,
+    onError: (error: { response: { status: number } }) => {
+      const { status } = error.response;
+      if (status === 400 || status === 404 || status === 404 || status === 500) navigate("/error", { state: status });
+      if (status === 401) navigate("/login");
+    },
   });
 
   const checkDuplicateResponse = (): Promise<{ responseId: string | null }> =>
@@ -69,6 +82,11 @@ function View() {
   const { data: isDuplicateResponse } = useQuery({
     queryKey: [id, "duplicateResponse", auth?.userId],
     queryFn: checkDuplicateResponse,
+    onError: (error: { response: { status: number } }) => {
+      const { status } = error.response;
+      if (status === 400 || status === 404 || status === 404 || status === 500) navigate("/error", { state: status });
+      if (status === 401) navigate("/login");
+    },
   });
 
   const loadingDelay = useLoadingDelay(formIsLoading || responseIsLoading);

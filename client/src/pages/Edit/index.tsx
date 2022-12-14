@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useEffect, useReducer, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { DragDropContext, Droppable, Draggable, DropResult, DragStart } from "react-beautiful-dnd";
 
@@ -46,12 +46,18 @@ const initialState: FormState = {
 
 function Edit() {
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const fetchForm = (): Promise<FormDataApi> => formApi.getForm(id);
   const { data, isSuccess, isLoading, isError } = useQuery({
     queryKey: [id],
     queryFn: fetchForm,
     refetchOnWindowFocus: false,
+    onError: (error: { response: { status: number } }) => {
+      const { status } = error.response;
+      if (status === 400 || status === 404 || status === 404 || status === 500) navigate("/error", { state: status });
+      if (status === 401) navigate("/login");
+    },
   });
 
   const [state, dispatch] = useReducer(writeReducer, initialState);
