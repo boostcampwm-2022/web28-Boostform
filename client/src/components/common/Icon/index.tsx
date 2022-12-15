@@ -21,6 +21,8 @@ import { ReactComponent as Chain } from "assets/Icon/chain.svg";
 import { ReactComponent as Logo } from "assets/Icon/logo.svg";
 import { ReactComponent as Left } from "assets/Icon/left.svg";
 import { ReactComponent as Right } from "assets/Icon/right.svg";
+import { ReactComponent as BulletinBoard } from "assets/Icon/bulletinBoard.svg";
+import { ReactComponent as Form } from "assets/Icon/form.svg";
 import Container from "./style";
 import { IconProps } from "./type";
 
@@ -49,6 +51,8 @@ function Icon({ type, size, fill }: IconProps) {
       {type === "logo" && <Logo height={size} width={size} fill={fill} />}
       {type === "left" && <Left height={size} width={size} fill={fill} />}
       {type === "right" && <Right height={size} width={size} fill={fill} />}
+      {type === "bulletinBoard" && <BulletinBoard height={size} width={size} fill={fill} />}
+      {type === "form" && <Form height={size} width={size} fill={fill} />}
     </Container>
   );
 }

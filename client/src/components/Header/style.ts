@@ -26,4 +26,14 @@ const HeaderContainer = styled.header`
   background-color: white;
 `;
 
-export { HeaderContainer, Layout };
+const LinkButtonWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: right;
+
+  a {
+    margin-right: 48px;
+  }
+`;
+
+export { HeaderContainer, Layout, LinkButtonWrapper };
