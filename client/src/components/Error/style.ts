@@ -24,4 +24,10 @@ const H1 = styled.h1`
   color: ${({ theme }) => theme.colors.blue3};
 `;
 
-export { Container, H2, H1 };
+const ButtonWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+export { Container, H2, H1, ButtonWrapper };

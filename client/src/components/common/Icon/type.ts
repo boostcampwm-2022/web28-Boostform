@@ -20,7 +20,9 @@ type IconType =
   | "chain"
   | "logo"
   | "left"
-  | "right";
+  | "right"
+  | "bulletinBoard"
+  | "form";
 
 interface IconProps {
   type: IconType;

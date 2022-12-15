@@ -3,7 +3,9 @@ import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 
 import formApi from "api/formApi";
+import Skeleton from "components/common/Skeleton";
 import FormLayout from "components/template/Layout";
+import useLoadingDelay from "hooks/useLoadingDelay";
 import { FormDataApi } from "types/form";
 import * as S from "./style";
 
@@ -15,17 +17,14 @@ function Result() {
   const navigate = useNavigate();
 
   const fetchForm = (): Promise<FormDataApi> => formApi.getForm(id);
-  const { data, isSuccess } = useQuery({
+  const { data, isSuccess, isLoading } = useQuery({
     queryKey: [id, "form"],
     queryFn: fetchForm,
-    retry: false,
-    onError: (error: { response: { status: number } }) => {
-      const { status } = error.response;
-      if (status === 400 || status === 404 || status === 404 || status === 500) navigate("/error", { state: status });
-      if (status === 401) navigate("/login");
-    },
+    retry: 2,
+    useErrorBoundary: true,
   });
 
+  const delayLoading = useLoadingDelay(isLoading);
   const [form, setForm] = useState<FormDataApi>();
 
   useEffect(() => {
@@ -51,17 +50,38 @@ function Result() {
     return "";
   };
 
+  const checkApiSuccess = () => {
+    if (!delayLoading && isSuccess) return true;
+    return false;
+  };
+  const checkApiLoadingOrError = () => {
+    if (isLoading || delayLoading) return true;
+    return false;
+  };
+
   return (
     <FormLayout backgroundColor="blue">
       <S.Container>
         <S.ResponseWrapper>
-          <S.Title>{form?.title}</S.Title>
-          <S.Description>{getTitle()}</S.Description>
-          {form?.acceptResponse ? (
-            <S.LinkWrapper>
-              {form?.responseModifiable ? <S.Link onClick={onClickModifyPreviousResponse}>응답 수정</S.Link> : null}
-              {!form?.loginRequired ? <S.Link onClick={onClickNavigateOtherResponse}>다른 응답 제출</S.Link> : null}
-            </S.LinkWrapper>
+          {checkApiLoadingOrError() ? (
+            <>
+              <Skeleton.Element type="formTitle" />
+              <Skeleton.Element type="text" />
+              <Skeleton.Element type="text" />
+              <Skeleton.Element type="text" />
+            </>
+          ) : null}
+          {checkApiSuccess() ? (
+            <>
+              <S.Title>{form?.title}</S.Title>
+              <S.Description>{getTitle()}</S.Description>
+              {form?.acceptResponse ? (
+                <S.LinkWrapper>
+                  {form?.responseModifiable ? <S.Link onClick={onClickModifyPreviousResponse}>응답 수정</S.Link> : null}
+                  {!form?.loginRequired ? <S.Link onClick={onClickNavigateOtherResponse}>다른 응답 제출</S.Link> : null}
+                </S.LinkWrapper>
+              ) : null}
+            </>
           ) : null}
         </S.ResponseWrapper>
       </S.Container>

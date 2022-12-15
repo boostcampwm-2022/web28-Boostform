@@ -40,11 +40,7 @@ function View() {
     queryKey: [id, "form"],
     queryFn: fetchForm,
     retry: 2,
-    onError: (error: { response: { status: number } }) => {
-      const { status } = error.response;
-      if (status === 400 || status === 404 || status === 404 || status === 500) navigate("/error", { state: status });
-      if (status === 401) navigate("/login");
-    },
+    useErrorBoundary: true,
   });
 
   const fetchResponse = (): Promise<ResponseElement[]> => responseApi.getResponse(id, prevResponseId);
@@ -56,11 +52,8 @@ function View() {
   } = useQuery({
     queryKey: [prevResponseId, "response"],
     queryFn: fetchResponse,
-    onError: (error: { response: { status: number } }) => {
-      const { status } = error.response;
-      if (status === 400 || status === 404 || status === 404 || status === 500) navigate("/error", { state: status });
-      if (status === 401) navigate("/login");
-    },
+    retry: 2,
+    useErrorBoundary: true,
   });
 
   const checkDuplicateResponse = (): Promise<{ responseId: string | null }> =>

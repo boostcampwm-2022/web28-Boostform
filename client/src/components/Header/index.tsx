@@ -28,33 +28,36 @@ function Header() {
         <Link to="/">
           <img src={Logo} alt="logo" width="120px" height="36px" draggable={false} />
         </Link>
-        {auth?.userId && <Link to="/myForms">내 설문조사</Link>}
-        {auth?.userId && <Link to="/forum">설문조사 게시판</Link>}
-        {auth?.userId && (
-          <Button
-            type="button"
-            onClick={onClickLogout}
-            backgroundColor={theme.colors.white}
-            border={theme.colors.blue3}
-            color={theme.colors.blue3}
-            fontSize={theme.fontSize.sz14}
-            active={false}
-          >
-            로그아웃
-          </Button>
-        )}
-        {!auth?.userId && (
-          <Button
-            type="button"
-            onClick={onClickLogin}
-            backgroundColor={theme.colors.blue3}
-            border="none"
-            color={theme.colors.white}
-            fontSize={theme.fontSize.sz16}
-          >
-            로그인
-          </Button>
-        )}
+        <S.LinkButtonWrapper>
+          {auth?.userId && <Link to="/myForms">내 설문지</Link>}
+          <Link to="/forum">게시판</Link>
+          <a href="https://boostcamp-wm.notion.site/Web28-BoostForm-ebdeff01de9241c0a453742f42f1a633">프로젝트 소개</a>
+          {auth?.userId && (
+            <Button
+              type="button"
+              onClick={onClickLogout}
+              backgroundColor={theme.colors.white}
+              border={theme.colors.blue3}
+              color={theme.colors.blue3}
+              fontSize={theme.fontSize.sz14}
+              active={false}
+            >
+              로그아웃
+            </Button>
+          )}
+          {!auth?.userId && (
+            <Button
+              type="button"
+              onClick={onClickLogin}
+              backgroundColor={theme.colors.blue3}
+              border="none"
+              color={theme.colors.white}
+              fontSize={theme.fontSize.sz16}
+            >
+              로그인
+            </Button>
+          )}
+        </S.LinkButtonWrapper>
       </S.Layout>
     </S.HeaderContainer>
   );
