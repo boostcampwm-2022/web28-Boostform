@@ -19,7 +19,7 @@ const Button = styled.button<{ fontSize: string; border: string; padding: string
   cursor: pointer;
 `;
 
-const Content = styled.ul<{ custom: string }>`
+const Content = styled.ul`
   width: 100%;
   position: absolute;
   z-index: 1;
@@ -27,8 +27,6 @@ const Content = styled.ul<{ custom: string }>`
   padding: 10px 0;
   border-radius: 3px;
   border: 1px solid ${({ theme }) => theme.colors.grey3};
-
-  ${({ custom }) => custom}
 
   li {
     text-align: left;

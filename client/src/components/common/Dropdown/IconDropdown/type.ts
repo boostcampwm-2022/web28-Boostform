@@ -1,5 +1,4 @@
 import { IconType } from "components/common/Icon/type";
-import { QuestionType } from "types/form";
 
 interface IconItem {
   value: string;

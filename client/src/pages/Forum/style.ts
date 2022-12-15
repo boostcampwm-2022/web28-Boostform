@@ -14,7 +14,7 @@ const divSearchBox = styled.form`
 `;
 
 const inputSearch = styled.input`
-  width: calc(100% - 55px);
+  width: calc(100% - 60px);
   height: 37px;
   padding: 0 10px;
   border: 1px solid ${({ theme }) => theme.colors.grey3};

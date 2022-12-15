@@ -1,17 +1,7 @@
 import React from "react";
 import theme from "styles/theme";
 import ButtonComponent from "./style";
-
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  children: React.ReactNode;
-  color?: string;
-  backgroundColor?: string;
-  hover?: string;
-  fontSize?: string;
-  active?: boolean;
-  border?: string;
-  custom?: string;
-}
+import { ButtonProps } from "./type";
 
 function Button({
   children,
@@ -22,8 +12,8 @@ function Button({
   color,
   hover,
   active,
-  custom,
   onClick,
+  style,
 }: ButtonProps) {
   return (
     <ButtonComponent
@@ -34,8 +24,8 @@ function Button({
       color={color}
       hover={hover}
       active={active}
-      custom={custom}
       onClick={onClick}
+      style={style}
     >
       {children}
     </ButtonComponent>
@@ -49,7 +39,6 @@ Button.defaultProps = {
   color: theme.colors.black,
   hover: "",
   active: false,
-  custom: "",
 };
 
 export default Button;

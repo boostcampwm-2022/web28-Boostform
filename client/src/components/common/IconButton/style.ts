@@ -1,9 +1,5 @@
 import styled, { css } from "styled-components";
-
-interface StyledIconButtonProps {
-  active?: boolean;
-  custom?: string;
-}
+import { StyledIconButtonProps } from "./type";
 
 const IconButton = styled.button<StyledIconButtonProps>`
   padding: 0;
@@ -32,8 +28,6 @@ const IconButton = styled.button<StyledIconButtonProps>`
         transform: translateY(1px);
       }
     `}
-
-  ${({ custom }) => custom}
 `;
 
 export default IconButton;

@@ -1,14 +1,5 @@
 import styled, { css } from "styled-components";
-
-interface StyledButtonProps {
-  color?: string;
-  backgroundColor?: string;
-  hover?: string;
-  fontSize?: string;
-  active?: boolean;
-  border?: string;
-  custom?: string;
-}
+import { StyledButtonProps } from "./type";
 
 const Button = styled.button<StyledButtonProps>`
   display: flex;
@@ -37,8 +28,6 @@ const Button = styled.button<StyledButtonProps>`
         transform: translateY(1px);
       }
     `}
-
-    ${({ custom }) => custom}
 `;
 
 export default Button;

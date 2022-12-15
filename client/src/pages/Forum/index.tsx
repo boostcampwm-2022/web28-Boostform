@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+
+import boardApi from "api/forumApi";
 import Layout from "components/template/BannerLayout";
 import Button from "components/common/Button";
-import theme from "styles/theme";
-import boardApi from "api/forumApi";
-import { useQuery } from "@tanstack/react-query";
 import TextDropdown from "components/common/Dropdown/TextDropdown";
 import Card from "components/common/Card";
 import Pagination from "components/common/Pagination";
 import Notice from "components/common/Notice";
 import Skeleton from "components/common/Skeleton";
 import useLoadingDelay from "hooks/useLoadingDelay";
-import { ForumCategory, OrderBy } from "types/forum";
 import { CATEGORY_FORUM_LIST } from "store/form";
+import theme from "styles/theme";
+import { ForumCategory, OrderBy } from "types/forum";
 import * as S from "./style";
 
 interface FormList {
@@ -97,7 +98,7 @@ function Forum() {
             fontSize={theme.fontSize.sz12}
             backgroundColor={theme.colors.blue3}
             color={theme.colors.white}
-            custom="margin-left: 2px;"
+            style={{ marginLeft: "2px" }}
           >
             검색
           </Button>
@@ -141,7 +142,7 @@ function Forum() {
             <S.spanCategoryText>카테고리</S.spanCategoryText>
             <TextDropdown state={category} defaultState="카테고리를 선택해주세요" fontSize={theme.fontSize.sz12}>
               <TextDropdown.Head border="none" padding="0px" color={theme.colors.blue3} bold />
-              <TextDropdown.ItemList custom="top 26px;">
+              <TextDropdown.ItemList style={{ top: "26px" }}>
                 {CATEGORY_FORUM_LIST.map((value) => (
                   <TextDropdown.Item
                     key={value}
@@ -172,7 +173,7 @@ function Forum() {
                       onClick={() => navigate(`/forms/${formId}/view`)}
                       backgroundColor={theme.colors.blue3}
                       color={theme.colors.white}
-                      custom="margin-right: 8px;"
+                      style={{ marginRight: "8px" }}
                     >
                       설문조사 참여하기
                     </Button>

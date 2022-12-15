@@ -1,20 +1,26 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate, useRouteError } from "react-router-dom";
 import FormLayout from "components/template/Layout";
 import Button from "components/common/Button";
 import theme from "styles/theme";
 import * as S from "./style";
 
+interface ErrorType {
+  response: { status: number };
+}
+
 function Error() {
+  const error = useRouteError() as ErrorType;
+
+  const { status: statusCode } = error.response;
   const navigate = useNavigate();
-  const { state } = useLocation();
   const [status, setStatus] = useState({ code: 404, message: "죄송합니다. 원하시는 페이지를 찾을 수가 없습니다." });
 
   useEffect(() => {
-    if (state === 400) setStatus({ code: 400, message: "죄송합니다. 원하시는 페이지를 찾을 수가 없습니다." });
-    if (state === 404) setStatus({ code: 404, message: "죄송합니다. 원하시는 페이지를 찾을 수가 없습니다." });
-    if (state === 500) setStatus({ code: 500, message: "죄송합니다. 원하시는 페이지를 찾을 수가 없습니다." });
-  }, [state]);
+    if (statusCode === 400) setStatus({ code: 400, message: "죄송합니다. 페이지를 표시할 수 없습니다." });
+    if (statusCode === 404) setStatus({ code: 404, message: "죄송합니다. 원하시는 페이지를 찾을 수가 없습니다." });
+    if (statusCode === 500) setStatus({ code: 500, message: "죄송합니다. 페이지를 표시할 수 없습니다." });
+  }, [statusCode]);
 
   return (
     <FormLayout backgroundColor="white">

@@ -7,4 +7,8 @@ type SkeletonType =
   | "button"
   | "formQuestionTitleEdit";
 
-export default SkeletonType;
+interface SkeletonContainerProps extends React.HTMLAttributes<HTMLDivElement> {
+  children: React.ReactNode;
+}
+
+export type { SkeletonType, SkeletonContainerProps };

@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+
+import formApi from "api/formApi";
 import FormLayout from "components/template/Layout";
 import { FormDataApi } from "types/form";
-import { useQuery } from "@tanstack/react-query";
-import formApi from "api/formApi";
 import * as S from "./style";
 
 function Result() {
@@ -17,6 +18,7 @@ function Result() {
   const { data, isSuccess } = useQuery({
     queryKey: [id, "form"],
     queryFn: fetchForm,
+    retry: false,
     onError: (error: { response: { status: number } }) => {
       const { status } = error.response;
       if (status === 400 || status === 404 || status === 404 || status === 500) navigate("/error", { state: status });

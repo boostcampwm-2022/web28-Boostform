@@ -25,7 +25,7 @@ function DeleteFormModal({ closeModal, refetchData, selectedFormId }: DeleteForm
           border={theme.colors.red1}
           color={theme.colors.red1}
           fontSize={theme.fontSize.sz12}
-          custom="margin-right: 12px;"
+          style={{ marginRight: "12px" }}
           hover={theme.colors.red0}
           active
         >

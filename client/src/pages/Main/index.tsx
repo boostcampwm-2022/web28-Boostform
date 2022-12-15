@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import Example from "assets/Images/Example.png";
+import { AuthContext } from "contexts/authProvider";
 import FormLayout from "components/template/Layout";
 import Button from "components/common/Button";
 import theme from "styles/theme";
-import { AuthContext } from "contexts/authProvider";
-import Example from "assets/Images/Example.png";
 import * as S from "./style";
 
 function Main() {

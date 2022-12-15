@@ -1,13 +1,10 @@
 import React from "react";
 import * as S from "./style";
-import SkeletonType from "./type";
+import { SkeletonType, SkeletonContainerProps } from "./type";
 
-function SkeletonContainer({ children, custom = "" }: { children: React.ReactNode; custom?: string }) {
-  return <S.Container custom={custom}>{children}</S.Container>;
+function SkeletonContainer({ children, style }: SkeletonContainerProps) {
+  return <S.Container style={style}>{children}</S.Container>;
 }
-SkeletonContainer.defaultProps = {
-  custom: "",
-};
 
 function Element({ type }: { type: SkeletonType }) {
   return <S.Element type={type} />;
