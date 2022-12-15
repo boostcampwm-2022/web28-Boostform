@@ -34,6 +34,9 @@ class FormService {
             .catch(() => {
               throw new NotFoundException();
             });
+    if (!rawFormList) {
+      throw new NotFoundException();
+    }
     const formList = rawFormList.map((form: any) => {
       return {
         _id: `${form._id}`,
