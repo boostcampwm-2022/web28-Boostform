@@ -3,6 +3,11 @@
 ### Welcome to the web28-Boostform wiki!
 부스트캠퍼들을 위한 설문조사 서비스
 
+- [배포](https://www.boostform.kro.kr/)
+- [시연영상](https://www.youtube.com/watch?v=AfzFikTJCq4)
+- [발표영상](https://youtu.be/l9K1ajF5KSw)
+- [Wiki](https://github.com/boostcampwm-2022/web28-Boostform/wiki)
+
 ![logo](https://user-images.githubusercontent.com/20670685/207753069-eb27836c-22cd-4e24-a896-69c12e4d830d.png)
 
 
