@@ -32,7 +32,7 @@ function EditFormNameModal({ closeModal, selectedFormId, refetchData }: EditForm
           border={theme.colors.blue2}
           color={theme.colors.blue2}
           fontSize={theme.fontSize.sz12}
-          custom="margin-right: 12px;"
+          style={{ marginRight: "12px" }}
           hover={theme.colors.blue0}
           active
         >

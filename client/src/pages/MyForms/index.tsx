@@ -127,7 +127,7 @@ function MyForms() {
                           onClick={() => onClickNavigateEditForm(_id)}
                           backgroundColor={theme.colors.blue3}
                           color={theme.colors.white}
-                          custom="margin-right: 8px;"
+                          style={{ marginRight: "8px" }}
                         >
                           설문조사 수정하기
                         </Button>
@@ -137,7 +137,7 @@ function MyForms() {
                           border={theme.colors.blue3}
                           backgroundColor={theme.colors.white}
                           color={theme.colors.blue3}
-                          custom="margin-right: 8px;"
+                          style={{ marginRight: "8px" }}
                         >
                           설문조사 결과보기
                         </Button>
@@ -146,7 +146,7 @@ function MyForms() {
                           onClick={() => onClickOpenNameChangeModal(_id)}
                           backgroundColor={theme.colors.blue3}
                           color={theme.colors.white}
-                          custom="margin-right: 8px;"
+                          style={{ marginRight: "8px" }}
                         >
                           제목 수정하기
                         </Button>
@@ -173,7 +173,7 @@ function MyForms() {
           ) : null}
           {checkApiLoadingOrError()
             ? Array.from({ length: 3 }, (_, index) => index).map((value) => (
-                <Skeleton key={value} custom="margin-top: 41px;">
+                <Skeleton key={value} style={{ marginTop: "41px" }}>
                   <Skeleton.Element type="title" />
                   <Skeleton.Element type="text" />
                   <Skeleton.Element type="text" />

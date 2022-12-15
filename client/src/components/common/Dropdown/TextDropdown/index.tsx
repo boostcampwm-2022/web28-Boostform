@@ -55,19 +55,15 @@ Head.defaultProps = {
   bold: false,
 };
 
-function ItemList({ children, custom = "" }: ItemListProps) {
+function ItemList({ children, style }: ItemListProps) {
   const { open, setOpen } = useContext(TextDropdownContext);
 
   return open ? (
     <OutsideDetecter callback={() => setOpen && setOpen(false)}>
-      <S.Content custom={custom}>{children}</S.Content>
+      <S.Content style={style}>{children}</S.Content>
     </OutsideDetecter>
   ) : null;
 }
-
-ItemList.defaultProps = {
-  custom: "",
-};
 
 function Item({ value, onClick }: ItemProps) {
   const { setSelected, setOpen, fontSize } = useContext(TextDropdownContext);

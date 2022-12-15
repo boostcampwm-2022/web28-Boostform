@@ -34,7 +34,7 @@ function Pagination({
         disabled={currentPage === 1}
         icon="left"
         fill={theme.colors.grey5}
-        custom="height: 24px;"
+        style={{ height: "24px" }}
       />
       <S.PageNumberWrapper>
         {pageNumbers.map((number) => (
@@ -50,7 +50,7 @@ function Pagination({
         disabled={currentPage === lastPage}
         icon="right"
         fill={theme.colors.grey5}
-        custom="height: 24px;"
+        style={{ height: "24px" }}
       />
     </S.Container>
   );

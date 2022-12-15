@@ -3,7 +3,6 @@ import styled from "styled-components";
 interface StyledTextButtonProps {
   color?: string;
   fontSize?: string;
-  custom?: string;
 }
 
 const TextButtonComponent = styled.button<StyledTextButtonProps>`
@@ -21,8 +20,6 @@ const TextButtonComponent = styled.button<StyledTextButtonProps>`
     text-decoration: underline;
     filter: brightness(85%);
   }
-
-  ${({ custom }) => custom}
 `;
 
 export default TextButtonComponent;

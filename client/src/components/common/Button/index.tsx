@@ -10,7 +10,6 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   fontSize?: string;
   active?: boolean;
   border?: string;
-  custom?: string;
 }
 
 function Button({
@@ -22,8 +21,8 @@ function Button({
   color,
   hover,
   active,
-  custom,
   onClick,
+  style,
 }: ButtonProps) {
   return (
     <ButtonComponent
@@ -34,8 +33,8 @@ function Button({
       color={color}
       hover={hover}
       active={active}
-      custom={custom}
       onClick={onClick}
+      style={style}
     >
       {children}
     </ButtonComponent>
@@ -49,7 +48,6 @@ Button.defaultProps = {
   color: theme.colors.black,
   hover: "",
   active: false,
-  custom: "",
 };
 
 export default Button;

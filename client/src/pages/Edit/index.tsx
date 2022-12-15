@@ -346,21 +346,21 @@ function Edit() {
                                       onClick={() => onClickAddQuestion(questionIndex)}
                                       icon="add"
                                       size="21px"
-                                      custom="margin-right: 12px;"
+                                      style={{ marginRight: "12px" }}
                                     />
                                     <IconButton
                                       type="button"
                                       onClick={() => onClickCopyQuestion(questionIndex)}
                                       icon="copy"
                                       size="18px"
-                                      custom="margin-right: 12px;"
+                                      style={{ marginRight: "12px" }}
                                     />
                                     <IconButton
                                       type="button"
                                       onClick={() => onClickDeleteQuestion(questionIndex)}
                                       icon="trashcan"
                                       size="18px"
-                                      custom="margin-right: 12px;"
+                                      style={{ marginRight: "12px" }}
                                     />
                                     <S.EssentialWrapper>
                                       <S.EssentialText>필수</S.EssentialText>

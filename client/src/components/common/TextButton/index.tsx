@@ -5,12 +5,11 @@ interface TextButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> 
   children: React.ReactNode;
   color?: string;
   fontSize?: string;
-  custom?: string;
 }
 
-function TextButton({ children, color, fontSize, custom, onClick }: TextButtonProps) {
+function TextButton({ children, color, fontSize, style, onClick }: TextButtonProps) {
   return (
-    <TextButtonComponent color={color} fontSize={fontSize} onClick={onClick} custom={custom}>
+    <TextButtonComponent color={color} fontSize={fontSize} onClick={onClick} style={style}>
       <span>{children}</span>
     </TextButtonComponent>
   );
@@ -19,7 +18,6 @@ function TextButton({ children, color, fontSize, custom, onClick }: TextButtonPr
 TextButton.defaultProps = {
   color: "black",
   fontSize: "16px",
-  custom: "",
 };
 
 export default TextButton;

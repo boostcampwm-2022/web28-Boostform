@@ -2,12 +2,13 @@ import React from "react";
 import * as S from "./style";
 import SkeletonType from "./type";
 
-function SkeletonContainer({ children, custom = "" }: { children: React.ReactNode; custom?: string }) {
-  return <S.Container custom={custom}>{children}</S.Container>;
+interface SkeletonContainerProps extends React.HTMLAttributes<HTMLDivElement> {
+  children: React.ReactNode;
 }
-SkeletonContainer.defaultProps = {
-  custom: "",
-};
+
+function SkeletonContainer({ children, style }: SkeletonContainerProps) {
+  return <S.Container style={style}>{children}</S.Container>;
+}
 
 function Element({ type }: { type: SkeletonType }) {
   return <S.Element type={type} />;

@@ -30,7 +30,7 @@ function Objective({ index, questionState, addQuestionChoice, modifyChoice, dele
             color={theme.colors.grey5}
             fontSize={theme.fontSize.sz14}
             onClick={() => addQuestionChoice(index)}
-            custom="padding-left: 2px;"
+            style={{ paddingLeft: "2px" }}
           >
             옵션 추가
           </TextButton>

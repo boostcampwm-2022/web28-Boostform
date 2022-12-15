@@ -57,15 +57,13 @@ const getSkeletonTypeCss = (type: SkeletonType) => {
   }
 };
 
-const Container = styled.div<{ custom: string }>`
+const Container = styled.div`
   margin: 20px auto;
   padding: 10px 15px;
   background-color: #f2f2f2;
   border-radius: 3px;
   position: relative;
   overflow: hidden;
-
-  ${({ custom }) => custom}
 `;
 
 const Element = styled.div<{ type: SkeletonType }>`

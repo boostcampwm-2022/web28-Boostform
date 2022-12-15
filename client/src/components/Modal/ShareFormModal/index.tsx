@@ -64,7 +64,7 @@ function ShareFormModal({
           backgroundColor={theme.colors.blue5}
           border={theme.colors.grey2}
           color={theme.colors.white}
-          custom="margin-right: 12px;"
+          style={{ marginRight: "12px" }}
         >
           저장
         </Button>

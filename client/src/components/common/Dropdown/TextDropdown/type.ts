@@ -1,3 +1,5 @@
+import { HTMLAttributes } from "react";
+
 interface DropdownProps {
   state: string;
   defaultState: string;
@@ -17,9 +19,8 @@ interface ItemProps {
   onClick: () => void;
 }
 
-interface ItemListProps {
+interface ItemListProps extends HTMLAttributes<HTMLUListElement> {
   children: React.ReactNode;
-  custom?: string;
 }
 
 export type { DropdownProps, HeadProps, ItemProps, ItemListProps };
