@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import { AuthContext } from "contexts/authProvider";
 import { useNavigate, Link } from "react-router-dom";
 import authApi from "api/authApi";
-import Icon from "components/common/Icon";
 import Button from "components/common/Button";
 import Logo from "assets/Icon/logo.svg";
 import theme from "styles/theme";
