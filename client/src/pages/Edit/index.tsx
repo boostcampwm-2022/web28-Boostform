@@ -19,6 +19,7 @@ import Skeleton from "components/common/Skeleton";
 import ShareFormModal from "components/Modal/ShareFormModal";
 import Button from "components/common/Button";
 import IconButton from "components/common/IconButton";
+import ErrorBoundary from "components/common/ErrorBoundary";
 import useModal from "hooks/useModal";
 import useLoadingDelay from "hooks/useLoadingDelay";
 import writeReducer from "reducer/formEdit";
@@ -38,11 +39,12 @@ function Edit() {
     queryFn: fetchForm,
     refetchOnWindowFocus: false,
     retry: 2,
-    onError: (error: { response: { status: number } }) => {
-      const { status } = error.response;
-      if (status === 400 || status === 404 || status === 404 || status === 500) navigate("/error", { state: status });
-      if (status === 401) navigate("/login");
-    },
+    useErrorBoundary: true,
+    // onError: (error: { response: { status: number } }) => {
+    //   const { status } = error.response;
+    //   if (status === 400 || status === 404 || status === 404 || status === 500) throw new Response("error", { status });
+    //   if (status === 401) navigate("/login");
+    // },
   });
 
   const [state, dispatch] = useReducer(writeReducer, INITIAL_FORM);
@@ -238,197 +240,199 @@ function Edit() {
   };
 
   return (
-    <FormLayout backgroundColor="blue">
-      <S.Container>
-        {checkApiLoadingOrError() ? (
-          <>
-            <S.TitleContainer>
-              <Skeleton.Element type="formTitle" />
-              <Skeleton.Element type="text" />
-              <Skeleton.Element type="text" />
-            </S.TitleContainer>
-            {Array.from({ length: 2 }, (_, index) => index).map((value) => (
-              <S.QuestionContainer key={value}>
-                <Skeleton.Element type="formQuestionTitleEdit" />
+    <ErrorBoundary>
+      <FormLayout backgroundColor="blue">
+        <S.Container>
+          {checkApiLoadingOrError() ? (
+            <>
+              <S.TitleContainer>
+                <Skeleton.Element type="formTitle" />
                 <Skeleton.Element type="text" />
                 <Skeleton.Element type="text" />
-                <Skeleton.Element type="text" />
-                <Skeleton.Element type="text" />
+              </S.TitleContainer>
+              {Array.from({ length: 2 }, (_, index) => index).map((value) => (
+                <S.QuestionContainer key={value}>
+                  <Skeleton.Element type="formQuestionTitleEdit" />
+                  <Skeleton.Element type="text" />
+                  <Skeleton.Element type="text" />
+                  <Skeleton.Element type="text" />
+                  <Skeleton.Element type="text" />
+                  <Skeleton.Shimmer />
+                </S.QuestionContainer>
+              ))}
+              <S.BottomContainer>
+                <Skeleton.Element type="button" />
                 <Skeleton.Shimmer />
-              </S.QuestionContainer>
-            ))}
-            <S.BottomContainer>
-              <Skeleton.Element type="button" />
-              <Skeleton.Shimmer />
-            </S.BottomContainer>
-          </>
-        ) : null}
-        {checkApiSuccess() ? (
-          <>
-            <S.TitleContainer onClick={() => onClickTitle()}>
-              <S.TitleInput onInput={onInputTitle} value={form.title} placeholder="제목을 작성해주세요" />
-              <S.DescriptionInput
-                onInput={onInputDescription}
-                value={form.description}
-                placeholder="설문지에 대한 간단한 설명을 작성해주세요"
-              />
-              <TextDropdown state={form.category} defaultState="카테고리">
-                <TextDropdown.Head />
-                <TextDropdown.ItemList>
-                  {CATEGORY_LIST.map((value) => (
-                    <TextDropdown.Item key={value} value={value} onClick={() => onClickSelectCategory(value)} />
-                  ))}
-                </TextDropdown.ItemList>
-              </TextDropdown>
-            </S.TitleContainer>
-            <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
-              <Droppable droppableId="formQuestions">
-                {(droppable) => (
-                  <div ref={droppable.innerRef} {...droppable.droppableProps}>
-                    {question.map(({ questionId, title, type, essential }, questionIndex) => (
-                      <Draggable draggableId={questionId.toString()} index={questionIndex} key={questionId}>
-                        {(draggable) => {
-                          let transform = draggable.draggableProps.style?.transform;
-
-                          if (transform) {
-                            transform = transform.replace(/([0-9]+px)/, "0px");
-                            draggable.draggableProps.style = {
-                              ...draggable.draggableProps.style,
-                              transform,
-                            };
-                          }
-
-                          return (
-                            <S.QuestionContainer
-                              onClick={() => onClickQuestion(questionIndex)}
-                              onMouseOver={() => onMouseOverQuestion(questionIndex)}
-                              onMouseOut={() => onMouseOutQuestion()}
-                              {...draggable.draggableProps}
-                              ref={draggable.innerRef}
-                            >
-                              <S.DragIndicator {...draggable.dragHandleProps}>
-                                {showDragIndicator(questionIndex) ? <Icon type="dragIndicator" size="16px" /> : null}
-                              </S.DragIndicator>
-                              {focus === `q${questionIndex}` && (
-                                <>
-                                  <S.QuestionHead>
-                                    <S.QuestionTitleInput
-                                      onInput={(e) => onInputQuestionTitle(e.currentTarget.value, questionIndex)}
-                                      value={question[questionIndex].title}
-                                      placeholder="질문"
-                                    />
-                                    <IconDropdown
-                                      state={type}
-                                      setState={(questionType: string) => {
-                                        const isQuestionType = (str: string): str is QuestionType =>
-                                          str === "checkbox" || str === "multiple" || str === "paragraph";
-
-                                        if (isQuestionType(questionType))
-                                          onClickSetQuestionType(questionType, questionIndex);
-                                      }}
-                                      items={QUESTION_TYPE_LIST}
-                                      defaultValue="선택해주세요"
-                                    />
-                                  </S.QuestionHead>
-                                  <S.QuestionBody>
-                                    <Question
-                                      index={questionIndex}
-                                      questionState={question[questionIndex]}
-                                      addQuestionChoice={onClickAddQuestionChoice}
-                                      modifyChoice={onInputModifyQuestionChoice}
-                                      deleteChoice={onClickDeleteQuestionChoice}
-                                    />
-                                  </S.QuestionBody>
-                                  <S.HorizontalRule />
-                                  <S.QuestionTail>
-                                    <IconButton
-                                      type="button"
-                                      onClick={() => onClickAddQuestion(questionIndex)}
-                                      icon="add"
-                                      size="21px"
-                                      style={{ marginRight: "12px" }}
-                                    />
-                                    <IconButton
-                                      type="button"
-                                      onClick={() => onClickCopyQuestion(questionIndex)}
-                                      icon="copy"
-                                      size="18px"
-                                      style={{ marginRight: "12px" }}
-                                    />
-                                    <IconButton
-                                      type="button"
-                                      onClick={() => onClickDeleteQuestion(questionIndex)}
-                                      icon="trashcan"
-                                      size="18px"
-                                      style={{ marginRight: "12px" }}
-                                    />
-                                    <S.EssentialWrapper>
-                                      <S.EssentialText>필수</S.EssentialText>
-                                      <ToggleButton
-                                        state={essential}
-                                        onClick={() => onClickChangeQuestionEssential(questionIndex)}
-                                      />
-                                    </S.EssentialWrapper>
-                                  </S.QuestionTail>
-                                </>
-                              )}
-                              {focus !== `q${questionIndex}` && (
-                                <>
-                                  <div>{title}</div>
-                                  <QuestionRead questionState={question[questionIndex]} />
-                                </>
-                              )}
-                            </S.QuestionContainer>
-                          );
-                        }}
-                      </Draggable>
+              </S.BottomContainer>
+            </>
+          ) : null}
+          {checkApiSuccess() ? (
+            <>
+              <S.TitleContainer onClick={() => onClickTitle()}>
+                <S.TitleInput onInput={onInputTitle} value={form.title} placeholder="제목을 작성해주세요" />
+                <S.DescriptionInput
+                  onInput={onInputDescription}
+                  value={form.description}
+                  placeholder="설문지에 대한 간단한 설명을 작성해주세요"
+                />
+                <TextDropdown state={form.category} defaultState="카테고리">
+                  <TextDropdown.Head />
+                  <TextDropdown.ItemList>
+                    {CATEGORY_LIST.map((value) => (
+                      <TextDropdown.Item key={value} value={value} onClick={() => onClickSelectCategory(value)} />
                     ))}
-                    {droppable.placeholder}
-                  </div>
-                )}
-              </Droppable>
-            </DragDropContext>
-            <S.BottomContainer>
-              <Button
-                type="button"
-                onClick={() => openModal()}
-                backgroundColor={theme.colors.blue5}
-                border={theme.colors.grey3}
-                color={theme.colors.white}
-              >
-                저장
-              </Button>
-            </S.BottomContainer>
-          </>
-        ) : null}
-      </S.Container>
+                  </TextDropdown.ItemList>
+                </TextDropdown>
+              </S.TitleContainer>
+              <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
+                <Droppable droppableId="formQuestions">
+                  {(droppable) => (
+                    <div ref={droppable.innerRef} {...droppable.droppableProps}>
+                      {question.map(({ questionId, title, type, essential }, questionIndex) => (
+                        <Draggable draggableId={questionId.toString()} index={questionIndex} key={questionId}>
+                          {(draggable) => {
+                            let transform = draggable.draggableProps.style?.transform;
 
-      <ModalPortal>
-        <ShareFormModal
-          formState={form}
-          closeModal={closeModal}
-          changeLoginRequired={onClickChangeLoginRequired}
-          changeOnBoardShare={onClickChangeOnBoardShare}
-          changeAcceptResponse={onClickChangeAcceptResponse}
-          changeResponseModifiable={onClickChangeResponseModifiable}
-          saveForm={onClickSaveForm}
-          copyLink={onClickCopyLink}
+                            if (transform) {
+                              transform = transform.replace(/([0-9]+px)/, "0px");
+                              draggable.draggableProps.style = {
+                                ...draggable.draggableProps.style,
+                                transform,
+                              };
+                            }
+
+                            return (
+                              <S.QuestionContainer
+                                onClick={() => onClickQuestion(questionIndex)}
+                                onMouseOver={() => onMouseOverQuestion(questionIndex)}
+                                onMouseOut={() => onMouseOutQuestion()}
+                                {...draggable.draggableProps}
+                                ref={draggable.innerRef}
+                              >
+                                <S.DragIndicator {...draggable.dragHandleProps}>
+                                  {showDragIndicator(questionIndex) ? <Icon type="dragIndicator" size="16px" /> : null}
+                                </S.DragIndicator>
+                                {focus === `q${questionIndex}` && (
+                                  <>
+                                    <S.QuestionHead>
+                                      <S.QuestionTitleInput
+                                        onInput={(e) => onInputQuestionTitle(e.currentTarget.value, questionIndex)}
+                                        value={question[questionIndex].title}
+                                        placeholder="질문"
+                                      />
+                                      <IconDropdown
+                                        state={type}
+                                        setState={(questionType: string) => {
+                                          const isQuestionType = (str: string): str is QuestionType =>
+                                            str === "checkbox" || str === "multiple" || str === "paragraph";
+
+                                          if (isQuestionType(questionType))
+                                            onClickSetQuestionType(questionType, questionIndex);
+                                        }}
+                                        items={QUESTION_TYPE_LIST}
+                                        defaultValue="선택해주세요"
+                                      />
+                                    </S.QuestionHead>
+                                    <S.QuestionBody>
+                                      <Question
+                                        index={questionIndex}
+                                        questionState={question[questionIndex]}
+                                        addQuestionChoice={onClickAddQuestionChoice}
+                                        modifyChoice={onInputModifyQuestionChoice}
+                                        deleteChoice={onClickDeleteQuestionChoice}
+                                      />
+                                    </S.QuestionBody>
+                                    <S.HorizontalRule />
+                                    <S.QuestionTail>
+                                      <IconButton
+                                        type="button"
+                                        onClick={() => onClickAddQuestion(questionIndex)}
+                                        icon="add"
+                                        size="21px"
+                                        style={{ marginRight: "12px" }}
+                                      />
+                                      <IconButton
+                                        type="button"
+                                        onClick={() => onClickCopyQuestion(questionIndex)}
+                                        icon="copy"
+                                        size="18px"
+                                        style={{ marginRight: "12px" }}
+                                      />
+                                      <IconButton
+                                        type="button"
+                                        onClick={() => onClickDeleteQuestion(questionIndex)}
+                                        icon="trashcan"
+                                        size="18px"
+                                        style={{ marginRight: "12px" }}
+                                      />
+                                      <S.EssentialWrapper>
+                                        <S.EssentialText>필수</S.EssentialText>
+                                        <ToggleButton
+                                          state={essential}
+                                          onClick={() => onClickChangeQuestionEssential(questionIndex)}
+                                        />
+                                      </S.EssentialWrapper>
+                                    </S.QuestionTail>
+                                  </>
+                                )}
+                                {focus !== `q${questionIndex}` && (
+                                  <>
+                                    <div>{title}</div>
+                                    <QuestionRead questionState={question[questionIndex]} />
+                                  </>
+                                )}
+                              </S.QuestionContainer>
+                            );
+                          }}
+                        </Draggable>
+                      ))}
+                      {droppable.placeholder}
+                    </div>
+                  )}
+                </Droppable>
+              </DragDropContext>
+              <S.BottomContainer>
+                <Button
+                  type="button"
+                  onClick={() => openModal()}
+                  backgroundColor={theme.colors.blue5}
+                  border={theme.colors.grey3}
+                  color={theme.colors.white}
+                >
+                  저장
+                </Button>
+              </S.BottomContainer>
+            </>
+          ) : null}
+        </S.Container>
+
+        <ModalPortal>
+          <ShareFormModal
+            formState={form}
+            closeModal={closeModal}
+            changeLoginRequired={onClickChangeLoginRequired}
+            changeOnBoardShare={onClickChangeOnBoardShare}
+            changeAcceptResponse={onClickChangeAcceptResponse}
+            changeResponseModifiable={onClickChangeResponseModifiable}
+            saveForm={onClickSaveForm}
+            copyLink={onClickCopyLink}
+          />
+        </ModalPortal>
+
+        <ToastContainer
+          position="bottom-center"
+          autoClose={2000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss={false}
+          draggable
+          pauseOnHover={false}
+          theme="light"
         />
-      </ModalPortal>
-
-      <ToastContainer
-        position="bottom-center"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss={false}
-        draggable
-        pauseOnHover={false}
-        theme="light"
-      />
-    </FormLayout>
+      </FormLayout>
+    </ErrorBoundary>
   );
 }
 
