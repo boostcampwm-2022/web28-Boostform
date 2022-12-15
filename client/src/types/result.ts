@@ -9,6 +9,7 @@ interface QuestionSummary {
   questionTitle: string;
   responseCount: number;
   answerTotal: AnswerTotal;
+  key?: number;
 }
 
 interface ResultApi {
