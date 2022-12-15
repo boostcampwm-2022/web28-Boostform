@@ -1,8 +1,5 @@
 import styled, { css } from "styled-components";
-
-interface StyledIconButtonProps {
-  active?: boolean;
-}
+import { StyledIconButtonProps } from "./type";
 
 const IconButton = styled.button<StyledIconButtonProps>`
   padding: 0;

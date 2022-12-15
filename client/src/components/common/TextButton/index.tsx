@@ -1,11 +1,6 @@
 import React from "react";
 import TextButtonComponent from "./style";
-
-interface TextButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  children: React.ReactNode;
-  color?: string;
-  fontSize?: string;
-}
+import { TextButtonProps } from "./type";
 
 function TextButton({ children, color, fontSize, style, onClick }: TextButtonProps) {
   return (

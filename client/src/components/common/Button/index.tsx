@@ -1,16 +1,7 @@
 import React from "react";
 import theme from "styles/theme";
 import ButtonComponent from "./style";
-
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  children: React.ReactNode;
-  color?: string;
-  backgroundColor?: string;
-  hover?: string;
-  fontSize?: string;
-  active?: boolean;
-  border?: string;
-}
+import { ButtonProps } from "./type";
 
 function Button({
   children,

@@ -1,13 +1,5 @@
 import styled, { css } from "styled-components";
-
-interface StyledButtonProps {
-  color?: string;
-  backgroundColor?: string;
-  hover?: string;
-  fontSize?: string;
-  active?: boolean;
-  border?: string;
-}
+import { StyledButtonProps } from "./type";
 
 const Button = styled.button<StyledButtonProps>`
   display: flex;

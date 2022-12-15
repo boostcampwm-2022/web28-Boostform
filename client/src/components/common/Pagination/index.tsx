@@ -3,15 +3,13 @@ import IconButton from "components/common/IconButton";
 import theme from "styles/theme";
 import * as S from "./style";
 
-function Pagination({
-  currentPage,
-  lastPage,
-  callback,
-}: {
+interface PaginationProps {
   currentPage: number;
   lastPage: number;
   callback: (pageNumber: number) => void;
-}) {
+}
+
+function Pagination({ currentPage, lastPage, callback }: PaginationProps) {
   const [pageNumbers, setPageNumbers] = useState<number[]>([]);
 
   useEffect(() => {

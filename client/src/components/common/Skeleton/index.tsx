@@ -1,10 +1,6 @@
 import React from "react";
 import * as S from "./style";
-import SkeletonType from "./type";
-
-interface SkeletonContainerProps extends React.HTMLAttributes<HTMLDivElement> {
-  children: React.ReactNode;
-}
+import { SkeletonType, SkeletonContainerProps } from "./type";
 
 function SkeletonContainer({ children, style }: SkeletonContainerProps) {
   return <S.Container style={style}>{children}</S.Container>;

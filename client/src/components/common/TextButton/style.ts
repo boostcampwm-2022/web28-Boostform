@@ -1,9 +1,5 @@
 import styled from "styled-components";
-
-interface StyledTextButtonProps {
-  color?: string;
-  fontSize?: string;
-}
+import { StyledTextButtonProps } from "./type";
 
 const TextButtonComponent = styled.button<StyledTextButtonProps>`
   border: 0px;

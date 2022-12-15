@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-import SkeletonType from "./type";
+import { SkeletonType } from "./type";
 
 const getSkeletonTypeCss = (type: SkeletonType) => {
   switch (type) {

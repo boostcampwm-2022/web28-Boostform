@@ -1,16 +1,7 @@
 import React from "react";
 import Icon from "components/common/Icon";
-import { IconType } from "components/common/Icon/type";
 import IconButtonComponent from "./style";
-
-interface IconButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  type: "button" | "submit" | "reset";
-  icon: IconType;
-  fill?: string;
-  size: string;
-  active?: boolean;
-  disabled?: boolean;
-}
+import { IconButtonProps } from "./type";
 
 function IconButton({ size, type, active, fill, onClick, disabled, icon, style }: IconButtonProps) {
   return (
