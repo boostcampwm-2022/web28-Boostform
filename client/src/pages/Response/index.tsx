@@ -18,12 +18,8 @@ function Result() {
   const { data, isSuccess } = useQuery({
     queryKey: [id, "form"],
     queryFn: fetchForm,
-    retry: false,
-    onError: (error: { response: { status: number } }) => {
-      const { status } = error.response;
-      if (status === 400 || status === 404 || status === 404 || status === 500) navigate("/error", { state: status });
-      if (status === 401) navigate("/login");
-    },
+    retry: 2,
+    useErrorBoundary: true,
   });
 
   const [form, setForm] = useState<FormDataApi>();

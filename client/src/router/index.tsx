@@ -8,7 +8,7 @@ import View from "pages/View";
 import Response from "pages/Response";
 import Result from "pages/Result";
 import Forum from "pages/Forum";
-import Error from "pages/Error";
+import Error from "components/Error";
 
 const router = createBrowserRouter([
   {
@@ -24,30 +24,32 @@ const router = createBrowserRouter([
   {
     path: "/forms/:id/view",
     element: <View />,
+    errorElement: <Error />,
   },
   {
     path: "/login",
     element: <Login />,
+    errorElement: <Error />,
   },
   {
     path: "/myForms",
     element: <MyForms />,
+    errorElement: <Error />,
   },
   {
     path: "/forms/:id/response",
     element: <Response />,
+    errorElement: <Error />,
   },
   {
     path: "/forms/:id/result",
     element: <Result />,
+    errorElement: <Error />,
   },
   {
     path: "/forum",
     element: <Forum />,
-  },
-  {
-    path: "/error",
-    element: <Error />,
+    errorElement: <Error />,
   },
 ]);
 

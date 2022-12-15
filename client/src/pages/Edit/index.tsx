@@ -31,7 +31,6 @@ import * as S from "./style";
 
 function Edit() {
   const { id } = useParams();
-  const navigate = useNavigate();
 
   const fetchForm = (): Promise<FormDataApi> => formApi.getForm(id);
   const { data, isSuccess, isLoading, isError } = useQuery({
@@ -40,11 +39,6 @@ function Edit() {
     refetchOnWindowFocus: false,
     retry: 2,
     useErrorBoundary: true,
-    // onError: (error: { response: { status: number } }) => {
-    //   const { status } = error.response;
-    //   if (status === 400 || status === 404 || status === 404 || status === 500) throw new Response("error", { status });
-    //   if (status === 401) navigate("/login");
-    // },
   });
 
   const [state, dispatch] = useReducer(writeReducer, INITIAL_FORM);

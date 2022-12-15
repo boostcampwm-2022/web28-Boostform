@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 
 import resultApi from "api/resultApi";
@@ -12,18 +12,13 @@ import * as S from "./style";
 
 function Result() {
   const { id } = useParams();
-  const navigate = useNavigate();
 
   const fetchForm = (): Promise<ResultApi> => resultApi.getResult(id);
   const { data, isSuccess, isLoading, isError } = useQuery({
     queryKey: [id, "result"],
     queryFn: fetchForm,
     retry: 2,
-    onError: (error: { response: { status: number } }) => {
-      const { status } = error.response;
-      if (status === 400 || status === 404 || status === 404 || status === 500) navigate("/error", { state: status });
-      if (status === 401) navigate("/login");
-    },
+    useErrorBoundary: true,
   });
 
   const [formResult, setFormResult] = useState<ResultApi>();
