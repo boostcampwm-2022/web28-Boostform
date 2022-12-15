@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 import request from "supertest";
 import * as dotenv from "dotenv";
 import { BeforeRecover } from "typeorm";
@@ -9,47 +10,45 @@ beforeAll(async () => {
   await connectMongoDB();
 });
 describe("GET api/results/:formId", () => {
-  const testFormId = "6396ab6baa73534ba0a86b12";
+  const testFormId = "637e2d875d07882cfce8a076";
   const testResult = {
-    formTitle: "TEST",
-    totalResponseCount: 9,
+    formTitle: "Form Mock Data",
+    totalResponseCount: 28363,
     acceptResponse: true,
     questionResultDict: {
       "1": {
         type: "checkbox",
-        questionTitle: "q1",
-        responseCount: 9,
+        questionTitle: "좋아하는 동물",
+        responseCount: 12389,
         answerTotal: {
-          a1: 2,
-          a2: 1,
-          a3: 1,
-          a4: 2,
-          a5: 3,
+          dog: 3114,
+          cat: 3059,
+          rabbit: 3163,
+          question1: 3053,
         },
       },
       "2": {
         type: "multiple",
-        questionTitle: "q2",
-        responseCount: 9,
+        questionTitle: "좋아하는 음식",
+        responseCount: 12389,
         answerTotal: {
-          a1: 6,
-          a2: 9,
-          a3: 9,
-          a4: 9,
-          a5: 9,
+          pizza: 3114,
+          chicken: 3059,
+          kimbap: 3163,
+          bread: 0,
+          question2: 3053,
         },
       },
       "3": {
         type: "paragraph",
-        questionTitle: "q3",
-        responseCount: 9,
+        questionTitle: "의견을 남겨주세요",
+        responseCount: 12389,
         answerTotal: {
-          "2": 1,
-          "3": 2,
-          "4": 1,
-          "5": 2,
-          "6": 2,
-          a1: 1,
+          answer1: 3110,
+          answer2: 3059,
+          answer3: 3163,
+          question3: 3053,
+          의견1: 4,
         },
       },
     },
