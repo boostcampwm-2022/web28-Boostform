@@ -29,7 +29,8 @@ function Result() {
     if (!id) return;
     if (isSuccess) {
       setFormResult(data);
-      setQuestionResult(Object.values(data.questionResultDict));
+      const results = Object.values(data.questionResultDict).map((value, index) => ({ ...value, key: index }));
+      setQuestionResult(results);
     }
   }, [id, isSuccess, data]);
 
@@ -72,8 +73,8 @@ function Result() {
               <S.OverallResponseCount>응답 {formResult?.totalResponseCount}개</S.OverallResponseCount>
             </S.HeadContainer>
             {questionResult.length ? (
-              questionResult.map(({ type, questionTitle, responseCount, answerTotal }) => (
-                <S.QuestionContainer key={questionTitle}>
+              questionResult.map(({ type, questionTitle, responseCount, answerTotal, key }) => (
+                <S.QuestionContainer key={key}>
                   <div>
                     <span>{questionTitle}</span>
                   </div>
