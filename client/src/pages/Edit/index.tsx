@@ -37,6 +37,7 @@ function Edit() {
     queryKey: [id],
     queryFn: fetchForm,
     refetchOnWindowFocus: false,
+    retry: 2,
     onError: (error: { response: { status: number } }) => {
       const { status } = error.response;
       if (status === 400 || status === 404 || status === 404 || status === 500) navigate("/error", { state: status });
