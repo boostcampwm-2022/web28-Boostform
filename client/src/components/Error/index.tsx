@@ -1,6 +1,7 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, useRouteError } from "react-router-dom";
+import { AuthContext } from "contexts/authProvider";
 import FormLayout from "components/template/Layout";
 import Button from "components/common/Button";
 import theme from "styles/theme";
@@ -22,6 +23,7 @@ function Error() {
   const error = useRouteError() as ErrorType;
 
   const navigate = useNavigate();
+  const { setAuth } = useContext(AuthContext);
   const [status, setStatus] = useState({ code: 404, message: "죄송합니다. 원하시는 페이지를 찾을 수가 없습니다." });
 
   const errorIsAxiosError = useCallback(
@@ -39,10 +41,13 @@ function Error() {
     else statusCode = error.status;
 
     if (statusCode === 400) setStatus({ code: 400, message: "죄송합니다. 페이지를 표시할 수 없습니다." });
-    if (statusCode === 401) setStatus({ code: 401, message: "죄송합니다. 사용 권한이 없습니다. 로그인 부탁드립니다." });
+    if (statusCode === 401) {
+      setStatus({ code: 401, message: "죄송합니다. 사용 권한이 없습니다. 로그인 부탁드립니다." });
+      if (setAuth) setAuth({ userId: "", userName: "" });
+    }
     if (statusCode === 404) setStatus({ code: 404, message: "죄송합니다. 원하시는 페이지를 찾을 수가 없습니다." });
     if (statusCode === 500) setStatus({ code: 500, message: "죄송합니다. 페이지를 표시할 수 없습니다." });
-  }, [error, errorIsAxiosError]);
+  }, [error, errorIsAxiosError, setAuth]);
 
   return (
     <FormLayout backgroundColor="white">
