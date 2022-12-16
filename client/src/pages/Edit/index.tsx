@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useEffect, useReducer, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { DragDropContext, Droppable, Draggable, DropResult, DragStart } from "react-beautiful-dnd";
 import { ToastContainer, toast } from "react-toastify";
