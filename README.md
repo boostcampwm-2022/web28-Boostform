@@ -1,4 +1,4 @@
-# web28-Boostform
+# web28-Boostform(Migration to MySQL)
 
 MySQL 학습을 위한 프로젝트 입니다.
 
